@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "presentations")
-public class Presentations
+public class Presentation
 {
     @Id
     @GeneratedValue(generator = "presentationIdGenerator")

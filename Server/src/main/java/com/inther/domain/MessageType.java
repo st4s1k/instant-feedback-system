@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "message_types")
-public class Message_types
+public class MessageType
 {
     @Id
     @GeneratedValue(generator = "message_typeIdGenerator")

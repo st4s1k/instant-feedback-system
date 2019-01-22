@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "participants")
-public class Participants
+public class Participant
 {
     @Id
     @GeneratedValue(generator = "personIdGenerator")
