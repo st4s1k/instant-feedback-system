@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Feedback Database" uuid="17e207f1-4761-4fab-bbdd-4d9c6fb36a42">
+    <data-source source="LOCAL" name="Feedback Database" uuid="deecaace-05ce-4d93-9d90-e32b0f164442">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
