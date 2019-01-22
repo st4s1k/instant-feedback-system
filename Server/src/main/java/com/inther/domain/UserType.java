@@ -5,31 +5,35 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_types")
+@Table(name = "USER_TYPES")
 public class UserType
 {
     @Id
-    @GeneratedValue(generator = "user_typeIdGenerator")
-    @GenericGenerator(name = "user_typeIdGenerator" , strategy = "increment")
-    @Column(name = "type_id")
-    private int user_typeId;
+    @GeneratedValue(generator = "userTypeIdGenerator")
+    @GenericGenerator(name = "userTypeIdGenerator", strategy = "increment")
+    @Column(name = "TYPE_ID")
+    private Integer typeId;
 
-    @Column(name = "type_name")
-    private String type_name;
+    @Column(name = "TYPE_NAME")
+    private String typeName;
 
-    public int getUser_typeId() {
-        return user_typeId;
+    public Integer getTypeId()
+    {
+        return typeId;
     }
 
-    public void setUser_typeId(int user_typeId) {
-        this.user_typeId = user_typeId;
+    public void setTypeId(Integer typeId)
+    {
+        this.typeId = typeId;
     }
 
-    public String getType_name() {
-        return type_name;
+    public String getTypeName()
+    {
+        return typeName;
     }
 
-    public void setType_name(String type_name) {
-        this.type_name = type_name;
+    public void setTypeName(String typeName)
+    {
+        this.typeName = typeName;
     }
 }
