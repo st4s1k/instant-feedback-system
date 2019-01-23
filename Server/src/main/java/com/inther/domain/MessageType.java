@@ -1,35 +1,38 @@
 package com.inther.domain;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "message_types")
+@Table(name = "MESSAGE_TYPES")
 public class MessageType
 {
     @Id
-    @GeneratedValue(generator = "message_typeIdGenerator")
-    @GenericGenerator(name = "message_typeIdGenerator" , strategy = "increment")
-    @Column(name = "type_id")
-    private int typeId;
+    @GeneratedValue(generator = "messageTypeIdGenerator")
+    @GenericGenerator(name = "messageTypeIdGenerator", strategy = "increment")
+    @Column(name = "TYPE_ID")
+    private Integer typeId;
 
-    @Column(name = "type_name")
+    @Column(name = "TYPE_NAME")
     private String typeName;
 
-    public int getTypeId() {
+    public Integer getTypeId()
+    {
         return typeId;
     }
 
-    public void setTypeId(int typeId) {
+    public void setTypeId(Integer typeId)
+    {
         this.typeId = typeId;
     }
 
-    public String getTypeName() {
+    public String getTypeName()
+    {
         return typeName;
     }
 
-    public void setTypeName(String typeName) {
+    public void setTypeName(String typeName)
+    {
         this.typeName = typeName;
     }
 }
