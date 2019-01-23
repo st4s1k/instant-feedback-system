@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping(value = "/api")
 public class MarkController
 {
-    @RequestMapping(value = "/api/user/addMark", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/addMark", method = RequestMethod.PUT)
     public Map<String, Object> addMark(@RequestBody Mark markToAdd)
     {
         return null;

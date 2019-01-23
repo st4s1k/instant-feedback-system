@@ -5,15 +5,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "MARKS")
-public class Mark
-{
+public class Mark {
     @Id
     @GeneratedValue(generator = "markIdGenerator")
     @GenericGenerator(name = "markIdGenerator", strategy = "increment")
     @Column(name = "MARK_ID")
     private Integer markId;
 
-    @Column(name = "USER_ID")
+    @Column(name = "USERNAME")
     private Integer userId;
 
     @Column(name = "PRESENTATION_ID")
@@ -30,6 +29,16 @@ public class Mark
     public void setMarkId(Integer markId)
     {
         this.markId = markId;
+    }
+
+    public Integer getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(Integer userId)
+    {
+        this.userId = userId;
     }
 
     public Integer getPresentationId()

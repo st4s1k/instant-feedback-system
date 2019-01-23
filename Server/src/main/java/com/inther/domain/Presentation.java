@@ -12,17 +12,16 @@ public class Presentation
     @GeneratedValue(generator = "presentationIdGenerator")
     @GenericGenerator(name = "presentationIdGenerator", strategy = "increment")
     @Column(name = "PRESENTATION_ID")
-    private int presentationId;
+    private Integer presentationId;
 
-    @Column(name = "USER_ID")
-    private Integer userId;
+    @Column(name = "USERNAME")
+    private Integer username;
 
     @Column(name = "PRESENTATION_TITLE")
     private String presentationTitle;
 
     @Column(name = "PRESENTATION_DESCRIPTION")
     private String presentationDescription;
-
 
     @Column(name = "PRESENTATION_START_TIME")
     private Date presentationStartTime;
@@ -36,24 +35,24 @@ public class Presentation
     @Column(name = "PRESENTATION_MARK")
     private double presentationMark;
 
-    public int getPresentationId()
+    public Integer getPresentationId()
     {
         return presentationId;
     }
 
-    public void setPresentationId(int presentationId)
+    public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
 
-    public Integer getUserId()
+    public Integer getUsername()
     {
-        return userId;
+        return username;
     }
 
-    public void setUserId(Integer userId)
+    public void setUsername(Integer username)
     {
-        this.userId = userId;
+        this.username = username;
     }
 
     public String getPresentationTitle()

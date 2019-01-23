@@ -13,8 +13,8 @@ public class Participant
     @Column(name = "PARTICIPANT_ID")
     private Integer participantId;
 
-    @Column(name = "USER_ID")
-    private Integer userId;
+    @Column(name = "USERNAME")
+    private Integer username;
 
     @Column(name = "PRESENTATION_ID")
     private Integer presentationId;
@@ -31,12 +31,12 @@ public class Participant
 
     public Integer getUserId()
     {
-        return userId;
+        return username;
     }
 
     public void setUserId(Integer userId)
     {
-        this.userId = userId;
+        this.username = userId;
     }
 
     public Integer getPresentationId()

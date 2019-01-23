@@ -1,8 +1,6 @@
 package com.inther.domain;
 
-
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,46 +10,23 @@ public class User
     @Id
     @GeneratedValue(generator = "userIdGenerator")
     @GenericGenerator(name = "userIdGenerator", strategy = "increment")
-    @Column(name = "USER_ID")
-    private int userId;
-
-    @Column(name = "USER_TYPE")
-    private String userType;
-
-    @Column(name = "EMAIL")
-    private String email;
+    @Column(name = "USERNAME")
+    private String username;
 
     @Column(name = "PASSWORD")
     private String password;
 
-    public int getUserId()
+    @Column(name = "ENABLED")
+    private Integer enabled;
+
+    public String getUsername()
     {
-        return userId;
+        return username;
     }
 
-    public void setUserId(int userId)
+    public void setUsername(String username)
     {
-        this.userId = userId;
-    }
-
-    public String getUserType()
-    {
-        return userType;
-    }
-
-    public void setUserType(String userType)
-    {
-        this.userType = userType;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
+        this.username = username;
     }
 
     public String getPassword()
@@ -62,5 +37,15 @@ public class User
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public Integer getEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(Integer enabled)
+    {
+        this.enabled = enabled;
     }
 }
