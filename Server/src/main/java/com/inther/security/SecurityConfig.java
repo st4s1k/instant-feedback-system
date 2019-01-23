@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.sql.DataSource;
 
 @Configuration
@@ -38,12 +37,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/api/user/**").hasAuthority("ADMIN")
-                .antMatchers("/api/userRegister").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin();
+                .antMatchers("/login").permitAll()
+                .antMatchers("/api/userRegister").permitAll()
+                .antMatchers("/api/user/editSelfUser").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/addPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/getPresentations").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/editSelfPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/deleteSelfPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/addMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/editSelfMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/deleteSelfMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/user/addMark").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/api/admin/addNewUser").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/editAnyUser").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/deleteAnyUser").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/editAnyPresentation").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/deleteAnyPresentation").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/editAnyMessage").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/deleteAnyMessage").hasAuthority("ROLE_ADMIN");
+        http.formLogin()
+                .defaultSuccessUrl("/", true);
+        http.logout();
     }
 
     @Autowired
