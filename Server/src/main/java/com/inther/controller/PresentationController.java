@@ -7,26 +7,38 @@ import java.util.Map;
 @RestController
 public class PresentationController
 {
-    @RequestMapping(value = "/addPresentation", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/user/addPresentation", method = RequestMethod.PUT)
     public Map<String, Object> addPresentation(@RequestBody Presentation presentationToAdd)
     {
         return null;
     }
 
-    @RequestMapping(value = "/getPresentations", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/user/getPresentations", method = RequestMethod.GET)
     public Map<String, Object> getPresentations()
     {
         return null;
     }
 
-    @RequestMapping(value = "/editPresentation", method = RequestMethod.PATCH)
-    public Map<String, Object> editPresentation(@RequestBody Presentation presentationToEdit)
+    @RequestMapping(value = "/api/user/editSelfPresentation", method = RequestMethod.PATCH)
+    public Map<String, Object> editSelfPresentation(@RequestBody Presentation presentationToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/deletePresentation", method = RequestMethod.DELETE)
-    public Map<String, Object> deletePresentation(@RequestParam(value = "presentationId") Integer presentationId)
+    @RequestMapping(value = "/api/user/deleteSelfPresentation", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteSelfPresentation(@RequestParam(value = "presentationId") Integer presentationId)
+    {
+        return null;
+    }
+
+    @RequestMapping(value = "/api/admin/editAnyPresentation", method = RequestMethod.PATCH)
+    public Map<String, Object> editAnyPresentation(@RequestBody Presentation presentationToEdit)
+    {
+        return null;
+    }
+
+    @RequestMapping(value = "/api/admin/deleteAnyPresentation", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteAnyPresentation(@RequestParam(value = "presentationId") Integer presentationId)
     {
         return null;
     }

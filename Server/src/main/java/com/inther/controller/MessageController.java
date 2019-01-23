@@ -8,20 +8,32 @@ import java.util.Map;
 @RestController
 public class MessageController
 {
-    @RequestMapping(value = "/addMessage", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/user/addMessage", method = RequestMethod.PUT)
     public Map<String, Object> addMessage(@RequestBody Message messageToAdd)
     {
         return null;
     }
 
-    @RequestMapping(value = "/editMessage", method = RequestMethod.PATCH)
-    public Map<String, Object> editMessage(@RequestBody Message messageToEdit)
+    @RequestMapping(value = "/api/user/editSelfMessage", method = RequestMethod.PATCH)
+    public Map<String, Object> editSelfMessage(@RequestBody Message messageToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/deleteMessage", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteMessage(@RequestParam(value = "messageId") Integer messageId)
+    @RequestMapping(value = "/api/user/deleteSelfMessage", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteSelfMessage(@RequestParam(value = "messageId") Integer messageId)
+    {
+        return null;
+    }
+
+    @RequestMapping(value = "/api/admin/editAnyMessage", method = RequestMethod.PATCH)
+    public Map<String, Object> editAnyMessage(@RequestBody Message messageToEdit)
+    {
+        return null;
+    }
+
+    @RequestMapping(value = "/api/admin/deleteAnyMessage", method = RequestMethod.DELETE)
+    public Map<String, Object> editAnyMessage(@RequestParam(value = "messageId") Integer messageId)
     {
         return null;
     }
