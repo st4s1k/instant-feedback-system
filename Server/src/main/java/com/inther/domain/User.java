@@ -24,6 +24,7 @@ public class User
     @Column(name = "PASSWORD")
     private String password;
 
+
     public int getUserId()
     {
         return userId;
