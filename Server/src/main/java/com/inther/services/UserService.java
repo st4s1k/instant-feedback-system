@@ -1,6 +1,5 @@
 package com.inther.services;
 
-
 import com.inther.domain.User;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,8 @@ public class UserService
 
     }
 
-    public void deleteUser(User user)
+    public void deleteUser(String email)
     {
 
     }
-
 }

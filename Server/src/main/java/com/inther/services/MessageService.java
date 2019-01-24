@@ -1,6 +1,5 @@
 package com.inther.services;
 
-
 import com.inther.domain.Message;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,8 @@ public class MessageService
 
     }
 
-    public void deleteMessage(Message message)
+    public void deleteMessage(Integer messageId)
     {
 
     }
-
 }

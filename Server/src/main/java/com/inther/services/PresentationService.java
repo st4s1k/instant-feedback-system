@@ -1,9 +1,7 @@
 package com.inther.services;
 
-
 import com.inther.domain.Presentation;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -14,9 +12,8 @@ public class PresentationService
 
     }
 
-    public List<Presentation> getPresentation(Presentation presentation)
+    public List<Presentation> getPresentations()
     {
-
         return null;
     }
 
@@ -25,7 +22,7 @@ public class PresentationService
 
     }
 
-    public void deletePresentation(Presentation presentation)
+    public void deletePresentation(Integer presentationId)
     {
 
     }
