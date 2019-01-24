@@ -6,33 +6,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping(value = "/api")
 public class MessageController
 {
-    @RequestMapping(value = "/api/user/addMessage", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/addMessage", method = RequestMethod.PUT)
     public Map<String, Object> addMessage(@RequestBody Message messageToAdd)
     {
         return null;
     }
 
-    @RequestMapping(value = "/api/user/editSelfMessage", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/user/editSelfMessage", method = RequestMethod.PATCH)
     public Map<String, Object> editSelfMessage(@RequestBody Message messageToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/api/user/deleteSelfMessage", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/deleteSelfMessage", method = RequestMethod.DELETE)
     public Map<String, Object> deleteSelfMessage(@RequestParam(value = "messageId") Integer messageId)
     {
         return null;
     }
 
-    @RequestMapping(value = "/api/admin/editAnyMessage", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/admin/editAnyMessage", method = RequestMethod.PATCH)
     public Map<String, Object> editAnyMessage(@RequestBody Message messageToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/api/admin/deleteAnyMessage", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/deleteAnyMessage", method = RequestMethod.DELETE)
     public Map<String, Object> editAnyMessage(@RequestParam(value = "messageId") Integer messageId)
     {
         return null;

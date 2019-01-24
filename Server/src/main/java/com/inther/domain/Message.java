@@ -13,8 +13,8 @@ public class Message
     @Column(name = "MESSAGE_ID")
     private Integer messageId;
 
-    @Column(name = "USER_ID")
-    private Integer userId;
+    @Column(name = "USERNAME")
+    private Integer username;
 
     @Column(name = "PRESENTATION_ID")
     private Integer presentationId;
@@ -40,12 +40,12 @@ public class Message
 
     public Integer getUserId()
     {
-        return userId;
+        return username;
     }
 
     public void setUserId(Integer userId)
     {
-        this.userId = userId;
+        this.username = userId;
     }
 
     public Integer getPresentationId()
