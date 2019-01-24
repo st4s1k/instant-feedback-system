@@ -10,8 +10,8 @@ public class User
     @Id
     @GeneratedValue(generator = "userIdGenerator")
     @GenericGenerator(name = "userIdGenerator", strategy = "increment")
-    @Column(name = "USERNAME")
-    private String username;
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "PASSWORD")
     private String password;
@@ -19,14 +19,14 @@ public class User
     @Column(name = "ENABLED")
     private Integer enabled;
 
-    public String getUsername()
+    public String getEmail()
     {
-        return username;
+        return email;
     }
 
-    public void setUsername(String username)
+    public void setEmail(String email)
     {
-        this.username = username;
+        this.email = email;
     }
 
     public String getPassword()

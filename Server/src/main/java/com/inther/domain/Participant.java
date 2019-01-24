@@ -13,8 +13,8 @@ public class Participant
     @Column(name = "PARTICIPANT_ID")
     private Integer participantId;
 
-    @Column(name = "USERNAME")
-    private Integer username;
+    @Column(name = "EMAIL")
+    private Integer email;
 
     @Column(name = "PRESENTATION_ID")
     private Integer presentationId;
@@ -29,14 +29,14 @@ public class Participant
         this.participantId = participantId;
     }
 
-    public Integer getUserId()
+    public Integer getEmail()
     {
-        return username;
+        return email;
     }
 
-    public void setUserId(Integer userId)
+    public void setEmail(Integer email)
     {
-        this.username = userId;
+        this.email = email;
     }
 
     public Integer getPresentationId()

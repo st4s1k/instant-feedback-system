@@ -12,8 +12,8 @@ public class Mark {
     @Column(name = "MARK_ID")
     private Integer markId;
 
-    @Column(name = "USERNAME")
-    private Integer userId;
+    @Column(name = "EMAIL")
+    private Integer email;
 
     @Column(name = "PRESENTATION_ID")
     private Integer presentationId;
@@ -31,14 +31,14 @@ public class Mark {
         this.markId = markId;
     }
 
-    public Integer getUserId()
+    public Integer getEmail()
     {
-        return userId;
+        return email;
     }
 
-    public void setUserId(Integer userId)
+    public void setEmail(Integer email)
     {
-        this.userId = userId;
+        this.email = email;
     }
 
     public Integer getPresentationId()
