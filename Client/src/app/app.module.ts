@@ -7,20 +7,20 @@ import { AppComponent } from './app.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavComponent } from './nav/nav.component';
-import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { FooterComponent } from './footer/footer.component';
+import { AddPresComponent } from './add-pres/add-pres.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    LoginComponent,
     SignupComponent,
     SigninComponent,
     FooterComponent,
+    AddPresComponent,
   ],
   imports: [
     BrowserModule,
