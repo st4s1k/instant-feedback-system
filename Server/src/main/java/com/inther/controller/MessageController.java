@@ -2,7 +2,6 @@ package com.inther.controller;
 
 import com.inther.domain.Message;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController

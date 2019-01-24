@@ -8,13 +8,6 @@ import java.util.Map;
 @RequestMapping(value = "/api")
 public class UserController
 {
-    @RequestMapping(value = "/userRegister", method = RequestMethod.PUT)
-    public Map<String, Object> userRegister(@RequestParam(value = "userEmail") String userEmail,
-                                         @RequestParam(value = "userPassword") String userPassword)
-    {
-        return null;
-    }
-
     @RequestMapping(value = "/user/editSelfUser", method = RequestMethod.PATCH)
     public Map<String, Object> editSelfUser(@RequestBody User userToEdit)
     {
@@ -28,13 +21,13 @@ public class UserController
     }
 
     @RequestMapping(value = "/admin/editAnyUser", method = RequestMethod.PATCH)
-    public Map<String, Object> editAnyUser(@RequestBody User userToEdit)
+    public Map<String, Object> editAnyUser(@RequestBody User userToDelete)
     {
         return null;
     }
 
     @RequestMapping(value = "/admin/deleteAnyUser", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteAnyUser(@RequestParam(value = "userId") String userId)
+    public Map<String, Object> deleteAnyUser(@RequestParam(value = "email") String email)
     {
         return null;
     }

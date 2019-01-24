@@ -37,8 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .anyRequest().authenticated()
-                .antMatchers("/login").permitAll()
                 .antMatchers("/api/userRegister").permitAll()
                 .antMatchers("/api/user/editSelfUser").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers("/api/user/addPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
@@ -56,9 +54,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/api/admin/deleteAnyPresentation").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/admin/editAnyMessage").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/admin/deleteAnyMessage").hasAuthority("ROLE_ADMIN");
+        http.csrf()
+                .disable();
         http.formLogin()
-                .defaultSuccessUrl("/", true);
-        http.logout();
+                .loginPage("/userLogin")
+                .loginProcessingUrl("/userLogin")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/userLoginError")
+                .permitAll();
+        http.logout()
+                .logoutUrl("/userLogout")
+                .logoutSuccessUrl("/userLogin");
+        http.exceptionHandling()
+                .accessDeniedPage("/accessDenied");
     }
 
     @Autowired

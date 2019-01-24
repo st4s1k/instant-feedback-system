@@ -14,8 +14,8 @@ public class Presentation
     @Column(name = "PRESENTATION_ID")
     private Integer presentationId;
 
-    @Column(name = "USERNAME")
-    private Integer username;
+    @Column(name = "EMAIL")
+    private Integer email;
 
     @Column(name = "PRESENTATION_TITLE")
     private String presentationTitle;
@@ -33,7 +33,7 @@ public class Presentation
     private Date presentationEndTime;
 
     @Column(name = "PRESENTATION_MARK")
-    private double presentationMark;
+    private Float presentationMark;
 
     public Integer getPresentationId()
     {
@@ -45,14 +45,14 @@ public class Presentation
         this.presentationId = presentationId;
     }
 
-    public Integer getUsername()
+    public Integer getEmail()
     {
-        return username;
+        return email;
     }
 
-    public void setUsername(Integer username)
+    public void setEmail(Integer email)
     {
-        this.username = username;
+        this.email = email;
     }
 
     public String getPresentationTitle()
@@ -105,12 +105,12 @@ public class Presentation
         this.presentationEndTime = presentationEndTime;
     }
 
-    public double getPresentationMark()
+    public Float getPresentationMark()
     {
         return presentationMark;
     }
 
-    public void setPresentationMark(double presentationMark)
+    public void setPresentationMark(Float presentationMark)
     {
         this.presentationMark = presentationMark;
     }

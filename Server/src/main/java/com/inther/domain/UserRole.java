@@ -13,8 +13,8 @@ public class UserRole
     @Column(name = "ROLE_ID")
     private Integer roleId;
 
-    @Column(name = "USERNAME")
-    private String username;
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "ROLE")
     private String role;
@@ -29,14 +29,14 @@ public class UserRole
         this.roleId = roleId;
     }
 
-    public String getUsername()
+    public String getEmail()
     {
-        return username;
+        return email;
     }
 
-    public void setUsername(String username)
+    public void setEmail(String email)
     {
-        this.username = username;
+        this.email = email;
     }
 
     public String getRole()
