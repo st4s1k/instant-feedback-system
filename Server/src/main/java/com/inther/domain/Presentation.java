@@ -5,34 +5,33 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "PRESENTATIONS")
+@Table(name = "presentations")
 public class Presentation
 {
     @Id
-    @GeneratedValue(generator = "presentationIdGenerator")
-    @GenericGenerator(name = "presentationIdGenerator", strategy = "increment")
-    @Column(name = "PRESENTATION_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "presentation_id")
     private Integer presentationId;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private Integer email;
 
-    @Column(name = "PRESENTATION_TITLE")
+    @Column(name = "presentation_title")
     private String presentationTitle;
 
-    @Column(name = "PRESENTATION_DESCRIPTION")
+    @Column(name = "presentation_description")
     private String presentationDescription;
 
-    @Column(name = "PRESENTATION_START_TIME")
-    private Date presentationStartTime;
+    @Column(name = "presentation_start_date")
+    private Date presentationStartDate;
 
-    @Column(name = "PRESENTATION_PLACE")
+    @Column(name = "presentation_place")
     private String presentationPlace;
 
-    @Column(name = "PRESENTATION_END_TIME")
-    private Date presentationEndTime;
+    @Column(name = "presentation_end_date")
+    private Date presentationEndDate;
 
-    @Column(name = "PRESENTATION_MARK")
+    @Column(name = "presentation_mark")
     private Float presentationMark;
 
     public Integer getPresentationId()
@@ -75,14 +74,14 @@ public class Presentation
         this.presentationDescription = presentationDescription;
     }
 
-    public Date getPresentationStartTime()
+    public Date getPresentationStartDate()
     {
-        return presentationStartTime;
+        return presentationStartDate;
     }
 
-    public void setPresentationStartTime(Date presentationStartTime)
+    public void setPresentationStartDate(Date presentationStartDate)
     {
-        this.presentationStartTime = presentationStartTime;
+        this.presentationStartDate = presentationStartDate;
     }
 
     public String getPresentationPlace()
@@ -95,14 +94,14 @@ public class Presentation
         this.presentationPlace = presentationPlace;
     }
 
-    public Date getPresentationEndTime()
+    public Date getPresentationEndDate()
     {
-        return presentationEndTime;
+        return presentationEndDate;
     }
 
-    public void setPresentationEndTime(Date presentationEndTime)
+    public void setPresentationEndDate(Date presentationEndDate)
     {
-        this.presentationEndTime = presentationEndTime;
+        this.presentationEndDate = presentationEndDate;
     }
 
     public Float getPresentationMark()

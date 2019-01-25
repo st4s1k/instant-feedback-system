@@ -4,19 +4,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER_ROLES")
+@Table(name = "user_roles")
 public class UserRole
 {
     @Id
-    @GeneratedValue(generator = "userRoleIdGenerator")
-    @GenericGenerator(name = "userRoleIdGenerator", strategy = "increment")
-    @Column(name = "ROLE_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Integer roleId;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "ROLE")
+    @Column(name = "role")
     private String role;
 
     public Integer getRoleId()

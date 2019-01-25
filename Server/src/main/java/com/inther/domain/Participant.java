@@ -4,19 +4,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PARTICIPANTS")
+@Table(name = "participants")
 public class Participant
 {
     @Id
-    @GeneratedValue(generator = "participantIdGenerator")
-    @GenericGenerator(name = "participantIdGenerator", strategy = "increment")
-    @Column(name = "PARTICIPANT_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "participant_id")
     private Integer participantId;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private Integer email;
 
-    @Column(name = "PRESENTATION_ID")
+    @Column(name = "presentation_id")
     private Integer presentationId;
 
     public Integer getParticipantId()

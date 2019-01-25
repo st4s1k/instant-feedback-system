@@ -1,5 +1,7 @@
 package com.inther.controller;
 
+import com.inther.services.MiscService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +13,8 @@ import java.util.Map;
 @RestController
 public class MiscController
 {
+    private MiscService miscService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Map<String, Object> welcomePage()
     {
@@ -25,7 +29,11 @@ public class MiscController
     public Map<String, Object> userRegister(@RequestParam(value = "email") String email,
                                             @RequestParam(value = "password") String password)
     {
-        return null;
+        miscService.userRegister(email, password);
+        Map<String, Object> requestResultMap = new HashMap<>();
+        requestResultMap.put("Status", "OK");
+        requestResultMap.put("Message", "User " + email + " successfully registered");
+        return requestResultMap;
     }
 
     @RequestMapping(value = "/userLogin", method = RequestMethod.GET)
@@ -53,5 +61,11 @@ public class MiscController
         requestResultMap.put("Status", "ERROR");
         requestResultMap.put("Message", "Access denied for your authority");
         return requestResultMap;
+    }
+
+    @Autowired
+    public MiscController(MiscService miscService)
+    {
+        this.miscService = miscService;
     }
 }

@@ -4,16 +4,15 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "MESSAGE_TYPES")
+@Table(name = "message_types")
 public class MessageType
 {
     @Id
-    @GeneratedValue(generator = "messageTypeIdGenerator")
-    @GenericGenerator(name = "messageTypeIdGenerator", strategy = "increment")
-    @Column(name = "TYPE_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "type_id")
     private Integer typeId;
 
-    @Column(name = "TYPE_NAME")
+    @Column(name = "type_name")
     private String typeName;
 
     public Integer getTypeId()
