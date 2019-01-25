@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddPresComponent } from './add-pres.component';
+import { AddPresComponent } from './edit-presentation.component';
 
 describe('AddPresComponent', () => {
   let component: AddPresComponent;

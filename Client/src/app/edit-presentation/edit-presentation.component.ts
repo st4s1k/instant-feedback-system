@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-add-pres',
-  templateUrl: './add-pres.component.html',
-  styleUrls: ['./add-pres.component.scss']
+  selector: 'app-edit-presentation',
+  templateUrl: './edit-presentation.component.html',
+  styleUrls: ['./edit-presentation.component.scss']
 })
 export class AddPresComponent implements OnInit {
 
