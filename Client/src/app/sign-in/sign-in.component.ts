@@ -6,13 +6,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SigninComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
   }
-  log(x){
+  log(x) {
     console.log(x);
   }
 
