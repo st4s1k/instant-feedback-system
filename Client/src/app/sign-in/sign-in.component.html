@@ -16,7 +16,7 @@
                   <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                       <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
                       <input ngModel name="email" #email="ngModel" (change)="log(email)" type="text" id="email" class="form-control"
-                             placeholder="you@inther.com" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" autofocus>
+                             placeholder="you@inther.com" required email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" autofocus>
                   </div>
               </div>
           </div>
