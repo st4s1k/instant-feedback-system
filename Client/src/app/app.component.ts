@@ -9,6 +9,6 @@ import {FormControl} from '@angular/forms';
 })
 export class AppComponent {
   title = 'Client';
-  email=new FormControl('');
+  email = new FormControl('');
   isCollapsed = false;
 }
