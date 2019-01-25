@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavComponent } from './nav/nav.component';
-import { SignupComponent } from './signup/signup.component';
-import { SigninComponent } from './signin/signin.component';
+import { SignupComponent } from './sign-up/sign-up.component';
+import { SigninComponent } from './sign-in/sign-in.component';
 import { FooterComponent } from './footer/footer.component';
 import { AddPresComponent } from './edit-presentation/edit-presentation.component';
 
