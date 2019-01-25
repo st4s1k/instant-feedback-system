@@ -4,19 +4,19 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User
 {
     @Id
     @GeneratedValue(generator = "userIdGenerator")
     @GenericGenerator(name = "userIdGenerator", strategy = "increment")
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "ENABLED")
+    @Column(name = "enabled")
     private Integer enabled;
 
     public String getEmail()

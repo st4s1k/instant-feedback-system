@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private final DataSource dataSource;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private DataSource dataSource;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -37,23 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/api/userRegister").permitAll()
-                .antMatchers("/api/user/editSelfUser").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/addPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/getPresentations").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/editSelfPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/deleteSelfPresentation").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/addMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/editSelfMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/deleteSelfMessage").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/user/addMark").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/admin/addNewUser").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/editAnyUser").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/deleteAnyUser").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/editAnyPresentation").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/deleteAnyPresentation").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/editAnyMessage").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/admin/deleteAnyMessage").hasAuthority("ROLE_ADMIN");
+                .antMatchers("/userRegister").hasAuthority("ROLE_ANONYMOUS")
+                .anyRequest().authenticated();
         http.csrf()
                 .disable();
         http.formLogin()

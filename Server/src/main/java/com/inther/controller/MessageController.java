@@ -14,26 +14,14 @@ public class MessageController
         return null;
     }
 
-    @RequestMapping(value = "/user/editSelfMessage", method = RequestMethod.PATCH)
-    public Map<String, Object> editSelfMessage(@RequestBody Message messageToEdit)
+    @RequestMapping(value = "/user/editMessage", method = RequestMethod.PATCH)
+    public Map<String, Object> editMessage(@RequestBody Message messageToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/user/deleteSelfMessage", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteSelfMessage(@RequestParam(value = "messageId") Integer messageId)
-    {
-        return null;
-    }
-
-    @RequestMapping(value = "/admin/editAnyMessage", method = RequestMethod.PATCH)
-    public Map<String, Object> editAnyMessage(@RequestBody Message messageToEdit)
-    {
-        return null;
-    }
-
-    @RequestMapping(value = "/admin/deleteAnyMessage", method = RequestMethod.DELETE)
-    public Map<String, Object> editAnyMessage(@RequestParam(value = "messageId") Integer messageId)
+    @RequestMapping(value = "/user/deleteSelMessage", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteMessage(@RequestParam(value = "messageId") Integer messageId)
     {
         return null;
     }

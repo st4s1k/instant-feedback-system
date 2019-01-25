@@ -4,21 +4,21 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "MARKS")
+@Table(name = "marks")
 public class Mark {
     @Id
     @GeneratedValue(generator = "markIdGenerator")
     @GenericGenerator(name = "markIdGenerator", strategy = "increment")
-    @Column(name = "MARK_ID")
+    @Column(name = "mark_id")
     private Integer markId;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private Integer email;
 
-    @Column(name = "PRESENTATION_ID")
+    @Column(name = "presentation_id")
     private Integer presentationId;
 
-    @Column(name = "MARK")
+    @Column(name = "mark")
     private Integer mark;
 
     public Integer getMarkId()

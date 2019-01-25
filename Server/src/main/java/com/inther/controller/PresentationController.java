@@ -8,38 +8,26 @@ import java.util.Map;
 @RequestMapping(value = "/api")
 public class PresentationController
 {
-    @RequestMapping(value = "/user/addPresentation", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addPresentation", method = RequestMethod.PUT)
     public Map<String, Object> addPresentation(@RequestBody Presentation presentationToAdd)
     {
         return null;
     }
 
-    @RequestMapping(value = "/user/getPresentations", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPresentations", method = RequestMethod.GET)
     public Map<String, Object> getPresentations()
     {
         return null;
     }
 
-    @RequestMapping(value = "/user/editSelfPresentation", method = RequestMethod.PATCH)
-    public Map<String, Object> editSelfPresentation(@RequestBody Presentation presentationToEdit)
+    @RequestMapping(value = "/editPresentation", method = RequestMethod.PATCH)
+    public Map<String, Object> editPresentation(@RequestBody Presentation presentationToEdit)
     {
         return null;
     }
 
-    @RequestMapping(value = "/user/deleteSelfPresentation", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteSelfPresentation(@RequestParam(value = "presentationId") Integer presentationId)
-    {
-        return null;
-    }
-
-    @RequestMapping(value = "/admin/editAnyPresentation", method = RequestMethod.PATCH)
-    public Map<String, Object> editAnyPresentation(@RequestBody Presentation presentationToEdit)
-    {
-        return null;
-    }
-
-    @RequestMapping(value = "/admin/deleteAnyPresentation", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteAnyPresentation(@RequestParam(value = "presentationId") Integer presentationId)
+    @RequestMapping(value = "/deletePresentation", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteSelPresentation(@RequestParam(value = "presentationId") Integer presentationId)
     {
         return null;
     }

@@ -4,28 +4,28 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "MESSAGES")
+@Table(name = "messages")
 public class Message
 {
     @Id
     @GeneratedValue(generator = "messageIdGenerator")
     @GenericGenerator(name = "messageIdGenerator", strategy = "increment")
-    @Column(name = "MESSAGE_ID")
+    @Column(name = "message_id")
     private Integer messageId;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private Integer email;
 
-    @Column(name = "PRESENTATION_ID")
+    @Column(name = "presentation_id")
     private Integer presentationId;
 
-    @Column(name = "MESSAGE_TYPE")
+    @Column(name = "message_type")
     private Integer messageType;
 
-    @Column(name = "MESSAGE")
+    @Column(name = "message")
     private String message;
 
-    @Column(name = "IS_ANONYMOUS")
+    @Column(name = "is_anonymous")
     private Boolean isAnonymous;
 
     public Integer getMessageId()

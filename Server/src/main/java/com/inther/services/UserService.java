@@ -1,23 +1,34 @@
 package com.inther.services;
 
 import com.inther.domain.User;
+import com.inther.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService
 {
-    public void addUser(User user)
-    {
+    private UserRepository userRepository;
 
+    public Boolean addUser(User userToAdd)
+    {
+        userRepository.addUser(userToAdd.getEmail(), userToAdd.getPassword(), userToAdd.getEnabled());
+        return true;
     }
 
-    public void editUser(String email, User user)
+    public Boolean editUser(String email, User userToEdit)
     {
-
+        return null;
     }
 
-    public void deleteUser(String email)
+    public Boolean deleteUser(String email)
     {
+        return null;
+    }
 
+    @Autowired
+    public UserService(UserRepository userRepository)
+    {
+        this.userRepository = userRepository;
     }
 }

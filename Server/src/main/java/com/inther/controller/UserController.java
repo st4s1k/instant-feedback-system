@@ -1,34 +1,72 @@
 package com.inther.controller;
 
 import com.inther.domain.User;
+import com.inther.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api")
 public class UserController
 {
-    @RequestMapping(value = "/user/editSelfUser", method = RequestMethod.PATCH)
-    public Map<String, Object> editSelfUser(@RequestBody User userToEdit)
+    private UserService userService;
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.PUT)
+    public Map<String, Object> addUser(@RequestBody User userToAdd)
     {
-        return null;
+        Map<String, Object> requestResultMap = new HashMap<>();
+        if (userService.addUser(userToAdd))
+        {
+            requestResultMap.put("Status", "OK");
+            requestResultMap.put("Message", "User " + userToAdd.getEmail() + " was successfully added");
+        }
+        else
+        {
+            requestResultMap.put("Status", "ERROR");
+            requestResultMap.put("Message", "Access denied for your authority");
+        }
+        return requestResultMap;
     }
 
-    @RequestMapping(value = "/admin/addNewUser", method = RequestMethod.PUT)
-    public Map<String, Object> addNewUser(@RequestBody User userToAdd)
+    @RequestMapping(value = "/editUser", method = RequestMethod.PATCH)
+    public Map<String, Object> editUser(@RequestBody User userToEdit)
     {
-        return null;
+        Map<String, Object> requestResultMap = new HashMap<>();
+        if (userService.editUser(userToEdit.getEmail(), userToEdit))
+        {
+            requestResultMap.put("Status", "OK");
+            requestResultMap.put("Message", "User " + userToEdit.getEmail() + " was successfully edited");
+        }
+        else
+        {
+            requestResultMap.put("Status", "ERROR");
+            requestResultMap.put("Message", "Access denied for your authority");
+        }
+        return requestResultMap;
     }
 
-    @RequestMapping(value = "/admin/editAnyUser", method = RequestMethod.PATCH)
-    public Map<String, Object> editAnyUser(@RequestBody User userToDelete)
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
+    public Map<String, Object> deleteUser(@RequestParam(value = "email") String email)
     {
-        return null;
+        Map<String, Object> requestResultMap = new HashMap<>();
+        if (userService.deleteUser(email))
+        {
+            requestResultMap.put("Status", "OK");
+            requestResultMap.put("Message", "User " + email + " was successfully deleted");
+        }
+        else
+        {
+            requestResultMap.put("Status", "ERROR");
+            requestResultMap.put("Message", "Access denied for your authority");
+        }
+        return requestResultMap;
     }
 
-    @RequestMapping(value = "/admin/deleteAnyUser", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteAnyUser(@RequestParam(value = "email") String email)
+    @Autowired
+    public UserController(UserService userService)
     {
-        return null;
+        this.userService = userService;
     }
 }
