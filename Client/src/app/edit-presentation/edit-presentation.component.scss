@@ -1,10 +1,22 @@
+@media(min-width: 768px) {
+    #DiscardBtn{
+        float: right;
+    }
+  }
+  @media(min-width: 100px) {
+    #addpres button{
+        margin-top:10px;
+        width: 100%;
+    }
+  }
+
 #addpres{
     margin-top: 20px;
     margin-bottom: 100px;
 }
-#addpres button{
-    width: 70%;
+
+
+.spacer{
+    margin-top: 10px;
 }
-#DiscardBtn{
-    float: right;
-}
+
