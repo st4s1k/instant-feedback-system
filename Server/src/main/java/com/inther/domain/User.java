@@ -1,17 +1,14 @@
 package com.inther.domain;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private String userId;
-
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "email")
     private String email;
 
@@ -20,6 +17,9 @@ public class User
 
     @Column(name = "enabled")
     private Integer enabled;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "email", cascade = CascadeType.ALL)
+    private List<UserAuthority> userAuthorities;
 
     public String getEmail()
     {
@@ -49,5 +49,15 @@ public class User
     public void setEnabled(Integer enabled)
     {
         this.enabled = enabled;
+    }
+
+    public List<UserAuthority> getUserAuthorities()
+    {
+        return userAuthorities;
+    }
+
+    public void setUserAuthorities(List<UserAuthority> userAuthorities)
+    {
+        this.userAuthorities = userAuthorities;
     }
 }

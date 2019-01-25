@@ -1,4 +1,4 @@
-package com.inther.beans;
+package com.inther.configurators;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

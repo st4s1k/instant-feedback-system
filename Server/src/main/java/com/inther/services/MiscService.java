@@ -1,7 +1,7 @@
 package com.inther.services;
 
 import com.inther.repositories.UserRepository;
-import com.inther.repositories.UserRoleRepository;
+import com.inther.repositories.UserAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,21 +9,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class MiscService
 {
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserRoleRepository userRoleRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserAuthorityRepository userAuthorityRepository;
 
     public void userRegister(String email, String password)
     {
         userRepository.addUser(email, bCryptPasswordEncoder.encode(password), 1);
-        userRoleRepository.addUserRole(email, "ROLE_USER");
+        userAuthorityRepository.addUserAuthority(email, "ROLE_USER");
     }
 
     @Autowired
-    public MiscService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRoleRepository userRoleRepository)
+    public MiscService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserAuthorityRepository userAuthorityRepository)
     {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRoleRepository = userRoleRepository;
+        this.userAuthorityRepository = userAuthorityRepository;
     }
 }

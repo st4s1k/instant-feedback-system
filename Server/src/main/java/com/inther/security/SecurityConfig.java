@@ -20,8 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Value("${spring.queries.users-query}")
     private String usersQuery;
 
-    @Value("${spring.queries.roles-query}")
-    private String rolesQuery;
+    @Value("${spring.queries.authorities-query}")
+    private String authoritiesQuery;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception
@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
+                .authoritiesByUsernameQuery(authoritiesQuery)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 

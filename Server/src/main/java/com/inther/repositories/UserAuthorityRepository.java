@@ -1,6 +1,6 @@
 package com.inther.repositories;
 
-import com.inther.domain.UserRole;
+import com.inther.domain.UserAuthority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, Integer>
+public interface UserAuthorityRepository extends JpaRepository<UserAuthority, Integer>
 {
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "INSERT INTO user_roles(email, role) VALUES(:email, :role)")
-    void addUserRole(@Param(value = "email") String email, @Param(value = "role") String role);
+    @Query(nativeQuery = true, value = "INSERT INTO user_authorities(email, authority) VALUES(:email, :authority)")
+    void addUserAuthority(@Param(value = "email") String email, @Param(value = "authority") String authority);
 }

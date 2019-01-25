@@ -1,6 +1,7 @@
 package com.inther.controller;
 
 import com.inther.domain.User;
+import com.inther.exceptions.SelfDeleteException;
 import com.inther.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,15 +52,23 @@ public class UserController
     public Map<String, Object> deleteUser(@RequestParam(value = "email") String email)
     {
         Map<String, Object> requestResultMap = new HashMap<>();
-        if (userService.deleteUser(email))
+        try
         {
-            requestResultMap.put("Status", "OK");
-            requestResultMap.put("Message", "User " + email + " was successfully deleted");
+            if (userService.deleteUser(email))
+            {
+                requestResultMap.put("Status", "OK");
+                requestResultMap.put("Message", "User " + email + " was successfully deleted");
+            }
+            else
+            {
+                requestResultMap.put("Status", "ERROR");
+                requestResultMap.put("Message", "Access denied for your authority");
+            }
         }
-        else
+        catch (SelfDeleteException e)
         {
             requestResultMap.put("Status", "ERROR");
-            requestResultMap.put("Message", "Access denied for your authority");
+            requestResultMap.put("Message", "You is about to delete yourself");
         }
         return requestResultMap;
     }

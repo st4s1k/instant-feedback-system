@@ -1,13 +1,13 @@
 package com.inther.domain;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "marks")
-public class Mark {
+public class Mark
+{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mark_id")
     private Integer markId;
 

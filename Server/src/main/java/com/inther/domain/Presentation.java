@@ -1,6 +1,5 @@
 package com.inther.domain;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,7 +8,7 @@ import java.util.Date;
 public class Presentation
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "presentation_id")
     private Integer presentationId;
 

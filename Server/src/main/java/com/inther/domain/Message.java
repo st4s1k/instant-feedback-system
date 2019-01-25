@@ -1,6 +1,5 @@
 package com.inther.domain;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +7,7 @@ import javax.persistence.*;
 public class Message
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
     private Integer messageId;
 
