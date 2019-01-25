@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class MessageType
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")
     private Integer typeId;
 

@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Participant
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "participant_id")
     private Integer participantId;
 

@@ -50,4 +50,14 @@ public class User
     {
         this.enabled = enabled;
     }
+
+    public String getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(String userId)
+    {
+        this.userId = userId;
+    }
 }
