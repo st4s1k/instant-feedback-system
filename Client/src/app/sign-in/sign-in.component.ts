@@ -12,6 +12,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
   }
+
   log(x) {
     console.log(x);
   }
