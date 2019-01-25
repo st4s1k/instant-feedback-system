@@ -12,6 +12,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { FooterComponent } from './footer/footer.component';
 import { AddPresComponent } from './edit-presentation/edit-presentation.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { AddPresComponent } from './edit-presentation/edit-presentation.componen
     AppRoutingModule,
     NgbModule.forRoot(),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

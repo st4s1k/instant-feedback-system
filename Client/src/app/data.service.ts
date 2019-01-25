@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  protocol  = 'http'
+  ipAdress  = 'localhost';
+  port      = '8080';
+
+  baseUrl   = `${this.protocol}://${this.ipAdress}:${this.port}`;
 
   saveBtnClicked() {
-    console.log('Save button clicked!');
+    // send data to server
+    return this.http.post(`${this.baseUrl}/api/save`, this.protocol);
   }
 
   discardBtnClicked() {
-    console.log('Discard button clicked!');
+    // Clean fields
+    // go back
+    return this.http.delete(`${this.baseUrl}/presentation/delete`);
+  }
+
+  getUsers() {
   }
 }
