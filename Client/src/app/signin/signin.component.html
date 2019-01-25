@@ -16,15 +16,19 @@
                   <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                       <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
                       <input ngModel name="email" #email="ngModel" (change)="log(email)" type="text" id="email" class="form-control"
-                             placeholder="you@inther.com" required autofocus>
+                             placeholder="you@inther.com" required pattern="@" autofocus>
                   </div>
               </div>
           </div>
           <div class="col-md-3">
               <div class="form-control-feedback">
-                      <span class="text-danger align-middle">
-                          <!-- Value : {{email.Value}} -->
-                      </span>
+                  <div *ngIf="email.touched">
+                      
+                  </div>
+                      <!-- <span class="text-danger align-middle" *ngIf="email.touched">
+                          <span *ngif="email.Errors.required">Email is required</span>
+                          <span *ngif="email.Errors.pattern">Wrong mail sintax</span>
+                      </span> -->
               </div>
           </div>
       </div>
