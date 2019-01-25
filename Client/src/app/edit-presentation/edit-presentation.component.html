@@ -1,96 +1,97 @@
 <div class="container" id="addpres">
     <div class="form-horizontal">
-      <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-              <h2>Add Presentation</h2>
-              <hr>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="title" class="field-label-responsive">Title of Presentation</label>
-            <input type="text" name="text" class="form-control"  id="title"
-                               placeholder="Name of Presentation" required autofocus>
-          </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2>Add Presentation</h2>
+                <hr>
+            </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-control-feedback">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title" class="field-label-responsive">Title of Presentation</label>
+                    <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation"
+                        required autofocus>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
                     <span class="text-danger align-middle">
                         <!-- Value : {{email.Value}} -->
                     </span>
+                </div>
             </div>
-        </div>
-      </div>
-      <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="message" class="field-label-responsive">Description</label>
-              <textarea  class="form-control"  id="message"
-               cols="30" rows="5" placeholder="Short Description" required autofocus></textarea>
-            </div>
-          </div>
-          <div class="col-md-3">
-              <div class="form-control-feedback">
-                      <span class="text-danger align-middle">
-                          <!-- Value : {{email.Value}} -->
-                      </span>
-              </div>
-          </div>
         </div>
         <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-              <div class="row">
-            <div class="col-md-3">
-              <div class="form-group">
-                  <label for="time" class="field-label-responsive">Time</label>
-                  <input type="time" name="time" class="form-control"  id="time" required autofocus>
-              </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="duration" class="field-label-responsive">Duration</label>
-                    <input type="time" name="time" class="form-control"  id="time" required autofocus>
-                </div>
-              </div>
-              <div class="col-md-6">
-                  <div class="form-group">
-                      <label for="location" class="field-label-responsive">Location</label>
-                      <input type="text" name="location" class="form-control"  id="location" required autofocus>
-                  </div>
+                    <label for="message" class="field-label-responsive">Description</label>
+                    <textarea class="form-control" id="message" cols="30" rows="5" placeholder="Short Description"
+                        required autofocus></textarea>
                 </div>
             </div>
-          </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                        <!-- Value : {{email.Value}} -->
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-              <div class="form-group">
-                  <label for="invited" class="field-label-responsive">Invited Persons</label>
-                  <textarea  class="form-control"  id="invited"
-                   cols="30" rows="5" placeholder="email of invited persons example: AMa@inther.com,SGi@inther.com,..."
-                    required autofocus></textarea>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="time" class="field-label-responsive">Time</label>
+                            <input type="time" name="time" class="form-control" id="time" required autofocus>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="duration" class="field-label-responsive">Duration</label>
+                            <input type="time" name="time" class="form-control" id="time" required autofocus>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="location" class="field-label-responsive">Location</label>
+                            <input type="text" name="location" class="form-control" id="location" required autofocus>
+                        </div>
+                    </div>
                 </div>
-          </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="invited" class="field-label-responsive">Invited Persons</label>
+                    <textarea class="form-control" id="invited" cols="30" rows="5" placeholder="email of invited persons example: AMa@inther.com,SGi@inther.com,..."
+                        required autofocus></textarea>
+                </div>
+            </div>
         </div>
 
-      <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <div class="row">
-              <div class="col-md-3">
-                  <button id="SaveBtn" type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i>Save</button>
-              </div>
-              <div class="col-md-6"></div>
-              <div class="col-md-3" >
-                  <button id="DiscardBtn" type="submit" class="btn btn-danger">Discard</button>
-              </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button (click)="saveBtnClicked()" id="SaveBtn" type="submit" class="btn btn-success">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-3">
+                        <button (click)="discardBtnClicked()" id="DiscardBtn" type="submit" class="btn btn-danger">Discard</button>
+                    </div>
+                </div>
             </div>
-          </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
