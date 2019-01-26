@@ -1,38 +1,43 @@
 <nav class="navbar p-0 navbar-expand-md bg-dark navbar-dark sticky-top nav-ref" fxShow="true" fxHide.lt-md="true">
-  
-  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"
-            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+
+  <div class="navbar-nav align-items-center justify-content-start">
+
+    <div class="nav-item p-2">
+      <a class="nav-link p-0" routerLink="/">
+        <div class="row m-0 align-items-center">
+          <img id="logo-image" src="assets/images/isdlogo.png" alt="isd_logo" class="col rounded-circle logo p-0">
+          <p id="logo-text" class="col m-0">Presentations</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="p-0 nav-item d-none d-md-block">
+      <a class="nav-link" routerLink="edit-presentation"><i class="fas fa-plus"></i> New presentation</a>
+    </div>
+
+  </div>
+
+  <button class="mr-3 navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"
+    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="navbar-toggler-icon"></i>
   </button>
 
-  <div id="navbarSupportedContent" class="navbar-collapse collapse" [ngbCollapse]="navbarCollapsed">
-    <ul class="navbar-nav d-flex align-items-center center">
+  <div class="justify-content-end navbar-collapse collapse" id="navbarSupportedContent" [ngbCollapse]="navbarCollapsed">
+    <div class="nav navbar-nav align-items-center">
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/">
-          <div class="row m-0 d-flex align-items-center">
-            <img id="logo-image"
-                  src="https://pbs.twimg.com/profile_images/378800000024563038/b348a4f2d1685afc8129b85a1568d80c_400x400.png"
-                  alt="isd_logo"
-                  class="rounded-circle logo col p-0">
-            <p id="logo-text" class="col m-0">Presentations</p>
-          </div>
-        </a>
-      </li>
+      <div class="p-0 nav-item d-md-none">
+        <a class="nav-link" routerLink="edit-presentation"><i class="fas fa-plus"></i> New presentation</a>
+      </div>
 
-      <li class="nav-item ">
-        <a class="nav-link" routerLink="edit-presentation">Add presentation</a>
-      </li>
+      <div class="p-0 nav-item">
+        <a class="nav-link" routerLink="sign-up"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </div>
 
-    </ul>
+      <div class="p-0 nav-item">
+        <a class="nav-link" routerLink="sign-in"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+      </div>
 
-    <ul class="nav navbar-nav ml-auto align-items-center">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="sign-up"><span class="fas fa-user"></span>Sign Up</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="sign-in"><span class="fas fa-sign-in-alt"></span>Sign In</a>
-      </li>
-    </ul>
+    </div>
   </div>
+
 </nav>

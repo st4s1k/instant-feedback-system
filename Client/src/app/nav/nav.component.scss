@@ -1,20 +1,21 @@
 #logo-image {
-    width: 65px;
+  width: 65px;
+  min-width: 30px !important;
+  max-width: 65px !important;
 }
 
 #logo-text {
-    // margin-top:20px;
-    // margin-left: 50px;
-    font-size: 20px;
-    // letter-spacing: -0.4px;
-    color: rgb(241, 93, 34);
-    // font-weight: 700;
-    // font-style: italic;
+  font-size: 25px;
+  color: rgb(241, 93, 34);
 }
 
 .navbar {
-    font-family: 'Titillium Web', sans-serif;
-    font-weight: bold;
-    opacity: 0.9;
-    border-bottom: 3px solid rgb(241, 93, 34);
+  font-family: "Titillium Web", sans-serif;
+  font-weight: bold;
+  opacity: 0.9;
+  border-bottom: 3px solid rgb(241, 93, 34);
+}
+
+#navbarSupportedContent {
+  min-height: 100% !important;
 }
