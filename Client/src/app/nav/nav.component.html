@@ -1,19 +1,32 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top nav-ref">
-  <a class="navbar-brand" routerLink="/">
-    <img src="https://pbs.twimg.com/profile_images/378800000024563038/b348a4f2d1685afc8129b85a1568d80c_400x400.png" 
-    alt="isd_logo"
-    class="rounded-circle float-left logo"><p>Presentations</p></a>
-  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar p-0 navbar-expand-md bg-dark navbar-dark sticky-top nav-ref" fxShow="true" fxHide.lt-md="true">
+  
+  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-</button>
-<div id="navbarSupportedContent" class="navbar-collapse collapse " [ngbCollapse]="navbarCollapsed">
-    <ul class="navbar-nav">
+  </button>
+
+  <div id="navbarSupportedContent" class="navbar-collapse collapse" [ngbCollapse]="navbarCollapsed">
+    <ul class="navbar-nav d-flex align-items-center">
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/">
+          <div class="row m-0 d-flex align-items-center">
+            <img id="logo-image"
+                  src="https://pbs.twimg.com/profile_images/378800000024563038/b348a4f2d1685afc8129b85a1568d80c_400x400.png"
+                  alt="isd_logo"
+                  class="rounded-circle logo col-md-4 p-0">
+            <p id="logo-text" class="col-md-8 m-0">Presentations</p>
+          </div>
+        </a>
+      </li>
+
       <li class="nav-item ">
         <a class="nav-link" routerLink="edit-presentation">Add presentation</a>
       </li>
+
     </ul>
 
-    <ul class="nav navbar-nav ml-auto">
+    <ul class="nav navbar-nav ml-auto align-items-center">
       <li class="nav-item">
         <a class="nav-link" routerLink="sign-up"><span class="fas fa-user"></span>Sign Up</a>
       </li>
