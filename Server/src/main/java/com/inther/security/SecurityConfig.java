@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private DataSource dataSource;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final DataSource dataSource;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -37,13 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/userRegister").hasAuthority("ROLE_ANONYMOUS")
+                .antMatchers("/api/registration").hasAuthority("ROLE_ANONYMOUS")
                 .anyRequest().authenticated();
         http.csrf()
                 .disable();
         http.formLogin()
-                .loginPage("/userLogin")
-                .loginProcessingUrl("/userLogin")
+                .loginPage("/api/authentication")
+                .loginProcessingUrl("/api/authentication")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/userLoginError")

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParticipantService
 {
-    private ParticipantRepository participantRepository;
+    private final ParticipantRepository participantRepository;
 
     public void addParticipant(Participant participantToAdd)
     {

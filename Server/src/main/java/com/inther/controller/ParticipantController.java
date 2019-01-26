@@ -4,40 +4,24 @@ import com.inther.domain.Participant;
 import com.inther.services.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/participant")
 public class ParticipantController
 {
-    private ParticipantService participantService;
+    private final ParticipantService participantService;
 
-    @RequestMapping(value = "/addParticipant", method = RequestMethod.PUT)
+    @PutMapping
     public Map<String, Object> addParticipant(@RequestBody Participant participantToAdd)
     {
-        participantService.addParticipant(participantToAdd);
-        Map<String, Object> requestResultMap = new HashMap<>();
-        requestResultMap.put("Status", "OK");
-        requestResultMap.put("Message", "Participant was added to presentation with id: " + participantToAdd.getPresentationId());
-        return requestResultMap;
+        return null;
     }
 
-    @RequestMapping(value = "/deleteParticipant", method = RequestMethod.DELETE)
+    @DeleteMapping
     public Map<String, Object> deleteParticipant(@RequestParam(value = "participantId") Integer participantId)
     {
-        Map<String, Object> requestResultMap = new HashMap<>();
-        if (participantService.deleteParticipant(participantId))
-        {
-            requestResultMap.put("Status", "OK");
-            requestResultMap.put("Message", "Participant with id: " + participantId + " was deleted");
-        }
-        else
-        {
-            requestResultMap.put("Status", "ERROR");
-            requestResultMap.put("Message", "Access denied for your authority");
-        }
-        return requestResultMap;
+        return null;
     }
 
     @Autowired

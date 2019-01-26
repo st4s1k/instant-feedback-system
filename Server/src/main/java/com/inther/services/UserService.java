@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService
 {
-    private UserRepository userRepository;
-    private UserAuthorityRepository userAuthorityRepository;
-    private AdminAuthorityValidator adminAuthorityValidator;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final UserAuthorityRepository userAuthorityRepository;
+    private final AdminAuthorityValidator adminAuthorityValidator;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Boolean addUser(User userToAdd)
     {
