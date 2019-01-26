@@ -8,31 +8,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-//   signinForm:FormGroup;
-//   submited=false;
-//   success=false;
-
-//   constructor(private formBuilder: FormBuilder) { 
-//   }
-
-//   ngOnInit() {
-//     this.signinForm=this.formBuilder.group({
-//       email:['',[Validators.required, Validators.email]],
-//       password:['',[Validators.required, Validators.minLength(6)]]
-//     });
-//   }
-
-// onSubmit(){
-//   console.log("this.signinForm.value");
-//   this.submited=true;
-
-//   if(this.signinForm.invalid){
-//     return;
-//   }
-//   this.success=true;
-
-//   alert('Succesful Sign In');
-// }
   
 singinForm: FormGroup;
 submitted = false;
@@ -41,8 +16,6 @@ constructor(private formBuilder: FormBuilder) { }
 
 ngOnInit() {
     this.singinForm = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -59,6 +32,5 @@ onSubmit() {
         return;
     }
 
-    alert('SUCCESS!! :-)')
 }
 }
