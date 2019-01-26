@@ -13,6 +13,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AddPresComponent } from './edit-presentation/edit-presentation.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     SignInComponent,
     FooterComponent,
     AddPresComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
