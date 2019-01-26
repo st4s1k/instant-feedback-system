@@ -8,33 +8,33 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 })
 export class AddPresComponent implements OnInit {
 
-  myForm: FormGroup;
+  emailInvitationForm: FormGroup;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.myForm = this.fb.group({
-      email: '',
-      emails: this.fb.array([])
+    this.emailInvitationForm = this.fb.group({
+      emailInvitation: '',
+      emailInvitations: this.fb.array([])
     });
 
   }
 
-  get emailForms() {
-    return this.myForm.get('emails') as FormArray;
+  get emailInvitationForms() {
+    return this.emailInvitationForm.get('emailInvitations') as FormArray;
   }
 
-  addEmail() {
+  addEmailInvitation() {
 
-    const email = this.fb.group({
-      email: [],
+    const emailInvitation = this.fb.group({
+      emailInvitations: [],
     });
 
-    this.emailForms.push(email);
+    this.emailInvitationForms.push(emailInvitation);
   }
 
-  deleteEmail(i) {
-    this.emailForms.removeAt(i);
+  deleteEmailInvitation(i) {
+    this.emailInvitationForms.removeAt(i);
   }
 
 }
