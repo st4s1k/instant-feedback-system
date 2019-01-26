@@ -1,65 +1,64 @@
 <div class="container" id="sign-in">
     <div class="form-horizontal">
-      <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-              <h2>Sign In</h2>
-              <hr>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-3 field-label-responsive">
-              <label for="email">E-Mail Address</label>
-          </div>
-          <div class="col-md-6">
-              <div class="form-group">
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                      <input ngModel name="email" #email="ngModel" (change)="log(email)" type="text" id="email" class="form-control"
-                             placeholder="you@inther.com" required email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" autofocus>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-3">
-              <div class="form-control-feedback">
-                  <div class="text-danger align-middle" *ngIf="email.touched">
-                        <div *ngIf="email.errors.required">Email required</div>
-                        <div *ngIf="email.errors.pattern">Wrong email sintax</div>
-                  </div>
-                      <!-- <span class="text-danger align-middle" *ngIf="email.touched">
-                          <span *ngif="email.Errors.required">Email is required</span>
-                          <span *ngif="email.Errors.pattern">Wrong mail sintax</span>
-                      </span> -->
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-3 field-label-responsive">
-              <label for="password">Password</label>
-          </div>
-          <div class="col-md-6">
-              <div class="form-group has-danger">
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                      <input type="password" name="password" class="form-control" id="password"
-                             placeholder="Password" required>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-3">
-              <div class="form-control-feedback">
-                      <span class="text-danger align-middle">
-                          <!-- <i class="fa fa-close"> Example Error Message</i> -->
-                      </span>
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-7"></div>
-          <div class="col-md-3">
-              <button id="logBtn" type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i>Sign Up</button>
-          </div>
-      </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2>Sign In</h2>
+                <hr>
+            </div>
+        </div>
+        <form [formGroup]="singinForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="email">E-Mail Address</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                                id="email" class="form-control" placeholder="you@inther.com" required autofocus />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && f.email.errors" class="text-danger">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Not valid email form</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="password">Password</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                                required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && f.password.errors" class="text-danger">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7"></div>
+                <div class="col-md-3">
+                    <button [disabled]="loading" id="logBtn" type="submit" class="btn btn-success">Sign Up</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-    
+</div>
