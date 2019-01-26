@@ -8,7 +8,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  protocol  = 'http'
+  protocol  = 'http';
   ipAdress  = 'localhost';
   port      = '8080';
 
@@ -16,13 +16,13 @@ export class DataService {
 
   saveBtnClicked() {
     // send data to server
-    return this.http.post(`${this.baseUrl}/api/save`, this.protocol);
+    return this.http.post(`${this.baseUrl}/presentation`, this.protocol);
   }
 
   discardBtnClicked() {
     // Clean fields
     // go back
-    return this.http.delete(`${this.baseUrl}/presentation/delete`);
+    return this.http.delete(`${this.baseUrl}/presentation`);
   }
 
   getUsers() {
