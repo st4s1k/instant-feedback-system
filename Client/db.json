@@ -1,0 +1,44 @@
+{
+  "presentations": [
+    {
+      "id": 1,
+      "userId": 3,
+      "title": "Some Presentation Title 1",
+      "description": "Some Presenation Description 1",
+      "time": {
+        "hours": 2,
+        "minutes": 30
+      },
+      "duration": {
+        "hours": 1,
+        "minutes": 0
+      },
+      "location": "Some Presentation Place 1",
+      "emailInvitations": [
+        "some1@mail.dom",
+        "some2@mail.dom"
+      ],
+      "mark": 4.5
+    },{
+      "id": 2,
+      "userId": 1,
+      "title": "Some Presentation Title 2",
+      "description": "Some Presenation Description 2",
+      "time": {
+        "hours": 5,
+        "minutes": 45
+      },
+      "duration": {
+        "hours": 1,
+        "minutes": 30
+      },
+      "location": "Some Presentation Place 2",
+      "emailInvitations": [
+        "some1@mail.dom",
+        "some3@mail.dom",
+        "some4@mail.dom"
+      ],
+      "mark": 12.5
+    }
+  ]
+}
