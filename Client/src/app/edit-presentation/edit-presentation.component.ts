@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 })
 export class EditPresentationComponent implements OnInit {
 
+  emailInvitationForm: FormGroup;
   edit_presForm: FormGroup;
   submitted = false;
 

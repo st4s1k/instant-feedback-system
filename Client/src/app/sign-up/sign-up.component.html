@@ -14,8 +14,8 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
                     <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="you@inther.com" required autofocus />
                 </div>
             </div>
@@ -35,8 +35,8 @@
         </div>
         <div class="col-md-6">
             <div class="form-group has-danger">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
                     <input type="password" formControlName="password" class="form-control" 
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
                        required placeholder="Password">
@@ -58,9 +58,13 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem">
+<<<<<<< HEAD
                         <i class="fa fa-repeat-alt"></i>
+=======
+                        <i class="fas fa-key"></i>
+>>>>>>> 96fa7d75278f1c74cde8bc31a63c7e9c9c552e0e
                     </div>
                     <input type="password" name="password-confirmation" class="form-control"
                            id="password-confirm" placeholder="Password" required
