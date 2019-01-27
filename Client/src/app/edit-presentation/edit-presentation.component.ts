@@ -21,6 +21,7 @@ export class EditPresentationComponent implements OnInit {
       description: ['', [Validators.required]],
       time: ['', [Validators.required]],
       duration: ['', [Validators.required]],
+      date: ['', [Validators.required]],
       location: ['', [Validators.required]],
       emailInvitation: ['', [Validators.email]],
       emailInvitations: this.fb.array([])

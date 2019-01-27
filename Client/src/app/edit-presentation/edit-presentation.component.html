@@ -62,18 +62,34 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="location" class="field-label-responsive">Location</label>
-                                <input type="text" name="location" class="form-control" id="location" required
-                                    autofocus formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                                <label for="date" class="field-label-responsive">Date</label>
+                                <input type="date" name="date" class="form-control" id="date" required
+                                    autofocus formControlName="date" [ngClass]="{ 'is-invalid': submitted && f.date.errors }">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-control-feedback">
-                        <div *ngIf="submitted && (f.time.errors || f.duration.errors || f.location.errors) " class="text-danger">
+                        <div *ngIf="submitted && (f.time.errors || f.duration.errors || f.date.errors) " class="text-danger">
                             <div *ngIf="f.time.errors.required">Time is required</div>
                             <div *ngIf="f.duration.errors.required">Duration is required</div>
+                            <div *ngIf="f.date.errors.required">Date is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="form-group">
+                        <label for="location" class="field-label-responsive">Location</label>
+                        <input type="text" name="location" class="form-control" id="location" required
+                            autofocus formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && f.location.errors " class="text-danger">
                             <div *ngIf="f.location.errors.required">Location is required</div>
                         </div>
                     </div>
