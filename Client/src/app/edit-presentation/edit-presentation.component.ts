@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { DataService } from '../services/data.service';
+import { Presentation } from '../models/presentation.model';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -8,15 +10,14 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 })
 export class EditPresentationComponent implements OnInit {
 
-  emailInvitationForm: FormGroup;
-  edit_presForm: FormGroup;
+  editPresentationForm: FormGroup;
   submitted = false;
 
   invite_touched = false;
-  constructor(private fb: FormBuilder) { }
+  constructor(private data: DataService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.edit_presForm = this.fb.group({
+    this.editPresentationForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       time: ['', [Validators.required]],
@@ -29,11 +30,11 @@ export class EditPresentationComponent implements OnInit {
   }
 
   get f() {
-    return this.edit_presForm.controls;
+    return this.editPresentationForm.controls;
   }
 
   get emailInvitationForms() {
-    return this.edit_presForm.get('emailInvitations') as FormArray;
+    return this.editPresentationForm.get('emailInvitations') as FormArray;
   }
 
   addEmailInvitation() {
@@ -52,11 +53,18 @@ export class EditPresentationComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.edit_presForm.invalid) {
+    if (this.editPresentationForm.invalid) {
       return;
     }
 
-    
+    this.data.createPresentation(<Presentation> {
+      title: this.editPresentationForm.get('title').value,
+      description: this.editPresentationForm.get('description').value,
+      time: this.editPresentationForm.get('time').value,
+      duration: this.editPresentationForm.get('duration').value,
+      location: this.editPresentationForm.get('location').value,
+      emailInvitations: this.editPresentationForm.get('emailInvitations').value
+    });
 
   }
 
