@@ -1,166 +1,130 @@
 <div class="container" id="addpres">
-  <div class="form-horizontal">
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <h2>Add Presentation</h2>
-        <hr>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="title" class="field-label-responsive">Title of Presentation</label>
-          <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation" required
-            autofocus>
-        </div>
-<<<<<<< HEAD
-        <form [formGroup]="emailInvitationForm" >
+    <div class="form-horizontal">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="title" class="field-label-responsive">Title of Presentation</label>
-                    <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation"
-                        required autofocus>
+                <h2>Add Presentation</h2>
+                <hr>
+            </div>
+        </div>
+        <form [formGroup]="edit_presForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="title" class="field-label-responsive">Title of Presentation</label>
+                        <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation"
+                            required autofocus formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && f.title.errors" class="text-danger">
+                            <div *ngIf="f.title.errors.required">Title is required</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                    <span class="text-danger align-middle">
-                        <!-- Value : {{email.Value}} -->
-                    </span>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="message" class="field-label-responsive">Description</label>
+                        <textarea class="form-control" id="message" cols="30" rows="5" placeholder="Short Description"
+                            required autofocus formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && f.description.errors" class="text-danger">
+                            <div *ngIf="f.description.errors.required">Description is required</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-=======
-      </div>
-      <div class="col-md-3">
-        <div class="form-control-feedback">
-          <span class="text-danger align-middle">
-            <!-- Value : {{email.Value}} -->
-          </span>
->>>>>>> 48417f9863384f64c579d75427476552ca5b61e5
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="message" class="field-label-responsive">Description</label>
-          <textarea class="form-control" id="message" cols="30" rows="5" placeholder="Short Description" required
-            autofocus></textarea>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-control-feedback">
-          <span class="text-danger align-middle">
-            <!-- Value : {{email.Value}} -->
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="time" class="field-label-responsive">Time</label>
-              <input type="time" name="time" class="form-control" id="time" required autofocus>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="time" class="field-label-responsive">Time</label>
+                                <input type="time" name="time" class="form-control" id="time" required autofocus
+                                formControlName="time" [ngClass]="{ 'is-invalid': submitted && f.time.errors }">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="duration" class="field-label-responsive">Duration</label>
+                                <input type="time" name="time" class="form-control" id="duration" required autofocus
+                                formControlName="duration" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location" class="field-label-responsive">Location</label>
+                                <input type="text" name="location" class="form-control" id="location" required
+                                    autofocus formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <div *ngIf="submitted && (f.time.errors || f.duration.errors || f.location.errors) " class="text-danger">
+                            <div *ngIf="f.time.errors.required">Time is required</div>
+                            <div *ngIf="f.duration.errors.required">Duration is required</div>
+                            <div *ngIf="f.location.errors.required">Location is required</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="duration" class="field-label-responsive">Duration</label>
-              <input type="time" name="time" class="form-control" id="duration" required autofocus>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="location" class="field-label-responsive">Location</label>
-              <input type="text" name="location" class="form-control" id="location" required autofocus>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <!-- <div class="form-group">
-                    <label for="invited" class="field-label-responsive">Invited Persons</label>
-                    <textarea class="form-control" id="invited" cols="30" rows="5" placeholder="email of invited persons example: AMa@inther.com,SGi@inther.com,..."
-                        required autofocus></textarea>
-                </div> -->
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
 
-        <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
+                    <div id="email-invitations">
 
-<<<<<<< HEAD
-                <div id="email-invitations">
-=======
-        <form [formGroup]="emailInvitationForm" id="email-invitations">
->>>>>>> 48417f9863384f64c579d75427476552ca5b61e5
+                        <div formArrayName="emailInvitations">
 
-          <div formArrayName="emailInvitations">
+                            <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitationForms.controls; let i=index"
+                                [formGroupName]="i">
 
-            <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitationForms.controls; let i=index"
-              [formGroupName]="i">
+                                <div class="col-10">
+                                    <input class="form-control" type="text" placeholder="example: AMa@inther.com, SGi@inther.com, ..."
+                                        name="email-invitation" id="email-invitation" formControlName="emailInvitation">
+                                </div>
 
-              <div class="col-10">
-                <input class="form-control" type="text" placeholder="example: AMa@inther.com, SGi@inther.com, ..." name="email-invitation"
-                  id="email-invitation" formControlName="emailInvitation">
-              </div>
+                                <div class="col-2 pl-0">
+                                    <button (click)="deleteEmailInvitation(i)" class="btn btn-danger m-0">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
 
-              <div class="col-2 pl-0">
-                <button (click)="deleteEmailInvitation(i)" class="btn btn-danger m-0">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
+                            </div>
 
+                        </div>
+
+                        <button (click)="addEmailInvitation()" class="btn btn-dark mt-0 mb-2"><i class="fas fa-plus"></i></button>
+
+
+
+                    </div>
+                </div>
             </div>
 
-          </div>
-
-          <button (click)="addEmailInvitation()" class="btn btn-dark mt-0 mb-2"><i class="fas fa-plus"></i></button>
-
-<<<<<<< HEAD
-                
-
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3 ">
+                    <button [disabled]="loading" (click)="saveBtnClicked()" id="SaveBtn" type="submit" class="btn btn-success">
+                        Save
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button [disabled]="loading" (click)="discardBtnClicked()" id="DiscardBtn" type="button" class="btn btn-danger">Discard</button>
+                </div>
             </div>
-        </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-3 ">
-                <button [disabled]="loading" (click)="saveBtnClicked()" id="SaveBtn" type="submit" class="btn btn-success">
-                    Save
-                </button>
-            </div>
-            <div class="col-md-3">
-                <button [disabled]="loading" (click)="discardBtnClicked()" id="DiscardBtn"  class="btn btn-danger">Discard</button>
-            </div>
-        </div>
-    </form>
-=======
         </form>
-
-      </div>
     </div>
-
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-3 ">
-        <button (click)="saveBtnClicked()" id="SaveBtn" type="submit" class="btn btn-success">
-          Save
-        </button>
-      </div>
-      <div class="col-md-3">
-        <button (click)="discardBtnClicked()" id="DiscardBtn" type="submit" class="btn btn-danger">Discard</button>
-      </div>
->>>>>>> 48417f9863384f64c579d75427476552ca5b61e5
-    </div>
-  </div>
 </div>
