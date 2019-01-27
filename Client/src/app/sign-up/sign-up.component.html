@@ -7,7 +7,7 @@
             <hr>
         </div>
     </div>
-    <form [formGroup]="signupFormGroup" (ngSubmit)="onSubmit()">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-md-3 field-label-responsive">
             <label for="email">E-Mail Address</label>
@@ -16,16 +16,15 @@
             <div class="form-group">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupFormGroup.email.errors }"
-                                id="email" class="form-control" placeholder="you@inther.com" required autofocus />
+                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="you@inther.com" required autofocus />
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-control-feedback">
-                <div *ngIf="submitted && signupFormGroup.email.errors" class="text-danger">
-                    <div *ngIf="signupFormGroup.email.errors.required">Email is required</div>
-                    <div *ngIf="signupFormGroup.email.errors.email">Not valid email form</div>
+                <div *ngIf="submitted && f.email.errors" class="text-danger">
+                    <div *ngIf="f.email.errors?.required">Email is required</div>
+                    <div *ngIf="f.email.errors?.email">Not valid email form</div>
                 </div>
             </div>
         </div>
@@ -38,16 +37,17 @@
             <div class="form-group has-danger">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && passwordFormGroup.password.errors }"
+                    <input type="password" formControlName="password" class="form-control" 
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
                        required placeholder="Password">
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-control-feedback">
-                <div *ngIf="submitted && passwordFormGroup.password.errors" class="text-danger">
-                    <div *ngIf="passwordFormGroup.password.errors.required">Password is required</div>
-                    <div *ngIf="passwordFormGroup.password.errors.minlength">Password must be at least 6 characters</div>
+                <div *ngIf="submitted && f.password.errors" class="text-danger">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
                 </div>
             </div>
         </div>
@@ -64,15 +64,15 @@
                     </div>
                     <input type="password" name="password-confirmation" class="form-control"
                            id="password-confirm" placeholder="Password" required
-                           formControlName="confirm_password" [ngClass]="{ 'is-invalid': submitted && passwordFormGroup.confirm_password.errors }">
+                           formControlName="confirm_password" [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }">
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-control-feedback">
-                <div *ngIf="submitted && passwordFormGroup.confirm_password.errors" class="text-danger">
-                    <div *ngIf="passwordFormGroup.confirm_password.errors?.required">Password is required</div>
-                    <div *ngIf="passwordFormGroup.errors?.doesMatchPassword">Password does not match</div>
+                <div *ngIf="submitted && f.confirm_password.errors" class="text-danger">
+                    <div *ngIf="f.confirm_password.errors.required">Password is required</div>
+                    <div *ngIf="f.confirm_password.errors.mustMatch">Password does not match</div>
                 </div>
             </div>
         </div>

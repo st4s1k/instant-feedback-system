@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import{SignUpValidator} from '../shared/sign-up.validator';
+import{MustMatch} from '../shared/sign-up.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,34 +10,41 @@ import{SignUpValidator} from '../shared/sign-up.validator';
 })
 export class SignUpComponent implements OnInit {
 
-  signupFormGroup: FormGroup;
-  passwordFormGroup:FormGroup;
-  submitted = false;
+  // signupFormGroup: FormGroup;
+  // passwordFormGroup:FormGroup;
+  // submitted = false;
+  
+  signupForm:FormGroup;
+  submitted=false;
+
 
 constructor(private formBuilder: FormBuilder) { 
-  this.passwordFormGroup=this.formBuilder.group({
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirm_password:['',Validators.required]},
-    {validator:SignUpValidator.validate.bind(this)
-  });
-this.signupFormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    passwordFormGroup:this.passwordFormGroup  
- });
+  
 }
 
 ngOnInit() {
- 
+
+this.signupForm = this.formBuilder.group({
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(6)]],
+  confirm_password: ['', Validators.required]
+}, {
+  validator: MustMatch('password', 'confirm_password')
+});
+
 }
+
+get f() { return this.signupForm.controls; }
 
 onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.signupFormGroup.invalid) {
+    if (this.signupForm.invalid) {
         return;
     }
 
+    console.log("Submit");
 }
 
 }
