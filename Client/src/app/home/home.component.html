@@ -4,29 +4,29 @@
 
       <h2 class="mb-5">$: npm run json-server</h2>
 
-      <div routerLink="presentation-page/i" class="btn btn-light btn-block row-stretch mb-3 border rounded" *ngFor='let presentation of presentations$'>
-
-        <div class="row">
-          <div class="col">
-            <p><b>ID</b></p>
-          </div>
-          <div class="col">
-            <p><b>TITLE</b></p>
-          </div>
-          <div class="col">
-            <p><b>MARK</b></p>
-          </div>
+      <div class="row">
+        <div class="col">
+          <p><b>ID</b></p>
         </div>
+        <div class="col">
+          <p><b>TITLE</b></p>
+        </div>
+        <div class="col">
+          <p><b>MARK</b></p>
+        </div>
+      </div>
 
-        <div class="row">
+      <div (click)="openPresentationPage(i)" class="btn btn-light btn-block row-stretch mb-3 p-0 border rounded" *ngFor='let presentation of presentations$; let i=index;'>
+
+        <div class="row align-content-center">
           <div class="col">
-            <p>{{presentation.id}}</p>
+            <p class="m-0">{{presentation.id}}</p>
           </div>
           <div class="col">
-            <p>{{presentation.title}}</p>
+            <p class="m-0">{{presentation.title}}</p>
           </div>
           <div class="col">
-            <p>{{presentation.mark}}</p>
+            <p class="m-0">{{presentation.mark}}</p>
           </div>
         </div>
 
