@@ -1,11 +1,12 @@
-package com.inther.domain;
+package com.inther.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "presentations")
-public class Presentation
+public class PresentationEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +14,7 @@ public class Presentation
     private Integer presentationId;
 
     @Column(name = "email")
-    private Integer email;
+    private String email;
 
     @Column(name = "presentation_title")
     private String presentationTitle;
@@ -30,8 +31,14 @@ public class Presentation
     @Column(name = "presentation_end_date")
     private Date presentationEndDate;
 
-    @Column(name = "presentation_mark")
-    private Float presentationMark;
+    @OneToMany(targetEntity = ParticipantEntity.class, mappedBy = "presentation_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ParticipantEntity> presentationParticipants;
+
+    @OneToMany(targetEntity = MessageEntity.class, mappedBy = "presentation_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MessageEntity> presentationMessages;
+
+    @OneToMany(targetEntity = MarkEntity.class, mappedBy = "presentation_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MarkEntity> presentationMarks;
 
     public Integer getPresentationId()
     {
@@ -43,12 +50,12 @@ public class Presentation
         this.presentationId = presentationId;
     }
 
-    public Integer getEmail()
+    public String getEmail()
     {
         return email;
     }
 
-    public void setEmail(Integer email)
+    public void setEmail(String email)
     {
         this.email = email;
     }
@@ -101,15 +108,5 @@ public class Presentation
     public void setPresentationEndDate(Date presentationEndDate)
     {
         this.presentationEndDate = presentationEndDate;
-    }
-
-    public Float getPresentationMark()
-    {
-        return presentationMark;
-    }
-
-    public void setPresentationMark(Float presentationMark)
-    {
-        this.presentationMark = presentationMark;
     }
 }

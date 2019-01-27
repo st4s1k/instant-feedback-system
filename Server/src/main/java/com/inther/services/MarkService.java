@@ -1,18 +1,23 @@
 package com.inther.services;
 
+import com.inther.beans.ResponseBean;
+import com.inther.repositories.MarkRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import com.inther.domain.Mark;
 
 @Service
 public class MarkService
 {
-    public void addMark(Mark mark)
-    {
+    private final MarkRepository markRepository;
+    private final ResponseBean responseBean;
+    private final HttpHeaders httpHeaders;
 
-    }
-
-    public Float getAverageMark(Integer presentationId)
+    @Autowired
+    public MarkService(MarkRepository markRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
-        return null;
+        this.markRepository = markRepository;
+        this.responseBean = responseBean;
+        this.httpHeaders = httpHeaders;
     }
 }

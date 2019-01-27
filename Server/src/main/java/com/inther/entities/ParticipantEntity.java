@@ -1,21 +1,21 @@
-package com.inther.domain;
+package com.inther.entities;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "participants")
-public class Participant
+public class ParticipantEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "participant_id")
     private Integer participantId;
 
-    @Column(name = "email")
-    private Integer email;
-
     @Column(name = "presentation_id")
     private Integer presentationId;
+
+    @Column(name = "email")
+    private String email;
 
     public Integer getParticipantId()
     {
@@ -27,16 +27,6 @@ public class Participant
         this.participantId = participantId;
     }
 
-    public Integer getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(Integer email)
-    {
-        this.email = email;
-    }
-
     public Integer getPresentationId()
     {
         return presentationId;
@@ -45,5 +35,15 @@ public class Participant
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 }

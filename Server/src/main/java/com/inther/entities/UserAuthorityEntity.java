@@ -1,10 +1,10 @@
-package com.inther.domain;
+package com.inther.entities;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_authorities")
-public class UserAuthority
+public class UserAuthorityEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

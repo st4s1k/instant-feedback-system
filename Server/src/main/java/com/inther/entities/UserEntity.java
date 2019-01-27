@@ -1,11 +1,11 @@
-package com.inther.domain;
+package com.inther.entities;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User
+public class UserEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -18,8 +18,8 @@ public class User
     @Column(name = "enabled")
     private Integer enabled;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "email", cascade = CascadeType.ALL)
-    private List<UserAuthority> userAuthorities;
+    @OneToMany(targetEntity = UserAuthorityEntity.class, mappedBy = "email", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserAuthorityEntity> userAuthorities;
 
     public String getEmail()
     {
@@ -51,12 +51,12 @@ public class User
         this.enabled = enabled;
     }
 
-    public List<UserAuthority> getUserAuthorities()
+    public List<UserAuthorityEntity> getUserAuthorities()
     {
         return userAuthorities;
     }
 
-    public void setUserAuthorities(List<UserAuthority> userAuthorities)
+    public void setUserAuthorities(List<UserAuthorityEntity> userAuthorities)
     {
         this.userAuthorities = userAuthorities;
     }
