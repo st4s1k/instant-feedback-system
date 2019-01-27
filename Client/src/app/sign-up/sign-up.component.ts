@@ -10,13 +10,8 @@ import { MustMatch } from '../shared/sign-up.validator';
 })
 export class SignUpComponent implements OnInit {
 
-  // signupFormGroup: FormGroup;
-  // passwordFormGroup:FormGroup;
-  // submitted = false;
-
   signupForm: FormGroup;
   submitted = false;
-
 
   constructor(private formBuilder: FormBuilder) {
 
@@ -44,7 +39,6 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    console.log('Submit');
   }
 
 }

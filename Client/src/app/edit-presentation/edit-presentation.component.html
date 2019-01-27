@@ -63,8 +63,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="date" class="field-label-responsive">Date</label>
-                                <input type="date" name="date" class="form-control" id="date" required
-                                    autofocus formControlName="date" [ngClass]="{ 'is-invalid': submitted && f.date.errors }">
+                                <input type="date" name="date" class="form-control" id="date" required autofocus
+                                    formControlName="date" [ngClass]="{ 'is-invalid': submitted && f.date.errors }">
                             </div>
                         </div>
                     </div>
@@ -83,8 +83,8 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group">
                         <label for="location" class="field-label-responsive">Location</label>
-                        <input type="text" name="location" class="form-control" id="location" required
-                            autofocus formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                        <input type="text" name="location" class="form-control" id="location" required autofocus
+                            formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -99,11 +99,8 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
-
                     <div id="email-invitations">
-
                         <div formArrayName="emailInvitations">
-
                             <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitationForms.controls; let i=index"
                                 [formGroupName]="i">
 
@@ -112,21 +109,14 @@
                                         name="email-invitation" id="email-invitation" formControlName="emailInvitation"
                                         [ngClass]="{ 'is-invalid': f.emailInvitation.errors }">
                                 </div>
-
                                 <div class="col-2 pl-0">
                                     <button (click)="deleteEmailInvitation(i)" class="btn btn-danger m-0">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <button (click)="addEmailInvitation()" type="button" class="btn btn-dark mt-0 mb-2"><i class="fas fa-plus"></i></button>
-
-
-
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -137,7 +127,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3 ">
