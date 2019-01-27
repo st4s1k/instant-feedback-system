@@ -10,5 +10,6 @@ export class Presentation {
     duration: Time;
     location: string;
     emailInvitations: string[];
+    mark: number;
 
 }

@@ -14,6 +14,8 @@ import { EditPresentationComponent } from './edit-presentation/edit-presentation
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
+import { PresentationPageComponent } from './presentation-page/presentation-page.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     EditPresentationComponent,
     HomeComponent,
+    PresentationPageComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
