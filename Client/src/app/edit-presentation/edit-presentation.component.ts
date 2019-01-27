@@ -13,6 +13,7 @@ export class EditPresentationComponent implements OnInit {
   editPresentationForm: FormGroup;
   submitted = false;
 
+  invite_touched = false;
   constructor(private data: DataService, private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -37,7 +38,7 @@ export class EditPresentationComponent implements OnInit {
   }
 
   addEmailInvitation() {
-    this.editPresentationForm.markAsTouched();
+    this.invite_touched = true;
     const emailInvitation = this.fb.group({
       emailInvitations: [],
     });
