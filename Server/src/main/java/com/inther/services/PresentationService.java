@@ -1,29 +1,23 @@
 package com.inther.services;
 
-import com.inther.domain.Presentation;
+import com.inther.beans.ResponseBean;
+import com.inther.repositories.PresentationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class PresentationService
 {
-    public void addPresentation(Presentation presentation)
+    private final PresentationRepository presentationRepository;
+    private final ResponseBean responseBean;
+    private final HttpHeaders httpHeaders;
+
+    @Autowired
+    public PresentationService(PresentationRepository presentationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
-
-    }
-
-    public List<Presentation> getPresentations()
-    {
-        return null;
-    }
-
-    public void editPresentation(Integer presentationId, Presentation presentation)
-    {
-
-    }
-
-    public void deletePresentation(Integer presentationId)
-    {
-
+        this.presentationRepository = presentationRepository;
+        this.responseBean = responseBean;
+        this.httpHeaders = httpHeaders;
     }
 }

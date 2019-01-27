@@ -1,11 +1,11 @@
 package com.inther.repositories;
 
-import com.inther.domain.Mark;
+import com.inther.entities.MarkEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MarkRepository extends JpaRepository<Mark, Integer>
+public interface MarkRepository extends JpaRepository<MarkEntity, Integer>
 {
 
 }

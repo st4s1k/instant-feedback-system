@@ -1,11 +1,11 @@
 package com.inther.repositories;
 
-import com.inther.entities.UserEntity;
+import com.inther.entities.MessageTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer>
+interface MessageTypeRepository extends JpaRepository<MessageTypeEntity, Integer>
 {
 
 }

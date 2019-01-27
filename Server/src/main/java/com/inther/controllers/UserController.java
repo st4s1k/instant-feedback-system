@@ -1,10 +1,12 @@
-package com.inther.controller;
+package com.inther.controllers;
 
-import com.inther.domain.User;
+import com.inther.dto.UserDto;
+import com.inther.entities.UserEntity;
 import com.inther.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -13,19 +15,19 @@ public class UserController
     private final UserService userService;
 
     @PutMapping
-    public Map<String, Object> addUser(@RequestBody User userToAdd)
+    public ResponseEntity<Object> putUser(@Valid @RequestBody UserDto userDtoToPut) throws Exception
     {
         return null;
     }
 
    @PatchMapping
-    public Map<String, Object> editUser(@RequestBody User userToEdit)
+    public ResponseEntity<Object> patchUser(@Valid @RequestBody UserEntity userEntityToPatch) throws Exception
     {
         return null;
     }
 
     @DeleteMapping
-    public Map<String, Object> deleteUser(@RequestParam(value = "email") String email)
+    public ResponseEntity<Object> deleteUser(@RequestParam(value = "email") String email) throws Exception
     {
         return null;
     }

@@ -1,4 +1,4 @@
-package com.inther.security;
+package com.inther.configurators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
     private final DataSource dataSource;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -37,26 +37,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/api/registration").hasAuthority("ROLE_ANONYMOUS")
+                .antMatchers("/signUp").hasAuthority("ROLE_ANONYMOUS")
+                .antMatchers("/signIn?status=badCredentials").hasAuthority("ROLE_ANONYMOUS")
                 .anyRequest().authenticated();
         http.csrf()
                 .disable();
         http.formLogin()
-                .loginPage("/api/authentication")
-                .loginProcessingUrl("/api/authentication")
+                .loginPage("/signIn")
+                .loginProcessingUrl("/signIn")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/", true)
-                .failureUrl("/userLoginError")
+                .failureUrl("/signIn?status=badCredentials")
                 .permitAll();
         http.logout()
-                .logoutUrl("/userLogout")
-                .logoutSuccessUrl("/userLogin");
-        http.exceptionHandling()
-                .accessDeniedPage("/accessDenied");
+                .logoutUrl("/signOut")
+                .logoutSuccessUrl("/signIn");
     }
 
     @Autowired
-    public SecurityConfig(DataSource dataSource, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public SecurityConfiguration(DataSource dataSource, BCryptPasswordEncoder bCryptPasswordEncoder)
     {
         this.dataSource = dataSource;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;

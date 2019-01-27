@@ -1,37 +1,57 @@
-package com.inther.domain;
+package com.inther.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "presentations")
-public class Presentation
+public class PresentationEntity
 {
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "presentation_id")
     private Integer presentationId;
 
+    @Email
+    @NotNull
     @Column(name = "email")
-    private Integer email;
+    private String email;
 
+    @NotNull
     @Column(name = "presentation_title")
     private String presentationTitle;
 
+    @NotNull
     @Column(name = "presentation_description")
     private String presentationDescription;
 
+    @NotNull
     @Column(name = "presentation_start_date")
     private Date presentationStartDate;
 
+    @NotNull
     @Column(name = "presentation_place")
     private String presentationPlace;
 
+    @NotNull
     @Column(name = "presentation_end_date")
     private Date presentationEndDate;
 
-    @Column(name = "presentation_mark")
-    private Float presentationMark;
+    @NotNull
+    @OneToMany(targetEntity = ParticipantEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ParticipantEntity> presentationParticipants;
+
+    @NotNull
+    @OneToMany(targetEntity = MessageEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MessageEntity> presentationMessages;
+
+    @NotNull
+    @OneToMany(targetEntity = MarkEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MarkEntity> presentationMarks;
 
     public Integer getPresentationId()
     {
@@ -43,12 +63,12 @@ public class Presentation
         this.presentationId = presentationId;
     }
 
-    public Integer getEmail()
+    public String getEmail()
     {
         return email;
     }
 
-    public void setEmail(Integer email)
+    public void setEmail(String email)
     {
         this.email = email;
     }
@@ -101,15 +121,5 @@ public class Presentation
     public void setPresentationEndDate(Date presentationEndDate)
     {
         this.presentationEndDate = presentationEndDate;
-    }
-
-    public Float getPresentationMark()
-    {
-        return presentationMark;
-    }
-
-    public void setPresentationMark(Float presentationMark)
-    {
-        this.presentationMark = presentationMark;
     }
 }

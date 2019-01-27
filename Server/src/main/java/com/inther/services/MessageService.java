@@ -1,23 +1,23 @@
 package com.inther.services;
 
-import com.inther.domain.Message;
+import com.inther.beans.ResponseBean;
+import com.inther.repositories.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageService
 {
-    public void addMessage(Message message)
+    private final MessageRepository messageRepository;
+    private final ResponseBean responseBean;
+    private final HttpHeaders httpHeaders;
+
+    @Autowired
+    public MessageService(MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
-
-    }
-
-    public void editMessage(Integer messageId, Message message)
-    {
-
-    }
-
-    public void deleteMessage(Integer messageId)
-    {
-
+        this.messageRepository = messageRepository;
+        this.responseBean = responseBean;
+        this.httpHeaders = httpHeaders;
     }
 }
