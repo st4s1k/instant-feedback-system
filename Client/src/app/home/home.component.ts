@@ -19,4 +19,6 @@ export class HomeComponent implements OnInit {
     .subscribe(data => this.presentations$ = data);
   }
 
+  openPresentation(i: number) { }
+
 }
