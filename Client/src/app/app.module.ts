@@ -10,7 +10,7 @@ import { NavComponent } from './nav/nav.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { FooterComponent } from './footer/footer.component';
-import { AddPresComponent } from './edit-presentation/edit-presentation.component';
+import { EditPresentationComponent } from './edit-presentation/edit-presentation.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
@@ -23,7 +23,7 @@ import { HomeComponent } from './home/home.component';
     SignUpComponent,
     SignInComponent,
     FooterComponent,
-    AddPresComponent,
+    EditPresentationComponent,
     HomeComponent,
   ],
   imports: [
