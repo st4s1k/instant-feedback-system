@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
   templateUrl: './edit-presentation.component.html',
   styleUrls: ['./edit-presentation.component.scss']
 })
-export class AddPresComponent implements OnInit {
+export class EditPresentationComponent implements OnInit {
 
   emailInvitationForm: FormGroup;
 
