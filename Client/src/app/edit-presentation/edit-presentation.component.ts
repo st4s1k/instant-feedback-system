@@ -8,24 +8,25 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 })
 export class EditPresentationComponent implements OnInit {
 
-  emailInvitationForm: FormGroup;
-  edit_presForm:FormGroup;
+  edit_presForm: FormGroup;
   submitted = false;
+
+  invite_touched = false;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.edit_presForm = this.fb.group({
-      title:['',[Validators.required]],
-      description:['',[Validators.required]],
-      time:['',[Validators.required]],
-      duration:['',[Validators.required]],
-      location:['',[Validators.required]],
-      emailInvitation: '',
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      time: ['', [Validators.required]],
+      duration: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      emailInvitation: ['', [Validators.email]],
       emailInvitations: this.fb.array([])
     });
   }
 
-  get f(){
+  get f() {
     return this.edit_presForm.controls;
   }
 
@@ -34,7 +35,7 @@ export class EditPresentationComponent implements OnInit {
   }
 
   addEmailInvitation() {
-
+    this.invite_touched = true;
     const emailInvitation = this.fb.group({
       emailInvitations: [],
     });
@@ -50,9 +51,11 @@ export class EditPresentationComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.edit_presForm.invalid) {
-        return;
+      return;
     }
 
-}
+    
+
+  }
 
 }
