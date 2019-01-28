@@ -10,29 +10,9 @@ const API_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class PresentationService {
 
   constructor(private http: HttpClient) { }
-
-  createUser(user: UserDTO) {
-    return this.http.post<UserDTO>(`${API_URL}/users`, user);
-  }
-
-  getUsers() {
-    return this.http.get<UserDTO[]>(`${API_URL}/users`);
-  }
-
-  getUserById(id: number) {
-    return this.http.get<UserDTO>(`${API_URL}/users/${id}`);
-  }
-
-  updateUser(user: UserDTO) {
-    return this.http.put<UserDTO>(`${API_URL}/users/${user.id}`, user);
-  }
-
-  deleteUser(id: number) {
-    return this.http.delete<UserDTO>(`${API_URL}/users/${id}`);
-  }
 
   createPresentation(presentation: PresentationDTO) {
     return this.http.put<UserDTO>(`${API_URL}/presentations`, presentation);

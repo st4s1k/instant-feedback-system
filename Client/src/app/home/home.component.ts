@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service';
+import { PresentationService } from '../services/presentation.service';
 import { PresentationDTO } from '../dto/presentation.dto';
 
 @Component({
@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   presentations$: PresentationDTO[];
 
-  constructor(private data: DataService) { }
+  constructor(private data: PresentationService) { }
 
   ngOnInit() {
     this.data.getPresentations()
@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   }
 
   openPresentationPage(i: number) {
-    console.log('Trying to open presentation ' + this.presentations$[i].title);
-    window.open('presentation-page');
+    console.log('Trying to open presentation ' + this.presentations$[i].id);
+    // window.open('presentation-page');
   }
 
 }
