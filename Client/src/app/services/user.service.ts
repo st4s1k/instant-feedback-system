@@ -16,7 +16,7 @@ export class UserService {
     return this.http.post<UserDTO>(`${API_URL}/users`, user);
   }
 
-  getUsers() {
+  getAllUsers() {
     return this.http.get<UserDTO[]>(`${API_URL}/users`);
   }
 
