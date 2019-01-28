@@ -19,7 +19,8 @@
         "some2@mail.dom"
       ],
       "mark": 4.5
-    },{
+    },
+    {
       "id": 2,
       "userId": 1,
       "title": "Some Presentation Title 2",
@@ -41,12 +42,36 @@
       "mark": 12.5
     }
   ],
-  "users":[
+  "users": [
     {
-    "id":1,
-    "type":2,
-    "email":"alex@gmail.com",
-    "password":"123456"
-  }
+      "id": 1,
+      "type": 2,
+      "email": "alex@gmail.com",
+      "password": "123456"
+    },
+    {
+      "email": "alex1997a25@gmail.com",
+      "password": "123445",
+      "confirm_password": "123445",
+      "id": 2
+    },
+    {
+      "email": "user@gmail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 3
+    },
+    {
+      "email": "sasa@gmail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 4
+    },
+    {
+      "email": "user@gmail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 5
+    }
   ]
 }
