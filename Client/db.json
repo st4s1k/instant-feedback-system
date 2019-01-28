@@ -40,5 +40,13 @@
       ],
       "mark": 12.5
     }
+  ],
+  "users":[
+    {
+    "id":1,
+    "type":2,
+    "email":"alex@gmail.com",
+    "password":"123456"
+  }
   ]
 }

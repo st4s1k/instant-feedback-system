@@ -17,6 +17,13 @@ export class EditPresentationComponent implements OnInit {
   constructor(private data: DataService, private fb: FormBuilder) { }
 
   ngOnInit() {
+
+    // if presentation exist in database {
+    //   title = request.EditPresentationComponent.title;
+    // } else {
+    //   title =
+    // }
+
     this.editPresentationForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],

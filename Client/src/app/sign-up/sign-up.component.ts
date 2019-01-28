@@ -29,7 +29,7 @@ export class SignUpComponent implements OnInit {
 
   }
 
-  get f() { return this.signupForm.controls; }
+  // get f() { return this.signupForm.controls; }
 
   onSubmit() {
     this.submitted = true;
@@ -38,6 +38,7 @@ export class SignUpComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
+    
 
   }
 

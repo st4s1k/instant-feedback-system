@@ -16,7 +16,8 @@
                     <div class="form-group">
                         <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                            <input type="text" formControlName="email" class="form-control"
+                             [ngClass]="{ 'is-invalid': submitted && signinForm.controls.email.errors }"
                                 id="email" class="form-control" placeholder="you@inther.com" required autofocus />
 
                         </div>
@@ -24,9 +25,9 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-control-feedback">
-                        <div *ngIf="submitted && f.email.errors" class="text-danger">
-                            <div *ngIf="f.email.errors.required">Email is required</div>
-                            <div *ngIf="f.email.errors.email">Not valid email form</div>
+                        <div *ngIf="submitted && signinForm.controls.email.errors" class="text-danger">
+                            <div *ngIf="signinForm.controls.email.errors.required">Email is required</div>
+                            <div *ngIf="signinForm.controls.email.errors.email">Not valid email form</div>
                         </div>
                     </div>
                 </div>
@@ -39,16 +40,17 @@
                     <div class="form-group has-danger">
                         <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                            <input type="password" formControlName="password" class="form-control" 
+                            [ngClass]="{ 'is-invalid': submitted && signinForm.controls.password.errors }"
                                 required placeholder="Password">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-control-feedback">
-                        <div *ngIf="submitted && f.password.errors" class="text-danger">
-                            <div *ngIf="f.password.errors.required">Password is required</div>
-                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        <div *ngIf="submitted && signinForm.controls.password.errors" class="text-danger">
+                            <div *ngIf="signinForm.controls.password.errors.required">Password is required</div>
+                            <div *ngIf="signinForm.controls.password.errors.minlength">Password must be at least 6 characters</div>
                         </div>
                     </div>
                 </div>
