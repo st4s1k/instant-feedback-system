@@ -1,41 +1,42 @@
 package com.inther.controllers;
 
-import com.inther.dto.MessageDto;
 import com.inther.entities.MessageEntity;
 import com.inther.services.MessageService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/message")
 public class MessageController
 {
     private final MessageService messageService;
+    private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<Object> putMessage(@Valid @RequestBody MessageDto messageDtoToPut) throws Exception
+    public ResponseEntity<?> putMessage(@Validated @RequestBody MessageEntity messageEntityToPut) throws Exception
     {
         return null;
     }
 
     @PatchMapping
-    public ResponseEntity<Object> patchMessage(@Valid @RequestBody MessageEntity messageEntityToPatch) throws Exception
+    public ResponseEntity<?> patchMessage(@Validated @RequestBody MessageEntity messageEntityToPatch) throws Exception
     {
         return null;
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteMessage(@RequestParam(value = "messageId") Integer messageId) throws Exception
+    public ResponseEntity<?> deleteMessage(@RequestParam(value = "messageId") Integer messageId) throws Exception
     {
         return null;
     }
 
     @Autowired
-    public MessageController(MessageService messageService)
+    public MessageController(MessageService messageService, ModelMapper modelMapper)
     {
         this.messageService = messageService;
+        this.modelMapper = modelMapper;
     }
 }

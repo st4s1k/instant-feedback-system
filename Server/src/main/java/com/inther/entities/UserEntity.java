@@ -1,8 +1,6 @@
 package com.inther.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,21 +8,15 @@ import java.util.List;
 public class UserEntity
 {
     @Id
-    @Email
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "email")
     private String email;
 
-    @NotNull
     @Column(name = "password")
     private String password;
 
-    @NotNull
     @Column(name = "enabled")
     private Integer enabled;
 
-    @NotNull
     @OneToMany(targetEntity = UserAuthorityEntity.class, mappedBy = "email", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserAuthorityEntity> userAuthorities;
 
@@ -66,5 +58,15 @@ public class UserEntity
     public void setUserAuthorities(List<UserAuthorityEntity> userAuthorities)
     {
         this.userAuthorities = userAuthorities;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", userAuthorities=" + userAuthorities +
+                '}';
     }
 }

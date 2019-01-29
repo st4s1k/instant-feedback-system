@@ -36,22 +36,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.authorizeRequests()
-                .antMatchers("/signUp").hasAuthority("ROLE_ANONYMOUS")
-                .antMatchers("/signIn?status=badCredentials").hasAuthority("ROLE_ANONYMOUS")
-                .anyRequest().authenticated();
+//        http.authorizeRequests()
+//                .antMatchers("/signUp").hasAuthority("ROLE_ANONYMOUS")
+//                .antMatchers("/signIn?status=badCredentials").hasAuthority("ROLE_ANONYMOUS")
+//                .anyRequest().authenticated();
         http.csrf()
                 .disable();
-        http.formLogin()
-                .loginPage("/signIn")
-                .loginProcessingUrl("/signIn")
-                .usernameParameter("email")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/signIn?status=badCredentials")
-                .permitAll();
-        http.logout()
-                .logoutUrl("/signOut")
-                .logoutSuccessUrl("/signIn");
+//        http.formLogin()
+//                .loginPage("/signIn")
+//                .loginProcessingUrl("/signIn")
+//                .usernameParameter("email")
+//                .defaultSuccessUrl("/", true)
+//                .failureUrl("/signIn?status=badCredentials")
+//                .permitAll();
+//        http.logout()
+//                .logoutUrl("/signOut")
+//                .logoutSuccessUrl("/signIn");
     }
 
     @Autowired

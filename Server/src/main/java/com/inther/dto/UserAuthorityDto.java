@@ -1,26 +1,27 @@
 package com.inther.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import com.inther.assets.validators.RequestDataValidator;
+import javax.validation.constraints.*;
 
-public class UserAuthorityDto implements Serializable
+public class UserAuthorityDto
 {
-    @Email
-    @NotNull
-    private String email;
+    @Positive(groups = {RequestDataValidator.PatchRequest.class})
+    @Null(groups = {RequestDataValidator.PutRequest.class})
+    @NotNull(groups = {RequestDataValidator.PatchRequest.class})
+    private Integer authorityId;
 
-    @NotNull
+    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
     private String authority;
 
-    public String getEmail()
+    public Integer getAuthorityId()
     {
-        return email;
+        return authorityId;
     }
 
-    public void setEmail(String email)
+    public void setAuthorityId(Integer authorityId)
     {
-        this.email = email;
+        this.authorityId = authorityId;
     }
 
     public String getAuthority()

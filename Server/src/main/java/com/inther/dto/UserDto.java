@@ -1,23 +1,28 @@
 package com.inther.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import com.inther.assets.validators.RequestDataValidator;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
-public class UserDto implements Serializable
+public class UserDto
 {
-    @Email
-    @NotNull
+    @Email(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
+    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
     private String email;
 
-    @NotNull
+    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, min = 6, max = 16)
+    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
     private String password;
 
-    @NotNull
+    @PositiveOrZero(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
+    @Max(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, value = 1)
+    @NotNull(groups = {RequestDataValidator.PutRequest.class})
     private Integer enabled;
 
-    @NotNull
+    @Valid
+    @NotEmpty(groups = {RequestDataValidator.PutRequest.class})
     private List<UserAuthorityDto> userAuthorities;
 
     public String getEmail()

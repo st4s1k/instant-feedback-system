@@ -2,6 +2,7 @@ package com.inther.handlers;
 
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.beans.ResponseBean;
+import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.BadCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -24,10 +25,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(AccessDeniedException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.FORBIDDEN, request);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public final ResponseEntity<Object> handle(BadCredentialsException e, WebRequest request)
+    public final ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<?> handleInternalServerException(Exception e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     @Override
