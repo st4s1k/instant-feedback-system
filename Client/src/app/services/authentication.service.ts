@@ -11,7 +11,8 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
-      return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
+    //   return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
+         return this.http.post<any>(`${API_URL}/userLogin`, { email, password })
           .pipe(map(user => {
               // login successful if there's a user in the response
               if (user) {
