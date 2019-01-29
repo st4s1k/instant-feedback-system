@@ -30,11 +30,11 @@ export class SignInComponent implements OnInit {
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
 
-                // reset login status
-                this.authenticationService.logout();
+        // reset login status
+        this.authenticationService.logout();
 
-                // get return url from route parameters or default to '/'
-                this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
 
@@ -52,12 +52,12 @@ export class SignInComponent implements OnInit {
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
-                    alert("Succes");
+                    alert('Succes');
                 },
                 error => {
                     this.error = error;
                     this.loading = false;
-                    alert("Error log");
+                    alert('Error log');
                 });
     }
 }

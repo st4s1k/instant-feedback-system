@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { MustMatch } from '../shared/sign-up.validator';
 import { UserService } from '../services/user.service';
-import { from } from 'rxjs';
+import { UserDTO } from '../dto/user.dto';
 
 @Component({
   selector: 'app-sign-up',
@@ -48,11 +48,14 @@ export class SignUpComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.createUser(this.signupForm.value).pipe(first())
+    this.userService.createUser(<UserDTO> {
+      email: this.signupForm.get('email').value,
+      password: this.signupForm.get('password').value
+    }).pipe(first())
       .subscribe(
         data => {
           console.log('Succes Registration');
-          // alert('Success');
+          alert('Success');
           this.router.navigate(['/sign-in']);
         },
         error => {

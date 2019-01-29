@@ -5,14 +5,9 @@
       "userId": 3,
       "title": "Some Presentation Title 1",
       "description": "Some Presenation Description 1",
-      "time": {
-        "hours": 2,
-        "minutes": 30
-      },
-      "duration": {
-        "hours": 1,
-        "minutes": 0
-      },
+      "time": "14:30",
+      "duration": "01:00",
+      "date": "2018-1-23",
       "location": "Some Presentation Place 1",
       "emailInvitations": [
         "some1@mail.dom",
@@ -25,14 +20,9 @@
       "userId": 1,
       "title": "Some Presentation Title 2",
       "description": "Some Presenation Description 2",
-      "time": {
-        "hours": 5,
-        "minutes": 45
-      },
-      "duration": {
-        "hours": 1,
-        "minutes": 30
-      },
+      "time": "12:30",
+      "duration": "11:00",
+      "date": "2018-2-45",
       "location": "Some Presentation Place 2",
       "emailInvitations": [
         "some1@mail.dom",

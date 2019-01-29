@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UserDTO } from '../dto/user.dto';
 import { PresentationDTO } from '../dto/presentation.dto';
 import { environment } from 'src/environments/environment.prod';
 
@@ -15,7 +13,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: PresentationDTO) {
-    return this.http.put<UserDTO>(`${API_URL}/presentations`, presentation.formData());
+    return this.http.put<PresentationDTO>(`${API_URL}/presentations`, presentation);
   }
 
   getPresentations() {

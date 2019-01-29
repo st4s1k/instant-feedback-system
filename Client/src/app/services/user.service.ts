@@ -11,10 +11,19 @@ const API_URL = environment.apiUrl;
 })
 export class UserService {
 
+  fd: FormData = new FormData;
+
   constructor(private http: HttpClient) { }
   createUser(user: UserDTO) {
     // return this.http.post<UserDTO>(`${API_URL}/users`, user);
-    return this.http.put(`${API_URL}/userRegister`, user.formData);
+
+
+    const fd = new FormData();
+
+    fd.append('email', user.email);
+    fd.append('password', user.password);
+
+    return this.http.put<FormData>(`${API_URL}/userRegister`, fd);
   }
 
   getAllUsers() {

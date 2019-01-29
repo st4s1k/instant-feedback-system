@@ -111,14 +111,13 @@
 
           <div class="row" formArrayName="emailInvitations">
             <div class="col">
-              <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitations.controls; let i=index"
-                [formGroupName]="i">
+              <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitations.controls; let i=index">
 
                 <div class="col-sm-1 col-md-2 col-lg-3"></div>
 
                 <div class="col-10 col-sm-8 col-md-7 col-lg-5">
                   <input class="form-control" type="text" placeholder="example@inther.com" name="email-invitation" id="email-invitation"
-                    formControlName="emailInvitation" [ngClass]="{ 'is-invalid': editPresentationFormGroup.controls.errors }">
+                    [formControlName]="i" [ngClass]="{ 'is-invalid': editPresentationFormGroup.controls.errors }">
                 </div>
 
                 <div class="col-2 col-sm-2 col-md-1 col-lg-1 pl-0">
@@ -160,6 +159,7 @@
       </div>
     </form>
     <hr>
-    <p> Presentation form: {{ presentationJSON }} </p>
+    <p> Presentation form: {{ editPresentationFormGroup.value | json }} </p>
+    <p> form: {{ presentation | json }} </p>
   </div>
 </div>
