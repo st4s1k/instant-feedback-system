@@ -14,7 +14,7 @@ export class PresentationDTO {
 
   formData() {
     const fd = new FormData();
-    
+
     fd.append('id', this.id.toString());
     fd.append('userId', this.userId.toString());
     fd.append('title', this.title);

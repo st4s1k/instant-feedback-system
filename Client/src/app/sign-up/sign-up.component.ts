@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router} from '@angular/router';
-import {first} from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 import { MustMatch } from '../shared/sign-up.validator';
 import { UserService } from '../services/user.service';
 import { from } from 'rxjs';
@@ -46,21 +46,21 @@ export class SignUpComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
-    
-    this.loading=true;
+
+    this.loading = true;
     this.userService.createUser(this.signupForm.value).pipe(first())
-    .subscribe(
-      data=>{
-        console.log("Succes Registration");
-       // alert("Success");
-        this.router.navigate(['/sign-in']);
-      },
-      error=>{
-        alert(error)
-        console.log("error");
-        this.loading=false;
-      }
-    )
+      .subscribe(
+        data => {
+          console.log('Succes Registration');
+          // alert('Success');
+          this.router.navigate(['/sign-in']);
+        },
+        error => {
+          alert(error);
+          console.log(error);
+          this.loading = false;
+        }
+      );
 
   }
 

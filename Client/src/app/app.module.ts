@@ -16,8 +16,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { PresentationPageComponent } from './presentation-page/presentation-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import {BasicAuthInterceptor} from './_helpers//basic-auth.interceptor';
-import {ErrorInterceptor} from './_helpers/error.interceptor';
+import { BasicAuthInterceptor } from './_helpers//basic-auth.interceptor';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,8 @@ import {ErrorInterceptor} from './_helpers/error.interceptor';
     HttpClientModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor,multi : true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true }
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
