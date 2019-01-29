@@ -1,143 +1,165 @@
 <div class="container" id="addpres">
   <div class="form-horizontal">
     <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
+      <div class="col-sm-1 col-md-2 col-lg-3"></div>
+      <div class="col-sm-10 col-md-8 col-lg-6">
         <h2>Add Presentation</h2>
         <hr>
       </div>
     </div>
-    <form [formGroup]="editPresentationForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="editPresentationFormGroup" (ngSubmit)="save()">
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
           <div class="form-group">
             <label for="title" class="field-label-responsive">Title of Presentation</label>
             <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation" required
-              autofocus formControlName="title" [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.title.errors }">
+              autofocus formControlName="title" [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.title.errors }">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-control-feedback">
-            <div *ngIf="submitted && editPresentationForm.controls.title.errors" class="text-danger">
-              <div *ngIf="editPresentationForm.controls.title.errors.required">Title is required</div>
+            <div *ngIf="submitted && editPresentationFormGroup.controls.title.errors" class="text-danger">
+              <div *ngIf="editPresentationFormGroup.controls.title.errors.required">Title is required</div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
           <div class="form-group">
             <label for="message" class="field-label-responsive">Description</label>
             <textarea class="form-control" id="message" cols="30" rows="5" placeholder="Short Description" required
-              autofocus formControlName="description" [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.description.errors }"></textarea>
+              autofocus formControlName="description" [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.description.errors }"></textarea>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-control-feedback">
-            <div *ngIf="submitted && editPresentationForm.controls.description.errors" class="text-danger">
-              <div *ngIf="editPresentationForm.controls.description.errors.required">Description is required</div>
+            <div *ngIf="submitted && editPresentationFormGroup.controls.description.errors" class="text-danger">
+              <div *ngIf="editPresentationFormGroup.controls.description.errors.required">Description is required</div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="time" class="field-label-responsive">Time</label>
                 <input type="time" name="time" class="form-control" id="time" required autofocus formControlName="time"
-                  [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.time.errors }">
+                  [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.time.errors }">
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="duration" class="field-label-responsive">Duration</label>
                 <input type="time" name="time" class="form-control" id="duration" required autofocus formControlName="duration"
-                  [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.duration.errors }">
+                  [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.duration.errors }">
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="date" class="field-label-responsive">Date</label>
                 <input type="date" name="date" class="form-control" id="date" required autofocus formControlName="date"
-                  [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.date.errors }">
+                  [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.date.errors }">
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-control-feedback">
-            <div *ngIf="submitted && (editPresentationForm.controls.time.errors || editPresentationForm.controls.duration.errors || editPresentationForm.controls.date.errors) " class="text-danger">
-              <div *ngIf="editPresentationForm.controls.time.errors.required">Time is required</div>
-              <div *ngIf="editPresentationForm.controls.duration.errors.required">Duration is required</div>
-              <div *ngIf="editPresentationForm.controls.date.errors.required">Date is required</div>
+            <div *ngIf="submitted" class="text-danger">
+              <div *ngIf="editPresentationFormGroup.controls.time.errors && editPresentationFormGroup.controls.time.errors.required">Time
+                is required</div>
+              <div *ngIf="editPresentationFormGroup.controls.duration.errors && editPresentationFormGroup.controls.duration.errors.required">Duration
+                is required</div>
+              <div *ngIf="editPresentationFormGroup.controls.date.errors && editPresentationFormGroup.controls.date.errors.required">Date
+                is required</div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-10 col-md-8 col-lg-6">
           <div class="form-group">
             <label for="location" class="field-label-responsive">Location</label>
             <input type="text" name="location" class="form-control" id="location" required autofocus formControlName="location"
-              [ngClass]="{ 'is-invalid': submitted && editPresentationForm.controls.location.errors }">
+              [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.location.errors }">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-control-feedback">
-            <div *ngIf="submitted && editPresentationForm.controls.location.errors " class="text-danger">
-              <div *ngIf="editPresentationForm.controls.location.errors.required">Location is required</div>
+            <div *ngIf="submitted && editPresentationFormGroup.controls.location.errors " class="text-danger">
+              <div *ngIf="editPresentationFormGroup.controls.location.errors.required">Location is required</div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
-          <div id="email-invitations">
-            <div formArrayName="emailInvitationsFormArray">
-              <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitationsFormArray.controls; let i=index"
+        <div class="col">
+
+          <div class="row">
+            <div class="col-sm-1 col-md-2 col-lg-3"></div>
+            <div class="col-sm-10 col-md-8 col-lg-6">
+              <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
+            </div>
+          </div>
+
+          <div class="row" formArrayName="emailInvitations">
+            <div class="col">
+              <div class="row align-items-center mb-3" *ngFor="let emailInvitation of emailInvitations.controls; let i=index"
                 [formGroupName]="i">
 
-                <div class="col-10">
-                  <input class="form-control" type="text" placeholder="example: AMa@inther.com, SGi@inther.com, ..."
-                    name="email-invitation" id="email-invitation" formControlName="emailInvitation" [ngClass]="{ 'is-invalid': editPresentationForm.controls.emailInvitation.errors }">
+                <div class="col-sm-1 col-md-2 col-lg-3"></div>
+
+                <div class="col-10 col-sm-8 col-md-7 col-lg-5">
+                  <input class="form-control" type="text" placeholder="example@inther.com" name="email-invitation" id="email-invitation"
+                    formControlName="emailInvitation" [ngClass]="{ 'is-invalid': editPresentationFormGroup.controls.errors }">
                 </div>
-                <div class="col-2 pl-0">
+
+                <div class="col-2 col-sm-2 col-md-1 col-lg-1 pl-0">
                   <button (click)="deleteEmailInvitation(i)" class="btn btn-danger m-0">
                     <i class="fas fa-minus"></i>
                   </button>
                 </div>
 
+                <div class="col-sm-1 col-md-2 col-lg-3">
+                  <div class="form-control-feedback">
+                    <div *ngIf="submitted && invite_touched && emailInvitations.controls.errors " class="text-danger">
+                      <div *ngIf="emailInvitations.controls.errors">
+                        Not a valid email form</div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
-            <button (click)="addEmailInvitation()" type="button" class="btn btn-dark mt-0 mb-2"><i class="fas fa-plus"></i></button>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-control-feedback">
-            <div *ngIf="submitted && invite_touched && editPresentationForm.controls.emailInvitation.errors " class="text-danger">
-              <div *ngIf="editPresentationForm.controls.emailInvitation.errors.email">Not a valid email form</div>
+          <div class="row">
+            <div class="col-sm-1 col-md-2 col-lg-3"></div>
+            <div class="col-sm-10 col-md-8 col-lg-6">
+              <div (click)="addEmailInvitation()" class="col btn btn-dark"><i class="fas fa-plus"></i></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-3 ">
+      <div class="row mb-5">
+        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+        <div class="col-sm-5 col-md-4 col-lg-3">
           <button [disabled]="loading" (click)="save()" id="SaveBtn" type="submit" class="btn btn-success">
             Save
           </button>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-5 col-md-4 col-lg-3">
           <button [disabled]="loading" (click)="discard()" id="DiscardBtn" type="button" class="btn btn-danger">Discard</button>
         </div>
       </div>
     </form>
+    <hr>
+    <p> Presentation form: {{ presentationJSON }} </p>
   </div>
 </div>

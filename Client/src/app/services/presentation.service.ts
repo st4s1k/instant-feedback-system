@@ -15,7 +15,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: PresentationDTO) {
-    return this.http.put<UserDTO>(`${API_URL}/presentations`, presentation);
+    return this.http.put<UserDTO>(`${API_URL}/presentations`, presentation.formData());
   }
 
   getPresentations() {

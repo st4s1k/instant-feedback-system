@@ -17,7 +17,6 @@ import { HomeComponent } from './home/home.component';
 import { PresentationPageComponent } from './presentation-page/presentation-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +35,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     NgbModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
