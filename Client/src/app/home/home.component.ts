@@ -13,13 +13,13 @@ export class HomeComponent implements OnInit {
   presentations$: PresentationDTO[];
 
   constructor(
-    private data: PresentationService,
+    private presentationService: PresentationService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.data.getPresentations()
-      .subscribe(data => this.presentations$ = data);
+    this.presentationService.getPresentations()
+      .subscribe(presentationService => this.presentations$ = presentationService);
   }
 
   openPresentationPage(i: number) {

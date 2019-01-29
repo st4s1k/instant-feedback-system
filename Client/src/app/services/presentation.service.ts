@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { PresentationDTO } from '../dto/presentation.dto';
 import { environment } from 'src/environments/environment.prod';
 
-const API_URL = environment.apiUrl;
+const API_URL = environment.jsonServerUrl;
 
 @Injectable({
   providedIn: 'root'

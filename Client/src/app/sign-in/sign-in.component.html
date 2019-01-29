@@ -1,66 +1,72 @@
 <div class="container" id="sign-in">
-    <div class="form-horizontal">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <h2>Sign In</h2>
-                <hr>
-            </div>
-        </div>
-        <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-md-3 field-label-responsive">
-                    <label for="email">E-Mail Address</label>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                            <input type="text" formControlName="email" class="form-control"
-                             [ngClass]="{ 'is-invalid': submitted && signinForm.controls.email.errors }"
-                                id="email" class="form-control" placeholder="you@inther.com" required autofocus />
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-control-feedback">
-                        <div *ngIf="submitted && signinForm.controls.email.errors" class="text-danger">
-                            <div *ngIf="signinForm.controls.email.errors.required">Email is required</div>
-                            <div *ngIf="signinForm.controls.email.errors.email">Not valid email form</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 field-label-responsive">
-                    <label for="password">Password</label>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group has-danger">
-                        <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                            <input type="password" formControlName="password" class="form-control" 
-                            [ngClass]="{ 'is-invalid': submitted && signinForm.controls.password.errors }"
-                                required placeholder="Password">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-control-feedback">
-                        <div *ngIf="submitted && signinForm.controls.password.errors" class="text-danger">
-                            <div *ngIf="signinForm.controls.password.errors.required">Password is required</div>
-                            <div *ngIf="signinForm.controls.password.errors.minlength">Password must be at least 6 characters</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-7"></div>
-                <div class="col-md-3">
-                    <button [disabled]="loading" id="logBtn" type="submit" class="btn btn-success">Sign In</button>
-                </div>
-            </div>
-        </form>
+  <div class="form-horizontal">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <h2>Sign In</h2>
+        <hr>
+      </div>
     </div>
+    <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="email">E-Mail Address</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+              <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && signinForm.controls.email.errors }"
+                id="email" class="form-control" placeholder="you@inther.com" required autofocus />
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <div *ngIf="submitted && signinForm.controls.email.errors" class="text-danger">
+              <div *ngIf="signinForm.controls.email.errors.required">Email is required</div>
+              <div *ngIf="signinForm.controls.email.errors.email">Not valid email form</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group has-danger">
+            <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+              <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && signinForm.controls.password.errors }"
+                required placeholder="Password">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <div *ngIf="submitted && signinForm.controls.password.errors" class="text-danger">
+              <div *ngIf="signinForm.controls.password.errors.required">Password is required</div>
+              <div *ngIf="signinForm.controls.password.errors.minlength">Password must be at least 6
+                characters</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-3">
+          <button [disabled]="loading" id="logBtn" type="submit" class="btn btn-success">Sign In</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+          <pre> Sign In form: {{signinForm.value | json}} </pre>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
