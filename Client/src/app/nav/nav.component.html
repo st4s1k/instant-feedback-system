@@ -28,15 +28,18 @@
       <div class="p-0 nav-item d-md-none">
         <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
       </div>
-
-      <div class="p-0 nav-item">
+      <div class="p-0 nav-item" *ngIf=auth.authSuccess>
+        <a class="nav-link" routerLink="user-profile/"><i class="fas fa-user-tie"></i> user@mail.com</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=auth.authSuccess>
+        <a class="nav-link" routerLink="/" (click)="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=!auth.authSuccess>
         <a class="nav-link" routerLink="sign-up"><i class="fas fa-user-plus"></i> Sign Up</a>
       </div>
-
-      <div class="p-0 nav-item">
+      <div class="p-0 nav-item" *ngIf=!auth.authSuccess>
         <a class="nav-link" routerLink="sign-in"><i class="fas fa-sign-in-alt"></i> Sign In</a>
       </div>
-
     </div>
   </div>
 

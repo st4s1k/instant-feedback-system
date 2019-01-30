@@ -9,7 +9,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.authdata) {
             request = request.clone({
-                setHeaders: { 
+                setHeaders: {
                     Authorization: `Basic ${currentUser.authdata}`
                 }
             });
