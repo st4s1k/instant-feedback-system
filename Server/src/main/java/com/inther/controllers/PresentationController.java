@@ -1,6 +1,6 @@
 package com.inther.controllers;
 
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.implementation.PresentationEntity;
 import com.inther.services.PresentationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

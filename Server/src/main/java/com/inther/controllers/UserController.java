@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.UserDto;
-import com.inther.entities.UserEntity;
+import com.inther.entities.implementation.UserEntity;
 import com.inther.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +19,28 @@ public class UserController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putUser(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody UserDto userDtoToPut) throws Exception
+    public ResponseEntity<?> putUser( @RequestBody UserDto userDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(userService.putUser(modelMapper.map(userDtoToPut, UserEntity.class)));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getUser(@RequestParam(value = "email") String email) throws Exception
+    {
+        return new ResponseEntityWrapper<>(userService.getUser(email));
     }
 
     @PatchMapping
     public ResponseEntity<?> patchUser(@Validated(value = {RequestDataValidator.PatchRequest.class}) @RequestBody UserDto userDtoToPatch) throws Exception
     {
-        return null;
+
+        return new ResponseEntityWrapper<>(userService.patchUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteUser(@RequestParam(value = "email") String email) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(userService.deleteUser(email));
     }
 
     @Autowired

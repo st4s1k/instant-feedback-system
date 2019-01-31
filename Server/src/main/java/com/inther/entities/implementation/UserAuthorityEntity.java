@@ -1,10 +1,11 @@
-package com.inther.entities;
+package com.inther.entities.implementation;
 
+import com.inther.entities.Entities;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_authorities")
-public class UserAuthorityEntity
+public class UserAuthorityEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,14 +46,5 @@ public class UserAuthorityEntity
     public void setAuthority(String authority)
     {
         this.authority = authority;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAuthorityEntity{" +
-                "authorityId=" + authorityId +
-                ", email='" + email + '\'' +
-                ", authority='" + authority + '\'' +
-                '}';
     }
 }

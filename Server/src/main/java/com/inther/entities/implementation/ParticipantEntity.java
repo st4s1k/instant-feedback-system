@@ -1,15 +1,16 @@
-package com.inther.entities;
+package com.inther.entities.implementation;
 
+import com.inther.entities.Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "marks")
-public class MarkEntity
+@Table(name = "participants")
+public class ParticipantEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mark_id")
-    private Integer markId;
+    @Column(name = "participant_id")
+    private Integer participantId;
 
     @Column(name = "presentation_id")
     private Integer presentationId;
@@ -17,17 +18,14 @@ public class MarkEntity
     @Column(name = "email")
     private String email;
 
-    @Column(name = "mark")
-    private Integer mark;
-
-    public Integer getMarkId()
+    public Integer getParticipantId()
     {
-        return markId;
+        return participantId;
     }
 
-    public void setMarkId(Integer markId)
+    public void setParticipantId(Integer participantId)
     {
-        this.markId = markId;
+        this.participantId = participantId;
     }
 
     public Integer getPresentationId()
@@ -48,15 +46,5 @@ public class MarkEntity
     public void setEmail(String email)
     {
         this.email = email;
-    }
-
-    public Integer getMark()
-    {
-        return mark;
-    }
-
-    public void setMark(Integer mark)
-    {
-        this.mark = mark;
     }
 }

@@ -1,12 +1,13 @@
-package com.inther.entities;
+package com.inther.entities.implementation;
 
+import com.inther.entities.Entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "presentations")
-public class PresentationEntity
+public class PresentationEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,11 +1,12 @@
-package com.inther.entities;
+package com.inther.entities.implementation;
 
+import com.inther.entities.Entities;
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class UserEntity
+public class UserEntity implements Entities
 {
     @Id
     @Column(name = "email")
@@ -17,7 +18,7 @@ public class UserEntity
     @Column(name = "enabled")
     private Integer enabled;
 
-    @OneToMany(targetEntity = UserAuthorityEntity.class, mappedBy = "email", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = UserAuthorityEntity.class, mappedBy = "email", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UserAuthorityEntity> userAuthorities;
 
     public String getEmail()
@@ -58,15 +59,5 @@ public class UserEntity
     public void setUserAuthorities(List<UserAuthorityEntity> userAuthorities)
     {
         this.userAuthorities = userAuthorities;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", userAuthorities=" + userAuthorities +
-                '}';
     }
 }

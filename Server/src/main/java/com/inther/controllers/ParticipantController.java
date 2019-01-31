@@ -1,6 +1,9 @@
 package com.inther.controllers;
 
-import com.inther.entities.ParticipantEntity;
+import com.inther.assets.validators.RequestDataValidator;
+import com.inther.assets.wrappers.ResponseEntityWrapper;
+import com.inther.dto.ParticipantDto;
+import com.inther.entities.implementation.ParticipantEntity;
 import com.inther.services.ParticipantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +19,15 @@ public class ParticipantController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putParticipant(@Validated @RequestBody ParticipantEntity participantEntityToPut) throws Exception
+    public ResponseEntity<?> putParticipant(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody ParticipantDto participantDtoToPut) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(participantService.putParticipant(modelMapper.map(participantDtoToPut, ParticipantEntity.class)));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteParticipant(@RequestParam(value = "participantId") Integer participantId) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(participantService.deleteParticipant(participantId));
     }
 
     @Autowired

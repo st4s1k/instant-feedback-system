@@ -3,9 +3,10 @@ package com.inther.dto;
 import com.inther.assets.validators.RequestDataValidator;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.List;
 
-public class UserDto
+public class UserDto implements Serializable
 {
     @Email(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
     @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
@@ -22,6 +23,7 @@ public class UserDto
     private Integer enabled;
 
     @Valid
+    @Null(groups = {RequestDataValidator.PatchRequest.class})
     @NotEmpty(groups = {RequestDataValidator.PutRequest.class})
     private List<UserAuthorityDto> userAuthorities;
 

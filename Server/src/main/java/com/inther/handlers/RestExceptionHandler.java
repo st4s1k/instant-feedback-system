@@ -2,14 +2,12 @@ package com.inther.handlers;
 
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.beans.ResponseBean;
-import com.inther.exceptions.AccessDeniedException;
-import com.inther.exceptions.BadCredentialsException;
+import com.inther.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,6 +35,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
+    @ExceptionHandler(NestedFieldValueException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(NestedFieldValueException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(DuplicatedEntryException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(DuplicatedEntryException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(NotFoundEntryException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(NotFoundEntryException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(SelfDestructionException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(SelfDestructionException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<?> handleInternalServerException(Exception e, WebRequest request)
     {
@@ -46,7 +68,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
-        headers.setContentType(MediaType.APPLICATION_JSON);
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status))
         {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, e, WebRequest.SCOPE_REQUEST);

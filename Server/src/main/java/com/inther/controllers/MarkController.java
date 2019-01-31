@@ -1,6 +1,9 @@
 package com.inther.controllers;
 
-import com.inther.entities.MarkEntity;
+import com.inther.assets.validators.RequestDataValidator;
+import com.inther.assets.wrappers.ResponseEntityWrapper;
+import com.inther.dto.MarkDto;
+import com.inther.entities.implementation.MarkEntity;
 import com.inther.services.MarkService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,9 @@ public class MarkController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putMark(@Validated @RequestBody MarkEntity markEntityToPut) throws Exception
+    public ResponseEntity<?> putMark(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody MarkDto markDtoToPut) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(markService.putMark(modelMapper.map(markDtoToPut, MarkEntity.class)));
     }
 
     @Autowired

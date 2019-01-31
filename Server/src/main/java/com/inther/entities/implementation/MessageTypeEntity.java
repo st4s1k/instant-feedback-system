@@ -1,10 +1,11 @@
-package com.inther.entities;
+package com.inther.entities.implementation;
 
+import com.inther.entities.Entities;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "message_types")
-public class MessageTypeEntity
+public class MessageTypeEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

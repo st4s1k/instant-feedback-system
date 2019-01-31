@@ -1,6 +1,6 @@
 package com.inther.repositories;
 
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.implementation.PresentationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

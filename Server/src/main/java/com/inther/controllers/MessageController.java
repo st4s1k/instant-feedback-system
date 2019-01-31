@@ -1,6 +1,6 @@
 package com.inther.controllers;
 
-import com.inther.entities.MessageEntity;
+import com.inther.entities.implementation.MessageEntity;
 import com.inther.services.MessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
