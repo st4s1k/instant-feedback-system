@@ -22,7 +22,10 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUserProfile();
+    // this.getUserProfile();
+    this.route.data.subscribe((data: { user: UserDTO }) => {
+      this.user = data.user;
+    });
   }
 
   getUserProfile(): void {

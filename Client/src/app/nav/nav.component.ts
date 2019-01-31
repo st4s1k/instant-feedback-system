@@ -10,9 +10,12 @@ import { GlobalServUserService } from '../global-serv-user.service';
 })
 export class NavComponent implements OnInit {
   public navbarCollapsed = true;
-  public authenticated;
-  public UserEmail = 'test';
-  public UserId;
+  // public authenticated;
+  // public UserEmail;
+  // public UserId;
+  public authenticated = JSON.parse(localStorage.getItem('auth'));
+  public UserEmail = JSON.parse(localStorage.getItem('email'));
+  public UserId = JSON.parse(localStorage.getItem('userId'));
 
   constructor(private auth: AuthenticationService, private globalSrv: GlobalServUserService) {
     this.globalSrv.navEmail.subscribe((email) => this.UserEmail = email);
