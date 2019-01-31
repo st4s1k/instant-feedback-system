@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container pb-5">
 
   <div class="row justify-content-center">
 
     <div class="col-sm-10">
 
-      <div class="card mt-5 mb-5">
+      <div class="card row mt-5 mb-3">
 
         <div class="card-body">
           <h1 *ngIf="presentation">{{ presentation.title }}</h1>
@@ -40,8 +40,20 @@
 
       </div>
 
+      <div class="row mb-5">
+
+        <div class="col">
+          <form [formGroup]="commentFormGroup" (ngSubmit)="save()">
+            <div class="form-group">
+              <label for="message" class="field-label-responsive">Comment box:</label>
+              <textarea class="form-control" id="message" cols="30" rows="4" placeholder="Your comment." required
+                autofocus formControlName="commentBox"></textarea>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+
     </div>
-
   </div>
-
-</div>

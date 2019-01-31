@@ -4,6 +4,7 @@ import { PresentationService } from '../services/presentation.service';
 import { PresentationDTO } from '../dto/presentation.dto';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GlobalServUserService } from '../global-serv-user.service';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -33,7 +34,8 @@ export class EditPresentationComponent implements OnInit {
     private presentationService: PresentationService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private gs: GlobalServUserService
   ) { }
 
   ngOnInit() {
