@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment.prod';
 import { UserDTO } from '../dto/user.dto';
 
-const API_URL = environment.apiUrl;
+ const API_URL = environment.apiUrl;
+
+// const API_URL = environment.jsonServerUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +17,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
   createUser(user: UserDTO) {
-    return this.http.post<any>(`${API_URL}/authenticate`, {email: user.email, password: user.password});
-
-
-    // const fd = new FormData();
-
-    // fd.append('email', user.email);
-    // fd.append('password', user.password);
-
-    // return this.http.put<FormData>(`${API_URL}/userRegister`, fd);
+    return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
   }
 
   getAllUsers() {
