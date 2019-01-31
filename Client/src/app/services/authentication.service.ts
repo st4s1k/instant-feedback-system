@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
+import { Observable } from 'rxjs';
 import { UserDTO } from '../dto/user.dto';
+import { GlobalServUserService } from '../global-serv-user.service';
+
 
 const API_URL = environment.apiUrl;
 @Injectable({
@@ -11,21 +14,38 @@ const API_URL = environment.apiUrl;
 export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
+  // login(email: string, password: string) {
+  //   //   return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
+
+  //   const fd = new FormData();
+
+  //   fd.append('email', email);
+  //   fd.append('password', password);
+
+  //     .pipe(map(user => {
+  //       // login successful if there's a user in the response
+  //       if (user) {
+  //         // store user details and basic auth credentials in local storage
+  //         // to keep user logged in between page refreshes
+  //         user.authdata = window.btoa(email + ':' + password);
+  //         localStorage.setItem('currentUser', JSON.stringify(user));
+  //         alert('Success!');
+  //         alert(user);
+  //         this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
+  //         this.globalSrv.setNavEmail(this.userLocal.email);
+  //         this.globalSrv.setNavUserId(this.userLocal.id);
+  //         localStorage.setItem('auth', JSON.stringify(true));
+  //         const authe = JSON.parse(localStorage.getItem('auth'));
+  //         this.globalSrv.setNavAuthenticated(authe);
+  //       }
+  //       // alert()
+  //       return user;
+  //     }));
+  // }
+
+  // Fake backend
   login(email: string, password: string) {
-    //   return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
-
-    const fd = new FormData();
-
-    fd.append('email', email);
-    fd.append('password', password);
-
-    return this.http.post<any>(`${API_URL}/userLogin`, {email: email, password: password}, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-        'Access-Control-Allow-Headers': '*',
-      }
-    })
+    return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
       .pipe(map(user => {
         // login successful if there's a user in the response
         if (user) {
