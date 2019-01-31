@@ -2,13 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
-<<<<<<< HEAD
-import { UserDTO } from '../dto/user.dto';
-=======
 import { Observable } from 'rxjs';
 import { UserDTO } from '../dto/user.dto';
 import { GlobalServUserService } from '../global-serv-user.service';
->>>>>>> fbb950323db589193751efe91c73a8d663224a56
 
 
 const httpOptions = {
@@ -43,15 +39,6 @@ export class AuthenticationService {
   //   // return this.http.post<any>(`${API_URL}/authentication`, fd, httpOptions)
   //   return this.http.post<any>(`${API_URL}/authentication`, fd)
 
-<<<<<<< HEAD
-    return this.http.post<any>(`${API_URL}/authenticate`, {email: email, password: password}, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    })
-=======
   //     .pipe(map(user => {
   //       // login successful if there's a user in the response
   //       if (user) {
@@ -76,7 +63,6 @@ export class AuthenticationService {
   // Fake backend
   login(email: string, password: string) {
     return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
->>>>>>> fbb950323db589193751efe91c73a8d663224a56
       .pipe(map(user => {
         // login successful if there's a user in the response
         if (user) {

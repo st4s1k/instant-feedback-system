@@ -76,6 +76,12 @@
       "password": "123456",
       "confirm_password": "123456",
       "id": 5
+    },
+    {
+      "email": "us@mail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 7
     }
   ]
 }
