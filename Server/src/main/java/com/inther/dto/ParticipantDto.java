@@ -21,17 +21,14 @@ public class ParticipantDto implements Serializable
     {
         return presentationId;
     }
-
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;

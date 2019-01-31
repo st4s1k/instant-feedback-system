@@ -39,57 +39,46 @@ public class MessageDto implements Serializable
     {
         return messageId;
     }
-
     public void setMessageId(Integer messageId)
     {
         this.messageId = messageId;
     }
-
     public Integer getPresentationId()
     {
         return presentationId;
     }
-
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;
     }
-
     public String getMessage()
     {
         return message;
     }
-
     public void setMessage(String message)
     {
         this.message = message;
     }
-
     public String getMessageType()
     {
         return messageType;
     }
-
     public void setMessageType(String messageType)
     {
         this.messageType = messageType;
     }
-
     public Boolean getIsAnonymous()
     {
         return isAnonymous;
     }
-
     public void setIsAnonymous(Boolean isAnonymous)
     {
         this.isAnonymous = isAnonymous;

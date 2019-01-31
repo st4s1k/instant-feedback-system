@@ -22,27 +22,22 @@ public class UserAuthorityEntity implements Entities
     {
         return authorityId;
     }
-
     public void setAuthorityId(Integer authorityId)
     {
         this.authorityId = authorityId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;
     }
-
     public String getAuthority()
     {
         return authority;
     }
-
     public void setAuthority(String authority)
     {
         this.authority = authority;

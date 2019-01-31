@@ -28,7 +28,7 @@ public class UserService
         {
             if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.nestedFieldValueCheck(userEntity));
+                userRepository.save(serviceUtilityBean.encodeUserPassword(serviceUtilityBean.nestedFieldValueCheck(userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
                 responseBean.setResponse("User " + userEntity.getEmail() + " successfully added");
@@ -44,7 +44,6 @@ public class UserService
         }
         return responseBean;
     }
-
     public ResponseBean getUser(String email) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
@@ -60,7 +59,6 @@ public class UserService
         }
         return responseBean;
     }
-
     public ResponseBean patchUser(UserEntity userEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
@@ -84,7 +82,6 @@ public class UserService
         }
         return responseBean;
     }
-
     public ResponseBean deleteUser(String email) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);

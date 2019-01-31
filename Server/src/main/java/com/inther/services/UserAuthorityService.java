@@ -46,7 +46,6 @@ public class UserAuthorityService
         }
         return responseBean;
     }
-
     public ResponseBean deleteUserAuthority(Integer authorityId) throws Exception
     {
         Optional<UserAuthorityEntity> optionalUserAuthorityEntity = userAuthorityRepository.findUserAuthorityEntityByAuthorityId(authorityId);

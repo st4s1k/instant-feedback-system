@@ -22,27 +22,22 @@ public class ParticipantEntity implements Entities
     {
         return participantId;
     }
-
     public void setParticipantId(Integer participantId)
     {
         this.participantId = participantId;
     }
-
     public Integer getPresentationId()
     {
         return presentationId;
     }
-
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;

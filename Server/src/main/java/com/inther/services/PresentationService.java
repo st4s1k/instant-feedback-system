@@ -47,7 +47,6 @@ public class PresentationService
         }
         return responseBean;
     }
-
     public ResponseBean getPresentation(String email) throws Exception
     {
         Optional<List<PresentationEntity>> optionalPresentationEntities = serviceUtilityBean.getPresentationsWithOrWithoutFilter(email);
@@ -63,7 +62,6 @@ public class PresentationService
         }
         return responseBean;
     }
-
     public ResponseBean patchPresentation(PresentationEntity presentationEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityByPresentationId(presentationEntity.getPresentationId());
@@ -87,7 +85,6 @@ public class PresentationService
         }
         return responseBean;
     }
-
     public ResponseBean deletePresentation(Integer presentationId) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityByPresentationId(presentationId);

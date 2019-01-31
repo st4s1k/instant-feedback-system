@@ -45,7 +45,6 @@ public class ParticipantService
         }
         return responseBean;
     }
-
     public ResponseBean deleteParticipant(Integer participantId) throws Exception
     {
         Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityByParticipantId(participantId);

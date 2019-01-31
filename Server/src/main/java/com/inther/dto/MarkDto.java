@@ -24,27 +24,22 @@ public class MarkDto implements Serializable
     {
         return presentationId;
     }
-
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;
     }
-
     public Integer getMark()
     {
         return mark;
     }
-
     public void setMark(Integer mark)
     {
         this.mark = mark;
