@@ -22,10 +22,10 @@ public class MarkService
 
     public ResponseBean putMark(MarkEntity markEntity) throws Exception
     {
-        if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(markEntity.getEmail()))
+        Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(), markEntity.getEmail());
+        if (!optionalMarkEntity.isPresent())
         {
-            Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(), markEntity.getEmail());
-            if (!optionalMarkEntity.isPresent())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(markEntity.getEmail()))
             {
                 markRepository.save(markEntity);
                 responseBean.setHeaders(httpHeaders);
@@ -34,12 +34,12 @@ public class MarkService
             }
             else
             {
-                throw new DuplicatedEntryException("You have already rated this presentation");
+                throw new AccessDeniedException("Access denied for you authority");
             }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new DuplicatedEntryException("You have already rated this presentation");
         }
         return responseBean;
     }

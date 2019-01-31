@@ -23,11 +23,11 @@ public class ParticipantService
 
     public ResponseBean putParticipant(ParticipantEntity participantEntity) throws Exception
     {
-        if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(participantEntity.getEmail()) || (authorityUtilityBean.validateAdminAuthority()))
+        Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
+                .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), participantEntity.getEmail());
+        if (!optionalParticipantEntity.isPresent())
         {
-            Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
-                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), participantEntity.getEmail());
-            if (!optionalParticipantEntity.isPresent())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(participantEntity.getEmail()))
             {
                 participantRepository.save(participantEntity);
                 responseBean.setHeaders(httpHeaders);
@@ -36,12 +36,12 @@ public class ParticipantService
             }
             else
             {
-                throw new DuplicatedEntryException("You are already joined this presentation");
+                throw new AccessDeniedException("Access denied for you authority");
             }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new DuplicatedEntryException("You are already joined this presentation");
         }
         return responseBean;
     }

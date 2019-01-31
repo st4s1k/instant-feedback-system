@@ -19,7 +19,7 @@ public class UserController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putUser( @RequestBody UserDto userDtoToPut) throws Exception
+    public ResponseEntity<?> putUser(@RequestBody UserDto userDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(userService.putUser(modelMapper.map(userDtoToPut, UserEntity.class)));
     }

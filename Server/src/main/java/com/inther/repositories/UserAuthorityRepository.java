@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserAuthorityRepository extends JpaRepository<UserAuthorityEntity, Integer>
 {
+    Optional<UserAuthorityEntity> findUserAuthorityEntityByEmailAndAuthority(String email, String authority);
     Optional<UserAuthorityEntity> findUserAuthorityEntityByAuthorityId(Integer authorityId);
 
     @Modifying

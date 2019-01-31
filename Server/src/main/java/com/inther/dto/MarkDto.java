@@ -11,6 +11,7 @@ public class MarkDto implements Serializable
     private Integer presentationId;
 
     @Email(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutRequest.class})
     private String email;
 

@@ -3,7 +3,6 @@ package com.inther.services;
 import com.inther.beans.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.ServiceUtilityBean;
-import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.entities.implementation.UserEntity;
 import com.inther.exceptions.*;
 import com.inther.repositories.UserRepository;
@@ -22,38 +21,26 @@ public class UserService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    private UserEntity nestedFieldValueCheck(UserEntity userEntity) throws Exception
-    {
-        for (UserAuthorityEntity userAuthorityEntity : userEntity.getUserAuthorities())
-        {
-            if (!userAuthorityEntity.getEmail().equals(userEntity.getEmail()))
-            {
-                throw new NestedFieldValueException("Authority email does not match user email");
-            }
-        }
-        return userEntity;
-    }
-
     public ResponseBean putUser(UserEntity userEntity) throws Exception
     {
-        if (authorityUtilityBean.validateAdminAuthority())
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        if (!optionalUserEntity.isPresent())
         {
-            Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
-            if (!optionalUserEntity.isPresent())
+            if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(nestedFieldValueCheck(userEntity));
+                userRepository.save(serviceUtilityBean.nestedFieldValueCheck(userEntity));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
                 responseBean.setResponse("User " + userEntity.getEmail() + " successfully added");
             }
             else
             {
-                throw new DuplicatedEntryException("User with same email already exists");
+                throw new AccessDeniedException("Access denied for you authority");
             }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new DuplicatedEntryException("User with same email already exists");
         }
         return responseBean;
     }
@@ -76,10 +63,10 @@ public class UserService
 
     public ResponseBean patchUser(UserEntity userEntity) throws Exception
     {
-        if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail()) || authorityUtilityBean.validateAdminAuthority())
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        if (optionalUserEntity.isPresent())
         {
-            Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
-            if (optionalUserEntity.isPresent())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
                 userRepository.save(serviceUtilityBean.patchEntity(optionalUserEntity.get(), userEntity));
                 responseBean.setHeaders(httpHeaders);
@@ -88,19 +75,18 @@ public class UserService
             }
             else
             {
-                throw new NotFoundEntryException("User " + userEntity.getEmail() + " not found");
+                throw new AccessDeniedException("Access denied for you authority");
             }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new NotFoundEntryException("User " + userEntity.getEmail() + " not found");
         }
         return responseBean;
     }
 
     public ResponseBean deleteUser(String email) throws Exception
     {
-
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
         if (optionalUserEntity.isPresent())
         {

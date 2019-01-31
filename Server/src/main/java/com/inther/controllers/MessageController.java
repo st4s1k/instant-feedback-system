@@ -1,5 +1,8 @@
 package com.inther.controllers;
 
+import com.inther.assets.validators.RequestDataValidator;
+import com.inther.assets.wrappers.ResponseEntityWrapper;
+import com.inther.dto.MessageDto;
 import com.inther.entities.implementation.MessageEntity;
 import com.inther.services.MessageService;
 import org.modelmapper.ModelMapper;
@@ -16,21 +19,21 @@ public class MessageController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putMessage(@Validated @RequestBody MessageEntity messageEntityToPut) throws Exception
+    public ResponseEntity<?> putMessage(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody MessageDto messageDtoToPut) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(messageService.putMessage(modelMapper.map(messageDtoToPut, MessageEntity.class)));
     }
 
     @PatchMapping
-    public ResponseEntity<?> patchMessage(@Validated @RequestBody MessageEntity messageEntityToPatch) throws Exception
+    public ResponseEntity<?> patchMessage(@Validated(value = {RequestDataValidator.PatchRequest.class}) @RequestBody MessageDto messageDtoToPatch) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(messageService.patchMessage(modelMapper.map(messageDtoToPatch, MessageEntity.class)));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteMessage(@RequestParam(value = "messageId") Integer messageId) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(messageService.deleteMessage(messageId));
     }
 
     @Autowired

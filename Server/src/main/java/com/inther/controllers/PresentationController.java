@@ -1,5 +1,8 @@
 package com.inther.controllers;
 
+import com.inther.assets.validators.RequestDataValidator;
+import com.inther.assets.wrappers.ResponseEntityWrapper;
+import com.inther.dto.PresentationDto;
 import com.inther.entities.implementation.PresentationEntity;
 import com.inther.services.PresentationService;
 import org.modelmapper.ModelMapper;
@@ -16,27 +19,27 @@ public class PresentationController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putPresentation(@Validated @RequestBody PresentationEntity presentationEntityToPut) throws Exception
+    public ResponseEntity<?> putPresentation(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody PresentationDto presentationDtoToPut) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(presentationService.putPresentation(modelMapper.map(presentationDtoToPut, PresentationEntity.class)));
     }
 
     @GetMapping
     public ResponseEntity<?> getPresentations(@RequestParam(value = "filterByEmail", required = false) String email) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(presentationService.getPresentation(email));
     }
 
     @PatchMapping
-    public ResponseEntity<?> patchPresentation(@Validated @RequestBody PresentationEntity presentationEntityToPatch) throws Exception
+    public ResponseEntity<?> patchPresentation(@Validated(value = {RequestDataValidator.PatchRequest.class}) @RequestBody PresentationDto presentationDtoToPatch) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(presentationService.patchPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
     }
 
     @DeleteMapping
     public ResponseEntity<?> deletePresentation(@RequestParam(value = "presentationId") Integer presentationId) throws Exception
     {
-        return null;
+        return new ResponseEntityWrapper<>(presentationService.deletePresentation(presentationId));
     }
 
     @Autowired

@@ -110,4 +110,34 @@ public class PresentationEntity implements Entities
     {
         this.presentationEndDate = presentationEndDate;
     }
+
+    public List<ParticipantEntity> getPresentationParticipants()
+    {
+        return presentationParticipants;
+    }
+
+    public void setPresentationParticipants(List<ParticipantEntity> presentationParticipants)
+    {
+        this.presentationParticipants = presentationParticipants;
+    }
+
+    public List<MessageEntity> getPresentationMessages()
+    {
+        return presentationMessages;
+    }
+
+    public void setPresentationMessages(List<MessageEntity> presentationMessages)
+    {
+        this.presentationMessages = presentationMessages;
+    }
+
+    public List<MarkEntity> getPresentationMarks()
+    {
+        return presentationMarks;
+    }
+
+    public void setPresentationMarks(List<MarkEntity> presentationMarks)
+    {
+        this.presentationMarks = presentationMarks;
+    }
 }

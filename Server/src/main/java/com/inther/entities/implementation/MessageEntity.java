@@ -21,12 +21,11 @@ public class MessageEntity implements Entities
     @Column(name = "message")
     private String message;
 
+    @Column(name = "message_type")
+    private String messageType;
+
     @Column(name = "is_anonymous")
     private Boolean isAnonymous;
-
-    @OneToOne(targetEntity = MessageTypeEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "message_id")
-    private MessageTypeEntity messageType;
 
     public Integer getMessageId()
     {
@@ -68,6 +67,16 @@ public class MessageEntity implements Entities
         this.message = message;
     }
 
+    public String getMessageType()
+    {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType)
+    {
+        this.messageType = messageType;
+    }
+
     public Boolean getAnonymous()
     {
         return isAnonymous;
@@ -76,15 +85,5 @@ public class MessageEntity implements Entities
     public void setAnonymous(Boolean anonymous)
     {
         isAnonymous = anonymous;
-    }
-
-    public MessageTypeEntity getMessageType()
-    {
-        return messageType;
-    }
-
-    public void setMessageType(MessageTypeEntity messageType)
-    {
-        this.messageType = messageType;
     }
 }

@@ -24,10 +24,11 @@ public class UserAuthorityService
 
     public ResponseBean putUserAuthority(UserAuthorityEntity userAuthorityEntity) throws Exception
     {
-        if (authorityUtilityBean.validateAdminAuthority())
+        Optional<UserAuthorityEntity> optionalUserAuthorityEntity = userAuthorityRepository
+                .findUserAuthorityEntityByEmailAndAuthority(userAuthorityEntity.getEmail(), userAuthorityEntity.getAuthority());
+        if (!optionalUserAuthorityEntity.isPresent())
         {
-            Optional<UserAuthorityEntity> optionalUserAuthorityEntity = userAuthorityRepository.findUserAuthorityEntityByAuthorityId(userAuthorityEntity.getAuthorityId());
-            if (!optionalUserAuthorityEntity.isPresent())
+            if (authorityUtilityBean.validateAdminAuthority())
             {
                 userAuthorityRepository.save(userAuthorityEntity);
                 responseBean.setHeaders(httpHeaders);
@@ -36,12 +37,12 @@ public class UserAuthorityService
             }
             else
             {
-                throw new DuplicatedEntryException("User authority with same id already exists");
+                throw new AccessDeniedException("Access denied for you authority");
             }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new DuplicatedEntryException("That authority for this user already exists");
         }
         return responseBean;
     }
