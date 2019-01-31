@@ -17,15 +17,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
   createUser(user: UserDTO) {
-    // return this.http.post<UserDTO>(`${API_URL}/users`, user);
-
-
-    const fd = new FormData();
-
-    fd.append('email', user.email);
-    fd.append('password', user.password);
-
-    return this.http.put<FormData>(`${API_URL}/userRegister`, fd);
+    return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
   }
 
   getAllUsers() {

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
+import { GlobalServUserService } from '../global-serv-user.service';
+
 
 @Component({
   selector: 'app-nav',
@@ -8,17 +10,22 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class NavComponent implements OnInit {
   public navbarCollapsed = true;
-  public authenticated = false;
-  public mailProfile = 'AMa@inther.com';
+  public authenticated;
+  public UserEmail = 'test';
+  public UserId;
 
-  constructor(private auth: AuthenticationService) { }
+  constructor(private auth: AuthenticationService, private globalSrv: GlobalServUserService) {
+    this.globalSrv.navEmail.subscribe((email) => this.UserEmail = email);
+    this.globalSrv.navUser.subscribe((id) => this.UserId = id);
+    this.globalSrv.NavAuthenticated.subscribe((aut) => this.authenticated = aut);
+  }
+
 
   ngOnInit() {
-    // this.authenticated = this.auth.authSuccess;
-    this.authenticated = this.auth.authSuccess;
+
   }
+
   signOut() {
-    this.authenticated = false;
     this.auth.logout();
   }
 }

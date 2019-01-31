@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 
 
+
 @Component({
     selector: 'app-sign-in',
     templateUrl: './sign-in.component.html',
@@ -16,9 +17,9 @@ export class SignInComponent implements OnInit {
     passwordFormGroup: FormGroup;
     submitted = false;
     loading = false;
-
     returnUrl: string;
     error = '';
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -55,6 +56,7 @@ export class SignInComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
 
                     alert('Succes');
+
                 },
                 error => {
                     this.error = error;
