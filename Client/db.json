@@ -13,7 +13,7 @@
         "some1@mail.dom2",
         "some2@mail.dom"
       ],
-      "mark": "4.36"
+      "mark": "4.68"
     },
     {
       "id": 2,
@@ -29,7 +29,7 @@
         "some3@mail.dom",
         "some4@mail.dom"
       ],
-      "mark": 12.5
+      "mark": "7.25"
     },
     {
       "title": "Amazing Title",
@@ -42,7 +42,8 @@
         "amazing@email.com",
         "template@email.com"
       ],
-      "id": 3
+      "id": 3,
+      "mark": "NaN"
     }
   ],
   "users": [

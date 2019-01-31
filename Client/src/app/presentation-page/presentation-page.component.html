@@ -7,7 +7,18 @@
       <div class="card mt-5 mb-5">
 
         <div class="card-body">
-          <h1 *ngIf="presentation"> {{ presentation.title }} </h1>
+          <h1 *ngIf="presentation">{{ presentation.title }}</h1>
+        </div>
+
+        <div class="card-body pt-0 pb-0">
+          <div class="current-mark row justify-content-end">
+            <div class="col-auto pl-0 align-content-center">
+              <p>Rating: {{presentation.mark}}</p>
+            </div>
+            <div class="col-auto pl-0 align-content-center">
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
         </div>
 
         <div class="card-body">
@@ -16,8 +27,6 @@
         </div>
 
         <div class="card-body text-right">
-
-          <p>Current mark: {{presentation.mark}}</p>
 
           <ngb-rating (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5" [readonly]="submittedRate">
             <ng-template let-fill="fill" let-index="index">

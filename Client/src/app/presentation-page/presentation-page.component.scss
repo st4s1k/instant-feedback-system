@@ -1,7 +1,11 @@
 .star {
-  font-size: 2rem;
+  font-size: 1rem;
   color: rgba(241, 93, 34, 0.5);
 }
-.filled {
+.filled, .current-mark .fa-star, .current-mark .mark {
   color: rgb(241, 93, 34);
+}
+
+.current-mark {
+  font-size: 1.5rem;
 }

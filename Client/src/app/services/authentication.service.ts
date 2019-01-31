@@ -19,11 +19,11 @@ export class AuthenticationService {
     fd.append('email', email);
     fd.append('password', password);
 
-    return this.http.post<any>(`${API_URL}/userLogin`, {email: email, password: password}, {
+    return this.http.post<any>(`${API_URL}/authenticate`, {email: email, password: password}, {
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
       }
     })
       .pipe(map(user => {
