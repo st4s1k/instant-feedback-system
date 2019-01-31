@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-1 col-md-2 col-lg-3"></div>
       <div class="col-sm-10 col-md-8 col-lg-6">
-        <h2>Add Presentation</h2>
+        <h2>{{pageTitle}}</h2>
         <hr>
       </div>
     </div>
@@ -49,14 +49,14 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="time" class="field-label-responsive">Time</label>
-                <input type="time" name="time" class="form-control" id="time" required autofocus formControlName="time"
+                <input type="time" name="time" class="form-control without-am-pm" id="time" required autofocus formControlName="time"
                   [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.time.errors }">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label for="duration" class="field-label-responsive">Duration</label>
-                <input type="time" name="time" class="form-control" id="duration" required autofocus formControlName="duration"
+                <input type="time" name="time" class="form-control without-am-pm" id="duration" required autofocus formControlName="duration"
                   [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.duration.errors }">
               </div>
             </div>
@@ -117,7 +117,7 @@
 
                 <div class="col-10 col-sm-8 col-md-7 col-lg-5">
                   <input class="form-control" type="text" placeholder="example@inther.com" name="email-invitation" id="email-invitation"
-                    [formControlName]="i" [ngClass]="{ 'is-invalid': editPresentationFormGroup.controls.errors }">
+                    [formControlName]="i"  [ngClass]="{ 'is-invalid': submitted && emailInvitation.errors }">
                 </div>
 
                 <div class="col-2 col-sm-2 col-md-1 col-lg-1 pl-0">
@@ -128,9 +128,8 @@
 
                 <div class="col-sm-1 col-md-2 col-lg-3">
                   <div class="form-control-feedback">
-                    <div *ngIf="submitted && invite_touched && emailInvitations.controls.errors " class="text-danger">
-                      <div *ngIf="emailInvitations.controls.errors">
-                        Not a valid email form</div>
+                    <div *ngIf="submitted && invite_touched && emailInvitation.errors" class="text-danger">
+                      Not a valid email form
                     </div>
                   </div>
                 </div>
@@ -149,17 +148,19 @@
       <div class="row mb-5">
         <div class="col-sm-1 col-md-2 col-lg-3"></div>
         <div class="col-sm-5 col-md-4 col-lg-3">
-          <button [disabled]="loading" (click)="save()" id="SaveBtn" type="submit" class="btn btn-success">
+          <button [disabled]="loading" id="SaveBtn" type="submit" class="btn btn-success">
             Save
           </button>
         </div>
         <div class="col-sm-5 col-md-4 col-lg-3">
-          <button [disabled]="loading" (click)="discard()" id="DiscardBtn" type="button" class="btn btn-danger">Discard</button>
+          <button [disabled]="loading" (click)="discard()" id="DiscardBtn" type="button" class="btn btn-danger">
+            Discard
+          </button>
         </div>
       </div>
     </form>
     <hr>
     <pre> Presentation form: {{ editPresentationFormGroup.value | json }} </pre>
-    <pre> Sent form: {{ presentation | json }} </pre>
+    <pre> Presentation object: {{ presentation | json }} </pre>
   </div>
 </div>

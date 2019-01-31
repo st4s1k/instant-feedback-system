@@ -1,0 +1,17 @@
+.fa-star {
+  font-size: 1.5rem;
+  color: rgb(241, 93, 34);
+}
+
+/* Extra small devices */
+@media screen and (max-width: 767px) {
+  .card {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    font-size: 1.3rem;
+  }
+}

@@ -14,15 +14,17 @@ export class EditPresentationComponent implements OnInit {
 
   editPresentationFormGroup: FormGroup;
 
-  title: FormControl = new FormControl('Template Title', [Validators.required]);
-  description: FormControl = new FormControl('Template Description', [Validators.required]);
-  time: FormControl = new FormControl('12:12', [Validators.required]);
-  duration: FormControl = new FormControl('12:12', [Validators.required]);
-  date: FormControl = new FormControl('1996-12-12', [Validators.required]);
-  location: FormControl = new FormControl('Template location', [Validators.required]);
+  title: FormControl = this.fb.control('', [Validators.required]);
+  description: FormControl = this.fb.control('', [Validators.required]);
+  time: FormControl = this.fb.control('', [Validators.required]);
+  duration: FormControl = this.fb.control('', [Validators.required]);
+  date: FormControl = this.fb.control('', [Validators.required]);
+  location: FormControl = this.fb.control('', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([]);
 
   presentation: PresentationDTO;
+
+  pageTitle: string;
 
   submitted = false;
   invite_touched = false;
@@ -37,30 +39,28 @@ export class EditPresentationComponent implements OnInit {
   ngOnInit() {
 
     if (this.router.url === '/new-presentation') {
-
-      this.title = new FormControl('Template Title', [Validators.required]);
-      this.description = new FormControl('Template Description', [Validators.required]);
-      this.time = new FormControl('12:12', [Validators.required]);
-      this.duration = new FormControl('12:12', [Validators.required]);
-      this.date = new FormControl('1996-12-12', [Validators.required]);
-      this.location = new FormControl('Template location', [Validators.required]);
-      this.emailInvitations = this.fb.array([]);
-
-      this.emailInvitations.push(this.fb.control(
-        'test@email.com', [Validators.required, Validators.email]
-      )); // ONLY FOR TESTING
-
+      this.pageTitle = 'New presentation';
+      this.presentation = new PresentationDTO();
     } else {
+      this.pageTitle = 'Edit presentation';
 
-      this.getPresentation();
+      this.route.data.subscribe((data: { presentation: PresentationDTO }) => {
 
-      this.title = new FormControl(this.presentation.title, [Validators.required]);
-      this.description = new FormControl(this.presentation.description, [Validators.required]);
-      this.time = new FormControl(this.presentation.time, [Validators.required]);
-      this.duration = new FormControl(this.presentation.duration, [Validators.required]);
-      this.date = new FormControl(this.presentation.date, [Validators.required]);
-      this.location = new FormControl(this.presentation.location, [Validators.required]);
-      this.emailInvitations = this.fb.array([]);
+        this.presentation = data.presentation;
+
+        this.title.setValue(data.presentation.title);
+        this.description.setValue(data.presentation.description);
+        this.time.setValue(data.presentation.time);
+        this.duration.setValue(data.presentation.duration);
+        this.date.setValue(data.presentation.date);
+        this.location.setValue(data.presentation.location);
+
+        for (const invitation of data.presentation.emailInvitations) {
+          this.emailInvitations.push(this.fb.control(
+            invitation, [Validators.required, Validators.email]
+          ));
+        }
+      });
     }
 
     this.editPresentationFormGroup = this.fb.group({
@@ -86,12 +86,6 @@ export class EditPresentationComponent implements OnInit {
     this.emailInvitations.removeAt(i);
   }
 
-  getPresentation(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.presentationService.getPresentationById(id)
-      .subscribe(presentation => this.presentation = presentation);
-  }
-
   save() {
     this.submitted = true;
 
@@ -100,28 +94,31 @@ export class EditPresentationComponent implements OnInit {
       return;
     }
 
-    this.presentation = new PresentationDTO({
-      title: this.title.value,
-      description: this.description.value,
-      time: this.time.value,
-      duration: this.duration.value,
-      date: this.date.value,
-      location: this.location.value,
-      emailInvitations: this.emailInvitations.value
-    });
+    Object.assign(this.presentation, this.editPresentationFormGroup.value);
 
-    this.presentationService.createPresentation(this.presentation).pipe(first())
-      .subscribe(
-        data => {
-          console.log('Succes Registration');
-          // alert('Success');
-          this.router.navigate(['/home']);
-        },
-        error => {
-          alert(error);
-          console.log(error);
-        }
-      );
+    if (this.router.url === '/new-presentation') {
+      this.presentationService.createPresentation(this.presentation).pipe(first())
+        .subscribe(
+          data => {
+            alert('Succes!:' + data);
+            this.router.navigate(['/home']);
+          },
+          error => {
+            alert(error);
+          }
+        );
+    } else {
+      this.presentationService.updatePresentation(this.presentation).pipe(first())
+        .subscribe(
+          data => {
+            alert('Succes!:' + data);
+            this.router.navigate(['/home']);
+          },
+          error => {
+            alert(error);
+          }
+        );
+    }
   }
 
   discard() {

@@ -3,17 +3,17 @@
     {
       "id": 1,
       "userId": 3,
-      "title": "Some Presentation Title 1",
+      "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "time": "14:30",
       "duration": "01:00",
       "date": "2018-1-23",
       "location": "Some Presentation Place 1",
       "emailInvitations": [
-        "some1@mail.dom",
+        "some1@mail.dom2",
         "some2@mail.dom"
       ],
-      "mark": 4.5
+      "mark": "4.36"
     },
     {
       "id": 2,
@@ -30,6 +30,19 @@
         "some4@mail.dom"
       ],
       "mark": 12.5
+    },
+    {
+      "title": "Amazing Title",
+      "description": "Amazing Description",
+      "time": "12:12",
+      "duration": "14:04",
+      "date": "1996-12-12",
+      "location": "Amazing Location",
+      "emailInvitations": [
+        "amazing@email.com",
+        "template@email.com"
+      ],
+      "id": 3
     }
   ],
   "users": [

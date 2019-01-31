@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  presentations$: PresentationDTO[];
+  presentations: PresentationDTO[];
 
   constructor(
     private presentationService: PresentationService,
@@ -19,12 +19,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.presentationService.getPresentations()
-      .subscribe(presentationService => this.presentations$ = presentationService);
+      .subscribe(presentationService => this.presentations = presentationService);
   }
 
   openPresentationPage(i: number) {
-    console.log('Trying to open presentation ' + this.presentations$[i].id);
-    this.router.navigate([`/presentation-page/${this.presentations$[i].id}`]);
+    // console.log('Trying to open presentation ' + this.presentations[i].id);
+    this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
 
 }

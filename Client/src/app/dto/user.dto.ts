@@ -3,4 +3,8 @@ export class UserDTO {
   public type: number;
   public email: string;
   public password: string;
+
+  constructor(obj: Object = {}) {
+    Object.assign(this, obj);
+  }
 }

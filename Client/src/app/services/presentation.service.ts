@@ -13,7 +13,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: PresentationDTO) {
-    return this.http.put<PresentationDTO>(`${API_URL}/presentations`, presentation);
+    return this.http.post<PresentationDTO>(`${API_URL}/presentations`, presentation);
   }
 
   getPresentations() {
@@ -25,7 +25,7 @@ export class PresentationService {
   }
 
   updatePresentation(presentation: PresentationDTO) {
-    return this.http.post<PresentationDTO>(`${API_URL}/presentations/${presentation.id}`, presentation);
+    return this.http.put<PresentationDTO>(`${API_URL}/presentations/${presentation.id}`, presentation);
   }
 
   deletePresentation(id: number) {

@@ -6,6 +6,7 @@ import { EditPresentationComponent } from './edit-presentation/edit-presentation
 import { HomeComponent } from './home/home.component';
 import { PresentationPageComponent } from './presentation-page/presentation-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 
 
 
@@ -14,8 +15,20 @@ const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'new-presentation', component: EditPresentationComponent },
-  { path: 'edit-presentation/:id', component: EditPresentationComponent },
-  { path: 'presentation-page/:id', component: PresentationPageComponent },
+  {
+    path: 'edit-presentation/:id',
+    component: EditPresentationComponent,
+    resolve: {
+      presentation: PresentationDetailResolverService
+    }
+  },
+  {
+    path: 'presentation-page/:id',
+    component: PresentationPageComponent,
+    resolve: {
+      presentation: PresentationDetailResolverService
+    }
+  },
   { path: 'user-profile/:id', component: UserProfileComponent }
 ];
 

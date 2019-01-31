@@ -1,37 +1,36 @@
-<div class="container mt-5 p-0">
-  <div class="row justify-content-center">
-    <div class="col-8 p-0 text-center">
+<div class="container mt-5 p-0 text-center">
 
-      <h2 class="mb-5">$: npm run json-server</h2>
+  <h2 class="mb-5">Presentations</h2>
 
-      <div class="row">
-        <div class="col">
-          <p><b>ID</b></p>
-        </div>
-        <div class="col">
-          <p><b>TITLE</b></p>
-        </div>
-        <div class="col">
-          <p><b>MARK</b></p>
-        </div>
-      </div>
+  <div class="row justify-content-center p-0">
 
-      <div (click)="openPresentationPage(i)" class="btn btn-light btn-block row-stretch mb-3 p-0 border rounded" *ngFor='let presentation of presentations$; let i=index;'>
+    <div class="col-md-10 col-lg-8 ml-5 mr-5">
 
-        <div class="row align-content-center">
-          <div class="col">
-            <p class="m-0">{{presentation.id}}</p>
+      <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
+        <div class="col card-body">
+
+          <div class="row">
+
+            <div class="col text-left">
+              <p class="m-0">{{presentation.title}}</p>
+            </div>
+
+            <div class="col-auto">
+              <p class="m-0">{{presentation.mark}}</p>
+            </div>
+
+            <div class="col-auto">
+              <i class="fas fa-star"></i>
+            </div>
+
           </div>
-          <div class="col">
-            <p class="m-0">{{presentation.title}}</p>
-          </div>
-          <div class="col">
-            <p class="m-0">{{presentation.mark}}</p>
-          </div>
+
         </div>
 
       </div>
 
     </div>
+
   </div>
+
 </div>
