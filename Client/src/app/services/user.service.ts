@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { UserDTO } from '../dto/user.dto';
 
-  const API_URL = environment.apiUrl;
+  // const API_URL = environment.apiUrl;
 
-// const API_URL = environment.jsonServerUrl;
+const API_URL = environment.jsonServerUrl;
 
 @Injectable({
   providedIn: 'root'

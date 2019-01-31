@@ -29,7 +29,7 @@
         <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
       </div>
       <div class="p-0 nav-item" *ngIf=authenticated>
-        <a class="nav-link" routerLink="user-profile/:{{UserId}}"><i class="fas fa-user-tie"></i> {{UserEmail}}</a>
+        <a class="nav-link" routerLink="user-profile/{{UserId}}"><i class="fas fa-user-tie"></i> {{UserEmail}}</a>
       </div>
       <div class="p-0 nav-item" *ngIf=authenticated>
         <a class="nav-link" routerLink="/" (click)="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>

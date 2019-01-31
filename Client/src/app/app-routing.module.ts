@@ -8,6 +8,7 @@ import { PresentationPageComponent } from './presentation-page/presentation-page
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserDetailResolverService } from './services/user-detail-resolver.service';
 
 
 
@@ -21,7 +22,8 @@ const routes: Routes = [
     component: EditPresentationComponent,
     resolve: {
       presentation: PresentationDetailResolverService
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'presentation-page/:id',
@@ -30,7 +32,13 @@ const routes: Routes = [
       presentation: PresentationDetailResolverService
     }
   },
-  { path: 'user-profile/:id', component: UserProfileComponent }
+  {
+    path: 'user-profile/:id', component: UserProfileComponent,
+    resolve: {
+      user: UserDetailResolverService
+    },
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
