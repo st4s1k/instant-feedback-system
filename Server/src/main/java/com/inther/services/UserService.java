@@ -28,10 +28,10 @@ public class UserService
         {
             if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.nestedFieldValueCheck(userEntity));
+                userRepository.save(serviceUtilityBean.encodeUserPassword(serviceUtilityBean.nestedFieldValueCheck(userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("User " + userEntity.getEmail() + " successfully added");
+                responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully putted");
             }
             else
             {
@@ -40,11 +40,10 @@ public class UserService
         }
         else
         {
-            throw new DuplicatedEntryException("User with same email already exists");
+            throw new DuplicatedEntryException("User with email: '" + userEntity.getEmail() + "' already exists");
         }
         return responseBean;
     }
-
     public ResponseBean getUser(String email) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
@@ -56,11 +55,10 @@ public class UserService
         }
         else
         {
-            throw new NotFoundEntryException("User " + email + " not found");
+            throw new NotFoundEntryException("User with email: '" + email + "' not found");
         }
         return responseBean;
     }
-
     public ResponseBean patchUser(UserEntity userEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
@@ -71,7 +69,7 @@ public class UserService
                 userRepository.save(serviceUtilityBean.patchEntity(optionalUserEntity.get(), userEntity));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("User " + userEntity.getEmail() + " successfully patched");
+                responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully patched");
             }
             else
             {
@@ -80,11 +78,10 @@ public class UserService
         }
         else
         {
-            throw new NotFoundEntryException("User " + userEntity.getEmail() + " not found");
+            throw new NotFoundEntryException("User with email: '" + userEntity.getEmail() + "' not found");
         }
         return responseBean;
     }
-
     public ResponseBean deleteUser(String email) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
@@ -95,11 +92,11 @@ public class UserService
                 userRepository.deleteUserEntityByEmail(email);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("User " + email + " successfully deleted");
+                responseBean.setResponse("User with email: '" + email + "' successfully deleted");
             }
             else if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(email) && authorityUtilityBean.validateAdminAuthority())
             {
-                throw new SelfDestructionException("You is about to delete yourself");
+                throw new SelfDestructionException("You cannot delete yourself");
             }
             else
             {
@@ -108,7 +105,7 @@ public class UserService
         }
         else
         {
-            throw new NotFoundEntryException("User " + email + " not found");
+            throw new NotFoundEntryException("User with email: " + email + " not found");
         }
         return responseBean;
     }

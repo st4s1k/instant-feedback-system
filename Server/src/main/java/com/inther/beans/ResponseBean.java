@@ -10,7 +10,6 @@ public class ResponseBean
 {
     @JsonIgnore
     private HttpHeaders headers;
-
     private HttpStatus status;
     private Object response;
 
@@ -18,7 +17,6 @@ public class ResponseBean
     {
         return headers;
     }
-
     public void setHeaders(HttpHeaders headers)
     {
         this.headers = headers;
@@ -28,17 +26,14 @@ public class ResponseBean
     {
         return status;
     }
-
     public void setStatus(HttpStatus status)
     {
         this.status = status;
     }
-
     public Object getResponse()
     {
         return response;
     }
-
     public void setResponse(Object response)
     {
         this.response = response;

@@ -45,97 +45,78 @@ public class PresentationEntity implements Entities
     {
         return presentationId;
     }
-
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
     }
-
     public String getEmail()
     {
         return email;
     }
-
     public void setEmail(String email)
     {
         this.email = email;
     }
-
     public String getPresentationTitle()
     {
         return presentationTitle;
     }
-
     public void setPresentationTitle(String presentationTitle)
     {
         this.presentationTitle = presentationTitle;
     }
-
     public String getPresentationDescription()
     {
         return presentationDescription;
     }
-
     public void setPresentationDescription(String presentationDescription)
     {
         this.presentationDescription = presentationDescription;
     }
-
     public Date getPresentationStartDate()
     {
         return presentationStartDate;
     }
-
     public void setPresentationStartDate(Date presentationStartDate)
     {
         this.presentationStartDate = presentationStartDate;
     }
-
     public String getPresentationPlace()
     {
         return presentationPlace;
     }
-
     public void setPresentationPlace(String presentationPlace)
     {
         this.presentationPlace = presentationPlace;
     }
-
     public Date getPresentationEndDate()
     {
         return presentationEndDate;
     }
-
     public void setPresentationEndDate(Date presentationEndDate)
     {
         this.presentationEndDate = presentationEndDate;
     }
-
     public List<ParticipantEntity> getPresentationParticipants()
     {
         return presentationParticipants;
     }
-
     public void setPresentationParticipants(List<ParticipantEntity> presentationParticipants)
     {
         this.presentationParticipants = presentationParticipants;
     }
-
     public List<MessageEntity> getPresentationMessages()
     {
         return presentationMessages;
     }
-
     public void setPresentationMessages(List<MessageEntity> presentationMessages)
     {
         this.presentationMessages = presentationMessages;
     }
-
     public List<MarkEntity> getPresentationMarks()
     {
         return presentationMarks;
     }
-
     public void setPresentationMarks(List<MarkEntity> presentationMarks)
     {
         this.presentationMarks = presentationMarks;

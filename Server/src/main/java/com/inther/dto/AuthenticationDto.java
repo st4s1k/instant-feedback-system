@@ -1,19 +1,21 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 
-public class UserAuthorityDto implements Serializable
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class AuthenticationDto
 {
     @Email(groups = {RequestDataValidator.PutRequest.class})
     @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutRequest.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
+    @Size(groups = {RequestDataValidator.PutRequest.class}, min = 6, max = 16)
     @NotBlank(groups = {RequestDataValidator.PutRequest.class})
-    private String authority;
+    private String password;
 
     public String getEmail()
     {
@@ -23,12 +25,12 @@ public class UserAuthorityDto implements Serializable
     {
         this.email = email;
     }
-    public String getAuthority()
+    public String getPassword()
     {
-        return authority;
+        return password;
     }
-    public void setAuthority(String authority)
+    public void setPassword(String password)
     {
-        this.authority = authority;
+        this.password = password;
     }
 }

@@ -37,7 +37,6 @@ public class MessageService
         }
         return responseBean;
     }
-
     public ResponseBean patchMessage(MessageEntity messageEntity) throws Exception
     {
         Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityByMessageId(messageEntity.getMessageId());
@@ -60,7 +59,6 @@ public class MessageService
         }
         return responseBean;
     }
-
     public ResponseBean deleteMessage(Integer messageId) throws Exception
     {
         Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityByMessageId(messageId);
