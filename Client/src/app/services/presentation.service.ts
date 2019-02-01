@@ -20,10 +20,10 @@ export class PresentationService {
     return this.http.get<PresentationDTO[]>(`${API_URL}`);
   }
 
-  getPresentationsByUser(userId: string) {
+  getPresentationsByUser(userId: number) {
     return this.http.get<PresentationDTO[]>(`${API_URL}/user`, {
       params: {
-        userId: userId
+        userId: '' + userId
       }
     });
   }
