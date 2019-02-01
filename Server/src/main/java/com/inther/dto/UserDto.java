@@ -8,23 +8,23 @@ import java.util.List;
 
 public class UserDto implements Serializable
 {
-    @Email(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
+    @Size(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, max = 255)
+    @Email(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
+    @NotBlank(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, min = 6, max = 16)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, min = 6, max = 16)
+    @NotNull(groups = {RequestDataValidator.PutUser.class})
     private String password;
 
-    @PositiveOrZero(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class})
-    @Max(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, value = 1)
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @PositiveOrZero(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
+    @Max(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, value = 1)
+    @NotNull(groups = {RequestDataValidator.PutUser.class})
     private Integer enabled;
 
     @Valid
-    @Null(groups = {RequestDataValidator.PatchRequest.class})
-    @NotEmpty(groups = {RequestDataValidator.PutRequest.class})
+    @Null(groups = {RequestDataValidator.PatchUser.class})
+    @NotEmpty(groups = {RequestDataValidator.PutUser.class})
     private List<UserAuthorityDto> userAuthorities;
 
     public String getEmail()

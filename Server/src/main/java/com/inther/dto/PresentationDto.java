@@ -1,47 +1,40 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
-import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
 public class PresentationDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PatchRequest.class})
-    @Null(groups = {RequestDataValidator.PutRequest.class})
-    @NotNull(groups = {RequestDataValidator.PatchRequest.class})
+    @Positive(groups = {RequestDataValidator.PatchPresentation.class})
+    @Null(groups = {RequestDataValidator.PutPresentation.class})
+    @NotNull(groups = {RequestDataValidator.PatchPresentation.class})
     private Integer presentationId;
 
-    @Email(groups = {RequestDataValidator.PutRequest.class})
-    @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
-    @Null(groups = {RequestDataValidator.PatchRequest.class})
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutPresentation.class}, max = 255)
+    @Email(groups = {RequestDataValidator.PutPresentation.class})
+    @Null(groups = {RequestDataValidator.PatchPresentation.class})
+    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
     private String presentationTitle;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
     private String presentationDescription;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @Pattern(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, regexp = "^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})$")
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @NotNull(groups = {RequestDataValidator.PutPresentation.class})
     private Date presentationStartDate;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
-    private String presentationPlace;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @Pattern(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, regexp = "^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})$")
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @NotNull(groups = {RequestDataValidator.PutPresentation.class})
     private Date presentationEndDate;
+
+    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
+    private String presentationPlace;
 
     public Integer getPresentationId()
     {
@@ -83,14 +76,6 @@ public class PresentationDto implements Serializable
     {
         this.presentationStartDate = presentationStartDate;
     }
-    public String getPresentationPlace()
-    {
-        return presentationPlace;
-    }
-    public void setPresentationPlace(String presentationPlace)
-    {
-        this.presentationPlace = presentationPlace;
-    }
     public Date getPresentationEndDate()
     {
         return presentationEndDate;
@@ -98,5 +83,13 @@ public class PresentationDto implements Serializable
     public void setPresentationEndDate(Date presentationEndDate)
     {
         this.presentationEndDate = presentationEndDate;
+    }
+    public String getPresentationPlace()
+    {
+        return presentationPlace;
+    }
+    public void setPresentationPlace(String presentationPlace)
+    {
+        this.presentationPlace = presentationPlace;
     }
 }

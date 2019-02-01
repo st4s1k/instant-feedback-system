@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,10 +33,17 @@ public class PresentationService
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(presentationEntity.getEmail()))
             {
-                presentationRepository.save(presentationEntity);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Presentation with title " + presentationEntity.getPresentationTitle() + " successfully added");
+                if (presentationEntity.getPresentationStartDate().before(presentationEntity.getPresentationEndDate()))
+                {
+                    presentationRepository.save(presentationEntity);
+                    responseBean.setHeaders(httpHeaders);
+                    responseBean.setStatus(HttpStatus.CREATED);
+                    responseBean.setResponse("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' successfully added");
+                }
+                else
+                {
+                    throw new DateTimeException("Presentation start or end time is invalid");
+                }
             }
             else
             {
@@ -43,14 +52,14 @@ public class PresentationService
         }
         else
         {
-            throw new DuplicatedEntryException("Presentation with same title already exists");
+            throw new DuplicatedEntryException("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' already exists");
         }
         return responseBean;
     }
     public ResponseBean getPresentation(String email) throws Exception
     {
         Optional<List<PresentationEntity>> optionalPresentationEntities = serviceUtilityBean.getPresentationsWithOrWithoutFilter(email);
-        if (optionalPresentationEntities.isPresent())
+        if (optionalPresentationEntities.isPresent() && optionalPresentationEntities.get().size() > 0)
         {
             responseBean.setHeaders(httpHeaders);
             responseBean.setStatus(HttpStatus.OK);
@@ -58,7 +67,7 @@ public class PresentationService
         }
         else
         {
-            throw new NotFoundEntryException("Presentations not found");
+            throw new NotFoundEntryException("No presentation was found for the given criteria");
         }
         return responseBean;
     }
@@ -69,10 +78,17 @@ public class PresentationService
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                presentationRepository.save(serviceUtilityBean.patchEntity(optionalPresentationEntity.get(), presentationEntity));
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Presentation wih id " + presentationEntity.getPresentationId() + " successfully patched");
+                if (serviceUtilityBean.validatePresentationEntityDateAndTime(optionalPresentationEntity.get(), presentationEntity))
+                {
+                    presentationRepository.save(serviceUtilityBean.patchEntity(optionalPresentationEntity.get(), presentationEntity));
+                    responseBean.setHeaders(httpHeaders);
+                    responseBean.setStatus(HttpStatus.OK);
+                    responseBean.setResponse("Presentation with id: '" + presentationEntity.getPresentationId() + "' successfully patched");
+                }
+                else
+                {
+                    throw new DateTimeException("Presentation start or end time is invalid");
+                }
             }
             else
             {
@@ -81,7 +97,7 @@ public class PresentationService
         }
         else
         {
-            throw new NotFoundEntryException("Presentation with id " + presentationEntity.getPresentationId() + " not found");
+            throw new NotFoundEntryException("Presentation with id: '" + presentationEntity.getPresentationId() + "' not found");
         }
         return responseBean;
     }
@@ -95,7 +111,7 @@ public class PresentationService
                 presentationRepository.deletePresentationEntityByPresentationId(presentationId);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Presentation with id " + presentationId + " successfully deleted");
+                responseBean.setResponse("Presentation with id: '" + presentationId + "' successfully deleted");
             }
             else
             {
@@ -104,7 +120,7 @@ public class PresentationService
         }
         else
         {
-            throw new NotFoundEntryException("Presentation with id " + presentationId + " not found");
+            throw new NotFoundEntryException("Presentation with id: '" + presentationId + "' not found");
         }
         return responseBean;
     }

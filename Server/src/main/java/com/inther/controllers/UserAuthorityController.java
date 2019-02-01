@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/userAuthority")
 public class UserAuthorityController
@@ -20,7 +19,7 @@ public class UserAuthorityController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putUserAuthority(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody UserAuthorityDto userAuthorityDtoToPut) throws Exception
+    public ResponseEntity<?> putUserAuthority(@Validated(value = {RequestDataValidator.PutUserAuthority.class}) @RequestBody UserAuthorityDto userAuthorityDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(userAuthorityService.putUserAuthority(modelMapper.map(userAuthorityDtoToPut, UserAuthorityEntity.class)));
     }

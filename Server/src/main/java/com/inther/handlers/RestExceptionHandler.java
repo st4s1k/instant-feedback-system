@@ -16,6 +16,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.util.WebUtils;
 
+import java.time.DateTimeException;
+
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
@@ -24,9 +26,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     private final HttpHeaders httpHeaders;
 
     @ExceptionHandler(AccessDeniedException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(AccessDeniedException e, WebRequest request)
+    public final ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler(DateTimeException.class)
+    public final ResponseEntity<?> handleDateTimeException(DateTimeException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(DeleteLastAuthorityException.class)
+    public final ResponseEntity<?> handleDeleteLastAuthorityException(DeleteLastAuthorityException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -35,28 +49,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
-    @ExceptionHandler(NestedFieldValueException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(NestedFieldValueException e, WebRequest request)
-    {
-        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
-    }
-
     @ExceptionHandler(DuplicatedEntryException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(DuplicatedEntryException e, WebRequest request)
+    public final ResponseEntity<?> handleDuplicatedEntryException(DuplicatedEntryException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(NotFoundEntryException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(NotFoundEntryException e, WebRequest request)
+    public final ResponseEntity<?> handleNotFoundEntryException(NotFoundEntryException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(SelfDestructionException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(SelfDestructionException e, WebRequest request)
+    public final ResponseEntity<?> handleSelfDestructionException(SelfDestructionException e, WebRequest request)
     {
-        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(Exception.class)

@@ -28,7 +28,7 @@ public class UserService
         {
             if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.encodeUserPassword(serviceUtilityBean.nestedFieldValueCheck(userEntity)));
+                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean.setUserEntityNestedAuthorityEmails(userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
                 responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully putted");
@@ -66,7 +66,7 @@ public class UserService
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.patchEntity(optionalUserEntity.get(), userEntity));
+                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean.patchEntity(optionalUserEntity.get(), userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
                 responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully patched");
