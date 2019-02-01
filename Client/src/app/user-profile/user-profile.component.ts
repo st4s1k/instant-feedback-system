@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile',
@@ -18,6 +19,7 @@ export class UserProfileComponent implements OnInit {
 
   changePassForm: FormGroup;
   submitted = false;
+  loading = false;
 
   constructor(
     private userService: UserService,
@@ -54,9 +56,28 @@ export class UserProfileComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    // if it is not valid return
     if (this.changePassForm.invalid) {
       return;
     }
+    this.loading = true ;
+    this.userService.updateUser(<UserDTO>{
+      // id: JSON.parse(localStorage.getItem('userId')),
+      id: 4 ,
+      // email: JSON.parse(localStorage.getItem('email')),
+      password: this.changePassForm.get('NewPass').value
+    }).pipe(first())
+    .subscribe(
+      data => {
+        console.log('Succes Update');
+        alert('Success');
+        this.router.navigate(['/']);
+      },
+      error => {
+        alert(error);
+        console.log(error);
+        this.loading = false;
+      });
   }
   onCancel() {
     this.btnChange = false;
