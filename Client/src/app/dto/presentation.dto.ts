@@ -11,6 +11,10 @@ export class PresentationDTO {
   public date: string;
   public location: string;
   public emailInvitations: string[];
+  public comments: {
+    userId: number,
+    comment: string
+  }[];
   public mark: string;
 
   constructor(obj: Object = {}) {
