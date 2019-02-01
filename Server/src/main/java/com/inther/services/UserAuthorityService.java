@@ -3,15 +3,13 @@ package com.inther.services;
 import com.inther.beans.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.entities.implementation.UserAuthorityEntity;
-import com.inther.exceptions.AccessDeniedException;
-import com.inther.exceptions.DuplicatedEntryException;
-import com.inther.exceptions.NotFoundEntryException;
-import com.inther.exceptions.SelfDestructionException;
+import com.inther.exceptions.*;
 import com.inther.repositories.UserAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,7 +31,8 @@ public class UserAuthorityService
                 userAuthorityRepository.save(userAuthorityEntity);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("User authority for " + userAuthorityEntity.getEmail() + " successfully added");
+                responseBean.setResponse("Authority with role: '" + userAuthorityEntity.getAuthority()
+                        + "', for user with email: '" + userAuthorityEntity.getEmail() + "' successfully added");
             }
             else
             {
@@ -42,7 +41,8 @@ public class UserAuthorityService
         }
         else
         {
-            throw new DuplicatedEntryException("That authority for this user already exists");
+            throw new DuplicatedEntryException("Authority with role: '" + userAuthorityEntity.getAuthority()
+                    + "', for user with email: '" + userAuthorityEntity.getEmail() + "' already exists");
         }
         return responseBean;
     }
@@ -52,17 +52,24 @@ public class UserAuthorityService
         if (optionalUserAuthorityEntity.isPresent())
         {
             if ((!authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalUserAuthorityEntity.get().getEmail())
-                    || !optionalUserAuthorityEntity.get().getAuthority().equals("ROLE_ADMIN"))
-                    && authorityUtilityBean.validateAdminAuthority())
+                    || !optionalUserAuthorityEntity.get().getAuthority().equals("ROLE_ADMIN")) && authorityUtilityBean.validateAdminAuthority())
             {
-                userAuthorityRepository.deleteUserAuthorityEntityByAuthorityId(authorityId);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("User authority with id " + authorityId + " successfully deleted");
+                Optional<List<UserAuthorityEntity>> optionalUserAuthorityEntityList = userAuthorityRepository
+                        .findUserAuthorityEntityByEmail(optionalUserAuthorityEntity.get().getEmail());
+                if (optionalUserAuthorityEntityList.isPresent() && optionalUserAuthorityEntityList.get().size() > 1)
+                {
+                    userAuthorityRepository.deleteUserAuthorityEntityByAuthorityId(authorityId);
+                    responseBean.setHeaders(httpHeaders);
+                    responseBean.setStatus(HttpStatus.OK);
+                    responseBean.setResponse("Authority with id: '" + authorityId + "' successfully deleted");
+                }
+                else
+                {
+                    throw new DeleteLastAuthorityException("You cannot delete user's last authority");
+                }
             }
             else if ((authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalUserAuthorityEntity.get().getEmail())
-                    && optionalUserAuthorityEntity.get().getAuthority().equals("ROLE_ADMIN"))
-                    && authorityUtilityBean.validateAdminAuthority())
+                    && optionalUserAuthorityEntity.get().getAuthority().equals("ROLE_ADMIN")) && authorityUtilityBean.validateAdminAuthority())
             {
                 throw new SelfDestructionException("You cannot deactivate admin rights yourself");
             }
@@ -73,7 +80,7 @@ public class UserAuthorityService
         }
         else
         {
-            throw new NotFoundEntryException("User authority with id " + authorityId + " not found");
+            throw new NotFoundEntryException("Authority with id: '" + authorityId + "' not found");
         }
         return responseBean;
     }

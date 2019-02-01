@@ -4,7 +4,6 @@ import com.inther.entities.Entities;
 import com.inther.entities.implementation.PresentationEntity;
 import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.entities.implementation.UserEntity;
-import com.inther.exceptions.NestedFieldValueException;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,20 +19,20 @@ public class ServiceUtilityBean
     private final PresentationRepository presentationRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private List<UserAuthorityEntity> setStandartUserAuthorityValues(String userAuthorityEmail)
+    private List<UserAuthorityEntity> setRegistrationObjectAuthorityValues(String userAuthorityEmail)
     {
         List<UserAuthorityEntity> userAuthorityEntityList = new ArrayList<>();
         UserAuthorityEntity userAuthorityEntity = new UserAuthorityEntity();
         userAuthorityEntity.setEmail(userAuthorityEmail);
-        userAuthorityEntity.setAuthority("ROLE_USER");
+        userAuthorityEntity.setAuthority("ROLE_ADMIN");
         userAuthorityEntityList.add(userAuthorityEntity);
         return userAuthorityEntityList;
     }
 
-    public UserEntity completeRegistrationEntity(UserEntity userEntity)
+    public UserEntity completeRegistrationObject(UserEntity userEntity)
     {
         userEntity.setEnabled(1);
-        userEntity.setUserAuthorities(setStandartUserAuthorityValues(userEntity.getEmail()));
+        userEntity.setUserAuthorities(setRegistrationObjectAuthorityValues(userEntity.getEmail()));
         return userEntity;
     }
     public Optional<List<PresentationEntity>> getPresentationsWithOrWithoutFilter(String email)
@@ -44,24 +43,19 @@ public class ServiceUtilityBean
         }
         else
         {
-            return presentationRepository.findPresentationEntityByEmail(email);
-
-            //return presentationRepository.findPresentationEntity();
+            return Optional.of(presentationRepository.findAll());
         }
     }
-    public UserEntity encodeUserPassword(UserEntity userEntity)
+    public UserEntity encodeUserEntityPassword(UserEntity userEntity)
     {
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         return userEntity;
     }
-    public UserEntity nestedFieldValueCheck(UserEntity userEntity) throws Exception
+    public UserEntity setUserEntityNestedAuthorityEmails(UserEntity userEntity) throws Exception
     {
         for (UserAuthorityEntity userAuthorityEntity : userEntity.getUserAuthorities())
         {
-            if (!userAuthorityEntity.getEmail().equals(userEntity.getEmail()))
-            {
-                throw new NestedFieldValueException("Authority email does not match user email");
-            }
+            userAuthorityEntity.setEmail(userEntity.getEmail());
         }
         return userEntity;
     }
@@ -74,7 +68,8 @@ public class ServiceUtilityBean
                 if (method.getName().startsWith("get") && (patchingEntity.getClass().getMethod(method.getName()).invoke(patchingEntity) != null))
                 {
                     Class<?> argumentClass = targetEntity.getClass().getMethod(method.getName()).getReturnType();
-                    targetEntity.getClass().getMethod("set" + method.getName().substring(3), argumentClass).invoke(targetEntity, patchingEntity.getClass().getMethod(method.getName()).invoke(patchingEntity));
+                    targetEntity.getClass().getMethod("set" + method.getName().substring(3), argumentClass)
+                            .invoke(targetEntity, patchingEntity.getClass().getMethod(method.getName()).invoke(patchingEntity));
                 }
             }
         }
@@ -83,6 +78,26 @@ public class ServiceUtilityBean
             throw new ReflectiveOperationException("These are objects of different classes");
         }
         return targetEntity;
+    }
+
+    public Boolean validatePresentationEntityDateAndTime(PresentationEntity storedEntity, PresentationEntity patchingEntity)
+    {
+        if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() != null))
+        {
+            return patchingEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+        }
+        else if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() == null))
+        {
+            return patchingEntity.getPresentationStartDate().before(storedEntity.getPresentationEndDate());
+        }
+        else if ((patchingEntity.getPresentationStartDate() == null) && (patchingEntity.getPresentationEndDate() != null))
+        {
+            return storedEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+        }
+        else
+        {
+            return true;
+        }
     }
 
     @Autowired

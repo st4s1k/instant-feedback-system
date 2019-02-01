@@ -25,7 +25,7 @@ public class AuthenticationService
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
         if (!optionalUserEntity.isPresent())
         {
-            userRepository.save(serviceUtilityBean.encodeUserPassword(serviceUtilityBean.completeRegistrationEntity(userEntity)));
+            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean.completeRegistrationObject(userEntity)));
             responseBean.setStatus(HttpStatus.CREATED);
             responseBean.setHeaders(httpHeaders);
             responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully registered");

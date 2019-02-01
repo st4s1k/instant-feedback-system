@@ -1,5 +1,6 @@
 package com.inther.entities.implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inther.entities.Entities;
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ public class UserEntity implements Entities
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 

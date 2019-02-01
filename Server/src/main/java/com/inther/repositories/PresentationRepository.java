@@ -13,7 +13,7 @@ public interface PresentationRepository extends JpaRepository<PresentationEntity
 {
     Optional<PresentationEntity> findPresentationEntityByPresentationTitle(String presentationTitle);
     Optional<PresentationEntity> findPresentationEntityByPresentationId(Integer presentationId);
-    //Optional<List<PresentationEntity>> findA();
+
     Optional<List<PresentationEntity>> findPresentationEntityByEmail(String email);
 
     @Modifying

@@ -1,5 +1,6 @@
 package com.inther.entities.implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inther.entities.Entities;
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ public class UserAuthorityEntity implements Entities
     @Column(name = "authority_id")
     private Integer authorityId;
 
+    @JsonIgnore
     @Column(name = "email")
     private String email;
 

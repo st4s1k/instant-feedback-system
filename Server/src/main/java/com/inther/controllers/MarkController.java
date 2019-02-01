@@ -19,7 +19,7 @@ public class MarkController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putMark(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody MarkDto markDtoToPut) throws Exception
+    public ResponseEntity<?> putMark(@Validated(value = {RequestDataValidator.PutMark.class}) @RequestBody MarkDto markDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(markService.putMark(modelMapper.map(markDtoToPut, MarkEntity.class)));
     }

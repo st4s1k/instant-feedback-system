@@ -84,7 +84,8 @@ public class MessageService
     }
 
     @Autowired
-    public MessageService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public MessageService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
+                          MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

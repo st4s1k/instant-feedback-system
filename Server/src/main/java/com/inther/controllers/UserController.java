@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController
@@ -20,7 +19,7 @@ public class UserController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putUser(@RequestBody UserDto userDtoToPut) throws Exception
+    public ResponseEntity<?> putUser(@Validated(value = {RequestDataValidator.PutUser.class}) @RequestBody UserDto userDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(userService.putUser(modelMapper.map(userDtoToPut, UserEntity.class)));
     }
@@ -32,7 +31,7 @@ public class UserController
     }
 
     @PatchMapping
-    public ResponseEntity<?> patchUser(@Validated(value = {RequestDataValidator.PatchRequest.class}) @RequestBody UserDto userDtoToPatch) throws Exception
+    public ResponseEntity<?> patchUser(@Validated(value = {RequestDataValidator.PatchUser.class}) @RequestBody UserDto userDtoToPatch) throws Exception
     {
 
         return new ResponseEntityWrapper<>(userService.patchUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
