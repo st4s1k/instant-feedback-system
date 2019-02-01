@@ -17,7 +17,7 @@ import { PresentationDTO } from '../dto/presentation.dto';
 export class UserProfileComponent implements OnInit {
 
   user: UserDTO;
-  presentation: PresentationDTO[];
+  presentations: PresentationDTO[];
   btnChange = false;
 
   changePassForm: FormGroup;
@@ -39,6 +39,9 @@ export class UserProfileComponent implements OnInit {
     this.route.data.subscribe((data: { user: UserDTO }) => {
       this.user = data.user;
     });
+    this.route.data.subscribe((data: { presentations: PresentationDTO[] }) => {
+      this.presentations = data.presentations;
+    });
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmNewPass: ['', Validators.required]
@@ -47,11 +50,14 @@ export class UserProfileComponent implements OnInit {
       });
 
   }
+  openPresentationPage(i: number) {
+    // console.log('Trying to open presentation ' + this.presentations[i].id);
+    this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
+  }
 
   getUserProfile(): void {
     // const id = +this.route.snapshot.paramMap.get('id');
     const id = JSON.parse(localStorage.getItem('userId'));
-    alert(id);
     this.userService.getUserById(id)
       .subscribe(user => this.user = user);
     console.log(id);

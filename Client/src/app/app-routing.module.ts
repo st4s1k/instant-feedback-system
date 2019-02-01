@@ -12,8 +12,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { PresentationListDetailResolverService } from './services/presentation-list-detail-resolver.service';
+import { UserPresentationResolverService } from './services/user-presentation-resolver.service';
 // Guards
 import { AuthGuard } from './_guards/auth.guard';
+
 
 const routes: Routes = [
   {
@@ -48,7 +50,8 @@ const routes: Routes = [
   {
     path: 'user-profile', component: UserProfileComponent,
     resolve: {
-      user: UserDetailResolverService
+      user: UserDetailResolverService,
+      presentations : UserPresentationResolverService
     },
     canActivate: [AuthGuard]
   }

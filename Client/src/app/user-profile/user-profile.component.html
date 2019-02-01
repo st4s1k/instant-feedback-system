@@ -6,7 +6,42 @@
   </div>
   <div class="row">
     <div class="col-md-9 pres-part">
-      <h3>Presentation part</h3>
+        <div class="container mt-5 p-0 text-center">
+
+            <h2 class="mb-5">Presentations</h2>
+          
+            <div class="row justify-content-center p-0">
+          
+              <div class="col-md-10 col-lg-8 ml-5 mr-5">
+          
+                <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
+                  <div class="col card-body">
+          
+                    <div class="row">
+          
+                      <div class="col text-left">
+                        <p class="m-0">{{presentation.title}}</p>
+                      </div>
+          
+                      <div class="col-auto">
+                        <p class="m-0">{{presentation.mark}}</p>
+                      </div>
+          
+                      <div class="col-auto">
+                        <i class="fas fa-star"></i>
+                      </div>
+          
+                    </div>
+          
+                  </div>
+          
+                </div>
+          
+              </div>
+          
+            </div>
+          
+          </div>
     </div>
     <div class=" col-md-3 user-info">
       <div></div>
