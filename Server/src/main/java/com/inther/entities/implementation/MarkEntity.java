@@ -1,5 +1,6 @@
 package com.inther.entities.implementation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inther.entities.Entities;
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ public class MarkEntity implements Entities
     @Column(name = "mark_id")
     private Integer markId;
 
+    @JsonIgnore
     @Column(name = "presentation_id")
     private Integer presentationId;
 

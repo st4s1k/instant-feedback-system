@@ -28,7 +28,7 @@ public class MarkService
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
                 .findPresentationEntityByPresentationId(markEntity.getPresentationId());
-        if (!optionalPresentationEntity.isPresent())
+        if (optionalPresentationEntity.isPresent())
         {
             Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(), markEntity.getEmail());
             if (!optionalMarkEntity.isPresent())
