@@ -66,7 +66,7 @@ export class AuthenticationService {
           this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
-          localStorage.setItem('auth', JSON.stringify(true));
+          localStorage.setItem('sessionID', JSON.stringify(this.userLocal.id));
           localStorage.setItem('email', JSON.stringify(this.userLocal.email));
           localStorage.setItem('userId', JSON.stringify(this.userLocal.id));
           const authe = JSON.parse(localStorage.getItem('auth'));
@@ -81,8 +81,8 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     // localStorage.removeItem('auth');
-    localStorage.setItem('auth', JSON.stringify(false));
-    this.globalSrv.setNavAuthenticated(false);
+    localStorage.setItem('sessionID', JSON.stringify(0));
+    this.globalSrv.setNavAuthenticated(0);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');

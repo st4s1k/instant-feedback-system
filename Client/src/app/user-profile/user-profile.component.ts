@@ -6,6 +6,8 @@ import { GlobalServUserService } from '../global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { PresentationService } from '../services/presentation.service';
+import { PresentationDTO } from '../dto/presentation.dto';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,6 +17,7 @@ import { first } from 'rxjs/operators';
 export class UserProfileComponent implements OnInit {
 
   user: UserDTO;
+  presentation: PresentationDTO[];
   btnChange = false;
 
   changePassForm: FormGroup;
@@ -23,6 +26,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private presentationService: PresentationService,
     private router: Router,
     private route: ActivatedRoute,
     private globUser: GlobalServUserService,
@@ -41,10 +45,13 @@ export class UserProfileComponent implements OnInit {
     }, {
         validator: MustMatch('NewPass', 'ConfirmNewPass')
       });
+
   }
 
   getUserProfile(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    // const id = +this.route.snapshot.paramMap.get('id');
+    const id = JSON.parse(localStorage.getItem('userId'));
+    alert(id);
     this.userService.getUserById(id)
       .subscribe(user => this.user = user);
     console.log(id);

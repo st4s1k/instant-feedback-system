@@ -13,7 +13,7 @@ export class NavComponent implements OnInit {
   // public authenticated;
   // public UserEmail;
   // public UserId;
-  public authenticated = JSON.parse(localStorage.getItem('auth'));
+  public authenticated = JSON.parse(localStorage.getItem('sessionID'));
   public UserEmail = JSON.parse(localStorage.getItem('email'));
   public UserId = JSON.parse(localStorage.getItem('userId'));
 

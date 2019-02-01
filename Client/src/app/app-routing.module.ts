@@ -46,7 +46,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'user-profile/:id', component: UserProfileComponent,
+    path: 'user-profile', component: UserProfileComponent,
     resolve: {
       user: UserDetailResolverService
     },
