@@ -5,5 +5,19 @@ html {
 }
 
 html body {
+  font-family: "Titillium Web", sans-serif;
+  color: rgb(52, 58, 64);
   background-color: white;
+}
+
+select {
+  color: rgb(241, 93, 34);
+}
+
+a:hover {
+  color: #ea4747;
+}
+
+a:focus {
+  color: rgb(234, 71, 71);
 }

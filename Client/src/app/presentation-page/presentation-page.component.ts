@@ -47,7 +47,7 @@ export class PresentationPageComponent implements OnInit {
 
     this.submittedRate = true;
 
-    if (!this.presentation.mark) {
+    if (!this.presentation.mark || Number.isNaN(+this.presentation.mark)) {
       this.presentation.mark = '' + rate;
     } else {
       this.presentation.mark = '' + Number((+this.presentation.mark + rate) / 2).toFixed(2);
@@ -56,10 +56,10 @@ export class PresentationPageComponent implements OnInit {
 
     this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
-        alert('Succes!');
+        // alert('Succes!');
       },
       error => {
-        alert(JSON.stringify(error));
+        alert(error);
       }
     );
 

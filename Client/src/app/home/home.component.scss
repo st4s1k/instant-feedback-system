@@ -3,6 +3,17 @@
   color: rgb(241, 93, 34);
 }
 
+.card {
+  color: rgb(52, 58, 64);
+  border-color: rgb(52, 58, 64);
+}
+
+.card:hover {
+  color: rgb(241, 93, 34);
+  border-color: rgb(241, 93, 34);
+  // background-color: rgb(255, 238, 223);
+}
+
 /* Extra small devices */
 @media screen and (max-width: 767px) {
   .card {

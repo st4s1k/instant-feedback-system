@@ -40,6 +40,29 @@
 
       </div>
 
+      <div class="row card p-0 mt-3 mb-3" *ngFor='let comment of comments; let i=index;'>
+        <div class="col card-body">
+
+          <div class="row">
+
+            <div class="col text-left">
+              <p class="m-0">{{comment.author}}</p>
+            </div>
+
+            <div class="col-auto">
+              <p class="m-0">{{comment.text}}</p>
+            </div>
+
+            <div class="col-auto">
+              <i class="fas fa-star"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
       <div class="row mb-5">
 
         <div class="col">
