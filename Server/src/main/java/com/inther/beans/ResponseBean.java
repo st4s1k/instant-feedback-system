@@ -10,6 +10,8 @@ public class ResponseBean
 {
     @JsonIgnore
     private HttpHeaders headers;
+
+    @JsonIgnore
     private HttpStatus status;
     private Object response;
 
@@ -21,7 +23,6 @@ public class ResponseBean
     {
         this.headers = headers;
     }
-
     public HttpStatus getStatus()
     {
         return status;
