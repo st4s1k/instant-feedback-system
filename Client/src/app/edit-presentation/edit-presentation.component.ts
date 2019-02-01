@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { PresentationService } from '../services/presentation.service';
-import { PresentationDTO } from '../dto/presentation.dto';
+import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../global-serv-user.service';
@@ -23,7 +23,7 @@ export class EditPresentationComponent implements OnInit {
   location: FormControl = this.fb.control('', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([]);
 
-  presentation: PresentationDTO;
+  presentation: Presentation;
 
   pageTitle: string;
 
@@ -42,11 +42,11 @@ export class EditPresentationComponent implements OnInit {
 
     if (this.router.url === '/new-presentation') {
       this.pageTitle = 'New presentation';
-      this.presentation = new PresentationDTO();
+      this.presentation = new Presentation();
     } else {
       this.pageTitle = 'Edit presentation';
 
-      this.route.data.subscribe((data: { presentation: PresentationDTO }) => {
+      this.route.data.subscribe((data: { presentation: Presentation }) => {
 
         this.presentation = data.presentation;
 
@@ -55,11 +55,10 @@ export class EditPresentationComponent implements OnInit {
         this.startTime.setValue(data.presentation.startDate.split('T')[1]);
         this.endTime.setValue(data.presentation.endDate.split('T')[1]);
         this.date.setValue(data.presentation.startDate.split('T')[0]);
-        this.location.setValue(data.presentation.location);
+        this.location.setValue(data.presentation.place);
 
         for (const participant of data.presentation.participants) {
           this.emailInvitations.push(this.fb.control({
-            id: participant.id,
             email: [participant.email, [Validators.required, Validators.email]]
           }));
         }

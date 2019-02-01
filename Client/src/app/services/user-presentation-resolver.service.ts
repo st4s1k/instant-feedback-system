@@ -3,15 +3,15 @@ import { PresentationService } from './presentation.service';
 import { Resolve, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, EMPTY, of } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
-import { PresentationDTO } from '../dto/presentation.dto';
+import { Presentation } from '../models/presentation.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserPresentationResolverService implements Resolve<PresentationDTO[]> {
+export class UserPresentationResolverService implements Resolve<Presentation[]> {
 
   constructor(private ps: PresentationService, private router: Router) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PresentationDTO[]> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation[]> | Observable<never> {
 
     // const id = +route.paramMap.get('id');
     const id = +JSON.parse(localStorage.getItem('userId'));

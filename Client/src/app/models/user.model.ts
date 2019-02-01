@@ -1,4 +1,4 @@
-export class UserDTO {
+export class User {
   public id: number;
   public type: number;
   public email: string;

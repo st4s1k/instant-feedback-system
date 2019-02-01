@@ -13,7 +13,7 @@
         <div class="card-body pt-0 pb-0">
           <div class="current-mark row justify-content-end">
             <div class="col-auto pl-0 align-content-center">
-              <p>Rating: {{presentation.mark}}</p>
+              <p>Rating: {{ avgMark }}</p>
             </div>
             <div class="col-auto pl-0 align-content-center">
               <i class="fas fa-star"></i>
@@ -40,15 +40,15 @@
 
       </div>
 
-      <div class="row card p-0 mt-3 mb-3" *ngFor='let comment of presentation.comments; let i=index;'>
+      <div class="row card p-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
         <div class="col card-body">
 
           <div class="card-title">
-            <p class="m-0">{{comment.email}}</p>
+            <p class="m-0">{{feedback.email}}</p>
           </div>
 
           <div class="card-text">
-            <p class="m-0">{{comment.text}}</p>
+            <p class="m-0">{{feedback.message}}</p>
           </div>
 
         </div>
@@ -59,16 +59,16 @@
 
         <div class="col">
 
-          <form [formGroup]="commentFormGroup" (ngSubmit)="addComment()">
+          <form [formGroup]="feedbackFormGroup" (ngSubmit)="leaveFeedback()">
 
             <div class="form-group">
 
-              <label for="comment-box" class="field-label-responsive">
-                Comment box:
+              <label for="feedback-box" class="field-label-responsive">
+                Feedback:
               </label>
 
-              <textarea class="form-control" id="comment-box" cols="30" rows="4" placeholder="Your comment." required
-                autofocus formControlName="commentBox"></textarea>
+              <textarea class="form-control" id="feedback-box" cols="30" rows="4" placeholder="Your feedback." required
+                autofocus formControlName="feedbackBox"></textarea>
 
             </div>
 
@@ -77,7 +77,7 @@
               <div class="col-sm-5 col-md-4 col-lg-3">
 
                 <button [disabled]="loading" id="SaveBtn" type="submit" class="btn btn-success">
-                  Save
+                  Leave feedback
                 </button>
 
               </div>

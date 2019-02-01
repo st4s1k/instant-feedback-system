@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { UserDTO } from '../dto/user.dto';
+import { User } from '../models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
-import { PresentationDTO } from '../dto/presentation.dto';
+import { Presentation } from '../models/presentation.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,8 +16,8 @@ import { PresentationDTO } from '../dto/presentation.dto';
 })
 export class UserProfileComponent implements OnInit {
 
-  user: UserDTO;
-  presentations: PresentationDTO[];
+  user: User;
+  presentations: Presentation[];
   btnChange = false;
 
   changePassForm: FormGroup;
@@ -36,10 +36,10 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     // this.getUserProfile();
-    this.route.data.subscribe((data: { user: UserDTO }) => {
+    this.route.data.subscribe((data: { user: User }) => {
       this.user = data.user;
     });
-    this.route.data.subscribe((data: { presentations: PresentationDTO[] }) => {
+    this.route.data.subscribe((data: { presentations: Presentation[] }) => {
       this.presentations = data.presentations;
     });
     this.changePassForm = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class UserProfileComponent implements OnInit {
       return;
     }
     this.loading = true ;
-    this.userService.updateUser(<UserDTO>{
+    this.userService.updateUser(<User>{
       // id: JSON.parse(localStorage.getItem('userId')),
       id: 4 ,
       // email: JSON.parse(localStorage.getItem('email')),

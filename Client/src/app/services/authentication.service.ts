@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { Observable } from 'rxjs';
-import { UserDTO } from '../dto/user.dto';
+import { User } from '../models/user.model';
 import { GlobalServUserService } from '../global-serv-user.service';
 
 
@@ -15,7 +15,7 @@ const API_URL = environment.apiUrl;
 export class AuthenticationService {
   constructor(private http: HttpClient, private globalSrv: GlobalServUserService) { }
 
-  userLocal: UserDTO;
+  userLocal: User;
 
   // real api
   // login(email: string, password: string) {

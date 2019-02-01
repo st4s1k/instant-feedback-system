@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
-import { PresentationDTO } from '../dto/presentation.dto';
+import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -13,22 +13,22 @@ import { first } from 'rxjs/operators';
 })
 export class PresentationPageComponent implements OnInit {
 
-  messageFormGroup: FormGroup;
+  feedbackFormGroup: FormGroup;
 
-  messageBox: FormControl = this.fb.control('', [Validators.required]);
+  feedbackBox: FormControl = this.fb.control('', [Validators.required]);
 
-  presentation: PresentationDTO;
+  presentation: Presentation;
 
   currentRate = 1;
 
   submittedRate = false;
 
-  messageAdded = false;
+  feedbackAdded = false;
 
   avgMark = 0;
 
   constructor(
-    private presentationService: PresentationService,
+    private ps: PresentationService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
@@ -36,20 +36,18 @@ export class PresentationPageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.data.subscribe((data: { presentation: PresentationDTO }) => {
-      this.presentation = data.presentation;
+    this.route.data.subscribe((data: { presentation: Presentation }) => {
+      Object.assign(this.presentation, data.presentation);
 
-      let sum = 0;
+      console.log('presentation page: ' + JSON.stringify(this.presentation));
 
-      data.presentation.marks.forEach(element => {
-        sum += element.mark;
-      });
+      this.avgMark = this.ps.avgMark(data.presentation.marks);
 
-      this.avgMark = sum / this.presentation.marks.length;
+      console.log('Average mark: ' + this.avgMark);
     });
 
-    this.messageFormGroup = this.fb.group({
-      messageBox: ''
+    this.feedbackFormGroup = this.fb.group({
+      feedbackBox: ''
     });
 
   }
@@ -62,12 +60,13 @@ export class PresentationPageComponent implements OnInit {
       this.avgMark = rate;
     } else {
       this.presentation.marks.push({
+        userId: +localStorage.getItem('userId'),
         email: localStorage.getItem('email'),
         mark: +rate.toFixed(2)
       });
     }
 
-    this.presentationService.updatePresentation(this.presentation).pipe(first()).subscribe(
+    this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
         alert('Succes!');
       },
@@ -78,18 +77,18 @@ export class PresentationPageComponent implements OnInit {
 
   }
 
-  addComment() {
+  leaveFeedback(type: string) {
 
-    alert(this.messageBox.value);
+    alert(this.feedbackBox.value);
 
-    this.presentation.messages.push({
+    this.presentation.feedback.push({
       email: localStorage.getItem('email'),
-      message: this.messageBox.value,
+      message: this.feedbackBox.value,
       type: '',
-      anon: false
+      anonimity: false
     });
 
-    this.presentationService.updatePresentation(this.presentation).pipe(first())
+    this.ps.updatePresentation(this.presentation).pipe(first())
       .subscribe(
         data => {
           alert('Succes!:' + JSON.stringify(data));
@@ -100,7 +99,7 @@ export class PresentationPageComponent implements OnInit {
         }
       );
 
-    this.messageFormGroup.reset();
+    this.feedbackFormGroup.reset();
   }
 
 }

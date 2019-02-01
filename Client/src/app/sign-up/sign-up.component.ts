@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { MustMatch } from '../shared/sign-up.validator';
 import { UserService } from '../services/user.service';
-import { UserDTO } from '../dto/user.dto';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.createUser(<UserDTO> {
+    this.userService.createUser(<User> {
       email: this.signupForm.get('email').value,
       password: this.signupForm.get('password').value
     }).pipe(first())

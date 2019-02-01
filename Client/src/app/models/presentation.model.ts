@@ -1,25 +1,23 @@
-import { Time } from '@angular/common';
-
-export class PresentationDTO {
+export class Presentation {
 
   public id: number;
   public email: string;
   public title: string;
   public description: string;
   public startDate: string;
+  public place: string;
   public endDate: string;
-  public location: string;
   public participants: {
-    id: number,
     email: string
   }[] = [];
-  public messages: {
+  public feedback: {
     email: string,
     message: string,
     type: string,
-    anon: boolean
+    anonimity: boolean
   }[] = [];
   public marks: {
+    userId: number,
     email: string,
     mark: number
   }[] = [];

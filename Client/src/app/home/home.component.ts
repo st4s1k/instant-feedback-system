@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PresentationService } from '../services/presentation.service';
-import { PresentationDTO } from '../dto/presentation.dto';
+import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  presentations: PresentationDTO[];
+  presentations: Presentation[];
 
   constructor(
     private presentationService: PresentationService,
@@ -19,8 +19,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { presentations: PresentationDTO[] }) => {
+    this.route.data.subscribe((data: { presentations: Presentation[] }) => {
       this.presentations = data.presentations;
+      // console.log('home: ' + JSON.stringify(data));
     });
   }
 

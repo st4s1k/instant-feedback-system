@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserDTO } from '../dto/user.dto';
+import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
 import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
@@ -8,10 +8,10 @@ import { take, mergeMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class UserDetailResolverService implements Resolve<UserDTO> {
+export class UserDetailResolverService implements Resolve<User> {
 
   constructor(private userServ: UserService, private router: Router) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserDTO> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> | Observable<never> {
 
     // const id = +route.paramMap.get('id');
     const id = JSON.parse(localStorage.getItem('userId'));
