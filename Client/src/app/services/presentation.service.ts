@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { PresentationDTO } from '../dto/presentation.dto';
 import { environment } from 'src/environments/environment.prod';
 
-const API_URL = environment.jsonServerUrl;
+const API_URL = `${environment.jsonServerUrl}${environment.presentations}`;
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +13,38 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: PresentationDTO) {
-    return this.http.post<PresentationDTO>(`${API_URL}/presentations`, presentation);
+    return this.http.post<PresentationDTO>(`${API_URL}`, presentation);
   }
 
   getPresentations() {
-    return this.http.get<PresentationDTO[]>(`${API_URL}/presentations`);
+    return this.http.get<PresentationDTO[]>(`${API_URL}`);
+  }
+
+  getPresentationsByUser(email: string) {
+    return this.http.get<PresentationDTO[]>(`${API_URL}/user`, {
+      params: {
+        email: email
+      }
+    });
+  }
+
+  getPresentationsByTitle(title: string) {
+    return this.http.get<PresentationDTO[]>(`${API_URL}/title`, {
+      params: {
+        title: title
+      }
+    });
   }
 
   getPresentationById(id: number) {
-    return this.http.get<PresentationDTO>(`${API_URL}/presentations/${id}`);
+    return this.http.get<PresentationDTO>(`${API_URL}/${id}`);
   }
 
   updatePresentation(presentation: PresentationDTO) {
-    return this.http.put<PresentationDTO>(`${API_URL}/presentations/${presentation.id}`, presentation);
+    return this.http.put<PresentationDTO>(`${API_URL}/${presentation.id}`, presentation);
   }
 
   deletePresentation(id: number) {
-    return this.http.delete<PresentationDTO>(`${API_URL}/presentations/${id}`);
+    return this.http.delete<PresentationDTO>(`${API_URL}/${id}`);
   }
 }

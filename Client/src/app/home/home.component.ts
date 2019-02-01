@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PresentationService } from '../services/presentation.service';
 import { PresentationDTO } from '../dto/presentation.dto';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,12 +14,14 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private presentationService: PresentationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.presentationService.getPresentations()
-      .subscribe(presentationService => this.presentations = presentationService);
+    this.route.data.subscribe((data: { presentations: PresentationDTO[] }) => {
+      this.presentations = data.presentations;
+    });
   }
 
   openPresentationPage(i: number) {
