@@ -13,9 +13,9 @@ import { first } from 'rxjs/operators';
 })
 export class PresentationPageComponent implements OnInit {
 
-  commentFormGroup: FormGroup;
+  messageFormGroup: FormGroup;
 
-  commentBox: FormControl = this.fb.control('', [Validators.required]);
+  messageBox: FormControl = this.fb.control('', [Validators.required]);
 
   presentation: PresentationDTO;
 
@@ -23,7 +23,9 @@ export class PresentationPageComponent implements OnInit {
 
   submittedRate = false;
 
-  commentAdded = false;
+  messageAdded = false;
+
+  avgMark = 0;
 
   constructor(
     private presentationService: PresentationService,
@@ -33,32 +35,41 @@ export class PresentationPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.route.data.subscribe((data: { presentation: PresentationDTO }) => {
       this.presentation = data.presentation;
+
+      let sum = 0;
+
+      data.presentation.marks.forEach(element => {
+        sum += element.mark;
+      });
+
+      this.avgMark = sum / this.presentation.marks.length;
     });
 
-    this.commentFormGroup = this.fb.group({
-      commentBox: ''
+    this.messageFormGroup = this.fb.group({
+      messageBox: ''
     });
 
-    // IF (user already voted) submittedRate = true;
-    // ELSE submittedRate = false;
   }
 
   submitRate(rate: number) {
 
     this.submittedRate = true;
 
-    if (!this.presentation.mark || Number.isNaN(+this.presentation.mark)) {
-      this.presentation.mark = '' + rate;
+    if (!this.presentation.marks) {
+      this.avgMark = rate;
     } else {
-      this.presentation.mark = '' + Number((+this.presentation.mark + rate) / 2).toFixed(2);
+      this.presentation.marks.push({
+        email: localStorage.getItem('email'),
+        mark: +rate.toFixed(2)
+      });
     }
-
 
     this.presentationService.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
-        // alert('Succes!');
+        alert('Succes!');
       },
       error => {
         alert(error);
@@ -69,18 +80,27 @@ export class PresentationPageComponent implements OnInit {
 
   addComment() {
 
-    this.commentFormGroup.reset();
+    alert(this.messageBox.value);
+
+    this.presentation.messages.push({
+      email: localStorage.getItem('email'),
+      message: this.messageBox.value,
+      type: '',
+      anon: false
+    });
 
     this.presentationService.updatePresentation(this.presentation).pipe(first())
       .subscribe(
         data => {
-          alert('Succes!:' + data);
-          this.router.navigate(['/home']);
+          alert('Succes!:' + JSON.stringify(data));
+          this.router.navigate(['']);
         },
         error => {
           alert(error);
         }
       );
+
+    this.messageFormGroup.reset();
   }
 
 }

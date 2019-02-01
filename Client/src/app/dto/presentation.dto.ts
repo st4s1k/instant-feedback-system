@@ -3,19 +3,26 @@ import { Time } from '@angular/common';
 export class PresentationDTO {
 
   public id: number;
-  public userId: number;
+  public email: string;
   public title: string;
   public description: string;
-  public time: string;
-  public duration: string;
-  public date: string;
+  public startDate: string;
+  public endDate: string;
   public location: string;
-  public emailInvitations: string[];
-  public comments: {
-    userId: number,
-    comment: string
-  }[];
-  public mark: string;
+  public participants: {
+    id: number,
+    email: string
+  }[] = [];
+  public messages: {
+    email: string,
+    message: string,
+    type: string,
+    anon: boolean
+  }[] = [];
+  public marks: {
+    email: string,
+    mark: number
+  }[] = [];
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);

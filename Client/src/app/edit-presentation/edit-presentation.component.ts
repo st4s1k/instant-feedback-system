@@ -17,8 +17,8 @@ export class EditPresentationComponent implements OnInit {
 
   title: FormControl = this.fb.control('', [Validators.required]);
   description: FormControl = this.fb.control('', [Validators.required]);
-  time: FormControl = this.fb.control('', [Validators.required]);
-  duration: FormControl = this.fb.control('', [Validators.required]);
+  startTime: FormControl = this.fb.control('', [Validators.required]);
+  endTime: FormControl = this.fb.control('', [Validators.required]);
   date: FormControl = this.fb.control('', [Validators.required]);
   location: FormControl = this.fb.control('', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([]);
@@ -52,15 +52,16 @@ export class EditPresentationComponent implements OnInit {
 
         this.title.setValue(data.presentation.title);
         this.description.setValue(data.presentation.description);
-        this.time.setValue(data.presentation.time);
-        this.duration.setValue(data.presentation.duration);
-        this.date.setValue(data.presentation.date);
+        this.startTime.setValue(data.presentation.startDate.split('T')[1]);
+        this.endTime.setValue(data.presentation.endDate.split('T')[1]);
+        this.date.setValue(data.presentation.startDate.split('T')[0]);
         this.location.setValue(data.presentation.location);
 
-        for (const invitation of data.presentation.emailInvitations) {
-          this.emailInvitations.push(this.fb.control(
-            invitation, [Validators.required, Validators.email]
-          ));
+        for (const participant of data.presentation.participants) {
+          this.emailInvitations.push(this.fb.control({
+            id: participant.id,
+            email: [participant.email, [Validators.required, Validators.email]]
+          }));
         }
       });
     }
@@ -68,8 +69,8 @@ export class EditPresentationComponent implements OnInit {
     this.editPresentationFormGroup = this.fb.group({
       title: this.title,
       description: this.description,
-      time: this.time,
-      duration: this.duration,
+      startTime: this.startTime,
+      endTime: this.endTime,
       date: this.date,
       location: this.location,
       emailInvitations: this.emailInvitations

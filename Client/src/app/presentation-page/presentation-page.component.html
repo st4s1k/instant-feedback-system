@@ -40,23 +40,15 @@
 
       </div>
 
-      <div class="row card p-0 mt-3 mb-3" *ngFor='let comment of comments; let i=index;'>
+      <div class="row card p-0 mt-3 mb-3" *ngFor='let comment of presentation.comments; let i=index;'>
         <div class="col card-body">
 
-          <div class="row">
+          <div class="card-title">
+            <p class="m-0">{{comment.email}}</p>
+          </div>
 
-            <div class="col text-left">
-              <p class="m-0">{{comment.author}}</p>
-            </div>
-
-            <div class="col-auto">
-              <p class="m-0">{{comment.text}}</p>
-            </div>
-
-            <div class="col-auto">
-              <i class="fas fa-star"></i>
-            </div>
-
+          <div class="card-text">
+            <p class="m-0">{{comment.text}}</p>
           </div>
 
         </div>
@@ -66,19 +58,32 @@
       <div class="row mb-5">
 
         <div class="col">
+
           <form [formGroup]="commentFormGroup" (ngSubmit)="addComment()">
+
             <div class="form-group">
-              <label for="message" class="field-label-responsive">Comment box:</label>
-              <textarea class="form-control" id="message" cols="30" rows="4" placeholder="Your comment." required
+
+              <label for="comment-box" class="field-label-responsive">
+                Comment box:
+              </label>
+
+              <textarea class="form-control" id="comment-box" cols="30" rows="4" placeholder="Your comment." required
                 autofocus formControlName="commentBox"></textarea>
+
             </div>
+
             <div class="row-stretch">
+
               <div class="col-sm-5 col-md-4 col-lg-3">
+
                 <button [disabled]="loading" id="SaveBtn" type="submit" class="btn btn-success">
                   Save
                 </button>
+
               </div>
+
             </div>
+
           </form>
 
         </div>
