@@ -21,7 +21,7 @@ export class PresentationService {
   }
 
   getPresentationsByUser(userId: number) {
-    return this.http.get<PresentationDTO[]>(`${API_URL}/user`, {
+    return this.http.get<PresentationDTO[]>(`${API_URL}`, {
       params: {
         userId: '' + userId
       }
@@ -29,7 +29,7 @@ export class PresentationService {
   }
 
   getPresentationsByTitle(title: string) {
-    return this.http.get<PresentationDTO[]>(`${API_URL}/title`, {
+    return this.http.get<PresentationDTO[]>(`${API_URL}`, {
       params: {
         title: title
       }

@@ -6,6 +6,8 @@ import { GlobalServUserService } from '../global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { PresentationService } from '../services/presentation.service';
+import { PresentationDTO } from '../dto/presentation.dto';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,6 +17,7 @@ import { first } from 'rxjs/operators';
 export class UserProfileComponent implements OnInit {
 
   user: UserDTO;
+  presentations: PresentationDTO[];
   btnChange = false;
 
   changePassForm: FormGroup;
@@ -23,6 +26,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private presentationService: PresentationService,
     private router: Router,
     private route: ActivatedRoute,
     private globUser: GlobalServUserService,
@@ -35,16 +39,25 @@ export class UserProfileComponent implements OnInit {
     this.route.data.subscribe((data: { user: UserDTO }) => {
       this.user = data.user;
     });
+    this.route.data.subscribe((data: { presentations: PresentationDTO[] }) => {
+      this.presentations = data.presentations;
+    });
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmNewPass: ['', Validators.required]
     }, {
         validator: MustMatch('NewPass', 'ConfirmNewPass')
       });
+
+  }
+  openPresentationPage(i: number) {
+    // console.log('Trying to open presentation ' + this.presentations[i].id);
+    this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
 
   getUserProfile(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    // const id = +this.route.snapshot.paramMap.get('id');
+    const id = JSON.parse(localStorage.getItem('userId'));
     this.userService.getUserById(id)
       .subscribe(user => this.user = user);
     console.log(id);
