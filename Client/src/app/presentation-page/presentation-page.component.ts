@@ -23,8 +23,10 @@ export class PresentationPageComponent implements OnInit {
 
   submittedRate = false;
 
+  commentAdded = false;
+
   constructor(
-    private ps: PresentationService,
+    private presentationService: PresentationService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
@@ -54,7 +56,7 @@ export class PresentationPageComponent implements OnInit {
     }
 
 
-    this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
+    this.presentationService.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
         // alert('Succes!');
       },
@@ -64,4 +66,21 @@ export class PresentationPageComponent implements OnInit {
     );
 
   }
+
+  addComment() {
+
+    this.commentFormGroup.reset();
+
+    this.presentationService.updatePresentation(this.presentation).pipe(first())
+      .subscribe(
+        data => {
+          alert('Succes!:' + data);
+          this.router.navigate(['/home']);
+        },
+        error => {
+          alert(error);
+        }
+      );
+  }
+
 }
