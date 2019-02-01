@@ -14,6 +14,7 @@ export class NavComponent implements OnInit {
   // public UserEmail;
   // public UserId;
   public authenticated = JSON.parse(localStorage.getItem('sessionID'));
+  // public authenticated = JSON.parse(localStorage.getItem('auth'));
   public UserEmail = JSON.parse(localStorage.getItem('email'));
   public UserId = JSON.parse(localStorage.getItem('userId'));
 
@@ -21,6 +22,7 @@ export class NavComponent implements OnInit {
     this.globalSrv.navEmail.subscribe((email) => this.UserEmail = email);
     this.globalSrv.navUser.subscribe((id) => this.UserId = id);
     this.globalSrv.NavAuthenticated.subscribe((aut) => this.authenticated = aut);
+    this.globalSrv.SessionID.subscribe((sessId) => this.authenticated = sessId);
   }
 
 

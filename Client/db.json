@@ -105,6 +105,16 @@
         "some4@mail.dom"
       ],
       "mark": "7.25"
+    },
+    {
+      "title": "Test presentation",
+      "description": "description",
+      "time": "14:22",
+      "duration": "11:02",
+      "date": "2019-02-22",
+      "location": "Inther",
+      "emailInvitations": [],
+      "id": 8
     }
   ],
   "users": [

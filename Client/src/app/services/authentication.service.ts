@@ -37,20 +37,25 @@ export class AuthenticationService {
   //         localStorage.setItem('currentUser', JSON.stringify(user));
   //         alert('Success!');
   //        alert(JSON.stringify(user));
-  //         this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
-  //         this.globalSrv.setNavEmail(this.userLocal.email);
-  //         this.globalSrv.setNavUserId(this.userLocal.id);
-  //         localStorage.setItem('auth', JSON.stringify(true));
-  //         localStorage.setItem('email', JSON.stringify(this.userLocal.email));
-  //         const authe = JSON.parse(localStorage.getItem('auth'));
-  //         this.globalSrv.setNavAuthenticated(authe);
-  //       }
+  //        alert(user);
+  //        this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
+  //        this.globalSrv.setNavEmail(this.userLocal.email);
+  //        this.globalSrv.setNavUserId(this.userLocal.id);
+  //        this.globalSrv.setSessionID(this.userLocal.id);
+  //        localStorage.setItem('sessionID', JSON.stringify(this.userLocal.id));
+  //        localStorage.setItem('email', JSON.stringify(this.userLocal.email));
+  //        localStorage.setItem('userId', JSON.stringify(this.userLocal.id));
+  //        // localStorage.setItem('auth', JSON.stringify(true));
+  //        // const authe = JSON.parse(localStorage.getItem('auth'));
+  //        // this.globalSrv.setNavAuthenticated(authe);
+
   //       // alert()
+  //       }
   //       return user;
   //     }));
   // }
 
-  // Fake backend
+  // // Fake backend
   login(email: string, password: string) {
     return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
       .pipe(map(user => {
@@ -66,11 +71,13 @@ export class AuthenticationService {
           this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
+          this.globalSrv.setSessionID(this.userLocal.id);
           localStorage.setItem('sessionID', JSON.stringify(this.userLocal.id));
           localStorage.setItem('email', JSON.stringify(this.userLocal.email));
           localStorage.setItem('userId', JSON.stringify(this.userLocal.id));
-          const authe = JSON.parse(localStorage.getItem('auth'));
-          this.globalSrv.setNavAuthenticated(authe);
+          // localStorage.setItem('auth', JSON.stringify(true));
+          // const authe = JSON.parse(localStorage.getItem('auth'));
+          // this.globalSrv.setNavAuthenticated(authe);
 
         }
 
@@ -82,7 +89,9 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     // localStorage.removeItem('auth');
     localStorage.setItem('sessionID', JSON.stringify(0));
-    this.globalSrv.setNavAuthenticated(0);
+    // localStorage.setItem('auth', JSON.stringify(false));
+    // this.globalSrv.setNavAuthenticated(false);
+    this.globalSrv.setSessionID(0);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');

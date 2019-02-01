@@ -6,42 +6,47 @@
   </div>
   <div class="row">
     <div class="col-md-9 pres-part">
-        <div class="container mt-5 p-0 text-center">
+      <div class="container mt-5 p-0 text-center">
 
-            <h2 class="mb-5">Presentations</h2>
-          
-            <div class="row justify-content-center p-0">
-          
-              <div class="col-md-10 col-lg-8 ml-5 mr-5">
-          
-                <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
-                  <div class="col card-body">
-          
-                    <div class="row">
-          
-                      <div class="col text-left">
-                        <p class="m-0">{{presentation.title}}</p>
-                      </div>
-          
-                      <div class="col-auto">
-                        <p class="m-0">{{presentation.mark}}</p>
-                      </div>
-          
-                      <div class="col-auto">
-                        <i class="fas fa-star"></i>
-                      </div>
-          
-                    </div>
-          
-                  </div>
-          
+        <h2 class="mb-5">Presentations</h2>
+
+        <div class="row justify-content-center p-0">
+
+          <div class="col-md-10 col-lg-8 ml-5 mr-5">
+
+            <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
+              <div class="col card-body">
+                <div class="row">
+                  
                 </div>
-          
+
+                <div class="row">
+
+                  <div class="col text-left">
+                    <p class="m-0">{{presentation.title}}</p>
+                  </div>
+
+                  <div class="col-auto">
+                    <p class="m-0">{{presentation.mark}}</p>
+                  </div>
+
+                  <div class="col-auto">
+                    <i class="fas fa-star"></i>
+                  </div>
+
+                  <div>Edit</div>
+
+                </div>
+
               </div>
-          
+
             </div>
-          
+
           </div>
+
+        </div>
+
+      </div>
     </div>
     <div class=" col-md-3 user-info">
       <div></div>
@@ -54,39 +59,39 @@
         <div class="container changeForm">
           <h5>Change Password</h5>
           <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
-              <div class="form-group">
-                <label for="NewPass">New Password</label>
-                <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
-                  <div class="input-group-addon" style="width: 1.6rem"><i class="fas fa-key"></i></div>
-                  <input type="password" formControlName="NewPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && changePassForm.controls.NewPass.errors }"
-                    placeholder="Enter your new password" required autofocus />
-                </div>
+            <div class="form-group">
+              <label for="NewPass">New Password</label>
+              <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon" style="width: 1.6rem"><i class="fas fa-key"></i></div>
+                <input type="password" formControlName="NewPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && changePassForm.controls.NewPass.errors }"
+                  placeholder="Enter your new password" required autofocus />
               </div>
-              <div class="form-control-feedback">
-                <div *ngIf="submitted && changePassForm.controls.NewPass.errors" class="text-danger">
-                  <div *ngIf="changePassForm.controls.NewPass.errors.required">Password is required</div>
-                  <div *ngIf="changePassForm.controls.NewPass.errors.minlength">Password must be at least 6 characters</div>
-                </div>
+            </div>
+            <div class="form-control-feedback">
+              <div *ngIf="submitted && changePassForm.controls.NewPass.errors" class="text-danger">
+                <div *ngIf="changePassForm.controls.NewPass.errors.required">Password is required</div>
+                <div *ngIf="changePassForm.controls.NewPass.errors.minlength">Password must be at least 6 characters</div>
               </div>
-           
-              <div class="form-group">
-                <label for="ConfirmNewPass">Confirm new Password</label>
-                <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
-                  <div class="input-group-addon" style="width: 1.6rem"><i class="fas fa-key"></i></div>
-                  <input type="password" formControlName="ConfirmNewPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && changePassForm.controls.ConfirmNewPass.errors }"
-                    placeholder="Confirm your new password" required autofocus />
-                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ConfirmNewPass">Confirm new Password</label>
+              <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon" style="width: 1.6rem"><i class="fas fa-key"></i></div>
+                <input type="password" formControlName="ConfirmNewPass" class="form-control" [ngClass]="{ 'is-invalid': submitted && changePassForm.controls.ConfirmNewPass.errors }"
+                  placeholder="Confirm your new password" required autofocus />
               </div>
-              <div class="form-control-feedback">
+            </div>
+            <div class="form-control-feedback">
               <div *ngIf="submitted && changePassForm.controls.ConfirmNewPass.errors" class="text-danger">
-                  <div *ngIf="changePassForm.controls.ConfirmNewPass.errors.required">Password is required</div>
-                  <div *ngIf="changePassForm.controls.ConfirmNewPass.errors.mustMatch">Password does not match</div>
-                </div>
+                <div *ngIf="changePassForm.controls.ConfirmNewPass.errors.required">Password is required</div>
+                <div *ngIf="changePassForm.controls.ConfirmNewPass.errors.mustMatch">Password does not match</div>
               </div>
-           
+            </div>
+
             <div class="row">
               <div class="col-md-3">
-                  <button [disabled]="loading" id="CancelChangeBtn" (click)="onCancel()" type="button" class="btn btn-danger">Cancel</button>
+                <button [disabled]="loading" id="CancelChangeBtn" (click)="onCancel()" type="button" class="btn btn-danger">Cancel</button>
               </div>
               <div class="col-md-5"></div>
               <div class="col-md-3">
