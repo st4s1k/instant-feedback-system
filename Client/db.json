@@ -233,6 +233,7 @@
           "email": "some4@mail.dom"
         }
       ],
+<<<<<<< HEAD
       "marks": [
         {
           "email": "some@email.com",
@@ -247,6 +248,19 @@
           "mark": 1
         }
       ]
+=======
+      "mark": "7.25"
+    },
+    {
+      "title": "Test presentation",
+      "description": "description",
+      "time": "14:22",
+      "duration": "11:02",
+      "date": "2019-02-22",
+      "location": "Inther",
+      "emailInvitations": [],
+      "id": 8
+>>>>>>> 3c039712b68b795c71029fb8048be046730f57c4
     }
   ],
   "users": [

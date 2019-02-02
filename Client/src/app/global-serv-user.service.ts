@@ -12,16 +12,20 @@ export class GlobalServUserService {
   navEmail = this.navEmailSource.asObservable();
   private NavUserIdSource = new Subject<number>();
   navUser = this.NavUserIdSource.asObservable();
-  private NavAuthenticatedSource = new Subject<number>();
+  private NavAuthenticatedSource = new Subject<boolean>();
   NavAuthenticated = this.NavAuthenticatedSource.asObservable();
-
+  private SessionIDSource = new Subject<number>();
+  SessionID = this.SessionIDSource.asObservable();
   setNavEmail(email: string) {
     this.navEmailSource.next(email);
   }
   setNavUserId(id: number) {
     this.NavUserIdSource.next(id);
   }
-  setNavAuthenticated(auth: number) {
+  setSessionID(SessID: number) {
+    this.SessionIDSource.next(SessID);
+  }
+  setNavAuthenticated(auth: boolean) {
     this.NavAuthenticatedSource.next(auth);
   }
 

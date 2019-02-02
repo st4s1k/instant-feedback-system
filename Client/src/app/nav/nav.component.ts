@@ -13,18 +13,14 @@ export class NavComponent implements OnInit {
   // public authenticated;
   // public UserEmail;
   // public UserId;
-
-  // public authenticated = JSON.parse(localStorage.getItem('sessionID'));
-  // public UserId = JSON.parse(localStorage.getItem('userId'));
-  // public UserEmail = JSON.parse(localStorage.getItem('email'));
-  public authenticated = +localStorage.getItem('sessionID');
-  public UserId = +localStorage.getItem('userId');
+  public authenticated = !Number.isNaN(+localStorage.getItem('sessionID'));
+  // public authenticated = localStorage.getItem('auth');
   public UserEmail = localStorage.getItem('email');
+  public UserId = +localStorage.getItem('userId');
 
   constructor(private auth: AuthenticationService, private globalSrv: GlobalServUserService) {
     this.globalSrv.NavAuthenticated.subscribe((aut) => this.authenticated = aut);
-    this.globalSrv.navUser.subscribe((id) => this.UserId = id);
-    this.globalSrv.navEmail.subscribe((email) => this.UserEmail = email);
+    this.globalSrv.SessionID.subscribe((sessId) => this.authenticated = !Number.isNaN(sessId));
   }
 
 
