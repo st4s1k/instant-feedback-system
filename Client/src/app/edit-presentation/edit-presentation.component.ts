@@ -48,7 +48,9 @@ export class EditPresentationComponent implements OnInit {
 
       this.route.data.subscribe((data: { presentation: Presentation }) => {
 
-        this.presentation = data.presentation;
+        this.presentation = new Presentation(data.presentation);
+
+        console.log(JSON.stringify(data));
 
         this.title.setValue(data.presentation.title);
         this.description.setValue(data.presentation.description);
@@ -102,7 +104,7 @@ export class EditPresentationComponent implements OnInit {
       this.presentationService.createPresentation(this.presentation).pipe(first())
         .subscribe(
           data => {
-            alert('Succes!:' + data);
+            // alert('Succes!:' + data);
             this.router.navigate(['/home']);
           },
           error => {
@@ -113,7 +115,7 @@ export class EditPresentationComponent implements OnInit {
       this.presentationService.updatePresentation(this.presentation).pipe(first())
         .subscribe(
           data => {
-            alert('Succes!:' + data);
+            // alert('Succes!:' + data);
             this.router.navigate(['/home']);
           },
           error => {

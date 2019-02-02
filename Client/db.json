@@ -5,7 +5,7 @@
       "email": "email1@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "14:30",
+      "startDate": "12-12-1996T14:30:00",
       "place": "Some place 01:00",
       "endDate": "2018-1-23",
       "participants": [
@@ -29,6 +29,32 @@
           "email": "some@email.com",
           "mark": 3
         }
+      ],
+      "feedback": [
+        {
+          "email": null,
+          "message": "Hello, world!",
+          "type": "",
+          "anonimity": false
+        },
+        {
+          "email": "us@mail.com",
+          "message": "Hello, world2!",
+          "type": "",
+          "anonimity": false
+        },
+        {
+          "email": "us@mail.com",
+          "message": "Some question?",
+          "type": "",
+          "anonimity": false
+        },
+        {
+          "email": "us@mail.com",
+          "message": "Very important feedback.",
+          "type": "",
+          "anonimity": false
+        }
       ]
     },
     {
@@ -36,7 +62,7 @@
       "email": "email2@example.com",
       "title": "Some Presentation Title 2",
       "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
-      "startDate": "12:30",
+      "startDate": "12-12-1996T12:30:00",
       "place": "Some place 11:00",
       "endDate": "2018-2-45",
       "participants": [
@@ -53,7 +79,7 @@
       "marks": [
         {
           "email": "some@email.com",
-          "mark": 5
+          "mark": 2
         },
         {
           "email": "some@email.com",
@@ -69,7 +95,7 @@
       "id": 3,
       "title": "Amazing Title",
       "description": "Amazing Description",
-      "startDate": "12:12",
+      "startDate": "12-12-1996T12:12:00",
       "place": "Some place 14:04",
       "endDate": "1996-12-12",
       "participants": [
@@ -87,7 +113,7 @@
         },
         {
           "email": "some@email.com",
-          "mark": 4
+          "mark": 2
         },
         {
           "email": "some@email.com",
@@ -100,7 +126,7 @@
       "email": "email4@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "14:30",
+      "startDate": "12-12-1996T14:30:00",
       "place": "Some place 01:00",
       "endDate": "2018-1-23",
       "participants": [
@@ -122,7 +148,7 @@
         },
         {
           "email": "some@email.com",
-          "mark": 3
+          "mark": 2
         }
       ]
     },
@@ -131,7 +157,7 @@
       "email": "email5@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "14:30",
+      "startDate": "12-12-1996T14:30:00",
       "place": "Some place 01:00",
       "endDate": "2018-1-23",
       "participants": [
@@ -145,7 +171,7 @@
       "marks": [
         {
           "email": "some@email.com",
-          "mark": 5
+          "mark": 1
         },
         {
           "email": "some@email.com",
@@ -162,7 +188,7 @@
       "email": "email6@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "14:30",
+      "startDate": "12-12-1996T14:30:00",
       "place": "Some place 01:00",
       "endDate": "2018-1-23",
       "participants": [
@@ -180,7 +206,7 @@
         },
         {
           "email": "some@email.com",
-          "mark": 4
+          "mark": 1
         },
         {
           "email": "some@email.com",
@@ -193,7 +219,7 @@
       "email": "email7@example.com",
       "title": "Some Presentation Title 2",
       "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
-      "startDate": "12:30",
+      "startDate": "12-12-1996T12:30:00",
       "place": "Some place 11:00",
       "endDate": "2018-2-45",
       "participants": [
@@ -218,7 +244,7 @@
         },
         {
           "email": "some@email.com",
-          "mark": 3
+          "mark": 1
         }
       ]
     }

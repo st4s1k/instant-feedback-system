@@ -2,18 +2,18 @@
 
   <div class="row justify-content-center">
 
-    <div class="col-sm-10">
+    <div class="col-sm-10 p-0">
 
-      <div class="card row mt-5 mb-3">
+      <div class="card mt-5 mb-5">
 
         <div class="card-body">
-          <h1 *ngIf="presentation">{{ presentation.title }}</h1>
+          <h1>{{ presentation.title }}</h1>
         </div>
 
         <div class="card-body pt-0 pb-0">
           <div class="current-mark row justify-content-end">
             <div class="col-auto pl-0 align-content-center">
-              <p>Rating: {{ avgMark }}</p>
+              <p>Rating: {{ ps.getAvgMark(presentation.marks) }}</p>
             </div>
             <div class="col-auto pl-0 align-content-center">
               <i class="fas fa-star"></i>
@@ -23,7 +23,7 @@
 
         <div class="card-body">
           <label for="description" class="field-label-responsive"><b>Description</b></label>
-          <p *ngIf="presentation"> {{ presentation.description }} <p>
+          <p> {{ presentation.description }} <p>
         </div>
 
         <div class="card-body text-right">
@@ -40,17 +40,14 @@
 
       </div>
 
-      <div class="row card p-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
-        <div class="col card-body">
+      <div class="card p-0 m-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
+        <div class="card-body">
 
-          <div class="card-title">
-            <p class="m-0">{{feedback.email}}</p>
-          </div>
+          <h5 class="card-title">{{ feedback.email }}</h5>
 
-          <div class="card-text">
-            <p class="m-0">{{feedback.message}}</p>
-          </div>
+          <p class="card-text">{{ feedback.message }}</p>
 
+          <div class="card-link btn p-0">edit</div>
         </div>
 
       </div>

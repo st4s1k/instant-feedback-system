@@ -5,6 +5,7 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
+
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { Presentation } from '../models/presentation.model';
@@ -22,9 +23,9 @@ export class PresentationDetailResolverService implements Resolve<Presentation> 
 
     return this.ps.getPresentationById(id).pipe(
       take(1),
-      mergeMap(presentation => {
-        if (presentation) {
-          return of(presentation);
+      mergeMap(presentations => {
+        if (presentations && presentations[0]) {
+          return of(presentations[0]);
         } else { // id not found
           this.router.navigate(['']);
           return EMPTY;

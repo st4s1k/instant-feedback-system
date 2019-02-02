@@ -13,7 +13,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: Presentation) {
-    return this.http.post<Presentation>(`${API_URL}`, presentation);
+    return this.http.post<Presentation[]>(`${API_URL}`, presentation);
   }
 
   getPresentations() {
@@ -37,7 +37,7 @@ export class PresentationService {
   }
 
   getPresentationById(id: number) {
-    return this.http.get<Presentation>(`${API_URL}`, {
+    return this.http.get<Presentation[]>(`${API_URL}`, {
       params: {
         id: '' + id
       }
@@ -45,11 +45,12 @@ export class PresentationService {
   }
 
   updatePresentation(presentation: Presentation) {
-    return this.http.put<Presentation>(`${API_URL}`, presentation, {
-      params: {
-        id: '' + presentation.id
-      }
-    });
+    return this.http.put<Presentation>(`${API_URL}/${presentation.id}`, presentation);
+    // return this.http.put<Presentation>(`${API_URL}`, presentation, {
+    //   params: {
+    //     id: '' + presentation.id
+    //   }
+    // });
   }
 
   deletePresentation(id: number) {
@@ -60,15 +61,19 @@ export class PresentationService {
     });
   }
 
-  avgMark(marks: { email: string, mark: number }[]) {
-    let sum = 0;
+  getAvgMark(marks: { email: string, mark: number }[]) {
 
-    marks.forEach(element => {
-      sum += element.mark;
+    let value = Number(0).toFixed(2);
 
-      console.log('mark: ' + element.mark);
-    });
+    if (marks) {
+      let sum = 0;
 
-    return Number(sum / marks.length);
+      marks.forEach(element => {
+        sum += element.mark;
+      });
+      value = Number(sum / marks.length).toFixed(2);
+    }
+
+    return value;
   }
 }

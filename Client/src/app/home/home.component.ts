@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   presentations: Presentation[];
 
   constructor(
-    private presentationService: PresentationService,
+    private ps: PresentationService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: { presentations: Presentation[] }) => {
       this.presentations = data.presentations;
-      // console.log('home: ' + JSON.stringify(data));
     });
   }
 

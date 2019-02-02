@@ -13,9 +13,9 @@ import { first } from 'rxjs/operators';
 })
 export class PresentationPageComponent implements OnInit {
 
-  feedbackFormGroup: FormGroup;
+  feedbackBox: FormControl = this.fb.control('');
 
-  feedbackBox: FormControl = this.fb.control('', [Validators.required]);
+  feedbackFormGroup: FormGroup = this.fb.group({ feedbackBox: this.feedbackBox });
 
   presentation: Presentation;
 
@@ -25,7 +25,6 @@ export class PresentationPageComponent implements OnInit {
 
   feedbackAdded = false;
 
-  avgMark = 0;
 
   constructor(
     private ps: PresentationService,
@@ -37,17 +36,11 @@ export class PresentationPageComponent implements OnInit {
   ngOnInit() {
 
     this.route.data.subscribe((data: { presentation: Presentation }) => {
-      Object.assign(this.presentation, data.presentation);
+      console.log('data.presentation: ' + JSON.stringify(data.presentation));
 
-      console.log('presentation page: ' + JSON.stringify(this.presentation));
+      this.presentation = new Presentation(data.presentation);
 
-      this.avgMark = this.ps.avgMark(data.presentation.marks);
-
-      console.log('Average mark: ' + this.avgMark);
-    });
-
-    this.feedbackFormGroup = this.fb.group({
-      feedbackBox: ''
+      console.log('this.presentation: ' + JSON.stringify(this.presentation));
     });
 
   }
@@ -57,21 +50,23 @@ export class PresentationPageComponent implements OnInit {
     this.submittedRate = true;
 
     if (!this.presentation.marks) {
-      this.avgMark = rate;
-    } else {
-      this.presentation.marks.push({
-        userId: +localStorage.getItem('userId'),
-        email: localStorage.getItem('email'),
-        mark: +rate.toFixed(2)
-      });
+      this.presentation.marks = [];
     }
+
+    this.presentation.marks.push({
+      userId: +localStorage.getItem('userId'),
+      email: localStorage.getItem('email'),
+      mark: +rate.toFixed(2)
+    });
 
     this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
-        alert('Succes!');
+        // alert('Succes!');
+        // console.log('Succes!: ' + JSON.stringify(data));
       },
       error => {
-        alert(error);
+        alert('Error!');
+        console.log('Error!: ' + JSON.stringify(error));
       }
     );
 
@@ -79,7 +74,9 @@ export class PresentationPageComponent implements OnInit {
 
   leaveFeedback(type: string) {
 
-    alert(this.feedbackBox.value);
+    if (!this.presentation.feedback) {
+      this.presentation.feedback = [];
+    }
 
     this.presentation.feedback.push({
       email: localStorage.getItem('email'),
@@ -91,11 +88,10 @@ export class PresentationPageComponent implements OnInit {
     this.ps.updatePresentation(this.presentation).pipe(first())
       .subscribe(
         data => {
-          alert('Succes!:' + JSON.stringify(data));
-          this.router.navigate(['']);
+          // alert('Succes!:' + JSON.stringify(data));
         },
         error => {
-          alert(error);
+          alert('Error!: ' + error);
         }
       );
 

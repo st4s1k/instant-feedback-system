@@ -5,13 +5,16 @@ import { Subject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GlobalServUserService {
+
   constructor() { }
+
   private navEmailSource = new Subject<string>();
   navEmail = this.navEmailSource.asObservable();
   private NavUserIdSource = new Subject<number>();
   navUser = this.NavUserIdSource.asObservable();
   private NavAuthenticatedSource = new Subject<number>();
   NavAuthenticated = this.NavAuthenticatedSource.asObservable();
+
   setNavEmail(email: string) {
     this.navEmailSource.next(email);
   }
