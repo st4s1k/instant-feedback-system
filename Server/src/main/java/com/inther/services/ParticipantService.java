@@ -2,6 +2,7 @@ package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
+import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.ParticipantEntity;
 import com.inther.entities.implementation.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class ParticipantService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
+    private final ServiceUtilityBean serviceUtilityBean;
     private final PresentationRepository presentationRepository;
     private final ParticipantRepository participantRepository;
     private final ResponseBean responseBean;
@@ -31,20 +33,13 @@ public class ParticipantService
         if (optionalPresentationEntity.isPresent())
         {
             Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
-                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), participantEntity.getEmail());
+                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), authorityUtilityBean.getCurrentAuthenticationEmail());
             if (!optionalParticipantEntity.isPresent())
             {
-                if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(participantEntity.getEmail()))
-                {
-                    participantRepository.save(participantEntity);
-                    responseBean.setHeaders(httpHeaders);
-                    responseBean.setStatus(HttpStatus.CREATED);
-                    responseBean.setResponse("Your joined presentation with id: '" + participantEntity.getPresentationId() + "'");
-                }
-                else
-                {
-                    throw new AccessDeniedException("Access denied for you authority");
-                }
+                participantRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(participantEntity));
+                responseBean.setHeaders(httpHeaders);
+                responseBean.setStatus(HttpStatus.CREATED);
+                responseBean.setResponse("Your joined presentation with id: '" + participantEntity.getPresentationId() + "'");
             }
             else
             {
@@ -82,9 +77,12 @@ public class ParticipantService
     }
 
     @Autowired
-    public ParticipantService(AuthorityUtilityBean authorityUtilityBean, PresentationRepository presentationRepository, ParticipantRepository participantRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public ParticipantService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
+                              PresentationRepository presentationRepository, ParticipantRepository participantRepository,
+                              ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
+        this.serviceUtilityBean = serviceUtilityBean;
         this.presentationRepository = presentationRepository;
         this.participantRepository = participantRepository;
         this.responseBean = responseBean;

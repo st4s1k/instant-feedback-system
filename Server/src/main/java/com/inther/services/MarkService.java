@@ -2,9 +2,9 @@ package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
+import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.MarkEntity;
 import com.inther.entities.implementation.PresentationEntity;
-import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MarkRepository;
@@ -19,6 +19,7 @@ import java.util.Optional;
 public class MarkService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
+    private final ServiceUtilityBean serviceUtilityBean;
     private final PresentationRepository presentationRepository;
     private final MarkRepository markRepository;
     private final ResponseBean responseBean;
@@ -30,20 +31,14 @@ public class MarkService
                 .findPresentationEntityByPresentationId(markEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
-            Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(), markEntity.getEmail());
+            Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(),
+                    authorityUtilityBean.getCurrentAuthenticationEmail());
             if (!optionalMarkEntity.isPresent())
             {
-                if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(markEntity.getEmail()))
-                {
-                    markRepository.save(markEntity);
-                    responseBean.setHeaders(httpHeaders);
-                    responseBean.setStatus(HttpStatus.CREATED);
-                    responseBean.setResponse("Your mark for presentation with id: '" + markEntity.getPresentationId() + "' successfully added");
-                }
-                else
-                {
-                    throw new AccessDeniedException("Access denied for you authority");
-                }
+                markRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(markEntity));
+                responseBean.setHeaders(httpHeaders);
+                responseBean.setStatus(HttpStatus.CREATED);
+                responseBean.setResponse("Your mark for presentation with id: '" + markEntity.getPresentationId() + "' successfully added");
             }
             else
             {
@@ -58,10 +53,11 @@ public class MarkService
     }
 
     @Autowired
-    public MarkService(AuthorityUtilityBean authorityUtilityBean, PresentationRepository presentationRepository,
+    public MarkService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, PresentationRepository presentationRepository,
                        MarkRepository markRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
+        this.serviceUtilityBean = serviceUtilityBean;
         this.presentationRepository = presentationRepository;
         this.markRepository = markRepository;
         this.responseBean = responseBean;

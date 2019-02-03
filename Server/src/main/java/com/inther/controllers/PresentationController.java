@@ -24,8 +24,8 @@ public class PresentationController
         return new ResponseEntityWrapper<>(presentationService.putPresentation(modelMapper.map(presentationDtoToPut, PresentationEntity.class)));
     }
 
-    @GetMapping
-    public ResponseEntity<?> getPresentations(@RequestParam(value = "email", required = false) String email) throws Exception
+    @GetMapping(value = {"", "/{email}"})
+    public ResponseEntity<?> getPresentations(@PathVariable(value = "email") String email) throws Exception
     {
         return new ResponseEntityWrapper<>(presentationService.getPresentation(email));
     }
@@ -36,8 +36,8 @@ public class PresentationController
         return new ResponseEntityWrapper<>(presentationService.patchPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletePresentation(@RequestParam(value = "presentationId") Integer presentationId) throws Exception
+    @DeleteMapping(value = {"", "/{presentationId}"})
+    public ResponseEntity<?> deletePresentation(@PathVariable(value = "presentationId") Integer presentationId) throws Exception
     {
         return new ResponseEntityWrapper<>(presentationService.deletePresentation(presentationId));
     }

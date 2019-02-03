@@ -11,17 +11,23 @@ import java.lang.reflect.Method;
 public class ServiceUtilityBean
 {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthorityUtilityBean authorityUtilityBean;
 
     public UserEntity encodeUserEntityPassword(UserEntity userEntity)
     {
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         return userEntity;
     }
+    public <T extends Entities> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
+    {
+        targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentAuthenticationEmail());
+        return targetEntity;
+    }
     public <T extends Entities> T patchEntity(T targetEntity, T patchingEntity) throws Exception
     {
         if (targetEntity.getClass().equals(patchingEntity.getClass()))
         {
-            for(Method method : targetEntity.getClass().getDeclaredMethods())
+            for(Method method : targetEntity.getClass().getMethods())
             {
                 if (method.getName().startsWith("get") && (patchingEntity.getClass().getMethod(method.getName()).invoke(patchingEntity) != null))
                 {
@@ -39,8 +45,9 @@ public class ServiceUtilityBean
     }
 
     @Autowired
-    public ServiceUtilityBean(BCryptPasswordEncoder bCryptPasswordEncoder)
+    public ServiceUtilityBean(BCryptPasswordEncoder bCryptPasswordEncoder, AuthorityUtilityBean authorityUtilityBean)
     {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.authorityUtilityBean = authorityUtilityBean;
     }
 }

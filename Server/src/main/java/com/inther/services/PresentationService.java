@@ -61,23 +61,16 @@ public class PresentationService
         Optional<PresentationEntity> optionalUserEntity = presentationRepository.findPresentationEntityByPresentationTitle(presentationEntity.getPresentationTitle());
         if (!optionalUserEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(presentationEntity.getEmail()))
+            if (presentationEntity.getPresentationStartDate().before(presentationEntity.getPresentationEndDate()))
             {
-                if (presentationEntity.getPresentationStartDate().before(presentationEntity.getPresentationEndDate()))
-                {
-                    presentationRepository.save(presentationEntity);
-                    responseBean.setHeaders(httpHeaders);
-                    responseBean.setStatus(HttpStatus.CREATED);
-                    responseBean.setResponse("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' successfully added");
-                }
-                else
-                {
-                    throw new DateTimeException("Presentation start or end time is invalid");
-                }
+                presentationRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(presentationEntity));
+                responseBean.setHeaders(httpHeaders);
+                responseBean.setStatus(HttpStatus.CREATED);
+                responseBean.setResponse("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' successfully added");
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new DateTimeException("Presentation start or end time is invalid");
             }
         }
         else

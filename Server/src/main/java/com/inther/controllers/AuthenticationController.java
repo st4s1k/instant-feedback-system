@@ -24,8 +24,8 @@ public class AuthenticationController
         return new ResponseEntityWrapper<>(authenticationService.putAuthentication(modelMapper.map(authenticationDto, UserEntity.class)));
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAuthentication(@RequestParam(name = "status", required = false) String status) throws Exception
+    @GetMapping(value = {"", "/{status}"})
+    public ResponseEntity<?> getAuthentication(@PathVariable(value = "status", required = false) String status) throws Exception
     {
         return new ResponseEntityWrapper<>(authenticationService.getAuthentication(status));
     }

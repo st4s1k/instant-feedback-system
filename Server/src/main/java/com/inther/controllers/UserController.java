@@ -24,8 +24,8 @@ public class UserController
         return new ResponseEntityWrapper<>(userService.putUser(modelMapper.map(userDtoToPut, UserEntity.class)));
     }
 
-    @GetMapping
-    public ResponseEntity<?> getUser(@RequestParam(value = "email") String email) throws Exception
+    @GetMapping(value = {"", "/{email}"})
+    public ResponseEntity<?> getUser(@PathVariable(value = "email") String email) throws Exception
     {
         return new ResponseEntityWrapper<>(userService.getUser(email));
     }
@@ -37,8 +37,8 @@ public class UserController
         return new ResponseEntityWrapper<>(userService.patchUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteUser(@RequestParam(value = "email") String email) throws Exception
+    @DeleteMapping(value = {"", "/{email}"})
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "email") String email) throws Exception
     {
         return new ResponseEntityWrapper<>(userService.deleteUser(email));
     }

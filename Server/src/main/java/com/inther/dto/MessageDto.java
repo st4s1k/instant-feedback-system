@@ -16,12 +16,6 @@ public class MessageDto implements Serializable
     @NotNull(groups = {RequestDataValidator.PutMessage.class})
     private Integer presentationId;
 
-    @Email(groups = {RequestDataValidator.PutMessage.class})
-    @Size(groups = {RequestDataValidator.PutMessage.class}, max = 255)
-    @Null(groups = {RequestDataValidator.PatchMessage.class})
-    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
-    private String email;
-
     @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutMessage.class})
     private String message;
@@ -49,14 +43,6 @@ public class MessageDto implements Serializable
     public void setPresentationId(Integer presentationId)
     {
         this.presentationId = presentationId;
-    }
-    public String getEmail()
-    {
-        return email;
-    }
-    public void setEmail(String email)
-    {
-        this.email = email;
     }
     public String getMessage()
     {

@@ -10,7 +10,6 @@ public class UserAuthorityEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     @Column(name = "authority_id")
     private Integer authorityId;
 

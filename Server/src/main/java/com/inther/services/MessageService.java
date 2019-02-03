@@ -32,17 +32,10 @@ public class MessageService
                 .findPresentationEntityByPresentationId(messageEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(messageEntity.getEmail()))
-            {
-                messageRepository.save(messageEntity);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Message for presentation with id: '" + messageEntity.getPresentationId() + "' successfully added");
-            }
-            else
-            {
-                throw new AccessDeniedException("Access denied for you authority");
-            }
+            messageRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(messageEntity));
+            responseBean.setHeaders(httpHeaders);
+            responseBean.setStatus(HttpStatus.CREATED);
+            responseBean.setResponse("Message for presentation with id: '" + messageEntity.getPresentationId() + "' successfully added");
         }
         else
         {

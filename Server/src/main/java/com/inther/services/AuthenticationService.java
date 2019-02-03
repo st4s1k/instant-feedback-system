@@ -63,7 +63,7 @@ public class AuthenticationService
         {
             responseBean.setHeaders(httpHeaders);
             responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse("You successfully logged as: '" + authorityUtilityBean.getCurrentAuthenticationEmail() + "'");
+            responseBean.setResponse("You successfully authenticated as: '" + authorityUtilityBean.getCurrentAuthenticationEmail() + "'");
         }
         else if ((status != null) && (status.equals("invalidAuthenticationData")))
         {

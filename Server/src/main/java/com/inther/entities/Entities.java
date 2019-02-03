@@ -1,6 +1,3 @@
 package com.inther.entities;
 
-public interface Entities
-{
-    // !!!
-}
+public interface Entities {}

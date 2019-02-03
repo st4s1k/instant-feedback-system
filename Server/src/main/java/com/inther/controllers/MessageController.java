@@ -30,8 +30,8 @@ public class MessageController
         return new ResponseEntityWrapper<>(messageService.patchMessage(modelMapper.map(messageDtoToPatch, MessageEntity.class)));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteMessage(@RequestParam(value = "messageId") Integer messageId) throws Exception
+    @DeleteMapping(value = {"", "/{messageId}"})
+    public ResponseEntity<?> deleteMessage(@PathVariable(value = "messageId") Integer messageId) throws Exception
     {
         return new ResponseEntityWrapper<>(messageService.deleteMessage(messageId));
     }
