@@ -1,8 +1,8 @@
 package com.inther.services;
 
-import com.inther.beans.AuthorityUtilityBean;
+import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
-import com.inther.beans.ServiceUtilityBean;
+import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
@@ -24,6 +24,37 @@ public class PresentationService
     private final PresentationRepository presentationRepository;
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
+
+    private Optional<List<PresentationEntity>> getPresentationsWithOrWithoutFilter(String email)
+    {
+        if (email != null)
+        {
+            return presentationRepository.findPresentationEntityByEmail(email);
+        }
+        else
+        {
+            return Optional.of(presentationRepository.findAll());
+        }
+    }
+    private Boolean validatePresentationEntityDateAndTime(PresentationEntity storedEntity, PresentationEntity patchingEntity)
+    {
+        if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() != null))
+        {
+            return patchingEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+        }
+        else if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() == null))
+        {
+            return patchingEntity.getPresentationStartDate().before(storedEntity.getPresentationEndDate());
+        }
+        else if ((patchingEntity.getPresentationStartDate() == null) && (patchingEntity.getPresentationEndDate() != null))
+        {
+            return storedEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     public ResponseBean putPresentation(PresentationEntity presentationEntity) throws Exception
     {
@@ -57,7 +88,7 @@ public class PresentationService
     }
     public ResponseBean getPresentation(String email) throws Exception
     {
-        Optional<List<PresentationEntity>> optionalPresentationEntities = serviceUtilityBean.getPresentationsWithOrWithoutFilter(email);
+        Optional<List<PresentationEntity>> optionalPresentationEntities = getPresentationsWithOrWithoutFilter(email);
         if (optionalPresentationEntities.isPresent() && optionalPresentationEntities.get().size() > 0)
         {
             responseBean.setHeaders(httpHeaders);
@@ -77,7 +108,7 @@ public class PresentationService
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                if (serviceUtilityBean.validatePresentationEntityDateAndTime(optionalPresentationEntity.get(), presentationEntity))
+                if (validatePresentationEntityDateAndTime(optionalPresentationEntity.get(), presentationEntity))
                 {
                     presentationRepository.save(serviceUtilityBean.patchEntity(optionalPresentationEntity.get(), presentationEntity));
                     responseBean.setHeaders(httpHeaders);

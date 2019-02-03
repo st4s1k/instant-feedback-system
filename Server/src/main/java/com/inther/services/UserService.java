@@ -1,8 +1,9 @@
 package com.inther.services;
 
-import com.inther.beans.AuthorityUtilityBean;
+import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
-import com.inther.beans.ServiceUtilityBean;
+import com.inther.beans.utilities.ServiceUtilityBean;
+import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.entities.implementation.UserEntity;
 import com.inther.exceptions.*;
 import com.inther.repositories.UserRepository;
@@ -21,6 +22,15 @@ public class UserService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
+    private UserEntity setUserEntityNestedAuthorityEmails(UserEntity userEntity)
+    {
+        for (UserAuthorityEntity userAuthorityEntity : userEntity.getUserAuthorities())
+        {
+            userAuthorityEntity.setEmail(userEntity.getEmail());
+        }
+        return userEntity;
+    }
+
     public ResponseBean putUser(UserEntity userEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
@@ -28,7 +38,7 @@ public class UserService
         {
             if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean.setUserEntityNestedAuthorityEmails(userEntity)));
+                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(setUserEntityNestedAuthorityEmails(userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
                 responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully putted");
@@ -111,8 +121,8 @@ public class UserService
     }
 
     @Autowired
-    public UserService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, UserRepository userRepository,
-                       ResponseBean responseBean, HttpHeaders httpHeaders)
+    public UserService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
+                       UserRepository userRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

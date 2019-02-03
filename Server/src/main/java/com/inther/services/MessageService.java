@@ -1,8 +1,8 @@
 package com.inther.services;
 
-import com.inther.beans.AuthorityUtilityBean;
+import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
-import com.inther.beans.ServiceUtilityBean;
+import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.MessageEntity;
 import com.inther.entities.implementation.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;

@@ -1,6 +1,6 @@
 package com.inther.services;
 
-import com.inther.beans.AuthorityUtilityBean;
+import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.exceptions.*;
