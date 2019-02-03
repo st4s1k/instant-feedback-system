@@ -3,10 +3,12 @@ package com.inther.services;
 import com.inther.beans.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.entities.implementation.ParticipantEntity;
+import com.inther.entities.implementation.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.ParticipantRepository;
+import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,31 +19,41 @@ import java.util.Optional;
 public class ParticipantService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
+    private final PresentationRepository presentationRepository;
     private final ParticipantRepository participantRepository;
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
     public ResponseBean putParticipant(ParticipantEntity participantEntity) throws Exception
     {
-        Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
-                .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), participantEntity.getEmail());
-        if (!optionalParticipantEntity.isPresent())
+        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
+                .findPresentationEntityByPresentationId(participantEntity.getPresentationId());
+        if (optionalPresentationEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(participantEntity.getEmail()))
+            Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
+                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), participantEntity.getEmail());
+            if (!optionalParticipantEntity.isPresent())
             {
-                participantRepository.save(participantEntity);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Your joined presentation with id " + participantEntity.getPresentationId());
+                if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(participantEntity.getEmail()))
+                {
+                    participantRepository.save(participantEntity);
+                    responseBean.setHeaders(httpHeaders);
+                    responseBean.setStatus(HttpStatus.CREATED);
+                    responseBean.setResponse("Your joined presentation with id: '" + participantEntity.getPresentationId() + "'");
+                }
+                else
+                {
+                    throw new AccessDeniedException("Access denied for you authority");
+                }
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new DuplicatedEntryException("You are already joined this presentation");
             }
         }
         else
         {
-            throw new DuplicatedEntryException("You are already joined this presentation");
+            throw new NotFoundEntryException("Presentation with id: '" + participantEntity.getPresentationId() + "' not found");
         }
         return responseBean;
     }
@@ -55,7 +67,7 @@ public class ParticipantService
                 participantRepository.deleteParticipantEntityByParticipantId(participantId);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Participant with id " + participantId + " successfully deleted");
+                responseBean.setResponse("Participant with id: '" + participantId + "' successfully deleted");
             }
             else
             {
@@ -64,15 +76,16 @@ public class ParticipantService
         }
         else
         {
-            throw new NotFoundEntryException("Participant with id " + participantId + " not found");
+            throw new NotFoundEntryException("Participant with id: '" + participantId + "' not found");
         }
         return responseBean;
     }
 
     @Autowired
-    public ParticipantService(AuthorityUtilityBean authorityUtilityBean, ParticipantRepository participantRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public ParticipantService(AuthorityUtilityBean authorityUtilityBean, PresentationRepository presentationRepository, ParticipantRepository participantRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
+        this.presentationRepository = presentationRepository;
         this.participantRepository = participantRepository;
         this.responseBean = responseBean;
         this.httpHeaders = httpHeaders;

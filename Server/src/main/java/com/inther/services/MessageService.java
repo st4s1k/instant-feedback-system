@@ -4,9 +4,11 @@ import com.inther.beans.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.ServiceUtilityBean;
 import com.inther.entities.implementation.MessageEntity;
+import com.inther.entities.implementation.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MessageRepository;
+import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,22 +20,33 @@ public class MessageService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
     private final ServiceUtilityBean serviceUtilityBean;
+    private final PresentationRepository presentationRepository;
     private final MessageRepository messageRepository;
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
     public ResponseBean putMessage(MessageEntity messageEntity) throws Exception
     {
-        if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(messageEntity.getEmail()))
+
+        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
+                .findPresentationEntityByPresentationId(messageEntity.getPresentationId());
+        if (optionalPresentationEntity.isPresent())
         {
-            messageRepository.save(messageEntity);
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.CREATED);
-            responseBean.setResponse("Message for presentation with id " + messageEntity.getPresentationId() + " successfully added");
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(messageEntity.getEmail()))
+            {
+                messageRepository.save(messageEntity);
+                responseBean.setHeaders(httpHeaders);
+                responseBean.setStatus(HttpStatus.CREATED);
+                responseBean.setResponse("Message for presentation with id: '" + messageEntity.getPresentationId() + "' successfully added");
+            }
+            else
+            {
+                throw new AccessDeniedException("Access denied for you authority");
+            }
         }
         else
         {
-            throw new AccessDeniedException("Access denied for you authority");
+            throw new NotFoundEntryException("Presentation with id: '" + messageEntity.getPresentationId() + "' not found");
         }
         return responseBean;
     }
@@ -46,7 +59,7 @@ public class MessageService
             {
                 messageRepository.save(serviceUtilityBean.patchEntity(optionalMessageEntity.get(), messageEntity));
                 responseBean.setHeaders(httpHeaders);
-                responseBean.setResponse("User " + messageEntity.getEmail() + " successfully patched");
+                responseBean.setResponse("Message with id: '" + messageEntity.getMessageId() + "' successfully patched");
             }
             else
             {
@@ -55,7 +68,7 @@ public class MessageService
         }
         else
         {
-            throw new NotFoundEntryException("Message with id " + messageEntity.getMessageId() + " not found");
+            throw new NotFoundEntryException("Message with id: '" + messageEntity.getMessageId() + "' not found");
         }
         return responseBean;
     }
@@ -69,7 +82,7 @@ public class MessageService
                 messageRepository.deleteMessageEntityByMessageId(messageId);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Message with id " + messageId + " successfully deleted");
+                responseBean.setResponse("Message with id: '" + messageId + "' successfully deleted");
             }
             else
             {
@@ -78,17 +91,18 @@ public class MessageService
         }
         else
         {
-            throw new NotFoundEntryException("Message with id " + messageId + " not found");
+            throw new NotFoundEntryException("Message with id: '" + messageId + "' not found");
         }
         return responseBean;
     }
 
     @Autowired
     public MessageService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                          MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+                          PresentationRepository presentationRepository, MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;
+        this.presentationRepository = presentationRepository;
         this.messageRepository = messageRepository;
         this.responseBean = responseBean;
         this.httpHeaders = httpHeaders;

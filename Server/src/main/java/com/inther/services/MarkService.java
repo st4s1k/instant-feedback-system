@@ -38,7 +38,7 @@ public class MarkService
                     markRepository.save(markEntity);
                     responseBean.setHeaders(httpHeaders);
                     responseBean.setStatus(HttpStatus.CREATED);
-                    responseBean.setResponse("Your mark for presentation with id " + markEntity.getPresentationId() + " successfully added");
+                    responseBean.setResponse("Your mark for presentation with id: '" + markEntity.getPresentationId() + "' successfully added");
                 }
                 else
                 {

@@ -6,33 +6,33 @@ import java.io.Serializable;
 
 public class MessageDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PatchRequest.class})
-    @Null(groups = {RequestDataValidator.PutRequest.class})
-    @NotNull(groups = {RequestDataValidator.PatchRequest.class})
+    @Positive(groups = {RequestDataValidator.PatchMessage.class})
+    @Null(groups = {RequestDataValidator.PutMessage.class})
+    @NotNull(groups = {RequestDataValidator.PatchMessage.class})
     private Integer messageId;
 
-    @Positive(groups = {RequestDataValidator.PutRequest.class})
-    @Null(groups = {RequestDataValidator.PatchRequest.class})
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @Positive(groups = {RequestDataValidator.PutMessage.class})
+    @Null(groups = {RequestDataValidator.PatchMessage.class})
+    @NotNull(groups = {RequestDataValidator.PutMessage.class})
     private Integer presentationId;
 
-    @Email(groups = {RequestDataValidator.PutRequest.class})
-    @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
-    @Null(groups = {RequestDataValidator.PatchRequest.class})
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Email(groups = {RequestDataValidator.PutMessage.class})
+    @Size(groups = {RequestDataValidator.PutMessage.class}, max = 255)
+    @Null(groups = {RequestDataValidator.PatchMessage.class})
+    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
     private String message;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, max = 255)
-    @Pattern(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, regexp = "TYPE_FEEDBACK|TYPE_QUESTION")
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
+    @Pattern(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, regexp = "TYPE_FEEDBACK|TYPE_QUESTION")
+    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
     private String messageType;
 
-    @Pattern(groups = {RequestDataValidator.PutRequest.class, RequestDataValidator.PatchRequest.class}, regexp = "true|false")
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @Pattern(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, regexp = "true|false")
+    @NotNull(groups = {RequestDataValidator.PutMessage.class})
     private Boolean isAnonymous;
 
     public Integer getMessageId()

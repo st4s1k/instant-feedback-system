@@ -19,13 +19,13 @@ public class MessageController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putMessage(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody MessageDto messageDtoToPut) throws Exception
+    public ResponseEntity<?> putMessage(@Validated(value = {RequestDataValidator.PutMessage.class}) @RequestBody MessageDto messageDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(messageService.putMessage(modelMapper.map(messageDtoToPut, MessageEntity.class)));
     }
 
     @PatchMapping
-    public ResponseEntity<?> patchMessage(@Validated(value = {RequestDataValidator.PatchRequest.class}) @RequestBody MessageDto messageDtoToPatch) throws Exception
+    public ResponseEntity<?> patchMessage(@Validated(value = {RequestDataValidator.PatchMessage.class}) @RequestBody MessageDto messageDtoToPatch) throws Exception
     {
         return new ResponseEntityWrapper<>(messageService.patchMessage(modelMapper.map(messageDtoToPatch, MessageEntity.class)));
     }

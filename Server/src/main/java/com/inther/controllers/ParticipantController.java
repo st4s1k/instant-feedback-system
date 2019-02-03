@@ -19,7 +19,7 @@ public class ParticipantController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putParticipant(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody ParticipantDto participantDtoToPut) throws Exception
+    public ResponseEntity<?> putParticipant(@Validated(value = {RequestDataValidator.PutParticipant.class}) @RequestBody ParticipantDto participantDtoToPut) throws Exception
     {
         return new ResponseEntityWrapper<>(participantService.putParticipant(modelMapper.map(participantDtoToPut, ParticipantEntity.class)));
     }

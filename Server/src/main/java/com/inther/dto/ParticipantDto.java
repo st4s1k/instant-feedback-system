@@ -9,12 +9,12 @@ import java.io.Serializable;
 
 public class ParticipantDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PutRequest.class})
-    @NotNull(groups = {RequestDataValidator.PutRequest.class})
+    @Positive(groups = {RequestDataValidator.PutParticipant.class})
+    @NotNull(groups = {RequestDataValidator.PutParticipant.class})
     private Integer presentationId;
 
-    @Email(groups = {RequestDataValidator.PutRequest.class})
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Email(groups = {RequestDataValidator.PutParticipant.class})
+    @NotBlank(groups = {RequestDataValidator.PutParticipant.class})
     private String email;
 
     public Integer getPresentationId()
