@@ -31,7 +31,6 @@ public class MessageDto implements Serializable
     @NotBlank(groups = {RequestDataValidator.PutMessage.class})
     private String messageType;
 
-    @Pattern(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, regexp = "true|false")
     @NotNull(groups = {RequestDataValidator.PutMessage.class})
     private Boolean isAnonymous;
 
