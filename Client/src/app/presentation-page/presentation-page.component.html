@@ -1,91 +1,111 @@
-<div class="container pb-5">
+<div class="container col-sm-10 col-md-8 col-lg-7 pb-5 mb-5">
 
-  <div class="row justify-content-center">
+  <div class="card mt-5 mb-5">
 
-    <div class="col-sm-10 p-0">
+    <div class="card-body row pb-0 justify-content-center">
 
-      <div class="card mt-5 mb-5">
+      <div class="col">
+        <h1>{{ presentation.title }}</h1>
+      </div>
 
-        <div class="card-body">
-          <h1>{{ presentation.title }}</h1>
-        </div>
+      <div class="col-auto text-center average-mark">
 
-        <div class="card-body pt-0 pb-0">
-          <div class="current-mark row justify-content-end">
-            <div class="col-auto pl-0 align-content-center">
-              <p>Rating: {{ ps.getAvgMark(presentation.marks) }}</p>
-            </div>
-            <div class="col-auto pl-0 align-content-center">
+        <p class="mb-0">{{ avgMark }}
+          <span class="mb-2" id="ratings-count">
+            <i class="fas fa-user"></i> {{ ratingsCount }} votes
+          </span>
+        </p>
+
+        <ngb-rating [(rate)]="avgMark" [readonly]="true" max="5">
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.filled]="fill === 100">
+              <span class="half" [style.width.%]="fill">
+                <i class="fas fa-star"></i>
+              </span>
               <i class="fas fa-star"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <label for="description" class="field-label-responsive"><b>Description</b></label>
-          <p> {{ presentation.description }} <p>
-        </div>
-
-        <div class="card-body text-right">
-
-          <ngb-rating (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5" [readonly]="submittedRate">
-            <ng-template let-fill="fill" let-index="index">
-              <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
-            </ng-template>
-          </ngb-rating>
-
-          <p *ngIf="submittedRate" class="text-success">Thanks for your vote!</p>
-
-        </div>
-
-      </div>
-
-      <div class="card p-0 m-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
-        <div class="card-body">
-
-          <h5 class="card-title">{{ feedback.email }}</h5>
-
-          <p class="card-text">{{ feedback.message }}</p>
-
-          <div class="card-link btn p-0">edit</div>
-        </div>
-
-      </div>
-
-      <div class="row mb-5">
-
-        <div class="col">
-
-          <form [formGroup]="feedbackFormGroup" (ngSubmit)="leaveFeedback()">
-
-            <div class="form-group">
-
-              <label for="feedback-box" class="field-label-responsive">
-                Feedback:
-              </label>
-
-              <textarea class="form-control" id="feedback-box" cols="30" rows="4" placeholder="Your feedback." required
-                autofocus formControlName="feedbackBox"></textarea>
-
-            </div>
-
-            <div class="row-stretch">
-
-              <div class="col-sm-5 col-md-4 col-lg-3">
-
-                <button [disabled]="loading" id="SaveBtn" type="submit" class="btn btn-success">
-                  Leave feedback
-                </button>
-
-              </div>
-
-            </div>
-
-          </form>
-
-        </div>
+            </span>
+          </ng-template>
+        </ngb-rating>
 
       </div>
 
     </div>
+
+    <div class="card-body pt-0 pb-0">
+      <label for="description" class="field-label-responsive"><b>Description</b></label>
+      <p> {{ presentation.description }} <p>
+    </div>
+
+    <div class="card-body my-mark text-right">
+
+      <h5 *ngIf="myMark" class="text-success">Your rate is: {{ myMark }}</h5>
+
+      <p *ngIf="!myMark" class="text-success">Rate this presentation!</p>
+
+      <ngb-rating *ngIf="!myMark" class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
+        [readonly]="!canVote">
+        <ng-template let-fill="fill" let-index="index">
+          <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+        </ng-template>
+      </ngb-rating>
+
+      <p *ngIf="submittedRate" class="text-success">Thanks for your vote!</p>
+
+    </div>
+
   </div>
+
+  <div class="card p-0 m-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
+    <div class="card-body">
+
+      <p class="card-title"><b>{{ feedback.email }}</b></p>
+
+      <p class="card-text">{{ feedback.message }}</p>
+
+      <div *ngIf="feedback.email === myEmail" class="card-link btn p-0" (click)='editMessage(i)'>
+        edit message
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row-stretch">
+
+    <form id="feedback-box" class="row-stretch" [formGroup]="feedbackFormGroup" (ngSubmit)="leaveFeedback()">
+      <div class="d-flex flex-column form-group">
+
+        <div class="d-flex">
+
+          <label class="d-flex col-auto mr-auto field-label-responsive" for="feedback-box">
+            Feedback:
+          </label>
+
+          <label class="col-auto">
+            <input formControlName="type" value="feedback" type="radio"> feedback
+          </label>
+          <label class="col-auto">
+            <input formControlName="type" value="question" type="radio"> question
+          </label>
+          <label class="col-auto">
+            <input formControlName="anonymity" type="checkbox"> anonymous
+          </label>
+
+        </div>
+
+        <textarea class="form-control d-flex" cols="30" rows="4" placeholder="Your feedback." required formControlName="feedbackBox"></textarea>
+
+        <div class="d-flex justify-content-end mt-2">
+          <button type="submit" class="btn btn-success col-auto">
+              <span *ngIf="editingMessage < 0">Leave feedback</span>
+              <span *ngIf="editingMessage >= 0">Edit feedback</span>
+          </button>
+        </div>
+
+      </div>
+    </form>
+
+    <hr>
+    <pre>{{ feedbackFormGroup.value | json }}</pre>
+
+  </div>
+</div>

@@ -2,58 +2,68 @@
   "presentations": [
     {
       "id": 1,
-      "email": "email1@example.com",
-      "title": "Some Presentation Title 1 IUHUUU",
+      "email": "us@mail.com",
+      "title": "Some Presentation Title 1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "12-12-1996T14:30:00",
+      "startDate": "1996-12-12T12:12",
       "place": "Some place 01:00",
-      "endDate": "2018-1-23",
-      "participants": [
-        {
-          "email": "some1@mail.dom2"
-        },
-        {
-          "email": "some2@mail.dom"
-        }
-      ],
+      "endDate": "1996-12-12T12:12:00",
+      "participants": [],
       "marks": [
         {
-          "email": "some@email.com",
+          "email": "some3@email.com",
           "mark": 5
         },
         {
-          "email": "some@email.com",
+          "email": "some5@email.com",
           "mark": 4
         },
         {
-          "email": "some@email.com",
+          "email": "some4@email.com",
           "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 4
         }
       ],
       "feedback": [
         {
-          "email": null,
+          "email": "user@gmail.com",
           "message": "Hello, world!",
-          "type": "",
+          "type": "feedback",
           "anonimity": false
         },
         {
           "email": "us@mail.com",
           "message": "Hello, world2!",
-          "type": "",
-          "anonimity": false
+          "type": "feedback",
+          "anonimity": true
         },
         {
           "email": "us@mail.com",
           "message": "Some question?",
-          "type": "",
+          "type": "question",
           "anonimity": false
         },
         {
           "email": "us@mail.com",
           "message": "Very important feedback.",
-          "type": "",
+          "type": "feedback",
           "anonimity": false
+        },
+        {
+          "email": "anonymous",
+          "message": "Is it working???",
+          "type": "question",
+          "anonymity": true
+        },
+        {
+          "email": "anonymous",
+          "message": "Is it still working?",
+          "type": "question",
+          "anonymity": true
         }
       ]
     },
@@ -62,9 +72,9 @@
       "email": "email2@example.com",
       "title": "Some Presentation Title 2",
       "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
-      "startDate": "12-12-1996T12:30:00",
+      "startDate": "1996-12-12T12:30:00",
       "place": "Some place 11:00",
-      "endDate": "2018-2-45",
+      "endDate": "2018-2-45T12:12:00",
       "participants": [
         {
           "email": "some1@mail.dom"
@@ -78,16 +88,35 @@
       ],
       "marks": [
         {
-          "email": "some@email.com",
+          "email": "some2@email.com",
           "mark": 2
         },
         {
-          "email": "some@email.com",
+          "email": "some6@email.com",
           "mark": 4
         },
         {
-          "email": "some@email.com",
+          "email": "some2@email.com",
           "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 5
+        }
+      ],
+      "feedback": [
+        {
+          "email": "anonymous",
+          "message": "Nice! (I'm shy)",
+          "type": "feedback",
+          "anonymity": true
+        },
+        {
+          "email": "us@mail.com",
+          "message": "Do you think about part 2?",
+          "type": "question",
+          "anonymity": null
         }
       ]
     },
@@ -95,9 +124,9 @@
       "id": 3,
       "title": "Amazing Title",
       "description": "Amazing Description",
-      "startDate": "12-12-1996T12:12:00",
+      "startDate": "1996-12-12T12:12:00",
       "place": "Some place 14:04",
-      "endDate": "1996-12-12",
+      "endDate": "1996-12-12T12:12:00",
       "participants": [
         {
           "email": "amazing@email.com"
@@ -108,16 +137,29 @@
       ],
       "marks": [
         {
-          "email": "some@email.com",
+          "email": "some1@email.com",
           "mark": 5
         },
         {
-          "email": "some@email.com",
+          "email": "some6@email.com",
           "mark": 2
         },
         {
-          "email": "some@email.com",
+          "email": "some3@email.com",
           "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 3
+        }
+      ],
+      "feedback": [
+        {
+          "email": "us@mail.com",
+          "message": "Such an amazing title!",
+          "type": "feedback",
+          "anonymity": false
         }
       ]
     },
@@ -126,9 +168,9 @@
       "email": "email4@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "12-12-1996T14:30:00",
+      "startDate": "1996-12-12T14:30:00",
       "place": "Some place 01:00",
-      "endDate": "2018-1-23",
+      "endDate": "2018-1-23T12:12:00",
       "participants": [
         {
           "email": "some1@mail.dom2"
@@ -139,15 +181,20 @@
       ],
       "marks": [
         {
-          "email": "some@email.com",
+          "email": "some3@email.com",
           "mark": 5
         },
         {
-          "email": "some@email.com",
+          "email": "some5@email.com",
           "mark": 4
         },
         {
-          "email": "some@email.com",
+          "email": "some6@email.com",
+          "mark": 2
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
           "mark": 2
         }
       ]
@@ -157,9 +204,9 @@
       "email": "email5@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "12-12-1996T14:30:00",
+      "startDate": "1996-12-12T14:30:00",
       "place": "Some place 01:00",
-      "endDate": "2018-1-23",
+      "endDate": "2018-1-23T12:12:00",
       "participants": [
         {
           "email": "some1@mail.dom2"
@@ -170,16 +217,21 @@
       ],
       "marks": [
         {
-          "email": "some@email.com",
+          "email": "some1@email.com",
           "mark": 1
         },
         {
-          "email": "some@email.com",
+          "email": "some2@email.com",
           "mark": 4
         },
         {
-          "email": "some@email.com",
+          "email": "some3@email.com",
           "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 5
         }
       ]
     },
@@ -188,9 +240,9 @@
       "email": "email6@example.com",
       "title": "Some Presentation Title 1 IUHUUU",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "startDate": "12-12-1996T14:30:00",
+      "startDate": "1996-12-12T14:30:00",
       "place": "Some place 01:00",
-      "endDate": "2018-1-23",
+      "endDate": "2018-1-23T12:12:00",
       "participants": [
         {
           "email": "some1@mail.dom2"
@@ -211,6 +263,11 @@
         {
           "email": "some@email.com",
           "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 4
         }
       ]
     },
@@ -219,9 +276,9 @@
       "email": "email7@example.com",
       "title": "Some Presentation Title 2",
       "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
-      "startDate": "12-12-1996T12:30:00",
+      "startDate": "1996-12-12T12:30:00",
       "place": "Some place 11:00",
-      "endDate": "2018-2-45",
+      "endDate": "2018-2-45T12:12:00",
       "participants": [
         {
           "email": "some1@mail.dom"
@@ -245,6 +302,19 @@
         {
           "email": "some@email.com",
           "mark": 1
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 5
+        }
+      ],
+      "feedback": [
+        {
+          "email": "anonymous",
+          "message": "Almost working)",
+          "type": "feedback",
+          "anonymity": true
         }
       ]
     }
@@ -257,34 +327,34 @@
       "password": "123456"
     },
     {
+      "id": 2,
+      "type": 2,
       "email": "alex1997a25@gmail.com",
-      "password": "123445",
-      "confirm_password": "123445",
-      "id": 2
+      "password": "123445"
     },
     {
+      "id": 3,
+      "type": 2,
       "email": "user@gmail.com",
-      "password": "123456",
-      "confirm_password": "123456",
-      "id": 3
+      "password": "123456"
     },
     {
+      "id": 4,
+      "type": 2,
       "email": "sasa@gmail.com",
-      "password": "0987654",
-      "confirm_password": "123456",
-      "id": 4
+      "password": "0987654"
     },
     {
+      "id": 5,
+      "type": 2,
       "email": "user@gmail.com",
-      "password": "123456",
-      "confirm_password": "123456",
-      "id": 5
+      "password": "123456"
     },
     {
+      "id": 7,
+      "type": 2,
       "email": "us@mail.com",
-      "password": "123456",
-      "confirm_password": "123456",
-      "id": 7
+      "password": "123456"
     }
   ]
 }

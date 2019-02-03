@@ -13,18 +13,26 @@ import { first } from 'rxjs/operators';
 })
 export class PresentationPageComponent implements OnInit {
 
+  type: FormControl = this.fb.control('feedback');
+  anonymity: FormControl = this.fb.control(false);
   feedbackBox: FormControl = this.fb.control('');
 
-  feedbackFormGroup: FormGroup = this.fb.group({ feedbackBox: this.feedbackBox });
+  feedbackFormGroup: FormGroup = this.fb.group({
+    feedbackBox: this.feedbackBox,
+    type: this.type,
+    anonymity: this.anonymity
+  });
 
   presentation: Presentation;
-
-  currentRate = 1;
-
+  currentRate = 0;
   submittedRate = false;
-
   feedbackAdded = false;
-
+  canVote = false;
+  myMark = 0;
+  myEmail: string;
+  avgMark = 0;
+  ratingsCount = 0;
+  editingMessage = -1;
 
   constructor(
     private ps: PresentationService,
@@ -35,19 +43,33 @@ export class PresentationPageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.data.subscribe((data: { presentation: Presentation }) => {
-      console.log('data.presentation: ' + JSON.stringify(data.presentation));
+    this.myEmail = localStorage.getItem('email');
 
+    this.route.data.subscribe((data: { presentation: Presentation }) => {
       this.presentation = new Presentation(data.presentation);
 
-      console.log('this.presentation: ' + JSON.stringify(this.presentation));
-    });
+      this.avgMark = +this.ps.getAvgMark(this.presentation.marks);
 
+      this.ratingsCount = this.presentation.marks.length;
+
+      const markObject = this.presentation.marks
+        .find(mark => mark.email === this.myEmail);
+
+      if (!markObject) {
+        this.canVote = true;
+      } else {
+        this.myMark = markObject.mark;
+        this.currentRate = markObject.mark;
+      }
+    });
   }
 
   submitRate(rate: number) {
 
     this.submittedRate = true;
+    this.canVote = false;
+    this.myMark = rate;
+    this.currentRate = rate;
 
     if (!this.presentation.marks) {
       this.presentation.marks = [];
@@ -58,6 +80,8 @@ export class PresentationPageComponent implements OnInit {
       email: localStorage.getItem('email'),
       mark: +rate.toFixed(2)
     });
+
+    this.avgMark = +this.ps.getAvgMark(this.presentation.marks);
 
     this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
@@ -72,18 +96,34 @@ export class PresentationPageComponent implements OnInit {
 
   }
 
+  editMessage(i: number) {
+    // alert('editing message ' + i);
+
+    this.editingMessage = i;
+
+    this.feedbackBox.setValue(this.presentation.feedback[i].message);
+    this.anonymity.setValue(this.presentation.feedback[i].anonymity);
+    this.type.setValue(this.presentation.feedback[i].type);
+  }
+
   leaveFeedback(type: string) {
 
-    if (!this.presentation.feedback) {
-      this.presentation.feedback = [];
-    }
-
-    this.presentation.feedback.push({
-      email: localStorage.getItem('email'),
+    const currentFeedback = {
+      email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
       message: this.feedbackBox.value,
-      type: '',
-      anonimity: false
-    });
+      type: this.type.value,
+      anonymity: this.anonymity.value
+    };
+
+    if (this.editingMessage >= 0) {
+      this.presentation.feedback[this.editingMessage] = currentFeedback;
+      this.editingMessage = -1;
+    } else {
+      if (!this.presentation.feedback) {
+        this.presentation.feedback = [];
+      }
+      this.presentation.feedback.push(currentFeedback);
+    }
 
     this.ps.updatePresentation(this.presentation).pipe(first())
       .subscribe(
@@ -95,7 +135,11 @@ export class PresentationPageComponent implements OnInit {
         }
       );
 
-    this.feedbackFormGroup.reset();
+    this.feedbackFormGroup.reset({
+      feedbackBox: '',
+      msgType: 'feedback',
+      anonymity: false
+    });
   }
 
 }

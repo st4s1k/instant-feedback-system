@@ -47,23 +47,8 @@ export class EditPresentationComponent implements OnInit {
       this.pageTitle = 'Edit presentation';
 
       this.route.data.subscribe((data: { presentation: Presentation }) => {
-
         this.presentation = new Presentation(data.presentation);
-
-        console.log(JSON.stringify(data));
-
-        this.title.setValue(data.presentation.title);
-        this.description.setValue(data.presentation.description);
-        this.startTime.setValue(data.presentation.startDate.split('T')[1]);
-        this.endTime.setValue(data.presentation.endDate.split('T')[1]);
-        this.date.setValue(data.presentation.startDate.split('T')[0]);
-        this.location.setValue(data.presentation.place);
-
-        for (const participant of data.presentation.participants) {
-          this.emailInvitations.push(this.fb.control({
-            email: [participant.email, [Validators.required, Validators.email]]
-          }));
-        }
+        this.modelToFormGroup();
       });
     }
 
@@ -77,6 +62,38 @@ export class EditPresentationComponent implements OnInit {
       emailInvitations: this.emailInvitations
     });
   }
+
+  modelToFormGroup = function () {
+    this.title.setValue(this.presentation.title);
+    this.description.setValue(this.presentation.description);
+    this.startTime.setValue(this.presentation.startDate.split('T')[1]);
+    this.endTime.setValue(this.presentation.endDate.split('T')[1]);
+    this.date.setValue(this.presentation.startDate.split('T')[0]);
+    this.location.setValue(this.presentation.place);
+    this.emailInvitations = this.fb.array([]);
+
+    for (const participant of this.presentation.participants) {
+      this.emailInvitations.push(this.fb.control(
+        participant.email, [Validators.required, Validators.email]
+      ));
+    }
+  };
+
+  formGroupToModel = function () {
+    this.presentation.email = localStorage.getItem('email');
+    this.presentation.title = this.title.value;
+    this.presentation.description = this.description.value;
+    this.presentation.startDate = this.date.value + 'T' + this.startTime.value;
+    this.presentation.place = this.location.value;
+    this.presentation.endDate = this.date.value + 'T' + this.endTime.value;
+    this.presentation.participants = [];
+
+    for (const emailInvitation of this.emailInvitations) {
+      this.presentation.participants.push({
+        email: emailInvitation
+      });
+    }
+  };
 
   addEmailInvitation() {
     this.invite_touched = true;
@@ -98,36 +115,29 @@ export class EditPresentationComponent implements OnInit {
       return;
     }
 
-    Object.assign(this.presentation, this.editPresentationFormGroup.value);
+    this.formGroupToModel();
 
+    this.sendNewPresentation().pipe(first())
+      .subscribe(data => {
+        this.router.navigate([`/presentation-page/${this.presentation.id}`]);
+      }, error => {
+        alert(error);
+      });
+  }
+
+  sendNewPresentation() {
     if (this.router.url === '/new-presentation') {
-      this.presentationService.createPresentation(this.presentation).pipe(first())
-        .subscribe(
-          data => {
-            // alert('Succes!:' + data);
-            this.router.navigate(['/home']);
-          },
-          error => {
-            alert(error);
-          }
-        );
+      return this.presentationService.createPresentation(this.presentation);
     } else {
-      this.presentationService.updatePresentation(this.presentation).pipe(first())
-        .subscribe(
-          data => {
-            // alert('Succes!:' + data);
-            this.router.navigate(['/home']);
-          },
-          error => {
-            alert(error);
-          }
-        );
+      return this.presentationService.updatePresentation(this.presentation);
     }
   }
 
   discard() {
-    if (this.editPresentationFormGroup) {
+    if (this.router.url === '/new-presentation') {
       this.editPresentationFormGroup.reset();
+    } else {
+      this.ngOnInit();
     }
   }
 

@@ -14,7 +14,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: Presentation) {
-    return this.http.post<Presentation[]>(`${API_URL}`, presentation);
+    return this.http.post<Presentation>(`${API_URL}`, presentation);
   }
 
   getPresentations() {

@@ -14,7 +14,7 @@ export class Presentation {
     email: string,
     message: string,
     type: string,
-    anonimity: boolean
+    anonymity: boolean
   }[];
   public marks: {
     userId: number,
