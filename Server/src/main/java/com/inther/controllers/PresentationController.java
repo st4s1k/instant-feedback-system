@@ -25,9 +25,9 @@ public class PresentationController
     }
 
     @GetMapping(value = {"", "/{email}"})
-    public ResponseEntity<?> getPresentations(@PathVariable(value = "email") String email) throws Exception
+    public ResponseEntity<?> getPresentations(@PathVariable(value = "email", required = false) String email) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.getPresentation(email));
+        return presentationService.getPresentation(email);
     }
 
     @PatchMapping

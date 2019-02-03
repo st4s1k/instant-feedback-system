@@ -27,7 +27,7 @@ public class UserController
     @GetMapping(value = {"", "/{email}"})
     public ResponseEntity<?> getUser(@PathVariable(value = "email") String email) throws Exception
     {
-        return new ResponseEntityWrapper<>(userService.getUser(email));
+        return userService.getUser(email);
     }
 
     @PatchMapping

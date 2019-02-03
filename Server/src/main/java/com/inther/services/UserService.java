@@ -10,6 +10,7 @@ import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -54,20 +55,19 @@ public class UserService
         }
         return responseBean;
     }
-    public ResponseBean getUser(String email) throws Exception
+    public ResponseEntity<?> getUser(String email) throws Exception
     {
+        ResponseEntity<?> responseEntity;
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
         if (optionalUserEntity.isPresent())
         {
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse(optionalUserEntity.get());
+            responseEntity = new ResponseEntity<>(optionalUserEntity.get(), httpHeaders, HttpStatus.OK);
         }
         else
         {
             throw new NotFoundEntryException("User with email: '" + email + "' not found");
         }
-        return responseBean;
+        return responseEntity;
     }
     public ResponseBean patchUser(UserEntity userEntity) throws Exception
     {

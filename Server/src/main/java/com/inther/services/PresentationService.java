@@ -11,6 +11,7 @@ import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.DateTimeException;
 import java.util.List;
@@ -79,20 +80,19 @@ public class PresentationService
         }
         return responseBean;
     }
-    public ResponseBean getPresentation(String email) throws Exception
+    public ResponseEntity<?> getPresentation(String email) throws Exception
     {
+        ResponseEntity<?> responseEntity;
         Optional<List<PresentationEntity>> optionalPresentationEntities = getPresentationsWithOrWithoutFilter(email);
         if (optionalPresentationEntities.isPresent() && optionalPresentationEntities.get().size() > 0)
         {
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse(optionalPresentationEntities.get());
+            responseEntity = new ResponseEntity<>(optionalPresentationEntities.get(), httpHeaders, HttpStatus.OK);
         }
         else
         {
             throw new NotFoundEntryException("No presentation was found for the given criteria");
         }
-        return responseBean;
+        return responseEntity;
     }
     public ResponseBean patchPresentation(PresentationEntity presentationEntity) throws Exception
     {

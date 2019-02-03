@@ -17,6 +17,7 @@ public class MarkEntity implements Entities
     @Column(name = "presentation_id")
     private Integer presentationId;
 
+    @JsonIgnore
     @Column(name = "email")
     private String email;
 
