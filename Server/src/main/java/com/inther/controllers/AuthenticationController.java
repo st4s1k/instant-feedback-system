@@ -19,7 +19,7 @@ public class AuthenticationController
     private final ModelMapper modelMapper;
 
     @PutMapping
-    public ResponseEntity<?> putAuthentication(@Validated(value = {RequestDataValidator.PutRequest.class}) @RequestBody AuthenticationDto authenticationDto) throws Exception
+    public ResponseEntity<?> putAuthentication(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto) throws Exception
     {
         return new ResponseEntityWrapper<>(authenticationService.putAuthentication(modelMapper.map(authenticationDto, UserEntity.class)));
     }

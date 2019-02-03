@@ -11,4 +11,5 @@ public class RequestDataValidator
     public interface PutParticipant {}
     public interface PutMessage {}
     public interface PatchMessage {}
+    public interface PutAuthentication {}
 }

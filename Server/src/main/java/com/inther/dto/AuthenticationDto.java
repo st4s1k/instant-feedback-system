@@ -8,13 +8,13 @@ import javax.validation.constraints.Size;
 
 public class AuthenticationDto
 {
-    @Email(groups = {RequestDataValidator.PutRequest.class})
-    @Size(groups = {RequestDataValidator.PutRequest.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Email(groups = {RequestDataValidator.PutAuthentication.class})
+    @Size(groups = {RequestDataValidator.PutAuthentication.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.PutAuthentication.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutRequest.class}, min = 6, max = 16)
-    @NotBlank(groups = {RequestDataValidator.PutRequest.class})
+    @Size(groups = {RequestDataValidator.PutAuthentication.class}, min = 6, max = 16)
+    @NotBlank(groups = {RequestDataValidator.PutAuthentication.class})
     private String password;
 
     public String getEmail()
