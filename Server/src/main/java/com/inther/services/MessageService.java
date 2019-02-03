@@ -25,6 +25,19 @@ public class MessageService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
+    private MessageEntity setAuthenticatedEmailPropertyValue(MessageEntity targetEntity)
+    {
+        if (targetEntity.getAnonymous())
+        {
+            targetEntity.setEmail("ANONYMOUS");
+        }
+        else
+        {
+            targetEntity.setEmail(authorityUtilityBean.getCurrentAuthenticationEmail());
+        }
+        return targetEntity;
+    }
+
     public ResponseBean putMessage(MessageEntity messageEntity) throws Exception
     {
 
@@ -32,7 +45,7 @@ public class MessageService
                 .findPresentationEntityByPresentationId(messageEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
-            messageRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(messageEntity));
+            messageRepository.save(setAuthenticatedEmailPropertyValue(messageEntity));
             responseBean.setHeaders(httpHeaders);
             responseBean.setStatus(HttpStatus.CREATED);
             responseBean.setResponse("Message for presentation with id: '" + messageEntity.getPresentationId() + "' successfully added");
