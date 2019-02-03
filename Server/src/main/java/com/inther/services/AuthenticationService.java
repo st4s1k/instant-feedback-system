@@ -1,6 +1,7 @@
 package com.inther.services;
 
 import com.inther.beans.ResponseBean;
+import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.entities.implementation.UserEntity;
@@ -18,8 +19,9 @@ import java.util.Optional;
 @Service
 public class AuthenticationService
 {
-    private final UserRepository userRepository;
+    private final AuthorityUtilityBean authorityUtilityBean;
     private final ServiceUtilityBean serviceUtilityBean;
+    private final UserRepository userRepository;
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
@@ -57,7 +59,13 @@ public class AuthenticationService
     }
     public ResponseBean getAuthentication(String status) throws Exception
     {
-        if ((status != null) && (status.equals("badCredentials")))
+        if ((status != null) && (status.equals("success")))
+        {
+            responseBean.setHeaders(httpHeaders);
+            responseBean.setStatus(HttpStatus.OK);
+            responseBean.setResponse("You successfully logged as: '" + authorityUtilityBean.getCurrentAuthenticationEmail() + "'");
+        }
+        else if ((status != null) && (status.equals("invalidAuthenticationData")))
         {
             throw new BadCredentialsException("Invalid authentication data");
         }
@@ -71,10 +79,11 @@ public class AuthenticationService
     }
 
     @Autowired
-    public AuthenticationService(UserRepository authenticationRepository, ServiceUtilityBean serviceUtilityBean, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public AuthenticationService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, UserRepository authenticationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
-        this.userRepository = authenticationRepository;
+        this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;
+        this.userRepository = authenticationRepository;
         this.responseBean = responseBean;
         this.httpHeaders = httpHeaders;
     }

@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     {
         http.authorizeRequests()
                 .antMatchers("/authentication").hasAuthority("ROLE_ANONYMOUS")
-                .antMatchers("/authentication?status=badCredentials").hasAuthority("ROLE_ANONYMOUS")
+                .antMatchers("/authentication?status=invalidAuthenticationData").hasAuthority("ROLE_ANONYMOUS")
                 .anyRequest().authenticated();
         http.csrf()
                 .disable();
@@ -48,8 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .loginPage("/authentication")
                 .loginProcessingUrl("/authentication")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/authentication?status=badCredentials")
+                .defaultSuccessUrl("/authentication?status=success", true)
+                .failureUrl("/authentication?status=invalidAuthenticationData")
                 .permitAll();
         http.logout()
                 .logoutUrl("/logout")
