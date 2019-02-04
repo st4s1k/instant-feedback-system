@@ -1,5 +1,6 @@
 {
-  "properties": [
+  "properties":
+  [
     {
       "name": "spring.queries.users-query",
       "type": "java.lang.String",

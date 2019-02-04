@@ -33,7 +33,8 @@ public class ParticipantService
         if (optionalPresentationEntity.isPresent())
         {
             Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
-                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(), authorityUtilityBean.getCurrentAuthenticationEmail());
+                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(),
+                            authorityUtilityBean.getCurrentAuthenticationEmail());
             if (!optionalParticipantEntity.isPresent())
             {
                 participantRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(participantEntity));
@@ -57,7 +58,8 @@ public class ParticipantService
         Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
         if (optionalParticipantEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalParticipantEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalParticipantEntity.get().getEmail())
+                    || authorityUtilityBean.validateAdminAuthority())
             {
                 participantRepository.deleteParticipantEntityById(id);
                 responseBean.setHeaders(httpHeaders);

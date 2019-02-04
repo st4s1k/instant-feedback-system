@@ -53,8 +53,9 @@ public class MarkService
     }
 
     @Autowired
-    public MarkService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, PresentationRepository presentationRepository,
-                       MarkRepository markRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public MarkService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
+                       PresentationRepository presentationRepository, MarkRepository markRepository,
+                       ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

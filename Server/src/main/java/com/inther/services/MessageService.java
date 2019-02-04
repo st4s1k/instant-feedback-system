@@ -83,7 +83,8 @@ public class MessageService
         Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(id);
         if (optionalMessageEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail())
+                    || authorityUtilityBean.validateAdminAuthority())
             {
                 messageRepository.deleteMessageEntityById(id);
                 responseBean.setHeaders(httpHeaders);
@@ -104,7 +105,8 @@ public class MessageService
 
     @Autowired
     public MessageService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                          PresentationRepository presentationRepository, MessageRepository messageRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+                          PresentationRepository presentationRepository, MessageRepository messageRepository,
+                          ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

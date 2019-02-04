@@ -99,7 +99,8 @@ public class PresentationService
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(presentationEntity.getId());
         if (optionalPresentationEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail())
+                    || authorityUtilityBean.validateAdminAuthority())
             {
                 if (validatePresentationEntityDateAndTime(optionalPresentationEntity.get(), presentationEntity))
                 {
@@ -129,7 +130,8 @@ public class PresentationService
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(id);
         if (optionalPresentationEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail())
+                    || authorityUtilityBean.validateAdminAuthority())
             {
                 presentationRepository.deletePresentationEntityById(id);
                 responseBean.setHeaders(httpHeaders);
@@ -150,7 +152,8 @@ public class PresentationService
 
     @Autowired
     public PresentationService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                               PresentationRepository presentationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+                               PresentationRepository presentationRepository,
+                               ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

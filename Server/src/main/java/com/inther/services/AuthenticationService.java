@@ -79,7 +79,8 @@ public class AuthenticationService
     }
 
     @Autowired
-    public AuthenticationService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean, UserRepository authenticationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public AuthenticationService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
+                                 UserRepository authenticationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;

@@ -97,7 +97,9 @@ public class UserAuthorityService
     }
 
     @Autowired
-    public UserAuthorityService(AuthorityUtilityBean authorityUtilityBean, UserRepository userRepository, UserAuthorityRepository userAuthorityRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public UserAuthorityService(AuthorityUtilityBean authorityUtilityBean, UserRepository userRepository,
+                                UserAuthorityRepository userAuthorityRepository, ResponseBean responseBean,
+                                HttpHeaders httpHeaders)
     {
         this.authorityUtilityBean = authorityUtilityBean;
         this.userRepository = userRepository;

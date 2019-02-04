@@ -31,22 +31,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.FORBIDDEN, request);
     }
 
-    @ExceptionHandler(DateTimeException.class)
-    public final ResponseEntity<?> handleDateTimeException(DateTimeException e, WebRequest request)
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e, WebRequest request)
     {
-        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @ExceptionHandler(DeleteLastAuthorityException.class)
     public final ResponseEntity<?> handleDeleteLastAuthorityException(DeleteLastAuthorityException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.CONFLICT, request);
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
-    public final ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e, WebRequest request)
-    {
-        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @ExceptionHandler(DuplicatedEntryException.class)
@@ -63,6 +57,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(SelfDestructionException.class)
     public final ResponseEntity<?> handleSelfDestructionException(SelfDestructionException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(DateTimeException.class)
+    public final ResponseEntity<?> handleDateTimeException(DateTimeException e, WebRequest request)
     {
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
     }

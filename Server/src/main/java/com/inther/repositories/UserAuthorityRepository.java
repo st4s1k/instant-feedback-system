@@ -11,10 +11,10 @@ import java.util.Optional;
 @Repository
 public interface UserAuthorityRepository extends JpaRepository<UserAuthorityEntity, Integer>
 {
+    Optional<List<UserAuthorityEntity>> findUserAuthorityEntityByEmail(String email);
+
     Optional<UserAuthorityEntity> findUserAuthorityEntityByEmailAndAuthority(String email, String authority);
     Optional<UserAuthorityEntity> findUserAuthorityEntityById(Integer id);
-
-    Optional<List<UserAuthorityEntity>> findUserAuthorityEntityByEmail(String email);
 
     @Modifying
     @Transactional

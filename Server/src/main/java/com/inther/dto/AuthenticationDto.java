@@ -1,7 +1,6 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

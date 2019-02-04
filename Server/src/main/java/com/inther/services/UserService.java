@@ -74,9 +74,11 @@ public class UserService
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
         if (optionalUserEntity.isPresent())
         {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail()) || authorityUtilityBean.validateAdminAuthority())
+            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail())
+                    || authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean.patchEntity(optionalUserEntity.get(), userEntity)));
+                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(serviceUtilityBean
+                        .patchEntity(optionalUserEntity.get(), userEntity)));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
                 responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully patched");
@@ -97,14 +99,16 @@ public class UserService
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
         if (optionalUserEntity.isPresent())
         {
-            if (!authorityUtilityBean.getCurrentAuthenticationEmail().equals(email) && authorityUtilityBean.validateAdminAuthority())
+            if (!authorityUtilityBean.getCurrentAuthenticationEmail().equals(email)
+                    && authorityUtilityBean.validateAdminAuthority())
             {
                 userRepository.deleteUserEntityByEmail(email);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
                 responseBean.setResponse("User with email: '" + email + "' successfully deleted");
             }
-            else if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(email) && authorityUtilityBean.validateAdminAuthority())
+            else if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(email)
+                    && authorityUtilityBean.validateAdminAuthority())
             {
                 throw new SelfDestructionException("You cannot delete yourself");
             }
