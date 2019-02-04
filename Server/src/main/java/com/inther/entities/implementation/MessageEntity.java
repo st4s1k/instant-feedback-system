@@ -10,8 +10,8 @@ public class MessageEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
-    private Integer messageId;
+    @Column(name = "id")
+    private Integer id;
 
     @JsonIgnore
     @Column(name = "presentation_id")
@@ -23,19 +23,19 @@ public class MessageEntity implements Entities
     @Column(name = "message")
     private String message;
 
-    @Column(name = "message_type")
-    private String messageType;
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "is_anonymous")
     private Boolean isAnonymous;
 
-    public Integer getMessageId()
+    public Integer getId()
     {
-        return messageId;
+        return id;
     }
-    public void setMessageId(Integer messageId)
+    public void setId(Integer id)
     {
-        this.messageId = messageId;
+        this.id = id;
     }
     public Integer getPresentationId()
     {
@@ -61,13 +61,13 @@ public class MessageEntity implements Entities
     {
         this.message = message;
     }
-    public String getMessageType()
+    public String getType()
     {
-        return messageType;
+        return type;
     }
-    public void setMessageType(String messageType)
+    public void setType(String type)
     {
-        this.messageType = messageType;
+        this.type = type;
     }
     public Boolean getAnonymous()
     {

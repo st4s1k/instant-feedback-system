@@ -11,26 +11,26 @@ public class PresentationEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "presentation_id")
-    private Integer presentationId;
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "presentation_title")
-    private String presentationTitle;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "presentation_description")
-    private String presentationDescription;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "presentation_start_date")
-    private Date presentationStartDate;
+    @Column(name = "start_date")
+    private Date startDate;
 
-    @Column(name = "presentation_place")
-    private String presentationPlace;
+    @Column(name = "end_date")
+    private Date endDate;
 
-    @Column(name = "presentation_end_date")
-    private Date presentationEndDate;
+    @Column(name = "place")
+    private String place;
 
     @OneToMany(targetEntity = ParticipantEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ParticipantEntity> presentationParticipants;
@@ -41,13 +41,13 @@ public class PresentationEntity implements Entities
     @OneToMany(targetEntity = MarkEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MarkEntity> presentationMarks;
 
-    public Integer getPresentationId()
+    public Integer getId()
     {
-        return presentationId;
+        return id;
     }
-    public void setPresentationId(Integer presentationId)
+    public void setId(Integer id)
     {
-        this.presentationId = presentationId;
+        this.id = id;
     }
     public String getEmail()
     {
@@ -57,45 +57,45 @@ public class PresentationEntity implements Entities
     {
         this.email = email;
     }
-    public String getPresentationTitle()
+    public String getTitle()
     {
-        return presentationTitle;
+        return title;
     }
-    public void setPresentationTitle(String presentationTitle)
+    public void setTitle(String title)
     {
-        this.presentationTitle = presentationTitle;
+        this.title = title;
     }
-    public String getPresentationDescription()
+    public String getDescription()
     {
-        return presentationDescription;
+        return description;
     }
-    public void setPresentationDescription(String presentationDescription)
+    public void setDescription(String description)
     {
-        this.presentationDescription = presentationDescription;
+        this.description = description;
     }
-    public Date getPresentationStartDate()
+    public Date getStartDate()
     {
-        return presentationStartDate;
+        return startDate;
     }
-    public void setPresentationStartDate(Date presentationStartDate)
+    public void setStartDate(Date startDate)
     {
-        this.presentationStartDate = presentationStartDate;
+        this.startDate = startDate;
     }
-    public String getPresentationPlace()
+    public Date getEndDate()
     {
-        return presentationPlace;
+        return endDate;
     }
-    public void setPresentationPlace(String presentationPlace)
+    public void setEndDate(Date endDate)
     {
-        this.presentationPlace = presentationPlace;
+        this.endDate = endDate;
     }
-    public Date getPresentationEndDate()
+    public String getPlace()
     {
-        return presentationEndDate;
+        return place;
     }
-    public void setPresentationEndDate(Date presentationEndDate)
+    public void setPlace(String place)
     {
-        this.presentationEndDate = presentationEndDate;
+        this.place = place;
     }
     public List<ParticipantEntity> getPresentationParticipants()
     {

@@ -28,7 +28,7 @@ public class MarkService
     public ResponseBean putMark(MarkEntity markEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityByPresentationId(markEntity.getPresentationId());
+                .findPresentationEntityById(markEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
             Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(),

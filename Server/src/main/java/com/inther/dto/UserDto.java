@@ -25,7 +25,7 @@ public class UserDto implements Serializable
     @Valid
     @Null(groups = {RequestDataValidator.PatchUser.class})
     @NotEmpty(groups = {RequestDataValidator.PutUser.class})
-    private List<UserAuthorityDto> userAuthorities;
+    private List<UserAuthorityDto> authorities;
 
     public String getEmail()
     {
@@ -51,12 +51,12 @@ public class UserDto implements Serializable
     {
         this.enabled = enabled;
     }
-    public List<UserAuthorityDto> getUserAuthorities()
+    public List<UserAuthorityDto> getAuthorities()
     {
-        return userAuthorities;
+        return authorities;
     }
-    public void setUserAuthorities(List<UserAuthorityDto> userAuthorities)
+    public void setAuthorities(List<UserAuthorityDto> authorities)
     {
-        this.userAuthorities = userAuthorities;
+        this.authorities = authorities;
     }
 }

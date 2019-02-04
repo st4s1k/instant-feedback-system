@@ -24,10 +24,10 @@ public class UserAuthorityController
         return new ResponseEntityWrapper<>(userAuthorityService.putUserAuthority(modelMapper.map(userAuthorityDtoToPut, UserAuthorityEntity.class)));
     }
 
-    @DeleteMapping(value = {"", "/{authorityId}"})
-    public ResponseEntity<?> deleteUserAuthority(@PathVariable(value = "authorityId") Integer authorityId) throws Exception
+    @DeleteMapping(value = {"", "/{id}"})
+    public ResponseEntity<?> deleteUserAuthority(@PathVariable(value = "id") Integer id) throws Exception
     {
-        return new ResponseEntityWrapper<>(userAuthorityService.deleteUserAuthority(authorityId));
+        return new ResponseEntityWrapper<>(userAuthorityService.deleteUserAuthority(id));
     }
 
     @Autowired

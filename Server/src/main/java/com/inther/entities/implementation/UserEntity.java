@@ -21,7 +21,7 @@ public class UserEntity implements Entities
     private Integer enabled;
 
     @OneToMany(targetEntity = UserAuthorityEntity.class, mappedBy = "email", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<UserAuthorityEntity> userAuthorities;
+    private List<UserAuthorityEntity> authorities;
 
     public String getEmail()
     {
@@ -47,12 +47,12 @@ public class UserEntity implements Entities
     {
         this.enabled = enabled;
     }
-    public List<UserAuthorityEntity> getUserAuthorities()
+    public List<UserAuthorityEntity> getAuthorities()
     {
-        return userAuthorities;
+        return authorities;
     }
-    public void setUserAuthorities(List<UserAuthorityEntity> userAuthorities)
+    public void setAuthorities(List<UserAuthorityEntity> authorities)
     {
-        this.userAuthorities = userAuthorities;
+        this.authorities = authorities;
     }
 }

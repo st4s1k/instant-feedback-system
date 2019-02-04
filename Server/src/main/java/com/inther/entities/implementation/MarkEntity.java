@@ -10,8 +10,8 @@ public class MarkEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mark_id")
-    private Integer markId;
+    @Column(name = "id")
+    private Integer id;
 
     @JsonIgnore
     @Column(name = "presentation_id")
@@ -24,13 +24,13 @@ public class MarkEntity implements Entities
     @Column(name = "mark")
     private Integer mark;
 
-    public Integer getMarkId()
+    public Integer getId()
     {
-        return markId;
+        return id;
     }
-    public void setMarkId(Integer markId)
+    public void setId(Integer id)
     {
-        this.markId = markId;
+        this.id = id;
     }
     public Integer getPresentationId()
     {

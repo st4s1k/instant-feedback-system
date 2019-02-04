@@ -36,10 +36,10 @@ public class PresentationController
         return new ResponseEntityWrapper<>(presentationService.patchPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
     }
 
-    @DeleteMapping(value = {"", "/{presentationId}"})
-    public ResponseEntity<?> deletePresentation(@PathVariable(value = "presentationId") Integer presentationId) throws Exception
+    @DeleteMapping(value = {"", "/{id}"})
+    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") Integer id) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.deletePresentation(presentationId));
+        return new ResponseEntityWrapper<>(presentationService.deletePresentation(id));
     }
 
     @Autowired

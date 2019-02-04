@@ -29,7 +29,7 @@ public class ParticipantService
     public ResponseBean putParticipant(ParticipantEntity participantEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityByPresentationId(participantEntity.getPresentationId());
+                .findPresentationEntityById(participantEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
             Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
@@ -52,17 +52,17 @@ public class ParticipantService
         }
         return responseBean;
     }
-    public ResponseBean deleteParticipant(Integer participantId) throws Exception
+    public ResponseBean deleteParticipant(Integer id) throws Exception
     {
-        Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityByParticipantId(participantId);
+        Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
         if (optionalParticipantEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalParticipantEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                participantRepository.deleteParticipantEntityByParticipantId(participantId);
+                participantRepository.deleteParticipantEntityById(id);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Participant with id: '" + participantId + "' successfully deleted");
+                responseBean.setResponse("Participant with id: '" + id + "' successfully deleted");
             }
             else
             {
@@ -71,7 +71,7 @@ public class ParticipantService
         }
         else
         {
-            throw new NotFoundEntryException("Participant with id: '" + participantId + "' not found");
+            throw new NotFoundEntryException("Participant with id: '" + id + "' not found");
         }
         return responseBean;
     }

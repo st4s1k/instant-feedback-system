@@ -10,8 +10,8 @@ public class UserAuthorityEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "authority_id")
-    private Integer authorityId;
+    @Column(name = "id")
+    private Integer id;
 
     @JsonIgnore
     @Column(name = "email")
@@ -20,13 +20,13 @@ public class UserAuthorityEntity implements Entities
     @Column(name = "authority")
     private String authority;
 
-    public Integer getAuthorityId()
+    public Integer getId()
     {
-        return authorityId;
+        return id;
     }
-    public void setAuthorityId(Integer authorityId)
+    public void setId(Integer id)
     {
-        this.authorityId = authorityId;
+        this.id = id;
     }
     public String getEmail()
     {

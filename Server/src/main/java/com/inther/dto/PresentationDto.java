@@ -10,72 +10,72 @@ public class PresentationDto implements Serializable
     @Positive(groups = {RequestDataValidator.PatchPresentation.class})
     @Null(groups = {RequestDataValidator.PutPresentation.class})
     @NotNull(groups = {RequestDataValidator.PatchPresentation.class})
-    private Integer presentationId;
+    private Integer id;
 
     @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
-    private String presentationTitle;
+    private String title;
 
     @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
-    private String presentationDescription;
+    private String description;
 
     @NotNull(groups = {RequestDataValidator.PutPresentation.class})
-    private Date presentationStartDate;
+    private Date startDate;
 
     @NotNull(groups = {RequestDataValidator.PutPresentation.class})
-    private Date presentationEndDate;
+    private Date endDate;
 
     @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
     @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
-    private String presentationPlace;
+    private String place;
 
-    public Integer getPresentationId()
+    public Integer getId()
     {
-        return presentationId;
+        return id;
     }
-    public void setPresentationId(Integer presentationId)
+    public void setId(Integer id)
     {
-        this.presentationId = presentationId;
+        this.id = id;
     }
-    public String getPresentationTitle()
+    public String getTitle()
     {
-        return presentationTitle;
+        return title;
     }
-    public void setPresentationTitle(String presentationTitle)
+    public void setTitle(String title)
     {
-        this.presentationTitle = presentationTitle;
+        this.title = title;
     }
-    public String getPresentationDescription()
+    public String getDescription()
     {
-        return presentationDescription;
+        return description;
     }
-    public void setPresentationDescription(String presentationDescription)
+    public void setDescription(String description)
     {
-        this.presentationDescription = presentationDescription;
+        this.description = description;
     }
-    public Date getPresentationStartDate()
+    public Date getStartDate()
     {
-        return presentationStartDate;
+        return startDate;
     }
-    public void setPresentationStartDate(Date presentationStartDate)
+    public void setStartDate(Date startDate)
     {
-        this.presentationStartDate = presentationStartDate;
+        this.startDate = startDate;
     }
-    public Date getPresentationEndDate()
+    public Date getEndDate()
     {
-        return presentationEndDate;
+        return endDate;
     }
-    public void setPresentationEndDate(Date presentationEndDate)
+    public void setEndDate(Date endDate)
     {
-        this.presentationEndDate = presentationEndDate;
+        this.endDate = endDate;
     }
-    public String getPresentationPlace()
+    public String getPlace()
     {
-        return presentationPlace;
+        return place;
     }
-    public void setPresentationPlace(String presentationPlace)
+    public void setPlace(String place)
     {
-        this.presentationPlace = presentationPlace;
+        this.place = place;
     }
 }

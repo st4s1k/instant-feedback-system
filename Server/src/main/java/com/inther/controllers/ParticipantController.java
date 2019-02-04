@@ -24,10 +24,10 @@ public class ParticipantController
         return new ResponseEntityWrapper<>(participantService.putParticipant(modelMapper.map(participantDtoToPut, ParticipantEntity.class)));
     }
 
-    @DeleteMapping(value = "/{participantId}")
-    public ResponseEntity<?> deleteParticipant(@PathVariable(value = "participantId") Integer participantId) throws Exception
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteParticipant(@PathVariable(value = "id") Integer id) throws Exception
     {
-        return new ResponseEntityWrapper<>(participantService.deleteParticipant(participantId));
+        return new ResponseEntityWrapper<>(participantService.deleteParticipant(id));
     }
 
     @Autowired

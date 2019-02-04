@@ -10,8 +10,8 @@ public class ParticipantEntity implements Entities
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participant_id")
-    private Integer participantId;
+    @Column(name = "id")
+    private Integer id;
 
     @JsonIgnore
     @Column(name = "presentation_id")
@@ -20,13 +20,13 @@ public class ParticipantEntity implements Entities
     @Column(name = "email")
     private String email;
 
-    public Integer getParticipantId()
+    public Integer getId()
     {
-        return participantId;
+        return id;
     }
-    public void setParticipantId(Integer participantId)
+    public void setId(Integer id)
     {
-        this.participantId = participantId;
+        this.id = id;
     }
     public Integer getPresentationId()
     {

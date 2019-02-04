@@ -9,7 +9,7 @@ public class MessageDto implements Serializable
     @Positive(groups = {RequestDataValidator.PatchMessage.class})
     @Null(groups = {RequestDataValidator.PutMessage.class})
     @NotNull(groups = {RequestDataValidator.PatchMessage.class})
-    private Integer messageId;
+    private Integer id;
 
     @Positive(groups = {RequestDataValidator.PutMessage.class})
     @Null(groups = {RequestDataValidator.PatchMessage.class})
@@ -23,19 +23,19 @@ public class MessageDto implements Serializable
     @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
     @Pattern(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, regexp = "TYPE_FEEDBACK|TYPE_QUESTION")
     @NotBlank(groups = {RequestDataValidator.PutMessage.class})
-    private String messageType;
+    private String type;
 
     @Null(groups = {RequestDataValidator.PatchMessage.class})
     @NotNull(groups = {RequestDataValidator.PutMessage.class})
     private Boolean isAnonymous;
 
-    public Integer getMessageId()
+    public Integer getId()
     {
-        return messageId;
+        return id;
     }
-    public void setMessageId(Integer messageId)
+    public void setId(Integer id)
     {
-        this.messageId = messageId;
+        this.id = id;
     }
     public Integer getPresentationId()
     {
@@ -53,13 +53,13 @@ public class MessageDto implements Serializable
     {
         this.message = message;
     }
-    public String getMessageType()
+    public String getType()
     {
-        return messageType;
+        return type;
     }
-    public void setMessageType(String messageType)
+    public void setType(String type)
     {
-        this.messageType = messageType;
+        this.type = type;
     }
     public Boolean getIsAnonymous()
     {

@@ -39,17 +39,17 @@ public class PresentationService
     }
     private Boolean validatePresentationEntityDateAndTime(PresentationEntity storedEntity, PresentationEntity patchingEntity)
     {
-        if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() != null))
+        if ((patchingEntity.getStartDate() != null) && (patchingEntity.getEndDate() != null))
         {
-            return patchingEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+            return patchingEntity.getStartDate().before(patchingEntity.getEndDate());
         }
-        else if ((patchingEntity.getPresentationStartDate() != null) && (patchingEntity.getPresentationEndDate() == null))
+        else if ((patchingEntity.getStartDate() != null) && (patchingEntity.getEndDate() == null))
         {
-            return patchingEntity.getPresentationStartDate().before(storedEntity.getPresentationEndDate());
+            return patchingEntity.getStartDate().before(storedEntity.getEndDate());
         }
-        else if ((patchingEntity.getPresentationStartDate() == null) && (patchingEntity.getPresentationEndDate() != null))
+        else if ((patchingEntity.getStartDate() == null) && (patchingEntity.getEndDate() != null))
         {
-            return storedEntity.getPresentationStartDate().before(patchingEntity.getPresentationEndDate());
+            return storedEntity.getStartDate().before(patchingEntity.getEndDate());
         }
         else
         {
@@ -59,15 +59,15 @@ public class PresentationService
 
     public ResponseBean putPresentation(PresentationEntity presentationEntity) throws Exception
     {
-        Optional<PresentationEntity> optionalUserEntity = presentationRepository.findPresentationEntityByPresentationTitle(presentationEntity.getPresentationTitle());
+        Optional<PresentationEntity> optionalUserEntity = presentationRepository.findPresentationEntityByTitle(presentationEntity.getTitle());
         if (!optionalUserEntity.isPresent())
         {
-            if (presentationEntity.getPresentationStartDate().before(presentationEntity.getPresentationEndDate()))
+            if (presentationEntity.getStartDate().before(presentationEntity.getEndDate()))
             {
                 presentationRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(presentationEntity));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' successfully added");
+                responseBean.setResponse("Presentation with title: '" + presentationEntity.getTitle() + "' successfully added");
             }
             else
             {
@@ -76,7 +76,7 @@ public class PresentationService
         }
         else
         {
-            throw new DuplicatedEntryException("Presentation with title: '" + presentationEntity.getPresentationTitle() + "' already exists");
+            throw new DuplicatedEntryException("Presentation with title: '" + presentationEntity.getTitle() + "' already exists");
         }
         return responseBean;
     }
@@ -96,7 +96,7 @@ public class PresentationService
     }
     public ResponseBean patchPresentation(PresentationEntity presentationEntity) throws Exception
     {
-        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityByPresentationId(presentationEntity.getPresentationId());
+        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(presentationEntity.getId());
         if (optionalPresentationEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
@@ -106,7 +106,7 @@ public class PresentationService
                     presentationRepository.save(serviceUtilityBean.patchEntity(optionalPresentationEntity.get(), presentationEntity));
                     responseBean.setHeaders(httpHeaders);
                     responseBean.setStatus(HttpStatus.OK);
-                    responseBean.setResponse("Presentation with id: '" + presentationEntity.getPresentationId() + "' successfully patched");
+                    responseBean.setResponse("Presentation with id: '" + presentationEntity.getId() + "' successfully patched");
                 }
                 else
                 {
@@ -120,21 +120,21 @@ public class PresentationService
         }
         else
         {
-            throw new NotFoundEntryException("Presentation with id: '" + presentationEntity.getPresentationId() + "' not found");
+            throw new NotFoundEntryException("Presentation with id: '" + presentationEntity.getId() + "' not found");
         }
         return responseBean;
     }
-    public ResponseBean deletePresentation(Integer presentationId) throws Exception
+    public ResponseBean deletePresentation(Integer id) throws Exception
     {
-        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityByPresentationId(presentationId);
+        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(id);
         if (optionalPresentationEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                presentationRepository.deletePresentationEntityByPresentationId(presentationId);
+                presentationRepository.deletePresentationEntityById(id);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Presentation with id: '" + presentationId + "' successfully deleted");
+                responseBean.setResponse("Presentation with id: '" + id + "' successfully deleted");
             }
             else
             {
@@ -143,7 +143,7 @@ public class PresentationService
         }
         else
         {
-            throw new NotFoundEntryException("Presentation with id: '" + presentationId + "' not found");
+            throw new NotFoundEntryException("Presentation with id: '" + id + "' not found");
         }
         return responseBean;
     }

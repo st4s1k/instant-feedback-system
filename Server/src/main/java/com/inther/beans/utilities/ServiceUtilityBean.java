@@ -15,7 +15,10 @@ public class ServiceUtilityBean
 
     public UserEntity encodeUserEntityPassword(UserEntity userEntity)
     {
-        userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
+        if (userEntity.getPassword() != null)
+        {
+            userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
+        }
         return userEntity;
     }
     public <T extends Entities> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
@@ -27,7 +30,7 @@ public class ServiceUtilityBean
     {
         if (targetEntity.getClass().equals(patchingEntity.getClass()))
         {
-            for(Method method : targetEntity.getClass().getMethods())
+            for(Method method : targetEntity.getClass().getDeclaredMethods())
             {
                 if (method.getName().startsWith("get") && (patchingEntity.getClass().getMethod(method.getName()).invoke(patchingEntity) != null))
                 {

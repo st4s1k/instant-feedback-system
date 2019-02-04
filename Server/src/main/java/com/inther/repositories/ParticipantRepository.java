@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface ParticipantRepository extends JpaRepository<ParticipantEntity, Integer>
 {
     Optional<ParticipantEntity> findParticipantEntityByPresentationIdAndEmail(Integer presentationId, String email);
-    Optional<ParticipantEntity> findParticipantEntityByParticipantId(Integer participantId);
+    Optional<ParticipantEntity> findParticipantEntityById(Integer id);
 
     @Modifying
     @Transactional
-    void deleteParticipantEntityByParticipantId(Integer participantId);
+    void deleteParticipantEntityById(Integer id);
 }

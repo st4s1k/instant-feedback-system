@@ -11,12 +11,12 @@ import java.util.Optional;
 @Repository
 public interface PresentationRepository extends JpaRepository<PresentationEntity, Integer>
 {
-    Optional<PresentationEntity> findPresentationEntityByPresentationTitle(String presentationTitle);
-    Optional<PresentationEntity> findPresentationEntityByPresentationId(Integer presentationId);
+    Optional<PresentationEntity> findPresentationEntityByTitle(String title);
+    Optional<PresentationEntity> findPresentationEntityById(Integer id);
 
     Optional<List<PresentationEntity>> findPresentationEntityByEmail(String email);
 
     @Modifying
     @Transactional
-    void deletePresentationEntityByPresentationId(Integer presentationId);
+    void deletePresentationEntityById(Integer id);
 }

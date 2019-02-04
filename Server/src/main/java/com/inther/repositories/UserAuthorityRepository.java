@@ -12,11 +12,11 @@ import java.util.Optional;
 public interface UserAuthorityRepository extends JpaRepository<UserAuthorityEntity, Integer>
 {
     Optional<UserAuthorityEntity> findUserAuthorityEntityByEmailAndAuthority(String email, String authority);
-    Optional<UserAuthorityEntity> findUserAuthorityEntityByAuthorityId(Integer authorityId);
+    Optional<UserAuthorityEntity> findUserAuthorityEntityById(Integer id);
 
     Optional<List<UserAuthorityEntity>> findUserAuthorityEntityByEmail(String email);
 
     @Modifying
     @Transactional
-    void deleteUserAuthorityEntityByAuthorityId(Integer authorityId);
+    void deleteUserAuthorityEntityById(Integer authorityId);
 }

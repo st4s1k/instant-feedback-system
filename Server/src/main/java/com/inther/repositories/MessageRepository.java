@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer>
 {
-    Optional<MessageEntity> findMessageEntityByMessageId(Integer messageId);
+    Optional<MessageEntity> findMessageEntityById(Integer id);
 
     @Modifying
     @Transactional
-    void deleteMessageEntityByMessageId(Integer messageId);
+    void deleteMessageEntityById(Integer id);
 }

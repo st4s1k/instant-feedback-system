@@ -42,7 +42,7 @@ public class MessageService
     {
 
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityByPresentationId(messageEntity.getPresentationId());
+                .findPresentationEntityById(messageEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
             messageRepository.save(setAuthenticatedEmailPropertyValue(messageEntity));
@@ -58,14 +58,14 @@ public class MessageService
     }
     public ResponseBean patchMessage(MessageEntity messageEntity) throws Exception
     {
-        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityByMessageId(messageEntity.getMessageId());
+        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(messageEntity.getId());
         if (optionalMessageEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail()))
             {
                 messageRepository.save(serviceUtilityBean.patchEntity(optionalMessageEntity.get(), messageEntity));
                 responseBean.setHeaders(httpHeaders);
-                responseBean.setResponse("Message with id: '" + messageEntity.getMessageId() + "' successfully patched");
+                responseBean.setResponse("Message with id: '" + messageEntity.getId() + "' successfully patched");
             }
             else
             {
@@ -74,21 +74,21 @@ public class MessageService
         }
         else
         {
-            throw new NotFoundEntryException("Message with id: '" + messageEntity.getMessageId() + "' not found");
+            throw new NotFoundEntryException("Message with id: '" + messageEntity.getId() + "' not found");
         }
         return responseBean;
     }
-    public ResponseBean deleteMessage(Integer messageId) throws Exception
+    public ResponseBean deleteMessage(Integer id) throws Exception
     {
-        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityByMessageId(messageId);
+        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(id);
         if (optionalMessageEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail()) || authorityUtilityBean.validateAdminAuthority())
             {
-                messageRepository.deleteMessageEntityByMessageId(messageId);
+                messageRepository.deleteMessageEntityById(id);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Message with id: '" + messageId + "' successfully deleted");
+                responseBean.setResponse("Message with id: '" + id + "' successfully deleted");
             }
             else
             {
@@ -97,7 +97,7 @@ public class MessageService
         }
         else
         {
-            throw new NotFoundEntryException("Message with id: '" + messageId + "' not found");
+            throw new NotFoundEntryException("Message with id: '" + id + "' not found");
         }
         return responseBean;
     }

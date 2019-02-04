@@ -25,7 +25,7 @@ public class UserService
 
     private UserEntity setUserEntityNestedAuthorityEmails(UserEntity userEntity)
     {
-        for (UserAuthorityEntity userAuthorityEntity : userEntity.getUserAuthorities())
+        for (UserAuthorityEntity userAuthorityEntity : userEntity.getAuthorities())
         {
             userAuthorityEntity.setEmail(userEntity.getEmail());
         }

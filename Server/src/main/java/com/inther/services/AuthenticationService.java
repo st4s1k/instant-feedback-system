@@ -37,7 +37,7 @@ public class AuthenticationService
     private UserEntity completeRegistrationObject(UserEntity userEntity)
     {
         userEntity.setEnabled(1);
-        userEntity.setUserAuthorities(setRegistrationObjectAuthorityValues(userEntity.getEmail()));
+        userEntity.setAuthorities(setRegistrationObjectAuthorityValues(userEntity.getEmail()));
         return userEntity;
     }
 
