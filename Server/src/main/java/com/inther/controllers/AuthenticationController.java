@@ -27,7 +27,7 @@ public class AuthenticationController
     @GetMapping(value = {"", "/{status}"})
     public ResponseEntity<?> getAuthentication(@PathVariable(value = "status", required = false) String status) throws Exception
     {
-        return new ResponseEntityWrapper<>(authenticationService.getAuthentication(status));
+        return authenticationService.getAuthentication(status);
     }
 
     @Autowired

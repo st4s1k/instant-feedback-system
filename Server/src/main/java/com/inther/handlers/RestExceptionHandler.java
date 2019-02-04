@@ -37,6 +37,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         return handleExceptionInternal(e, null, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<?> handleBadRequestException(BadRequestException e, WebRequest request)
+    {
+        return handleExceptionInternal(e, null, httpHeaders, HttpStatus.BAD_REQUEST, request);
+    }
+
     @ExceptionHandler(DeleteLastAuthorityException.class)
     public final ResponseEntity<?> handleDeleteLastAuthorityException(DeleteLastAuthorityException e, WebRequest request)
     {

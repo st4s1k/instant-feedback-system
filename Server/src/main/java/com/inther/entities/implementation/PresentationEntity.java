@@ -33,13 +33,13 @@ public class PresentationEntity implements Entities
     private String place;
 
     @OneToMany(targetEntity = ParticipantEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ParticipantEntity> presentationParticipants;
+    private List<ParticipantEntity> participants;
 
     @OneToMany(targetEntity = MessageEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MessageEntity> presentationMessages;
+    private List<MessageEntity> messages;
 
     @OneToMany(targetEntity = MarkEntity.class, mappedBy = "presentationId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MarkEntity> presentationMarks;
+    private List<MarkEntity> marks;
 
     public Integer getId()
     {
@@ -97,28 +97,28 @@ public class PresentationEntity implements Entities
     {
         this.place = place;
     }
-    public List<ParticipantEntity> getPresentationParticipants()
+    public List<ParticipantEntity> getParticipants()
     {
-        return presentationParticipants;
+        return participants;
     }
-    public void setPresentationParticipants(List<ParticipantEntity> presentationParticipants)
+    public void setParticipants(List<ParticipantEntity> participants)
     {
-        this.presentationParticipants = presentationParticipants;
+        this.participants = participants;
     }
-    public List<MessageEntity> getPresentationMessages()
+    public List<MessageEntity> getMessages()
     {
-        return presentationMessages;
+        return messages;
     }
-    public void setPresentationMessages(List<MessageEntity> presentationMessages)
+    public void setMessages(List<MessageEntity> messages)
     {
-        this.presentationMessages = presentationMessages;
+        this.messages = messages;
     }
-    public List<MarkEntity> getPresentationMarks()
+    public List<MarkEntity> getMarks()
     {
-        return presentationMarks;
+        return marks;
     }
-    public void setPresentationMarks(List<MarkEntity> presentationMarks)
+    public void setMarks(List<MarkEntity> marks)
     {
-        this.presentationMarks = presentationMarks;
+        this.marks = marks;
     }
 }

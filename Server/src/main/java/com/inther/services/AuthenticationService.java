@@ -6,12 +6,15 @@ import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.implementation.UserAuthorityEntity;
 import com.inther.entities.implementation.UserEntity;
 import com.inther.exceptions.BadCredentialsException;
+import com.inther.exceptions.BadRequestException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,13 +60,12 @@ public class AuthenticationService
         }
         return responseBean;
     }
-    public ResponseBean getAuthentication(String status) throws Exception
+    public ResponseEntity<?> getAuthentication(String status) throws Exception
     {
+        ResponseEntity<?> responseEntity;
         if ((status != null) && (status.equals("success")))
         {
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse("You successfully authenticated as: '" + authorityUtilityBean.getCurrentAuthenticationEmail() + "'");
+            responseEntity = new ResponseEntity<>(userRepository.findUserEntityByEmail(authorityUtilityBean.getCurrentAuthenticationEmail()), httpHeaders, HttpStatus.OK);
         }
         else if ((status != null) && (status.equals("invalidAuthenticationData")))
         {
@@ -71,11 +73,9 @@ public class AuthenticationService
         }
         else
         {
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse("This is a authentication page, please use POST method to authenticate");
+            throw new BadRequestException("This is a authentication page, please use POST method to authenticate");
         }
-        return responseBean;
+        return responseEntity;
     }
 
     @Autowired
