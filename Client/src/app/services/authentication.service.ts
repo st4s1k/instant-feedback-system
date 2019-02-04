@@ -17,7 +17,7 @@ export class AuthenticationService {
 
   userLocal: User;
 
-  // real api
+  // // real api
   // login(email: string, password: string) {
 
 
@@ -36,20 +36,14 @@ export class AuthenticationService {
   //         user.authdata = window.btoa(email + ':' + password);
   //         localStorage.setItem('currentUser', JSON.stringify(user));
   //         alert('Success!');
-  //        alert(JSON.stringify(user));
-  //        alert(user);
-  //        this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
-  //        this.globalSrv.setNavEmail(this.userLocal.email);
-  //        this.globalSrv.setNavUserId(this.userLocal.id);
-  //        this.globalSrv.setSessionID(this.userLocal.id);
-  //        localStorage.setItem('sessionID', JSON.stringify(this.userLocal.id));
-  //        localStorage.setItem('email', JSON.stringify(this.userLocal.email));
-  //        localStorage.setItem('userId', JSON.stringify(this.userLocal.id));
-  //        // localStorage.setItem('auth', JSON.stringify(true));
-  //        // const authe = JSON.parse(localStorage.getItem('auth'));
-  //        // this.globalSrv.setNavAuthenticated(authe);
-
-  //       // alert()
+  //         alert(JSON.parse(user));
+  //         this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
+  //         this.globalSrv.setNavEmail(this.userLocal.email);
+  //         this.globalSrv.setNavUserId(this.userLocal.id);
+  //         this.globalSrv.setSessionID(this.userLocal.id);
+  //         localStorage.setItem('sessionID', `${this.userLocal.id}`);
+  //         localStorage.setItem('email', this.userLocal.email);
+  //         localStorage.setItem('userId', `${this.userLocal.id}`);
   //       }
   //       return user;
   //     }));
@@ -63,11 +57,10 @@ export class AuthenticationService {
         if (user) {
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
-          // user.authdata = window.btoa(email + ':' + password);
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
           alert('Success!');
-          alert(user);
+          alert(JSON.stringify(user));
           this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
 
           this.globalSrv.setNavEmail(this.userLocal.email);
@@ -77,10 +70,6 @@ export class AuthenticationService {
           localStorage.setItem('sessionID', `${this.userLocal.id}`);
           localStorage.setItem('email', this.userLocal.email);
           localStorage.setItem('userId', `${this.userLocal.id}`);
-          // localStorage.setItem('auth', JSON.stringify(true));
-          // const authe = JSON.parse(localStorage.getItem('auth'));
-          // this.globalSrv.setNavAuthenticated(authe);
-
         }
 
         return user;
@@ -89,10 +78,7 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage to log user out
-    // localStorage.removeItem('auth');
     localStorage.setItem('sessionID', '0');
-    // localStorage.setItem('auth', JSON.stringify(false));
-    // this.globalSrv.setNavAuthenticated(false);
     this.globalSrv.setSessionID(0);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
