@@ -9,7 +9,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const testUser = { id: 7, email: 'us@mail.com', password: '123456' };
+        const testUser = { id: 7, type: 'Role_Admin', email: 'us@mail.com', password: '123456' };
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
@@ -20,6 +20,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     // if login details are valid return user details
                     const body = {
                         id: testUser.id,
+                        type: testUser.type,
                         email: testUser.email,
                         password: testUser.password,
                     };
@@ -48,7 +49,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }))
 
             // tslint:disable-next-line:max-line-length
-            // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
             .pipe(materialize())
             .pipe(delay(500))
             .pipe(dematerialize());

@@ -13,10 +13,12 @@ export class NavComponent implements OnInit {
   public authenticated = +localStorage.getItem('sessionID');
   public UserEmail = localStorage.getItem('email');
   public UserId = +localStorage.getItem('userId');
+  public UserRole = localStorage.getItem('userRole');
 
   constructor(private auth: AuthenticationService, private globalSrv: GlobalServUserService) {
     this.globalSrv.SessionID.subscribe((sessId) => this.authenticated = sessId);
     this.globalSrv.navEmail.subscribe((email) => this.UserEmail = email);
+    this.globalSrv.UserRole.subscribe((role) => this.UserRole = role);
   }
 
 

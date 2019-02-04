@@ -64,6 +64,18 @@
           "message": "Is it still working?",
           "type": "question",
           "anonymity": true
+        },
+        {
+          "email": "us@mail.com",
+          "message": "",
+          "type": "feedback",
+          "anonymity": false
+        },
+        {
+          "email": "anonymous",
+          "message": "1234231",
+          "type": "feedback",
+          "anonymity": true
         }
       ]
     },
@@ -114,7 +126,7 @@
         },
         {
           "email": "us@mail.com",
-          "message": "Do you think about part 2?",
+          "message": "Do you think about part 2?,nvmnv",
           "type": "question",
           "anonymity": null
         }

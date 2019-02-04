@@ -55,11 +55,12 @@ export class PresentationService {
   }
 
   deletePresentation(id: number) {
-    return this.http.delete<Presentation>(`${API_URL}`, {
-      params: {
-        id: '' + id
-      }
-    });
+    // return this.http.delete<Presentation>(`${API_URL}`, {
+    //   params: {
+    //     id: '' + id
+    //   }
+    // });
+    return this.http.delete<Presentation>(`${API_URL}/${id}`);
   }
 
   getAvgMark(marks: { email: string, mark: number }[]) {

@@ -22,6 +22,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 import { fakeBackendProvider } from './_helpers/fake-backend';
 import { GlobalServUserService } from './global-serv-user.service';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GlobalServUserService } from './global-serv-user.service';
     HomeComponent,
     PresentationPageComponent,
     UserProfileComponent,
+    AdminProfileComponent,
   ],
   imports: [
     BrowserModule,
