@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     // this.ps.getPresentations().subscribe(Presentations => this.presentations);
-    this.route.data.subscribe((data: { presentationList: Presentation[] }) => {
-      this.presentations = data.presentationList;
+    this.route.data.subscribe((data: { presentations: Presentation[] }) => {
+      this.presentations = data.presentations;
       // console.log(JSON.stringify(this.presentations));
     });
   }

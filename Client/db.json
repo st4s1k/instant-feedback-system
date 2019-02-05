@@ -64,6 +64,18 @@
           "message": "Is it still working?",
           "type": "TYPE_QUESTION",
           "anonymity": true
+        },
+        {
+          "email": "us@mail.com",
+          "message": "",
+          "type": "feedback",
+          "anonymity": false
+        },
+        {
+          "email": "anonymous",
+          "message": "1234231",
+          "type": "feedback",
+          "anonymity": true
         }
       ]
     },
@@ -369,7 +381,7 @@
       "id": 4,
       "type": 2,
       "email": "sasa@gmail.com",
-      "password": "0987654"
+      "password": "stas123"
     },
     {
       "id": 5,

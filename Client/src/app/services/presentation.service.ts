@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment.prod';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 const API_URL = environment.jsonServerUrl;
-const API_MSG_ROUTE = environment.apiMessageRoute;
+const API_MSG_ROUTE = environment.apiMessagesRoute;
 let API_PRES_ROUTE = environment.apiPresentationsRoute;
 
 if (API_URL === environment.jsonServerUrl) {
@@ -27,10 +27,10 @@ export class PresentationService {
     return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`);
   }
 
-  getPresentationsByUser(email: string) {
+  getPresentationsByUser(id: number) {
     return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
       params: {
-        email: email
+        id: '' + id
       }
     });
   }

@@ -16,6 +16,8 @@ export class GlobalServUserService {
   NavAuthenticated = this.NavAuthenticatedSource.asObservable();
   private SessionIDSource = new Subject<number>();
   SessionID = this.SessionIDSource.asObservable();
+  private UserRoleSource = new Subject<string>();
+  UserRole = this.UserRoleSource.asObservable();
   setNavEmail(email: string) {
     this.navEmailSource.next(email);
   }
@@ -27,6 +29,9 @@ export class GlobalServUserService {
   }
   setNavAuthenticated(auth: boolean) {
     this.NavAuthenticatedSource.next(auth);
+  }
+  setUserRole(role: string) {
+    this.UserRoleSource.next(role);
   }
 
 }

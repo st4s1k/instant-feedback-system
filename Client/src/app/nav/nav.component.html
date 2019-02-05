@@ -11,7 +11,7 @@
       </a>
     </div>
 
-    <div class="p-0 nav-item d-none d-md-block">
+    <div class="p-0 nav-item d-none d-md-block" *ngIf=authenticated>
       <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
     </div>
 
@@ -25,8 +25,11 @@
   <div class="justify-content-end navbar-collapse collapse" id="navbarSupportedContent" [ngbCollapse]="navbarCollapsed">
     <div class="nav navbar-nav align-items-center p-3">
 
-      <div class="p-0 nav-item d-md-none">
+      <div class="p-0 nav-item d-md-none" *ngIf=authenticated>
         <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf="authenticated && UserRole == 'Role_Admin'">
+          <a class="nav-link" routerLink="admin-profile"><i class="fas fa-user-cog"></i> Admin Page</a>
       </div>
       <div class="p-0 nav-item" *ngIf=authenticated>
         <a class="nav-link" routerLink="user-profile"><i class="fas fa-user-tie"></i> {{UserEmail}}</a>

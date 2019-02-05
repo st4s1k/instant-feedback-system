@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -54,6 +55,12 @@ export class UserProfileComponent implements OnInit {
     // console.log('Trying to open presentation ' + this.presentations[i].id);
     this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
+  editPresentationPage(i: number) {
+    this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
+  }
+  deletePresentationPage(i: number) {
+    this.presentationService.deletePresentation(this.presentations[i].id);
+  }
 
   getUserProfile(): void {
     // const id = +this.route.snapshot.paramMap.get('id');
@@ -73,24 +80,24 @@ export class UserProfileComponent implements OnInit {
     if (this.changePassForm.invalid) {
       return;
     }
-    this.loading = true ;
+    this.loading = true;
     this.userService.updateUser(<User>{
       // id: JSON.parse(localStorage.getItem('userId')),
-      id: 4 ,
+      id: 4,
       // email: JSON.parse(localStorage.getItem('email')),
       password: this.changePassForm.get('NewPass').value
     }).pipe(first())
-    .subscribe(
-      data => {
-        console.log('Succes Update');
-        alert('Success');
-        this.router.navigate(['/']);
-      },
-      error => {
-        alert(error);
-        console.log(error);
-        this.loading = false;
-      });
+      .subscribe(
+        data => {
+          console.log('Succes Update');
+          alert('Success');
+          this.router.navigate(['/']);
+        },
+        error => {
+          alert(error);
+          console.log(error);
+          this.loading = false;
+        });
   }
   onCancel() {
     this.btnChange = false;

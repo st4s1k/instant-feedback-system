@@ -27,7 +27,7 @@ export class AuthenticationService {
   //   fd.append('password', password);
 
   //   // return this.http.post<any>(`${API_URL}/authentication`, fd)
-  //   return this.http.post<any>(`http://172.17.41.122:80/authentication`, fd)
+  //   return this.http.post<any>(`http://172.17.41.68:9000/authentication`, fd)
   //     .pipe(map(user => {
   //       // login successful if there's a user in the response
   //       if (user) {
@@ -41,17 +41,20 @@ export class AuthenticationService {
   //         this.globalSrv.setNavEmail(this.userLocal.email);
   //         this.globalSrv.setNavUserId(this.userLocal.id);
   //         this.globalSrv.setSessionID(this.userLocal.id);
+  //         this.globalSrv.setUserRole(`${this.userLocal.type}`);
+
   //         localStorage.setItem('sessionID', `${this.userLocal.id}`);
   //         localStorage.setItem('email', this.userLocal.email);
   //         localStorage.setItem('userId', `${this.userLocal.id}`);
+  //         localStorage.setItem('userRole', `${this.userLocal.type}`);
   //       }
   //       return user;
   //     }));
   // }
 
-  // // Fake backend
+  // Fake backend
   login(email: string, password: string) {
-    return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
+    return this.http.post<any>(`${API_URL}/user/authenticate`, { email, password })
       .pipe(map(user => {
         // login successful if there's a user in the response
         if (user) {
@@ -59,17 +62,19 @@ export class AuthenticationService {
           // to keep user logged in between page refreshes
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
-          alert('Success!');
-          alert(JSON.stringify(user));
+          // alert('Success!');
+          alert('Succes' + JSON.stringify(user));
           this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
 
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
           this.globalSrv.setSessionID(this.userLocal.id);
+          this.globalSrv.setUserRole(`${this.userLocal.type}`);
 
           localStorage.setItem('sessionID', `${this.userLocal.id}`);
           localStorage.setItem('email', this.userLocal.email);
           localStorage.setItem('userId', `${this.userLocal.id}`);
+          localStorage.setItem('userRole', `${this.userLocal.type}`);
         }
 
         return user;
@@ -83,5 +88,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');
+    localStorage.setItem('userRole', 'NoRole');
+    this.globalSrv.setUserRole('NoRole');
   }
 }

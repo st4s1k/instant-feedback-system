@@ -26,9 +26,11 @@ export class PresentationListDetailResolverService implements Resolve<Presentati
       mergeMap(presentationDtoList => {
         if (presentationDtoList) {
           // alert('Sucess: Loaded presentations.');
-          return of(presentationDtoList.map(
-            presentationDto => PresentationDTO.toModel(presentationDto)
-          ));
+          return of(
+            presentationDtoList.map(
+              presentationDto => PresentationDTO.toModel(presentationDto)
+            )
+          );
         } else { // id not found
           // this.router.navigate(['/home']);
           alert('Error: Cannot load presentations.');
