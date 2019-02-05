@@ -16,6 +16,7 @@ import { UserPresentationResolverService } from './services/user-presentation-re
 // Guards
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
+import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
 
 
 const routes: Routes = [
@@ -55,15 +56,16 @@ const routes: Routes = [
       presentations : UserPresentationResolverService
     },
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin-profile',
+    component: AdminProfileComponent,
+    resolve: {
+      users: UserListDetailResolverService,
+      presentations : PresentationListDetailResolverService
+    },
+    canActivate: [AuthGuard]
   }
-  // {
-  //   path: 'admin-profile', component: AdminProfileComponent,
-  //   resolve: {
-  //     admin: UserDetailResolverService,
-  //     presentations : UserPresentationResolverService
-  //   },
-  //   canActivate: [AuthGuard]
-  // }
 ];
 
 @NgModule({

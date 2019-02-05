@@ -54,7 +54,7 @@ export class AuthenticationService {
 
   // Fake backend
   login(email: string, password: string) {
-    return this.http.post<any>(`${API_URL}/users/authenticate`, { email, password })
+    return this.http.post<any>(`${API_URL}/user/authenticate`, { email, password })
       .pipe(map(user => {
         // login successful if there's a user in the response
         if (user) {
@@ -62,8 +62,8 @@ export class AuthenticationService {
           // to keep user logged in between page refreshes
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
-          alert('Success!');
-          alert(JSON.stringify(user));
+          // alert('Success!');
+          alert('Succes' + JSON.stringify(user));
           this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
 
           this.globalSrv.setNavEmail(this.userLocal.email);
@@ -88,7 +88,6 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');
-    // localStorage.removeItem('userRole');
     localStorage.setItem('userRole', 'NoRole');
     this.globalSrv.setUserRole('NoRole');
   }
