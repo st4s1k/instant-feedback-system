@@ -28,41 +28,41 @@
           "mark": 4
         }
       ],
-      "feedback": [
+      "messages": [
         {
           "email": "user@gmail.com",
           "message": "Hello, world!",
-          "type": "feedback",
+          "type": "TYPE_FEEDBACK",
           "anonimity": false
         },
         {
           "email": "us@mail.com",
           "message": "Hello, world2!",
-          "type": "feedback",
+          "type": "TYPE_FEEDBACK",
           "anonimity": true
         },
         {
-          "email": "us@mail.com",
+          "email": "anonymous",
           "message": "Some question?",
-          "type": "question",
-          "anonimity": false
+          "type": "TYPE_QUESTION",
+          "anonymity": true
         },
         {
-          "email": "us@mail.com",
+          "email": "anonymous",
           "message": "Very important feedback.",
-          "type": "feedback",
-          "anonimity": false
+          "type": "TYPE_FEEDBACK",
+          "anonymity": true
         },
         {
           "email": "anonymous",
           "message": "Is it working???",
-          "type": "question",
+          "type": "TYPE_QUESTION",
           "anonymity": true
         },
         {
           "email": "anonymous",
           "message": "Is it still working?",
-          "type": "question",
+          "type": "TYPE_QUESTION",
           "anonymity": true
         }
       ]
@@ -105,17 +105,17 @@
           "mark": 5
         }
       ],
-      "feedback": [
+      "messages": [
         {
           "email": "anonymous",
           "message": "Nice! (I'm shy)",
-          "type": "feedback",
+          "type": "TYPE_FEEDBACK",
           "anonymity": true
         },
         {
           "email": "us@mail.com",
           "message": "Do you think about part 2?",
-          "type": "question",
+          "type": "TYPE_QUESTION",
           "anonymity": null
         }
       ]
@@ -154,11 +154,11 @@
           "mark": 3
         }
       ],
-      "feedback": [
+      "messages": [
         {
           "email": "us@mail.com",
           "message": "Such an amazing title!",
-          "type": "feedback",
+          "type": "TYPE_FEEDBACK",
           "anonymity": false
         }
       ]
@@ -309,12 +309,39 @@
           "mark": 5
         }
       ],
-      "feedback": [
+      "messages": [
         {
           "email": "anonymous",
           "message": "Almost working)",
-          "type": "feedback",
+          "type": "TYPE_FEEDBACK",
           "anonymity": true
+        },
+        {
+          "email": null,
+          "message": "Hello, world!",
+          "type": "TYPE_FEEDBACK",
+          "anonymity": false
+        },
+        {
+          "id": null,
+          "email": null,
+          "message": "",
+          "type": "TYPE_FEEDBACK",
+          "anonymity": false
+        },
+        {
+          "id": null,
+          "email": null,
+          "message": "",
+          "type": "TYPE_FEEDBACK",
+          "anonymity": false
+        },
+        {
+          "id": null,
+          "email": null,
+          "message": "",
+          "type": "TYPE_FEEDBACK",
+          "anonymity": false
         }
       ]
     }

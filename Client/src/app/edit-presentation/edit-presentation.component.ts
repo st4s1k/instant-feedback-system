@@ -5,6 +5,7 @@ import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../global-serv-user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -23,7 +24,7 @@ export class EditPresentationComponent implements OnInit {
   location: FormControl = this.fb.control('', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([]);
 
-  presentation: Presentation;
+  // presentation: Presentation;
 
   pageTitle: string;
 
@@ -42,13 +43,11 @@ export class EditPresentationComponent implements OnInit {
 
     if (this.router.url === '/new-presentation') {
       this.pageTitle = 'New presentation';
-      this.presentation = new Presentation();
     } else {
       this.pageTitle = 'Edit presentation';
 
       this.route.data.subscribe((data: { presentation: Presentation }) => {
-        this.presentation = new Presentation(data.presentation);
-        this.modelToFormGroup();
+        this.modelToFormGroup(data.presentation);
       });
     }
 
@@ -63,16 +62,16 @@ export class EditPresentationComponent implements OnInit {
     });
   }
 
-  modelToFormGroup = function () {
-    this.title.setValue(this.presentation.title);
-    this.description.setValue(this.presentation.description);
-    this.startTime.setValue(this.presentation.startDate.split('T')[1]);
-    this.endTime.setValue(this.presentation.endDate.split('T')[1]);
-    this.date.setValue(this.presentation.startDate.split('T')[0]);
-    this.location.setValue(this.presentation.place);
+  modelToFormGroup = function (presentation: Presentation) {
+    this.title.setValue(presentation.title);
+    this.description.setValue(presentation.description);
+    this.startTime.setValue(presentation.startDate.split('T')[1]);
+    this.endTime.setValue(presentation.endDate.split('T')[1]);
+    this.date.setValue(presentation.startDate.split('T')[0]);
+    this.location.setValue(presentation.place);
     this.emailInvitations = this.fb.array([]);
 
-    for (const participant of this.presentation.participants) {
+    for (const participant of presentation.participants) {
       this.emailInvitations.push(this.fb.control(
         participant.email, [Validators.required, Validators.email]
       ));
@@ -80,19 +79,23 @@ export class EditPresentationComponent implements OnInit {
   };
 
   formGroupToModel = function () {
-    this.presentation.email = localStorage.getItem('email');
-    this.presentation.title = this.title.value;
-    this.presentation.description = this.description.value;
-    this.presentation.startDate = this.date.value + 'T' + this.startTime.value;
-    this.presentation.place = this.location.value;
-    this.presentation.endDate = this.date.value + 'T' + this.endTime.value;
-    this.presentation.participants = [];
+    const presentation = new Presentation();
+
+    presentation.email = localStorage.getItem('email');
+    presentation.title = this.title.value;
+    presentation.description = this.description.value;
+    presentation.startDate = this.date.value + 'T' + this.startTime.value;
+    presentation.place = this.location.value;
+    presentation.endDate = this.date.value + 'T' + this.endTime.value;
+    presentation.participants = [];
 
     for (const emailInvitation of this.emailInvitations) {
-      this.presentation.participants.push({
+      presentation.participants.push(new User({
         email: emailInvitation
-      });
+      }));
     }
+
+    return presentation;
   };
 
   addEmailInvitation() {
@@ -115,21 +118,22 @@ export class EditPresentationComponent implements OnInit {
       return;
     }
 
-    this.formGroupToModel();
+    const presentation = this.formGroupToModel();
 
-    this.sendNewPresentation().pipe(first())
+    this.sendNewPresentation(presentation).pipe(first())
       .subscribe(data => {
-        this.router.navigate([`/presentation-page/${this.presentation.id}`]);
+        console.log(JSON.stringify(data));
+        this.router.navigate([`/presentation-page/${data.id}`]);
       }, error => {
         alert(error);
       });
   }
 
-  sendNewPresentation() {
+  sendNewPresentation(presentation: Presentation) {
     if (this.router.url === '/new-presentation') {
-      return this.presentationService.createPresentation(this.presentation);
+      return this.presentationService.createPresentation(presentation);
     } else {
-      return this.presentationService.updatePresentation(this.presentation);
+      return this.presentationService.updatePresentation(presentation);
     }
   }
 

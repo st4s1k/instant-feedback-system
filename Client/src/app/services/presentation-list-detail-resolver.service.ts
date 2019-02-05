@@ -8,8 +8,9 @@ import {
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
-import { Presentation } from '../models/presentation.model';
 import { PresentationService } from './presentation.service';
+import { Presentation } from '../models/presentation.model';
+import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,12 @@ export class PresentationListDetailResolverService implements Resolve<Presentati
 
     return this.ps.getPresentations().pipe(
       take(1),
-      mergeMap(presentations => {
-        if (presentations) {
+      mergeMap(presentationDtoList => {
+        if (presentationDtoList) {
           // alert('Sucess: Loaded presentations.');
-          return of(presentations);
+          return of(presentationDtoList.map(
+            presentationDto => PresentationDTO.toModel(presentationDto)
+          ));
         } else { // id not found
           // this.router.navigate(['/home']);
           alert('Error: Cannot load presentations.');

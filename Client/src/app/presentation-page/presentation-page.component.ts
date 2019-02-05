@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { Message } from '../models/message.model';
+import { Mark } from '../models/mark.model';
+import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 @Component({
   selector: 'app-presentation-page',
@@ -13,19 +16,13 @@ import { first } from 'rxjs/operators';
 })
 export class PresentationPageComponent implements OnInit {
 
-  type: FormControl = this.fb.control('feedback');
-  anonymity: FormControl = this.fb.control(false);
-  feedbackBox: FormControl = this.fb.control('');
-
-  feedbackFormGroup: FormGroup = this.fb.group({
-    feedbackBox: this.feedbackBox,
-    type: this.type,
-    anonymity: this.anonymity
-  });
+  TYPE_FEEDBACK = 'TYPE_FEEDBACK';
+  TYPE_QUESTION = 'TYPE_QUESTION';
 
   presentation: Presentation;
   currentRate = 0;
   submittedRate = false;
+  submittedFeedback = false;
   feedbackAdded = false;
   canVote = false;
   myMark = 0;
@@ -34,9 +31,19 @@ export class PresentationPageComponent implements OnInit {
   ratingsCount = 0;
   editingMessage = -1;
 
+  type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
+  anonymity: FormControl = this.fb.control(false);
+  feedbackBox: FormControl = this.fb.control('', Validators.minLength(1));
+  @ViewChild('fbb') feedbackBoxView: ElementRef;
+
+  feedbackFormGroup: FormGroup = this.fb.group({
+    feedbackBox: this.feedbackBox,
+    type: this.type,
+    anonymity: this.anonymity
+  });
+
   constructor(
     private ps: PresentationService,
-    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) { }
@@ -46,9 +53,9 @@ export class PresentationPageComponent implements OnInit {
     this.myEmail = localStorage.getItem('email');
 
     this.route.data.subscribe((data: { presentation: Presentation }) => {
-      this.presentation = new Presentation(data.presentation);
+      this.presentation = data.presentation;
 
-      this.avgMark = +this.ps.getAvgMark(this.presentation.marks);
+      this.avgMark = +this.ps.getAvgMark(this.presentation);
 
       this.ratingsCount = this.presentation.marks.length;
 
@@ -75,13 +82,13 @@ export class PresentationPageComponent implements OnInit {
       this.presentation.marks = [];
     }
 
-    this.presentation.marks.push({
+    this.presentation.marks.push(new Mark({
       userId: +localStorage.getItem('userId'),
       email: localStorage.getItem('email'),
       mark: +rate.toFixed(2)
-    });
+    }));
 
-    this.avgMark = +this.ps.getAvgMark(this.presentation.marks);
+    this.avgMark = +this.ps.getAvgMark(this.presentation);
 
     this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
       data => {
@@ -104,16 +111,25 @@ export class PresentationPageComponent implements OnInit {
     this.feedbackBox.setValue(this.presentation.feedback[i].message);
     this.anonymity.setValue(this.presentation.feedback[i].anonymity);
     this.type.setValue(this.presentation.feedback[i].type);
+
+    this.feedbackBoxView.nativeElement.focus();
+  }
+
+  deleteMessage(i: number) {
+    alert(`Deleting message[${i}].id = ${this.presentation.feedback[i].id}`);
+    this.ps.deleteMessage(this.presentation.feedback[i].id);
   }
 
   leaveFeedback(type: string) {
 
-    const currentFeedback = {
+    this.submittedFeedback = true;
+
+    const currentFeedback = new Message({
       email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
       message: this.feedbackBox.value,
       type: this.type.value,
       anonymity: this.anonymity.value
-    };
+    });
 
     if (this.editingMessage >= 0) {
       this.presentation.feedback[this.editingMessage] = currentFeedback;
@@ -137,7 +153,7 @@ export class PresentationPageComponent implements OnInit {
 
     this.feedbackFormGroup.reset({
       feedbackBox: '',
-      msgType: 'feedback',
+      type: 'feedback',
       anonymity: false
     });
   }

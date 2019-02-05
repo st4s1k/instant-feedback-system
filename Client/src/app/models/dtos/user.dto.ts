@@ -1,6 +1,6 @@
-import { UserDTO } from './dtos/user.dto';
+import { User } from '../user.model';
 
-export class User {
+export class UserDTO {
   public id: number;
   public type: number;
   public email: string;
@@ -10,8 +10,8 @@ export class User {
     Object.assign(this, obj);
   }
 
-  static toDTO(u: User): UserDTO {
-    return <UserDTO>{
+  static toModel(u: UserDTO): User {
+    return <User>{
       id: u.id,
       type: u.type,
       email: u.email,
