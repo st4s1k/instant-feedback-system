@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Presentation } from '../models/presentation.model';
+import { PresentationService } from '../services/presentation.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -14,7 +16,9 @@ export class AdminProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private presentationService: PresentationService
   ) { }
 
   ngOnInit() {
@@ -22,5 +26,11 @@ export class AdminProfileComponent implements OnInit {
       this.presentations = data.presentations;
       this.users = data.users;
     });
+  }
+  editUser(i: number) {
+    this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
+  }
+  deleteUser(i: number) {
+    this.presentationService.deletePresentation(this.presentations[i].id);
   }
 }
