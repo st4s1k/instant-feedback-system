@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
@@ -7,7 +7,7 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import { Message } from '../models/message.model';
 import { Mark } from '../models/mark.model';
-import { PresentationDTO } from '../models/dtos/presentation.dto';
+import { GlobalServUserService } from '../global-serv-user.service';
 
 @Component({
   selector: 'app-presentation-page',
@@ -31,9 +31,11 @@ export class PresentationPageComponent implements OnInit {
   ratingsCount = 0;
   editingMessage = -1;
 
+  authenticated = +localStorage.getItem('sessionID');
+
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
   anonymity: FormControl = this.fb.control(false);
-  feedbackBox: FormControl = this.fb.control('', Validators.minLength(1));
+  feedbackBox: FormControl = this.fb.control('', Validators.required);
   @ViewChild('fbb') feedbackBoxView: ElementRef;
 
   feedbackFormGroup: FormGroup = this.fb.group({
@@ -45,8 +47,12 @@ export class PresentationPageComponent implements OnInit {
   constructor(
     private ps: PresentationService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private gs: GlobalServUserService,
+    private renderer: Renderer
+  ) {
+    this.gs.SessionID.subscribe((sessId) => this.authenticated = sessId);
+  }
 
   ngOnInit() {
 
@@ -112,7 +118,7 @@ export class PresentationPageComponent implements OnInit {
     this.anonymity.setValue(this.presentation.feedback[i].anonymity);
     this.type.setValue(this.presentation.feedback[i].type);
 
-    this.feedbackBoxView.nativeElement.focus();
+    this.renderer.invokeElementMethod(this.feedbackBoxView.nativeElement, 'focus');
   }
 
   deleteMessage(i: number) {
@@ -123,6 +129,10 @@ export class PresentationPageComponent implements OnInit {
   leaveFeedback(type: string) {
 
     this.submittedFeedback = true;
+
+    if (this.feedbackFormGroup.invalid) {
+      return;
+    }
 
     const currentFeedback = new Message({
       email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
