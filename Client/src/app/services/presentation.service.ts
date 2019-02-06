@@ -35,13 +35,21 @@ export class PresentationService {
     });
   }
 
-  // getPresentationsByTitle(title: string) {
-  //   return this.http.get<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}`, {
-  //     params: {
-  //       title: title
-  //     }
-  //   });
-  // }
+  getPresentationsByTitle(title: string) {
+    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
+      params: {
+        title_like: title
+      }
+    });
+  }
+
+  getPresentationsByEmail(email: string) {
+    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
+      params: {
+        email_like: email
+      }
+    });
+  }
 
   getPresentationById(id: number) {
     return this.http.get<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}/${id}`);
