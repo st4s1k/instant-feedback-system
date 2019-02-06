@@ -359,39 +359,44 @@
   "users": [
     {
       "id": 1,
-      "type": 2,
+      "type": "ROLE_USER",
       "email": "alex@gmail.com",
       "password": "123456"
     },
     {
       "id": 2,
-      "type": 2,
+      "type": "ROLE_USER",
       "email": "alex1997a25@gmail.com",
       "password": "123445"
     },
     {
       "id": 3,
-      "type": 2,
+      "type": "ROLE_USER",
       "email": "user@gmail.com",
       "password": "123456"
     },
     {
       "id": 4,
-      "type": 2,
+      "type": "ROLE_USER",
       "email": "sasa@gmail.com",
       "password": "stas123"
     },
     {
       "id": 5,
-      "type": 2,
+      "type": "ROLE_USER",
       "email": "user@gmail.com",
       "password": "123456"
     },
     {
       "id": 7,
-      "type": 2,
+      "type": "ROLE_ADMIN",
       "email": "us@mail.com",
       "password": "123456"
+    },
+    {
+      "email": "isd@mail.com",
+      "password": "123456",
+      "id": 8
     }
   ]
 }

@@ -17,10 +17,6 @@
             <div class="row card p-0 mt-3 mb-10 btn"  *ngFor='let presentation of presentations; let i=index;'>
               <div class="col card-body">
                 <div class="row">
-                  
-                </div>
-
-                <div class="row">
 
                   <div class="col text-left" (click)="openPresentationPage(i)">
                     <p class="m-0">{{presentation.title}}</p>
@@ -49,8 +45,8 @@
 
       </div>
     </div>
-    <div class=" col-md-3 user-info">
-      <div></div>
+    <div class=" col-md-3 col-xs-12 user-info">
+      <div>
       <h3>UserInfo</h3>
       <p>{{user.email}}</p>
       <button *ngIf=!btnChange type="button" class="btn btn-primary" (click)="changePass()">Change Password</button>

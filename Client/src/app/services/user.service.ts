@@ -20,6 +20,7 @@ export class UserService {
 
   createUser(user: User) {
     return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
+    // return this.http.post<UserDTO>(`${API_URL}/users`, user);
   }
 
   getAllUsers() {

@@ -88,7 +88,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');
-    localStorage.setItem('userRole', 'NoRole');
-    this.globalSrv.setUserRole('NoRole');
+    localStorage.removeItem('userRole');
+    // this.globalSrv.setUserRole('NoRole');
   }
 }

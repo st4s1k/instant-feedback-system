@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -9,7 +10,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const testUser = { id: 7, type: 'Role_Admin', email: 'us@mail.com', password: '123456' };
+        const testUser = { id: 7, type: environment.adminRole, email: 'us@mail.com', password: '123456' };
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {

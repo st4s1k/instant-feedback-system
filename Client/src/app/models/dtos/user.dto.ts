@@ -2,7 +2,7 @@ import { User } from '../user.model';
 
 export class UserDTO {
   public id: number;
-  public type: number;
+  public type: string;
   public email: string;
   public password: string;
 
