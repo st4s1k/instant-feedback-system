@@ -82,9 +82,8 @@ export class UserProfileComponent implements OnInit {
     }
     this.loading = true;
     this.userService.updateUser(<User>{
-      // id: JSON.parse(localStorage.getItem('userId')),
-      id: 4,
-      // email: JSON.parse(localStorage.getItem('email')),
+      id: +localStorage.getItem('userId'),
+      email: localStorage.getItem('email'),
       password: this.changePassForm.get('NewPass').value
     }).pipe(first())
       .subscribe(

@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  <div class="row-stretch">
+  <div class="row-stretch" *ngIf=authenticated>
 
     <form id="feedback-box" class="row-stretch" [formGroup]="feedbackFormGroup" (ngSubmit)="leaveFeedback()">
       <div class="d-flex flex-column form-group">
@@ -97,8 +97,12 @@
 
         </div>
 
+        <div class="text-danger" *ngIf="submittedFeedback && feedbackBox.errors.required">
+          Please write something before leaving feedback!
+        </div>
+
         <textarea #fbb class="form-control d-flex" cols="30" rows="4" placeholder="Your feedback." required
-          formControlName="feedbackBox" [ngClass]="{ 'is-invalid': submitted && emailInvitation.errors }"></textarea>
+          formControlName="feedbackBox"></textarea>
 
         <div class="d-flex justify-content-end mt-2">
           <button type="submit" class="btn btn-success col-auto">

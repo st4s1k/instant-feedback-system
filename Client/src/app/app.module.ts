@@ -19,8 +19,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BasicAuthInterceptor } from './_helpers//basic-auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 
-
-import { fakeBackendProvider } from './_helpers/fake-backend';
 import { GlobalServUserService } from './global-serv-user.service';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
@@ -48,11 +46,8 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // provider used to create fake backend
-    fakeBackendProvider,
     GlobalServUserService
   ],
   bootstrap: [AppComponent]
-
 })
 export class AppModule { }
