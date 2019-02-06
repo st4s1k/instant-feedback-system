@@ -5,13 +5,11 @@
 
 .card {
   color: rgb(52, 58, 64);
-  border-color: rgb(52, 58, 64);
 }
 
 .card:hover {
   color: rgb(241, 93, 34);
   border-color: rgb(241, 93, 34);
-  // background-color: rgb(255, 238, 223);
 }
 
 /* Extra small devices */
@@ -25,4 +23,10 @@
   .card {
     font-size: 1.3rem;
   }
+}
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
 }

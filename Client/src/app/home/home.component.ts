@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +19,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    // this.ps.getPresentations().subscribe(Presentations => this.presentations);
     this.route.data.subscribe((data: { presentations: Presentation[] }) => {
       this.presentations = data.presentations;
       // console.log(JSON.stringify(this.presentations));

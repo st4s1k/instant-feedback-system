@@ -9,37 +9,16 @@
       "place": "Some place 01:00",
       "endDate": "1996-12-12T12:12:00",
       "participants": [],
-      "marks": [
-        {
-          "email": "some3@email.com",
-          "mark": 5
-        },
-        {
-          "email": "some5@email.com",
-          "mark": 4
-        },
-        {
-          "email": "some4@email.com",
-          "mark": 3
-        },
-        {
-          "userId": 7,
-          "email": "us@mail.com",
-          "mark": 4
-        }
-      ],
       "messages": [
         {
           "email": "user@gmail.com",
           "message": "Hello, world!",
-          "type": "TYPE_FEEDBACK",
-          "anonimity": false
+          "type": "TYPE_FEEDBACK"
         },
         {
           "email": "us@mail.com",
           "message": "Hello, world2!",
-          "type": "TYPE_FEEDBACK",
-          "anonimity": true
+          "type": "TYPE_FEEDBACK"
         },
         {
           "email": "anonymous",
@@ -67,8 +46,8 @@
         },
         {
           "email": "us@mail.com",
-          "message": "",
-          "type": "feedback",
+          "message": "Some wonderful text!)",
+          "type": "TYPE_FEEDBACK",
           "anonymity": false
         },
         {
@@ -76,6 +55,25 @@
           "message": "1234231",
           "type": "feedback",
           "anonymity": true
+        }
+      ],
+      "marks": [
+        {
+          "email": "some3@email.com",
+          "mark": 5
+        },
+        {
+          "email": "some5@email.com",
+          "mark": 4
+        },
+        {
+          "email": "some4@email.com",
+          "mark": 3
+        },
+        {
+          "userId": 7,
+          "email": "us@mail.com",
+          "mark": 4
         }
       ]
     },

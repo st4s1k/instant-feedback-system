@@ -7,26 +7,45 @@
     <div class="col-md-10 col-lg-8 ml-5 mr-5">
 
       <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
+        <div class="col card-header pt-2 pb-2 text-left">
+          <div class="row">
+
+            <small class="col-sm">
+              <b>author:</b> {{presentation.email}}
+            </small>
+            <small class="col-sm-auto">
+                <b>date:</b> {{presentation.startDate.split('T')[0]}}
+            </small>
+            <small class="col-sm-auto">
+                <b>time:</b> {{presentation.startDate.split('T')[1]}}
+            </small>
+          </div>
+        </div>
         <div class="col card-body">
 
           <div class="row">
 
             <div class="col text-left">
-              <p class="m-0">{{presentation.title}}</p>
+              <p class="m-0">
+                {{presentation.title}}
+              </p>
             </div>
 
-            <div class="col-auto">
-              <p class="m-0">{{ps.getAvgMark(presentation)}}</p>
+            <div class="col-auto d-flex align-items-center">
+              <div>
+                {{ps.getAvgMark(presentation)}}
+              </div>
             </div>
 
-            <div class="col-auto">
-              <i class="fas fa-star"></i>
+            <div class="col-auto d-flex align-items-center">
+              <div>
+                <i class="fas fa-star"></i>
+              </div>
             </div>
 
           </div>
 
         </div>
-
       </div>
 
     </div>

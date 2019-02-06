@@ -122,8 +122,10 @@ export class PresentationPageComponent implements OnInit {
   }
 
   deleteMessage(i: number) {
-    alert(`Deleting message[${i}].id = ${this.presentation.feedback[i].id}`);
-    this.ps.deleteMessage(this.presentation.feedback[i].id);
+    if (confirm('Are you sure, you want to delete this message?')) {
+      alert(`Deleting message[${i}].id = ${this.presentation.feedback[i].id}`);
+      this.ps.deleteMessage(this.presentation.feedback[i].id);
+    }
   }
 
   leaveFeedback(type: string) {
@@ -166,6 +168,8 @@ export class PresentationPageComponent implements OnInit {
       type: 'feedback',
       anonymity: false
     });
+
+    this.submittedFeedback = false;
   }
 
 }
