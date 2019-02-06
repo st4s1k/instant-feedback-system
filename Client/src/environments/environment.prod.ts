@@ -5,5 +5,7 @@ export const environment = {
   apiUrl: 'http://172.17.41.68:9000',
   apiPresentationsRoute: '/api/presentation',
   apiMessagesRoute: '/api/message',
-  apiUsersRoute: '/api/user'
+  apiUsersRoute: '/api/user',
+  userRole: 'ROLE_USER',
+  adminRole: 'ROLE_ADMIN'
 };

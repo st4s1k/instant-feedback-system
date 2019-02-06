@@ -2,7 +2,7 @@ import { UserDTO } from './dtos/user.dto';
 
 export class User {
   public id: number;
-  public type: number;
+  public type: string;
   public email: string;
   public password: string;
 

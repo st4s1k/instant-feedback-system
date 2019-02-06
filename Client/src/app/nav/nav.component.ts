@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { GlobalServUserService } from '../global-serv-user.service';
-
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-nav',
@@ -9,6 +9,7 @@ import { GlobalServUserService } from '../global-serv-user.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
+  public adminRole = environment.adminRole;
   public navbarCollapsed = true;
   public authenticated = +localStorage.getItem('sessionID');
   public UserEmail = localStorage.getItem('email');

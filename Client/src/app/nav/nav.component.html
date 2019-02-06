@@ -5,7 +5,7 @@
     <div class="nav-item p-2">
       <a class="nav-link p-0" routerLink="/">
         <div class="row m-0 align-items-center">
-          <img id="logo-image" src="assets/images/isdlogo.png" alt="isd_logo" class="col rounded-circle logo p-0">
+          <img id="logo-image" src="assets/images/isdlogo.png" alt="isd_logo" class="col rounded img-thumbnail logo p-0">
           <p id="logo-text" class="col m-0">Presentations</p>
         </div>
       </a>
@@ -28,7 +28,7 @@
       <div class="p-0 nav-item d-md-none" *ngIf=authenticated>
         <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
       </div>
-      <div class="p-0 nav-item" *ngIf="authenticated && UserRole == 'Role_Admin'">
+      <div class="p-0 nav-item" *ngIf="authenticated && UserRole === adminRole">
           <a class="nav-link" routerLink="admin-profile"><i class="fas fa-user-cog"></i> Admin Page</a>
       </div>
       <div class="p-0 nav-item" *ngIf=authenticated>
