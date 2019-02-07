@@ -12,22 +12,23 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/authentication")
+@RequestMapping(value = "/api/auth")
 public class AuthenticationController
 {
     private final AuthenticationService authenticationService;
     private final ModelMapper modelMapper;
 
-    @PutMapping
-    public ResponseEntity<?> putAuthentication(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto) throws Exception
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto) throws Exception
     {
-        return new ResponseEntityWrapper<>(authenticationService.putAuthentication(modelMapper.map(authenticationDto, UserEntity.class)));
+        return new ResponseEntityWrapper<>(authenticationService.createUser(modelMapper.map(authenticationDto, UserEntity.class)));
     }
 
-    @GetMapping(value = {"", "/{status}"})
-    public ResponseEntity<?> getAuthentication(@PathVariable(value = "status", required = false) String status) throws Exception
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto) throws Exception
     {
-        return authenticationService.getAuthentication(status);
+        return new ResponseEntityWrapper<>(authenticationService.requestAuthData(modelMapper.map(authenticationDto, UserEntity.class)));
     }
 
     @Autowired

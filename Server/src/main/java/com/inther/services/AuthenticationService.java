@@ -44,38 +44,40 @@ public class AuthenticationService
         return userEntity;
     }
 
-    public ResponseBean putAuthentication(UserEntity userEntity) throws Exception
+    public ResponseBean createUser(UserEntity userEntity)
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        responseBean.setHeaders(httpHeaders);
         if (!optionalUserEntity.isPresent())
         {
             userRepository.save(serviceUtilityBean.encodeUserEntityPassword(completeRegistrationObject(userEntity)));
             responseBean.setStatus(HttpStatus.CREATED);
-            responseBean.setHeaders(httpHeaders);
             responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully registered");
         }
         else
         {
-            throw new DuplicatedEntryException("User with email: '" + userEntity.getEmail() + "' already exists");
+            responseBean.setStatus(HttpStatus.CONFLICT);
+            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' already exists");
         }
         return responseBean;
     }
-    public ResponseEntity<?> getAuthentication(String status) throws Exception
+
+    public ResponseBean requestAuthData(UserEntity userEntity)
     {
-        ResponseEntity<?> responseEntity;
-        if ((status != null) && (status.equals("success")))
+        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        responseBean.setHeaders(httpHeaders);
+        if (optionalUserEntity.isPresent())
         {
-            responseEntity = new ResponseEntity<>(userRepository.findUserEntityByEmail(authorityUtilityBean.getCurrentAuthenticationEmail()), httpHeaders, HttpStatus.OK);
-        }
-        else if ((status != null) && (status.equals("invalidAuthenticationData")))
-        {
-            throw new BadCredentialsException("Invalid authentication data");
+            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(completeRegistrationObject(userEntity)));
+            responseBean.setStatus(HttpStatus.OK);
+            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully registered");
         }
         else
         {
-            throw new BadRequestException("This is a authentication page, please use POST method to authenticate");
+            responseBean.setStatus(HttpStatus.NOT_FOUND);
+            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' not found");
         }
-        return responseEntity;
+        return responseBean;
     }
 
     @Autowired

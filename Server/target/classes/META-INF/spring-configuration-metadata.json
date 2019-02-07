@@ -1,0 +1,16 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "spring.queries.authorities-query",
+      "type": "java.lang.String",
+      "description": "Description for spring.queries.authorities-query."
+    },
+    {
+      "name": "spring.queries.users-query",
+      "type": "java.lang.String",
+      "description": "Description for spring.queries.users-query."
+    }
+  ],
+  "hints": []
+}
