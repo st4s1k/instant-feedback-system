@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { HttpClient } from '@angular/common/http';
+import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 @Component({
   selector: 'app-user-profile',
@@ -60,8 +61,22 @@ export class UserProfileComponent implements OnInit {
   }
   deletePresentationPage(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
-      this.presentationService.deletePresentation(this.presentations[i].id);
-      alert('Deleted');
+      this.presentationService.deletePresentation(this.presentations[i].id)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log('data: ' + JSON.stringify(data));
+          this.presentationService.getPresentations().subscribe(
+            presentationDtoList => this.presentations = presentationDtoList.map(
+              presentationDto => PresentationDTO.toModel(presentationDto)
+            )
+          );
+          alert('Deleted');
+        },
+        error => {
+          alert('error: ' + error);
+        }
+      );
     }
   }
 

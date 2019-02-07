@@ -7,6 +7,9 @@ import { UserService } from '../services/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../shared/sign-up.validator';
 import { first } from 'rxjs/operators';
+import { UserDTO } from '../models/dtos/user.dto';
+import { PresentationDTO } from '../models/dtos/presentation.dto';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-admin-profile',
@@ -20,6 +23,7 @@ export class AdminProfileComponent implements OnInit {
   submitted = false;
   loading = false;
   editUserForm: FormGroup;
+  addUserbtn = false;
 
   constructor(
     private router: Router,
@@ -42,6 +46,7 @@ export class AdminProfileComponent implements OnInit {
         validator: MustMatch('password', 'confirm_password')
       });
   }
+
   editUser(i: number) {
     console.log(this.users[i].id);
     if (this.arrEditUserbtn[i] === true) {
@@ -58,7 +63,47 @@ export class AdminProfileComponent implements OnInit {
         validator: MustMatch('password', 'confirm_password')
       });
   }
-  onSubmit(i: number) {
+  addUser() {
+    if (this.addUserbtn === false) {
+      this.addUserbtn = true;
+    } else {
+      this.addUserbtn = false;
+    }
+  }
+  submitAddUser() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.editUserForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.userService.createUser(<User>{
+      email: this.editUserForm.get('email').value,
+      type: this.editUserForm.get('userGroup').value,
+      password: this.editUserForm.get('password').value
+    }) .pipe(first()).subscribe(
+      data => {
+        console.log('data: ' + JSON.stringify(data));
+        this.userService.getAllUsers().subscribe(
+          userDtoList => this.users = userDtoList.map(
+            userDto => UserDTO.toModel(userDto)
+          )
+        );
+        this.loading = false;
+        this.addUserbtn = false;
+        this.submitted = false;
+        alert('Added');
+      },
+      error => {
+        alert('error: ' + error);
+      }
+    );
+  }
+  onCancelAdd() {
+    this.addUserbtn = false;
+    this.editUserForm.reset();
+  }
+  onSubmitEdit(i: number) {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -74,14 +119,14 @@ export class AdminProfileComponent implements OnInit {
       password: this.editUserForm.get('password').value
     }).pipe(first())
       .subscribe(
-        data => {
+        userDto => {
           console.log('Succes');
           alert('Success');
           this.submitted = false;
           this.editUserForm.reset();
           this.arrEditUserbtn[i] = false;
-          window.location.reload();
-          // this.router.navigate(['/sign-in']);
+          this.users[i] = UserDTO.toModel(userDto);
+          this.loading = false;
         },
         error => {
           alert(error);
@@ -89,7 +134,6 @@ export class AdminProfileComponent implements OnInit {
           this.loading = false;
         }
       );
-
   }
   onCancel(i: number) {
     this.arrEditUserbtn[i] = false;
@@ -97,8 +141,22 @@ export class AdminProfileComponent implements OnInit {
   }
   deleteUser(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.users[i].email + ' ?')) {
-      this.userService.deleteUser(this.users[i].id);
-      alert('Deleted');
+      // alert(`Deleting user[${i}].id = ${this.users[i].id}: DELETE ${environment.jsonServerUrl}/users/${this.users[i].id}`);
+      this.userService.deleteUser(this.users[i].id)
+      .pipe(first()).subscribe(
+        data => {
+          console.log('data: ' + JSON.stringify(data));
+          this.userService.getAllUsers().subscribe(
+            userDtoList => this.users = userDtoList.map(
+              userDto => UserDTO.toModel(userDto)
+            )
+          );
+          alert('Deleted');
+        },
+        error => {
+          alert('error: ' + error);
+        }
+      );
     }
   }
   openPresentationPage(i: number) {
@@ -109,8 +167,22 @@ export class AdminProfileComponent implements OnInit {
   }
   deletePresentationPage(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
-      this.presentationService.deletePresentation(this.presentations[i].id);
-      alert('Deleted');
+      this.presentationService.deletePresentation(this.presentations[i].id)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log('data: ' + JSON.stringify(data));
+          this.presentationService.getPresentations().subscribe(
+            presentationDtoList => this.presentations = presentationDtoList.map(
+              presentationDto => PresentationDTO.toModel(presentationDto)
+            )
+          );
+          alert('Deleted');
+        },
+        error => {
+          alert('error: ' + error);
+        }
+      );
     }
   }
 }

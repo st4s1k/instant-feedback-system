@@ -19,8 +19,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   createUser(user: User) {
-    return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
-    // return this.http.post<UserDTO>(`${API_URL}/users`, user);
+    // return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
+    return this.http.post<UserDTO>(`${API_URL}/users`, user);
   }
 
   getAllUsers() {
