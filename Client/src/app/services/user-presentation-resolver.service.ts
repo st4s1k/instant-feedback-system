@@ -14,7 +14,6 @@ export class UserPresentationResolverService implements Resolve<Presentation[]> 
   constructor(private ps: PresentationService, private router: Router) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation[]> | Observable<never> {
 
-    // const id = +route.paramMap.get('id');
     const id = +localStorage.getItem('userId');
 
     return this.ps.getPresentationsByUser(id).pipe(

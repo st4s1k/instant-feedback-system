@@ -4,13 +4,9 @@ import { Presentation } from '../models/presentation.model';
 import { environment } from 'src/environments/environment.prod';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 
-const API_URL = environment.jsonServerUrl;
+const API_URL = environment.apiUrl;
 const API_MSG_ROUTE = environment.apiMessagesRoute;
-let API_PRES_ROUTE = environment.apiPresentationsRoute;
-
-if (API_URL === environment.jsonServerUrl) {
-  API_PRES_ROUTE = '/presentations';
-}
+const API_PRES_ROUTE = environment.apiPresentationsRoute;
 
 @Injectable({
   providedIn: 'root'

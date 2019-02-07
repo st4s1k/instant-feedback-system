@@ -5,16 +5,12 @@ import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user.model';
 import { UserDTO } from '../models/dtos/user.dto';
 
-  // const API_URL = environment.apiUrl;
-
-const API_URL = environment.jsonServerUrl;
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  //  fd: FormData = new FormData;
 
   constructor(private http: HttpClient) { }
 
