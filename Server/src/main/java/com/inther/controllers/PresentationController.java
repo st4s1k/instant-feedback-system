@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/presentation")
+@RequestMapping(value = "/api/presentations")
 public class PresentationController
 {
     private final PresentationService presentationService;
