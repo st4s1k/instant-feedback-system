@@ -59,50 +59,53 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
   }
   deletePresentationPage(i: number) {
-    this.presentationService.deletePresentation(this.presentations[i].id);
-  }
-
-  getUserProfile(): void {
-    // const id = +this.route.snapshot.paramMap.get('id');
-    const id = JSON.parse(localStorage.getItem('userId'));
-    this.userService.getUserById(id)
-      .subscribe(user => this.user = user);
-    console.log(id);
-  }
-
-  changePass() {
-    this.btnChange = true;
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    // if it is not valid return
-    if (this.changePassForm.invalid) {
-      return;
+    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
+      this.presentationService.deletePresentation(this.presentations[i].id);
+      alert('Deleted');
     }
-    this.loading = true;
-    this.userService.updateUser(<User>{
-      // id: localStorage.getItem('userId'),
-      id: 4,
-      // email: localStorage.getItem('email'),
-      password: this.changePassForm.get('NewPass').value
-    }).pipe(first())
-      .subscribe(
-        data => {
-          console.log('Succes Update');
-          alert('Success');
-          this.router.navigate(['/']);
-        },
-        error => {
-          alert(error);
-          console.log(error);
-          this.loading = false;
-        });
-  }
-  onCancel() {
-    this.btnChange = false;
-    this.changePassForm.reset();
   }
 
+    getUserProfile(): void {
+      // const id = +this.route.snapshot.paramMap.get('id');
+      const id = JSON.parse(localStorage.getItem('userId'));
+      this.userService.getUserById(id)
+        .subscribe(user => this.user = user);
+      console.log(id);
+    }
 
-}
+    changePass() {
+      this.btnChange = true;
+    }
+
+    onSubmit() {
+      this.submitted = true;
+      // if it is not valid return
+      if (this.changePassForm.invalid) {
+        return;
+      }
+      this.loading = true;
+      this.userService.updateUser(<User>{
+        // id: localStorage.getItem('userId'),
+        id: 4,
+        // email: localStorage.getItem('email'),
+        password: this.changePassForm.get('NewPass').value
+      }).pipe(first())
+        .subscribe(
+          data => {
+            console.log('Succes Update');
+            alert('Success');
+            this.router.navigate(['/']);
+          },
+          error => {
+            alert(error);
+            console.log(error);
+            this.loading = false;
+          });
+    }
+    onCancel() {
+      this.btnChange = false;
+      this.changePassForm.reset();
+    }
+
+
+  }

@@ -9,11 +9,8 @@
           <div class="col-md-10 col-lg-10 ml-5 mr-5">
 
             <div class="row card p-0 mt-3 mb-10 btn" *ngFor='let presentation of presentations; let i=index;'>
-              <div class="col card-body">
-
-
+              <div class="col card-body">              
                 <div class="row">
-
                   <div class="col text-left" (click)="openPresentationPage(i)">
                     <p class="m-0">{{presentation.title}}</p>
                   </div>
@@ -58,7 +55,7 @@
                   <p class="m-0">{{user.type}}</p>
                 </div>
                 <div class="col-lg-3 col-md-12 col-sm-3 col-12 ">
-                  <div class="row">
+                  <div class="row" *ngIf="!arrEditUserbtn[i]">
                     <div class="col-lg-4  col-md-3 col-sm-4 col-5 mr-1">
                         <button class="btn btn-primary " (click)="editUser(i)"><i class="fas fa-edit"></i></button>
                     </div>
@@ -67,10 +64,107 @@
                     </div>  
                   </div>
                 </div>
-                <div class="row " *ngIf="arrEditUserbtn[i]">
-                  <div class="container">
-                    <h3 class="text-center">Edit User</h3>
+                <div class="container edit-container" *ngIf="arrEditUserbtn[i]">
+                  <div class="row">
+                    <div class="col-md-4 offset-md-4">
+                        <h3 class="text-center">Edit User</h3>
+                    </div>
                   </div>
+                  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit(i)">
+                    <div class="row">
+                      <div class="col-md-3 field-label-responsive">
+                        <label for="email">E-Mail Address</label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group">
+                          <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
+                            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.email.errors }"
+                              placeholder="you@inther.com" required autofocus />
+                          </div>
+                          <div class="form-control-feedback">
+                            <div *ngIf="submitted && editUserForm.controls.email.errors" class="text-danger">
+                              <div *ngIf="editUserForm.controls.email.errors?.required">Email is required</div>
+                              <div *ngIf="editUserForm.controls.email.errors?.email">Not valid email form</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 field-label-responsive">
+                        <label for="userGroup">User Group</label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group">
+                          <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
+                              <select class="form-control" name="userGroup" formControlName="userGroup"
+                              [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.userGroup.errors }" id="userGroup" required autofocus >
+                                <option value="ROLE_USER">User</option>
+                                <option value="ROLE_ADMIN">Admin</option>
+                              </select>
+                          </div>
+                          <div class="form-control-feedback">
+                            <div *ngIf="submitted && editUserForm.controls.userGroup.errors" class="text-danger">
+                              <div *ngIf="editUserForm.controls.userGroup.errors?.required">Email is required</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 field-label-responsive">
+                        <label for="password">Password</label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group has-danger">
+                          <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
+                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.password.errors }"
+                              required placeholder="Password">
+                          </div>
+                          <div class="form-control-feedback">
+                            <div *ngIf="submitted && editUserForm.controls.password.errors" class="text-danger">
+                              <div *ngIf="editUserForm.controls.password.errors.required">Password is required</div>
+                              <div *ngIf="editUserForm.controls.password.errors.minlength">Password must be at least 6
+                                characters</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 field-label-responsive">
+                        <label for="password-confirm">Confirm Password</label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group">
+                          <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem">
+                              <i class="fas fa-key"></i>
+                            </div>
+                            <input type="password" name="password-confirmation" class="form-control" id="password-confirm"
+                              placeholder="Password" required formControlName="confirm_password" [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.confirm_password.errors }">
+                          </div>
+                          <div class="form-control-feedback">
+                            <div *ngIf="submitted && editUserForm.controls.confirm_password.errors" class="text-danger">
+                              <div *ngIf="editUserForm.controls.confirm_password.errors.required">Password is required</div>
+                              <div *ngIf="editUserForm.controls.confirm_password.errors.mustMatch">Password does not match</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <button [disabled]="loading"  type="button" (click)="onCancel(i)" class="btn btn-danger">Cancel</button>
+                      </div>
+                      <div class="col-md-3 offset-md-6">
+                        <button [disabled]="loading"  type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
