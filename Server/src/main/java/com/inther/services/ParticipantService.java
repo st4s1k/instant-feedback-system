@@ -3,8 +3,8 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.implementation.ParticipantEntity;
-import com.inther.entities.implementation.PresentationEntity;
+import com.inther.entities.ParticipantEntity;
+import com.inther.entities.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ParticipantService
@@ -53,7 +54,7 @@ public class ParticipantService
         }
         return responseBean;
     }
-    public ResponseBean deleteParticipant(Integer id) throws Exception
+    public ResponseBean deleteParticipant(UUID id) throws Exception
     {
         Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
         if (optionalParticipantEntity.isPresent())

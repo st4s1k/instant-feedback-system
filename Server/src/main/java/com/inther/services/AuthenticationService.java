@@ -3,16 +3,12 @@ package com.inther.services;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.implementation.UserAuthorityEntity;
-import com.inther.entities.implementation.UserEntity;
-import com.inther.exceptions.BadCredentialsException;
-import com.inther.exceptions.BadRequestException;
-import com.inther.exceptions.DuplicatedEntryException;
+import com.inther.entities.UserAuthorityEntity;
+import com.inther.entities.UserEntity;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,7 +35,7 @@ public class AuthenticationService
     }
     private UserEntity completeRegistrationObject(UserEntity userEntity)
     {
-        userEntity.setEnabled(1);
+        userEntity.setEnabled(true);
         userEntity.setAuthorities(setRegistrationObjectAuthorityValues(userEntity.getEmail()));
         return userEntity;
     }

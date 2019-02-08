@@ -1,10 +1,11 @@
 package com.inther.beans.utilities;
 
-import com.inther.entities.Entities;
-import com.inther.entities.implementation.UserEntity;
+import com.inther.entities.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.Entity;
 import java.lang.reflect.Method;
 
 @Component
@@ -21,12 +22,12 @@ public class ServiceUtilityBean
         }
         return userEntity;
     }
-    public <T extends Entities> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
+    public <T> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
     {
         targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentAuthenticationEmail());
         return targetEntity;
     }
-    public <T extends Entities> T patchEntity(T targetEntity, T patchingEntity) throws Exception
+    public <T> T patchEntity(T targetEntity, T patchingEntity) throws Exception
     {
         if (targetEntity.getClass().equals(patchingEntity.getClass()))
         {

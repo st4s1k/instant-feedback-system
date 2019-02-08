@@ -2,8 +2,8 @@ package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
-import com.inther.entities.implementation.UserAuthorityEntity;
-import com.inther.entities.implementation.UserEntity;
+import com.inther.entities.UserAuthorityEntity;
+import com.inther.entities.UserEntity;
 import com.inther.exceptions.*;
 import com.inther.repositories.UserAuthorityRepository;
 import com.inther.repositories.UserRepository;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserAuthorityService
@@ -57,7 +58,7 @@ public class UserAuthorityService
         }
         return responseBean;
     }
-    public ResponseBean deleteUserAuthority(Integer id) throws Exception
+    public ResponseBean deleteUserAuthority(UUID id) throws Exception
     {
         Optional<UserAuthorityEntity> optionalUserAuthorityEntity = userAuthorityRepository.findUserAuthorityEntityById(id);
         if (optionalUserAuthorityEntity.isPresent())

@@ -1,22 +1,22 @@
 package com.inther.repositories;
 
-import com.inther.entities.implementation.PresentationEntity;
+import com.inther.entities.PresentationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface PresentationRepository extends JpaRepository<PresentationEntity, Integer>
+public interface PresentationRepository extends JpaRepository<PresentationEntity, UUID>
 {
     Optional<List<PresentationEntity>> findPresentationEntityByEmail(String email);
 
     Optional<PresentationEntity> findPresentationEntityByTitle(String title);
-    Optional<PresentationEntity> findPresentationEntityById(Integer id);
+    Optional<PresentationEntity> findPresentationEntityById(UUID id);
 
-    @Modifying
     @Transactional
-    void deletePresentationEntityById(Integer id);
+    void deletePresentationEntityById(UUID id);
 }

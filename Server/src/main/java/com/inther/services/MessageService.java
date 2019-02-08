@@ -3,8 +3,8 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.implementation.MessageEntity;
-import com.inther.entities.implementation.PresentationEntity;
+import com.inther.entities.MessageEntity;
+import com.inther.entities.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MessageRepository;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MessageService
@@ -78,7 +79,7 @@ public class MessageService
         }
         return responseBean;
     }
-    public ResponseBean deleteMessage(Integer id) throws Exception
+    public ResponseBean deleteMessage(UUID id) throws Exception
     {
         Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(id);
         if (optionalMessageEntity.isPresent())

@@ -1,18 +1,18 @@
 package com.inther.repositories;
 
-import com.inther.entities.implementation.MessageEntity;
+import com.inther.entities.MessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface MessageRepository extends JpaRepository<MessageEntity, Integer>
+public interface MessageRepository extends JpaRepository<MessageEntity, UUID>
 {
-    Optional<MessageEntity> findMessageEntityById(Integer id);
+    Optional<MessageEntity> findMessageEntityById(UUID id);
 
-    @Modifying
     @Transactional
-    void deleteMessageEntityById(Integer id);
+    void deleteMessageEntityById(UUID id);
 }

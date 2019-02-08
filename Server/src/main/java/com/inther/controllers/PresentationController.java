@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.PresentationDto;
-import com.inther.entities.implementation.PresentationEntity;
+import com.inther.entities.PresentationEntity;
 import com.inther.services.PresentationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
+@CrossOrigin(origins="*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/presentations")
 public class PresentationController
@@ -37,7 +40,7 @@ public class PresentationController
     }
 
     @DeleteMapping(value = {"", "/{id}"})
-    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") Integer id) throws Exception
+    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") UUID id) throws Exception
     {
         return new ResponseEntityWrapper<>(presentationService.deletePresentation(id));
     }

@@ -3,7 +3,7 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.implementation.PresentationEntity;
+import com.inther.entities.PresentationEntity;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PresentationService
@@ -125,7 +126,7 @@ public class PresentationService
         }
         return responseBean;
     }
-    public ResponseBean deletePresentation(Integer id) throws Exception
+    public ResponseBean deletePresentation(UUID id) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(id);
         if (optionalPresentationEntity.isPresent())

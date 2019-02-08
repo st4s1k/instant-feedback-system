@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.MessageDto;
-import com.inther.entities.implementation.MessageEntity;
+import com.inther.entities.MessageEntity;
 import com.inther.services.MessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
+@CrossOrigin(origins="*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/message")
 public class MessageController
@@ -31,7 +34,7 @@ public class MessageController
     }
 
     @DeleteMapping(value = {"", "/{id}"})
-    public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") Integer id) throws Exception
+    public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") UUID id) throws Exception
     {
         return new ResponseEntityWrapper<>(messageService.deleteMessage(id));
     }

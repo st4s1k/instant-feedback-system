@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/api/presentations/**").permitAll()
                 .anyRequest().permitAll();
 
-        http.addFilterBefore(corsFilter, SessionManagementFilter.class);
+//        http.addFilterBefore(corsFilter, SessionManagementFilter.class);
     }
 
     @Autowired
