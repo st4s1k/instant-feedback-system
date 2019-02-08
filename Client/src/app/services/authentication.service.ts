@@ -36,16 +36,17 @@ export class AuthenticationService {
     // fd.append('password', password);
 
     return this.http.post<any>(SERVER_URL + SIGNIN_API, {email: email, password: password})
-      .pipe(map(user => {
+      .pipe(map(object => {
         // login successful if there's a user in the response
-        if (user) {
+        if (object.response) {
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
+          const user = object.response;
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
           alert('Success!');
           alert(JSON.stringify(user));
-          this.userLocal = JSON.parse(user);
+          this.userLocal = user;
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
           this.globalSrv.setSessionID(this.userLocal.id);
@@ -56,13 +57,13 @@ export class AuthenticationService {
           localStorage.setItem('userId', `${this.userLocal.id}`);
           localStorage.setItem('userRole', `${this.userLocal.type}`);
         }
-        return user;
+        return object.response;
       }));
   }
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.setItem('sessionID', '0');
+    localStorage.setItem('sessionID', '');
     this.globalSrv.setSessionID(undefined);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
