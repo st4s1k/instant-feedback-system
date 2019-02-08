@@ -49,7 +49,7 @@ export class SignInComponent implements OnInit {
             return;
         }
         this.loading = true;
-        this.authenticationService.login(this.signinForm.controls.email.value, this.signinForm.controls.password.value)
+        this.authenticationService.signin(this.signinForm.controls.email.value, this.signinForm.controls.password.value)
             .pipe(first())
             .subscribe(
                 data => {

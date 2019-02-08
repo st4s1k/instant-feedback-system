@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user.model';
 import { UserDTO } from '../models/dtos/user.dto';
 
-const API_URL = environment.apiUrl;
+const SERVER_URL = environment.serverUrl;
+const USERS_API = environment.usersApiRoute;
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +17,23 @@ export class UserService {
 
   createUser(user: User) {
     // return this.http.put<UserDTO>(`${API_URL}/authentication`, user);
-    return this.http.post<UserDTO>(`${API_URL}/users`, user);
+    return this.http.post<UserDTO>(SERVER_URL + USERS_API + ``, user);
   }
 
   getAllUsers() {
-    return this.http.get<UserDTO[]>(`${API_URL}/users`);
+    return this.http.get<UserDTO[]>(SERVER_URL + USERS_API + ``);
   }
 
   getUserById(id: number) {
-    return this.http.get<UserDTO>(`${API_URL}/users/${id}`);
+    return this.http.get<UserDTO>(SERVER_URL + USERS_API + `/${id}`);
   }
 
   updateUser(user: User) {
     // return this.http.patch<UserDTO>(`${API_URL}/users/${user.id}`, user);
-    return this.http.put<UserDTO>(`${API_URL}/users/${user.id}`, user);
+    return this.http.put<UserDTO>(SERVER_URL + USERS_API + `/${user.id}`, user);
   }
 
   deleteUser(id: number) {
-    return this.http.delete<UserDTO>(`${API_URL}/users/${id}`);
+    return this.http.delete<UserDTO>(SERVER_URL + USERS_API + `/${id}`);
   }
 }

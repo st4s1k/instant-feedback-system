@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { MustMatch } from '../shared/sign-up.validator';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +22,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private userService: UserService) {
+    private auth: AuthenticationService) {
 
   }
 
@@ -46,7 +47,7 @@ export class SignUpComponent implements OnInit {
     }
 
     this.loading = true;
-    this.userService.createUser(<User> {
+    this.auth.signup(<User> {
       email: this.signupForm.get('email').value,
       password: this.signupForm.get('password').value
     }).pipe(first())

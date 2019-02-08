@@ -4,9 +4,9 @@ import { Presentation } from '../models/presentation.model';
 import { environment } from 'src/environments/environment.prod';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 
-const API_URL = environment.apiUrl;
-const API_MSG_ROUTE = environment.apiMessagesRoute;
-const API_PRES_ROUTE = environment.apiPresentationsRoute;
+const SERVER_URL = environment.serverUrl;
+const MSG_API = environment.messagesApiRoute;
+const PRESENTATIONS_API = environment.presentationsApiRoute;
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +16,15 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: Presentation) {
-    return this.http.post<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}`, Presentation.toDTO(presentation));
+    return this.http.post<PresentationDTO>(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
   }
 
   getPresentations() {
-    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`);
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
   }
 
   getPresentationsByUser(userId: number) {
-    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
         userId: '' + userId
       }
@@ -32,7 +32,7 @@ export class PresentationService {
   }
 
   getPresentationsByTitle(title: string) {
-    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
         title_like: title
       }
@@ -40,7 +40,7 @@ export class PresentationService {
   }
 
   getPresentationsByEmail(email: string) {
-    return this.http.get<PresentationDTO[]>(`${API_URL}${API_PRES_ROUTE}`, {
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
         email_like: email
       }
@@ -48,19 +48,19 @@ export class PresentationService {
   }
 
   getPresentationById(id: number) {
-    return this.http.get<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}/${id}`);
+    return this.http.get<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
   }
 
   updatePresentation(presentation: Presentation) {
-    return this.http.put<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}/${presentation.id}`, Presentation.toDTO(presentation));
+    return this.http.put<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${presentation.id}`, Presentation.toDTO(presentation));
   }
 
   deletePresentation(id: number) {
-    return this.http.delete<PresentationDTO>(`${API_URL}${API_PRES_ROUTE}/${id}`);
+    return this.http.delete<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
   }
 
   deleteMessage(id: number) {
-    return this.http.delete(`${API_URL}${API_MSG_ROUTE}/${id}`);
+    return this.http.delete(SERVER_URL + MSG_API + `/${id}`);
   }
 
   getAvgMark(presentation: Presentation) {
