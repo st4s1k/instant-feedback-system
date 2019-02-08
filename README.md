@@ -14,7 +14,7 @@
 
 3. Go into the `Client` folder, inside the cloned repository
 
-4. Run: `npm install -g @angular/cli`
+4. Run: `npm install`
 
 
 ### Usage
