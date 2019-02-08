@@ -1,11 +1,8 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.AuthenticationDto;
-import com.inther.entities.User;
 import com.inther.services.AuthenticationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController
 {
     private final AuthenticationService authenticationService;
-    private final ModelMapper modelMapper;
 
 
     @PostMapping("/signup")
@@ -25,7 +21,7 @@ public class AuthenticationController
             @Validated(value = {RequestDataValidator.PutAuthentication.class})
             @RequestBody AuthenticationDto authenticationDto)
     {
-        return new ResponseEntityWrapper<>(authenticationService.createUser(modelMapper.map(authenticationDto, User.class)));
+        return authenticationService.createUser(authenticationDto);
     }
 
     @PostMapping("/signin")
@@ -33,13 +29,12 @@ public class AuthenticationController
             @Validated(value = {RequestDataValidator.PutAuthentication.class})
             @RequestBody AuthenticationDto authenticationDto)
     {
-        return new ResponseEntityWrapper<>(authenticationService.requestAuthData(modelMapper.map(authenticationDto, User.class)));
+        return authenticationService.validateUserCredentials(authenticationDto);
     }
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, ModelMapper modelMapper)
+    public AuthenticationController(AuthenticationService authenticationService)
     {
         this.authenticationService = authenticationService;
-        this.modelMapper = modelMapper;
     }
 }

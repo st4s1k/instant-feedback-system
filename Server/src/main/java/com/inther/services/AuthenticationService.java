@@ -1,71 +1,50 @@
 package com.inther.services;
 
-import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
+import com.inther.dto.AuthenticationDto;
 import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthenticationService
 {
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
-    private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
 
-    public ResponseBean createUser(User user)
+    public ResponseEntity<?> createUser(AuthenticationDto authDto)
     {
-        Optional<User> optionalUser = userRepository.findUserByEmail(user.getEmail());
-        responseBean.setHeaders(httpHeaders);
-        if (!optionalUser.isPresent())
-        {
-            user.setRole("ROLE_USER");
-            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(user));
-            responseBean.setStatus(HttpStatus.CREATED);
-            responseBean.setResponse("User with email: '" + user.getEmail() + "' successfully registered");
-        }
-        else
-        {
-            responseBean.setStatus(HttpStatus.CONFLICT);
-            responseBean.setResponse("User with email: '" + user.getEmail() + "' already exists");
-        }
-        return responseBean;
+        return userRepository
+                .findUserByEmail(authDto.getEmail())
+                .<ResponseEntity<?>>map(user -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT))
+                .orElseGet(() -> {
+                    userRepository.save(serviceUtilityBean.encodeUserPassword(new User(authDto)));
+                    return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+                });
     }
 
-    public ResponseBean requestAuthData(User user)
+    public ResponseEntity<?> validateUserCredentials(AuthenticationDto authDto)
     {
-        Optional<User> optionalUserEntity = userRepository.findUserByEmail(user.getEmail());
-        responseBean.setHeaders(httpHeaders);
-        if (optionalUserEntity.isPresent() &&
-                serviceUtilityBean.validPassword(user.getPassword(), optionalUserEntity.get()))
-        {
-            responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse(optionalUserEntity.get());
-        }
-        else
-        {
-            responseBean.setStatus(HttpStatus.NOT_FOUND);
-            responseBean.setResponse("User with email: '" + user.getEmail() + "' not found");
-        }
-        return responseBean;
+        return userRepository
+                .findUserByEmail(authDto.getEmail())
+                .filter(user -> serviceUtilityBean.validPassword(authDto.getPassword(), user))
+                .<ResponseEntity<?>>map(user -> new ResponseEntity<>(user, httpHeaders, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.FORBIDDEN));
     }
 
     @Autowired
     public AuthenticationService(ServiceUtilityBean serviceUtilityBean,
                                  UserRepository authenticationRepository,
-                                 ResponseBean responseBean,
                                  HttpHeaders httpHeaders)
     {
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = authenticationRepository;
-        this.responseBean = responseBean;
         this.httpHeaders = httpHeaders;
     }
 }

@@ -13,7 +13,7 @@ public class ServiceUtilityBean
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthorityUtilityBean authorityUtilityBean;
 
-    public User encodeUserEntityPassword(User userEntity)
+    public User encodeUserPassword(User userEntity)
     {
         if (userEntity.getPassword() != null)
         {
