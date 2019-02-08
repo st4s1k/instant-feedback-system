@@ -81,8 +81,7 @@ export class UserProfileComponent implements OnInit {
   }
 
     getUserProfile(): void {
-      // const id = +this.route.snapshot.paramMap.get('id');
-      const id = JSON.parse(localStorage.getItem('userId'));
+      const id = localStorage.getItem('userId');
       this.userService.getUserById(id)
         .subscribe(user => this.user = user);
       console.log(id);
@@ -100,9 +99,9 @@ export class UserProfileComponent implements OnInit {
       }
       this.loading = true;
       this.userService.updateUser(<User>{
-        // id: localStorage.getItem('userId'),
-        id: 4,
-        // email: localStorage.getItem('email'),
+        id: localStorage.getItem('userId'),
+        // id: 4,
+        email: localStorage.getItem('email'),
         password: this.changePassForm.get('NewPass').value
       }).pipe(first())
         .subscribe(

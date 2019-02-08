@@ -23,7 +23,7 @@ export class PresentationService {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
   }
 
-  getPresentationsByUser(userId: number) {
+  getPresentationsByUser(userId: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
         userId: '' + userId
@@ -47,7 +47,7 @@ export class PresentationService {
     });
   }
 
-  getPresentationById(id: number) {
+  getPresentationById(id: string) {
     return this.http.get<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
   }
 
@@ -55,11 +55,11 @@ export class PresentationService {
     return this.http.put<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${presentation.id}`, Presentation.toDTO(presentation));
   }
 
-  deletePresentation(id: number) {
+  deletePresentation(id: string) {
     return this.http.delete<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
   }
 
-  deleteMessage(id: number) {
+  deleteMessage(id: string) {
     return this.http.delete(SERVER_URL + MSG_API + `/${id}`);
   }
 

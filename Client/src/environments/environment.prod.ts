@@ -2,7 +2,7 @@ export const environment = {
   production: true,
 
   jsonServerUrl: 'http://localhost:3000',
-  serverUrl: 'http://localhost:9000',
+  serverUrl: 'http://172.17.41.118:9000',
 
   presentationsApiRoute: '/api/presentations',
   messagesApiRoute: '/api/messages',

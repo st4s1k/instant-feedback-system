@@ -1,8 +1,8 @@
 import { Mark } from '../mark.model';
 
 export class MarkDTO {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   email: string;
   mark: number;
 

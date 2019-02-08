@@ -24,7 +24,7 @@ export class UserService {
     return this.http.get<UserDTO[]>(SERVER_URL + USERS_API + ``);
   }
 
-  getUserById(id: number) {
+  getUserById(id: string) {
     return this.http.get<UserDTO>(SERVER_URL + USERS_API + `/${id}`);
   }
 
@@ -33,7 +33,7 @@ export class UserService {
     return this.http.put<UserDTO>(SERVER_URL + USERS_API + `/${user.id}`, user);
   }
 
-  deleteUser(id: number) {
+  deleteUser(id: string) {
     return this.http.delete<UserDTO>(SERVER_URL + USERS_API + `/${id}`);
   }
 }

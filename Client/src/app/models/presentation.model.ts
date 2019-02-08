@@ -5,7 +5,7 @@ import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 export class Presentation {
 
-  public id: number;
+  public id: string;
   public email: string;
   public title: string;
   public description: string;

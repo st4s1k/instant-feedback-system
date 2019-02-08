@@ -31,7 +31,7 @@ export class PresentationPageComponent implements OnInit {
   ratingsCount = 0;
   editingMessage = -1;
 
-  authenticated = +localStorage.getItem('sessionID');
+  authenticated = localStorage.getItem('sessionID');
 
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
   anonymity: FormControl = this.fb.control(false);

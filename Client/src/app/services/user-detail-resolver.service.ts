@@ -14,8 +14,7 @@ export class UserDetailResolverService implements Resolve<User> {
   constructor(private userServ: UserService, private router: Router) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> | Observable<never> {
 
-    // const id = +route.paramMap.get('id');
-    const id = JSON.parse(localStorage.getItem('userId'));
+    const id = localStorage.getItem('userId');
     return this.userServ.getUserById(id).pipe(
       take(1),
       mergeMap(user => {

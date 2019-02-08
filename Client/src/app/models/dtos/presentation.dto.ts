@@ -5,7 +5,7 @@ import { Presentation } from '../presentation.model';
 
 export class PresentationDTO {
 
-  public id: number;
+  public id: string;
   public email: string;
   public title: string;
   public description: string;

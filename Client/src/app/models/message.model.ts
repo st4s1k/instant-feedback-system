@@ -1,7 +1,7 @@
 import { MessageDTO } from './dtos/message.dto';
 
 export class Message {
-  id: number;
+  id: string;
   email: string;
   message: string;
   type: string;

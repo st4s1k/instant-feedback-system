@@ -20,7 +20,7 @@ export class PresentationDetailResolverService implements Resolve<Presentation> 
   constructor(private ps: PresentationService, private router: Router) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation> | Observable<never> {
-    const id = +route.paramMap.get('id');
+    const id = route.paramMap.get('id');
 
     return this.ps.getPresentationById(id).pipe(
       take(1),

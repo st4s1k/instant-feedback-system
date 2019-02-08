@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment.prod';
 export class NavComponent implements OnInit {
   public adminRole = environment.adminRole;
   public navbarCollapsed = true;
-  public authenticated = +localStorage.getItem('sessionID');
+  public authenticated = localStorage.getItem('sessionID');
   public UserEmail = localStorage.getItem('email');
-  public UserId = +localStorage.getItem('userId');
+  public UserId = localStorage.getItem('userId');
   public UserRole = localStorage.getItem('userRole');
 
   constructor(private auth: AuthenticationService, private globalSrv: GlobalServUserService) {

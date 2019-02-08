@@ -8,9 +8,9 @@ import { UserService } from './user.service';
 import { UserDTO } from '../models/dtos/user.dto';
 
 
-const SERVER_URL = environment.serverUrl
-const SIGNIN_API = environment.signinApiRoute
-const SIGNUP_API = environment.signupApiRoute
+const SERVER_URL = environment.serverUrl;
+const SIGNIN_API = environment.signinApiRoute;
+const SIGNUP_API = environment.signupApiRoute;
 @Injectable({
   providedIn: 'root'
 })
@@ -45,7 +45,7 @@ export class AuthenticationService {
           localStorage.setItem('currentUser', JSON.stringify(user));
           alert('Success!');
           alert(JSON.stringify(user));
-          this.userLocal = JSON.parse(localStorage.getItem('currentUser'));
+          this.userLocal = JSON.parse(user);
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
           this.globalSrv.setSessionID(this.userLocal.id);
@@ -63,7 +63,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     localStorage.setItem('sessionID', '0');
-    this.globalSrv.setSessionID(0);
+    this.globalSrv.setSessionID(undefined);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
     localStorage.removeItem('userId');
