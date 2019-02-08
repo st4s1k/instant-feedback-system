@@ -25,7 +25,7 @@ public class MarkService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    public ResponseBean putMark(MarkEntity markEntity) throws Exception
+    public ResponseBean addMark(MarkEntity markEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
                 .findPresentationEntityById(markEntity.getPresentationId());

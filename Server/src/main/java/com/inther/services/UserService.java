@@ -32,7 +32,7 @@ public class UserService
         return userEntity;
     }
 
-    public ResponseBean putUser(UserEntity userEntity) throws Exception
+    public ResponseBean addUser(UserEntity userEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
         if (!optionalUserEntity.isPresent())
@@ -69,7 +69,7 @@ public class UserService
         }
         return responseEntity;
     }
-    public ResponseBean patchUser(UserEntity userEntity) throws Exception
+    public ResponseBean editUser(UserEntity userEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
         if (optionalUserEntity.isPresent())

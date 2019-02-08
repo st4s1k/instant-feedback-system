@@ -21,10 +21,10 @@ public class UserAuthorityController
     private final UserAuthorityService userAuthorityService;
     private final ModelMapper modelMapper;
 
-    @PutMapping
-    public ResponseEntity<?> putUserAuthority(@Validated(value = {RequestDataValidator.PutUserAuthority.class}) @RequestBody UserAuthorityDto userAuthorityDtoToPut) throws Exception
+    @PostMapping
+    public ResponseEntity<?> addUserAuthority(@Validated(value = {RequestDataValidator.PutUserAuthority.class}) @RequestBody UserAuthorityDto userAuthorityDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(userAuthorityService.putUserAuthority(modelMapper.map(userAuthorityDtoToPut, UserAuthorityEntity.class)));
+        return new ResponseEntityWrapper<>(userAuthorityService.addUserAuthority(modelMapper.map(userAuthorityDtoToPut, UserAuthorityEntity.class)));
     }
 
     @DeleteMapping(value = {"", "/{id}"})

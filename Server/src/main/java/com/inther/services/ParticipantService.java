@@ -27,7 +27,7 @@ public class ParticipantService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    public ResponseBean putParticipant(ParticipantEntity participantEntity) throws Exception
+    public ResponseBean addParticipant(ParticipantEntity participantEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
                 .findPresentationEntityById(participantEntity.getPresentationId());

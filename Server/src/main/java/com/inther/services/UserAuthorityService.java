@@ -24,7 +24,7 @@ public class UserAuthorityService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    public ResponseBean putUserAuthority(UserAuthorityEntity userAuthorityEntity) throws Exception
+    public ResponseBean addUserAuthority(UserAuthorityEntity userAuthorityEntity) throws Exception
     {
         Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userAuthorityEntity.getEmail());
         if (optionalUserEntity.isPresent())

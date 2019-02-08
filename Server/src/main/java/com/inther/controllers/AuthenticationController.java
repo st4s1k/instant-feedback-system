@@ -20,13 +20,13 @@ public class AuthenticationController
     private final ModelMapper modelMapper;
 
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto)
     {
         return new ResponseEntityWrapper<>(authenticationService.createUser(modelMapper.map(authenticationDto, UserEntity.class)));
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto)
     {
         return new ResponseEntityWrapper<>(authenticationService.requestAuthData(modelMapper.map(authenticationDto, UserEntity.class)));

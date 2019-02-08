@@ -21,10 +21,10 @@ public class PresentationController
     private final PresentationService presentationService;
     private final ModelMapper modelMapper;
 
-    @PutMapping
-    public ResponseEntity<?> putPresentation(@Validated(value = {RequestDataValidator.PutPresentation.class}) @RequestBody PresentationDto presentationDtoToPut) throws Exception
+    @PostMapping
+    public ResponseEntity<?> addPresentation(@Validated(value = {RequestDataValidator.PutPresentation.class}) @RequestBody PresentationDto presentationDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.putPresentation(modelMapper.map(presentationDtoToPut, PresentationEntity.class)));
+        return new ResponseEntityWrapper<>(presentationService.addPresentation(modelMapper.map(presentationDtoToPut, PresentationEntity.class)));
     }
 
     @GetMapping(value = {"", "/{email}"})
@@ -33,10 +33,10 @@ public class PresentationController
         return presentationService.getPresentation(email);
     }
 
-    @PatchMapping
-    public ResponseEntity<?> patchPresentation(@Validated(value = {RequestDataValidator.PatchPresentation.class}) @RequestBody PresentationDto presentationDtoToPatch) throws Exception
+    @PutMapping
+    public ResponseEntity<?> editPresentation(@Validated(value = {RequestDataValidator.PatchPresentation.class}) @RequestBody PresentationDto presentationDtoToPatch) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.patchPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
+        return new ResponseEntityWrapper<>(presentationService.editPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
     }
 
     @DeleteMapping(value = {"", "/{id}"})

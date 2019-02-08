@@ -58,7 +58,7 @@ public class PresentationService
         }
     }
 
-    public ResponseBean putPresentation(PresentationEntity presentationEntity) throws Exception
+    public ResponseBean addPresentation(PresentationEntity presentationEntity) throws Exception
     {
         Optional<PresentationEntity> optionalUserEntity = presentationRepository.findPresentationEntityByTitle(presentationEntity.getTitle());
         if (!optionalUserEntity.isPresent())
@@ -95,7 +95,7 @@ public class PresentationService
         }
         return responseEntity;
     }
-    public ResponseBean patchPresentation(PresentationEntity presentationEntity) throws Exception
+    public ResponseBean editPresentation(PresentationEntity presentationEntity) throws Exception
     {
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository.findPresentationEntityById(presentationEntity.getId());
         if (optionalPresentationEntity.isPresent())

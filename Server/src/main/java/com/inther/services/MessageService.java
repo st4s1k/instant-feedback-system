@@ -39,7 +39,7 @@ public class MessageService
         return targetEntity;
     }
 
-    public ResponseBean putMessage(MessageEntity messageEntity) throws Exception
+    public ResponseBean addMessage(MessageEntity messageEntity) throws Exception
     {
 
         Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
@@ -57,7 +57,7 @@ public class MessageService
         }
         return responseBean;
     }
-    public ResponseBean patchMessage(MessageEntity messageEntity) throws Exception
+    public ResponseBean editMessage(MessageEntity messageEntity) throws Exception
     {
         Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(messageEntity.getId());
         if (optionalMessageEntity.isPresent())

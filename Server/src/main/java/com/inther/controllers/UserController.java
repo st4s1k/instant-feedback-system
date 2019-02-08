@@ -19,10 +19,10 @@ public class UserController
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<?> putUser(@Validated(value = {RequestDataValidator.PutUser.class}) @RequestBody UserDto userDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(userService.putUser(modelMapper.map(userDtoToPut, UserEntity.class)));
+        return new ResponseEntityWrapper<>(userService.addUser(modelMapper.map(userDtoToPut, UserEntity.class)));
     }
 
     @GetMapping(value = {"", "/{email}"})
@@ -31,11 +31,11 @@ public class UserController
         return userService.getUser(email);
     }
 
-    @PatchMapping
-    public ResponseEntity<?> patchUser(@Validated(value = {RequestDataValidator.PatchUser.class}) @RequestBody UserDto userDtoToPatch) throws Exception
+    @PutMapping
+    public ResponseEntity<?> editUser(@Validated(value = {RequestDataValidator.PatchUser.class}) @RequestBody UserDto userDtoToPatch) throws Exception
     {
 
-        return new ResponseEntityWrapper<>(userService.patchUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
+        return new ResponseEntityWrapper<>(userService.editUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
     }
 
     @DeleteMapping(value = {"", "/{email}"})
