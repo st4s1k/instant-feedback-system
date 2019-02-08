@@ -4,13 +4,11 @@ import com.inther.assets.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.session.SessionManagementFilter;
 
 import javax.sql.DataSource;
 
@@ -43,11 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     {
         http    .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/api/presentations/**").permitAll()
                 .anyRequest().permitAll();
-
-//        http.addFilterBefore(corsFilter, SessionManagementFilter.class);
     }
 
     @Autowired

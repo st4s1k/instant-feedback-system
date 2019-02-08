@@ -3,8 +3,8 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.MarkEntity;
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.Mark;
+import com.inther.entities.Presentation;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MarkRepository;
@@ -25,20 +25,20 @@ public class MarkService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    public ResponseBean addMark(MarkEntity markEntity) throws Exception
+    public ResponseBean addMark(Mark mark) throws Exception
     {
-        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityById(markEntity.getPresentationId());
+        Optional<Presentation> optionalPresentationEntity = presentationRepository
+                .findPresentationById(mark.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
-            Optional<MarkEntity> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(markEntity.getPresentationId(),
+            Optional<Mark> optionalMarkEntity = markRepository.findMarkEntityByPresentationIdAndEmail(mark.getPresentationId(),
                     authorityUtilityBean.getCurrentAuthenticationEmail());
             if (!optionalMarkEntity.isPresent())
             {
-                markRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(markEntity));
+                markRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(mark));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Your mark for presentation with id: '" + markEntity.getPresentationId() + "' successfully added");
+                responseBean.setResponse("Your mark for presentation with id: '" + mark.getPresentationId() + "' successfully added");
             }
             else
             {
@@ -47,7 +47,7 @@ public class MarkService
         }
         else
         {
-            throw new NotFoundEntryException("Presentation with id: '" + markEntity.getPresentationId() + "' not found");
+            throw new NotFoundEntryException("Presentation with id: '" + mark.getPresentationId() + "' not found");
         }
         return responseBean;
     }

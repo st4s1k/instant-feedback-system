@@ -4,9 +4,8 @@ public class RequestDataValidator
 {
     public interface PutUser {}
     public interface PatchUser {}
-    public interface PutUserAuthority {}
-    public interface PutPresentation {}
-    public interface PatchPresentation {}
+    public interface postPresentation {}
+    public interface updatePresentation {}
     public interface PutMark {}
     public interface PutParticipant {}
     public interface PutMessage {}

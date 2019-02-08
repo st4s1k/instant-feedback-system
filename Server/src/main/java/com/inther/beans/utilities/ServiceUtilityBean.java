@@ -1,11 +1,10 @@
 package com.inther.beans.utilities;
 
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
 import java.lang.reflect.Method;
 
 @Component
@@ -14,7 +13,7 @@ public class ServiceUtilityBean
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthorityUtilityBean authorityUtilityBean;
 
-    public UserEntity encodeUserEntityPassword(UserEntity userEntity)
+    public User encodeUserEntityPassword(User userEntity)
     {
         if (userEntity.getPassword() != null)
         {
@@ -22,6 +21,11 @@ public class ServiceUtilityBean
         }
         return userEntity;
     }
+
+    public boolean validPassword(String rawPassword, User user) {
+        return bCryptPasswordEncoder.matches(rawPassword, user.getPassword());
+    }
+
     public <T> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
     {
         targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentAuthenticationEmail());

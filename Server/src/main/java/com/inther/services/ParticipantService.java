@@ -3,8 +3,8 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.ParticipantEntity;
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.Participant;
+import com.inther.entities.Presentation;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.DuplicatedEntryException;
 import com.inther.exceptions.NotFoundEntryException;
@@ -27,13 +27,13 @@ public class ParticipantService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    public ResponseBean addParticipant(ParticipantEntity participantEntity) throws Exception
+    public ResponseBean addParticipant(Participant participantEntity) throws Exception
     {
-        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityById(participantEntity.getPresentationId());
+        Optional<Presentation> optionalPresentationEntity = presentationRepository
+                .findPresentationById(participantEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
-            Optional<ParticipantEntity> optionalParticipantEntity = participantRepository
+            Optional<Participant> optionalParticipantEntity = participantRepository
                     .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(),
                             authorityUtilityBean.getCurrentAuthenticationEmail());
             if (!optionalParticipantEntity.isPresent())
@@ -56,7 +56,7 @@ public class ParticipantService
     }
     public ResponseBean deleteParticipant(UUID id) throws Exception
     {
-        Optional<ParticipantEntity> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
+        Optional<Participant> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
         if (optionalParticipantEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalParticipantEntity.get().getEmail())
@@ -69,7 +69,7 @@ public class ParticipantService
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else

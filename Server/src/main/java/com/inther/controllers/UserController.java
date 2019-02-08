@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.UserDto;
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import com.inther.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class UserController
     @PostMapping
     public ResponseEntity<?> putUser(@Validated(value = {RequestDataValidator.PutUser.class}) @RequestBody UserDto userDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(userService.addUser(modelMapper.map(userDtoToPut, UserEntity.class)));
+        return new ResponseEntityWrapper<>(userService.addUser(modelMapper.map(userDtoToPut, User.class)));
     }
 
     @GetMapping(value = {"", "/{email}"})
@@ -35,7 +35,7 @@ public class UserController
     public ResponseEntity<?> editUser(@Validated(value = {RequestDataValidator.PatchUser.class}) @RequestBody UserDto userDtoToPatch) throws Exception
     {
 
-        return new ResponseEntityWrapper<>(userService.editUser(modelMapper.map(userDtoToPatch, UserEntity.class)));
+        return new ResponseEntityWrapper<>(userService.editUser(modelMapper.map(userDtoToPatch, User.class)));
     }
 
     @DeleteMapping(value = {"", "/{email}"})

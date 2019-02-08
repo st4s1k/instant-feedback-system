@@ -2,6 +2,7 @@ package com.inther.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -9,13 +10,15 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "participants")
-public class ParticipantEntity
+public class Participant
 {
     @Id
-    @GeneratedValue
+    @Type(type = "pg-uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @JsonIgnore
+    @ManyToOne(targetEntity = Presentation.class, fetch = FetchType.LAZY)
+    @Type(type = "pg-uuid")
     private UUID presentationId;
     private String email;
 }

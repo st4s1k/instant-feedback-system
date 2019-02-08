@@ -1,13 +1,20 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
+import lombok.Data;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
+@Data
 public class UserDto implements Serializable
 {
+    @NotNull(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
+    private String id;
+
     @Size(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, max = 255)
     @Email(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
     @NotBlank(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
@@ -17,46 +24,8 @@ public class UserDto implements Serializable
     @NotNull(groups = {RequestDataValidator.PutUser.class})
     private String password;
 
-    @PositiveOrZero(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
-    @Max(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, value = 1)
-    @NotNull(groups = {RequestDataValidator.PutUser.class})
-    private Integer enabled;
-
     @Valid
     @Null(groups = {RequestDataValidator.PatchUser.class})
     @NotEmpty(groups = {RequestDataValidator.PutUser.class})
-    private List<UserAuthorityDto> authorities;
-
-    public String getEmail()
-    {
-        return email;
-    }
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-    public String getPassword()
-    {
-        return password;
-    }
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-    public Integer getEnabled()
-    {
-        return enabled;
-    }
-    public void setEnabled(Integer enabled)
-    {
-        this.enabled = enabled;
-    }
-    public List<UserAuthorityDto> getAuthorities()
-    {
-        return authorities;
-    }
-    public void setAuthorities(List<UserAuthorityDto> authorities)
-    {
-        this.authorities = authorities;
-    }
+    private String Role;
 }

@@ -1,86 +1,68 @@
 package com.inther.services;
 
 import com.inther.beans.ResponseBean;
-import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.UserAuthorityEntity;
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AuthenticationService
 {
-    private final AuthorityUtilityBean authorityUtilityBean;
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    private List<UserAuthorityEntity> setRegistrationObjectAuthorityValues(String userAuthorityEmail)
-    {
-        List<UserAuthorityEntity> userAuthorityEntityList = new ArrayList<>();
-        UserAuthorityEntity userAuthorityEntity = new UserAuthorityEntity();
-        userAuthorityEntity.setEmail(userAuthorityEmail);
-        userAuthorityEntity.setAuthority("ROLE_ADMIN");
-        userAuthorityEntityList.add(userAuthorityEntity);
-        return userAuthorityEntityList;
-    }
-    private UserEntity completeRegistrationObject(UserEntity userEntity)
-    {
-        userEntity.setEnabled(true);
-        userEntity.setAuthorities(setRegistrationObjectAuthorityValues(userEntity.getEmail()));
-        return userEntity;
-    }
 
-    public ResponseBean createUser(UserEntity userEntity)
+    public ResponseBean createUser(User user)
     {
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        Optional<User> optionalUser = userRepository.findUserByEmail(user.getEmail());
         responseBean.setHeaders(httpHeaders);
-        if (!optionalUserEntity.isPresent())
+        if (!optionalUser.isPresent())
         {
-            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(completeRegistrationObject(userEntity)));
+            user.setRole("ROLE_USER");
+            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(user));
             responseBean.setStatus(HttpStatus.CREATED);
-            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully registered");
+            responseBean.setResponse("User with email: '" + user.getEmail() + "' successfully registered");
         }
         else
         {
             responseBean.setStatus(HttpStatus.CONFLICT);
-            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' already exists");
+            responseBean.setResponse("User with email: '" + user.getEmail() + "' already exists");
         }
         return responseBean;
     }
 
-    public ResponseBean requestAuthData(UserEntity userEntity)
+    public ResponseBean requestAuthData(User user)
     {
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        Optional<User> optionalUserEntity = userRepository.findUserByEmail(user.getEmail());
         responseBean.setHeaders(httpHeaders);
-        if (optionalUserEntity.isPresent())
+        if (optionalUserEntity.isPresent() &&
+                serviceUtilityBean.validPassword(user.getPassword(), optionalUserEntity.get()))
         {
-            userRepository.save(serviceUtilityBean.encodeUserEntityPassword(completeRegistrationObject(userEntity)));
             responseBean.setStatus(HttpStatus.OK);
-            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully registered");
+            responseBean.setResponse(optionalUserEntity.get());
         }
         else
         {
             responseBean.setStatus(HttpStatus.NOT_FOUND);
-            responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' not found");
+            responseBean.setResponse("User with email: '" + user.getEmail() + "' not found");
         }
         return responseBean;
     }
 
     @Autowired
-    public AuthenticationService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                                 UserRepository authenticationRepository, ResponseBean responseBean, HttpHeaders httpHeaders)
+    public AuthenticationService(ServiceUtilityBean serviceUtilityBean,
+                                 UserRepository authenticationRepository,
+                                 ResponseBean responseBean,
+                                 HttpHeaders httpHeaders)
     {
-        this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = authenticationRepository;
         this.responseBean = responseBean;

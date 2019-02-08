@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.AuthenticationDto;
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import com.inther.services.AuthenticationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,20 @@ public class AuthenticationController
     private final ModelMapper modelMapper;
 
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto)
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(
+            @Validated(value = {RequestDataValidator.PutAuthentication.class})
+            @RequestBody AuthenticationDto authenticationDto)
     {
-        return new ResponseEntityWrapper<>(authenticationService.createUser(modelMapper.map(authenticationDto, UserEntity.class)));
+        return new ResponseEntityWrapper<>(authenticationService.createUser(modelMapper.map(authenticationDto, User.class)));
     }
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<?> signIn(@Validated(value = {RequestDataValidator.PutAuthentication.class}) @RequestBody AuthenticationDto authenticationDto)
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(
+            @Validated(value = {RequestDataValidator.PutAuthentication.class})
+            @RequestBody AuthenticationDto authenticationDto)
     {
-        return new ResponseEntityWrapper<>(authenticationService.requestAuthData(modelMapper.map(authenticationDto, UserEntity.class)));
+        return new ResponseEntityWrapper<>(authenticationService.requestAuthData(modelMapper.map(authenticationDto, User.class)));
     }
 
     @Autowired

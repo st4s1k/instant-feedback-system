@@ -1,6 +1,6 @@
 package com.inther.repositories;
 
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
@@ -9,16 +9,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String>
+public interface UserRepository extends JpaRepository<User, String>
 {
-    Optional<UserEntity> findUserEntityByEmail(String email);
-    Optional<UserEntity> findUserEntityById(UUID email);
+    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserById(UUID id);
 
     @Modifying
     @Transactional
-    void deleteUserEntityByEmail(String email);
+    void deleteUserByEmail(String email);
 
     @Modifying
     @Transactional
-    void deleteUserEntityById(UUID id);
+    void deleteUserById(UUID id);
 }

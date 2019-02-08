@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.PresentationDto;
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.Presentation;
 import com.inther.services.PresentationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.UUID;
 
 @CrossOrigin(origins="*", maxAge = 3600)
@@ -19,36 +20,44 @@ import java.util.UUID;
 public class PresentationController
 {
     private final PresentationService presentationService;
-    private final ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity<?> addPresentation(@Validated(value = {RequestDataValidator.PutPresentation.class}) @RequestBody PresentationDto presentationDtoToPut) throws Exception
+    public ResponseEntity<?> addPresentation(
+            @Validated(value = {RequestDataValidator.postPresentation.class})
+            @RequestBody PresentationDto presentationDto) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.addPresentation(modelMapper.map(presentationDtoToPut, PresentationEntity.class)));
+        return presentationService.addPresentation(presentationDto);
     }
 
-    @GetMapping(value = {"", "/{email}"})
-    public ResponseEntity<?> getPresentations(@PathVariable(value = "email", required = false) String email) throws Exception
+    @GetMapping
+    public ResponseEntity<?> getPresentations()
     {
-        return presentationService.getPresentation(email);
+        return presentationService.getPresentationsFromDataBase();
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getPresentations(@PathVariable(value = "id") String id)
+    {
+        return presentationService.getPresentation(UUID.fromString(id));
     }
 
     @PutMapping
-    public ResponseEntity<?> editPresentation(@Validated(value = {RequestDataValidator.PatchPresentation.class}) @RequestBody PresentationDto presentationDtoToPatch) throws Exception
+    public ResponseEntity<?> editPresentation(
+            @Validated(value = {RequestDataValidator.updatePresentation.class})
+            @RequestBody PresentationDto presentationDto) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.editPresentation(modelMapper.map(presentationDtoToPatch, PresentationEntity.class)));
+        return presentationService.editPresentation(presentationDto);
     }
 
     @DeleteMapping(value = {"", "/{id}"})
-    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") UUID id) throws Exception
+    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") String id) throws Exception
     {
-        return new ResponseEntityWrapper<>(presentationService.deletePresentation(id));
+        return new ResponseEntityWrapper<>(presentationService.deletePresentation(UUID.fromString(id)));
     }
 
     @Autowired
-    public PresentationController(PresentationService presentationService, ModelMapper modelMapper)
+    public PresentationController(PresentationService presentationService)
     {
         this.presentationService = presentationService;
-        this.modelMapper = modelMapper;
     }
 }

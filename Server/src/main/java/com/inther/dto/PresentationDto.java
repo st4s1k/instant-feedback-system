@@ -1,81 +1,56 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
+import lombok.Data;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Data
 public class PresentationDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PatchPresentation.class})
-    @Null(groups = {RequestDataValidator.PutPresentation.class})
-    @NotNull(groups = {RequestDataValidator.PatchPresentation.class})
-    private Integer id;
+    private static final SimpleDateFormat dateFormat
+            = new SimpleDateFormat("yyyy-MM-ddTHH:mm");
 
-    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
+    @Positive(groups = {RequestDataValidator.updatePresentation.class})
+    @Null(groups = {RequestDataValidator.postPresentation.class})
+    @NotNull(groups = {RequestDataValidator.updatePresentation.class})
+    private String id;
+
+    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
     private String title;
 
-    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
+    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
     private String description;
 
-    @NotNull(groups = {RequestDataValidator.PutPresentation.class})
-    private Date startDate;
+    @NotNull(groups = {RequestDataValidator.postPresentation.class})
+    private String startDate;
 
-    @NotNull(groups = {RequestDataValidator.PutPresentation.class})
-    private Date endDate;
+    @NotNull(groups = {RequestDataValidator.postPresentation.class})
+    private String endDate;
 
-    @Size(groups = {RequestDataValidator.PutPresentation.class, RequestDataValidator.PatchPresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutPresentation.class})
+    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
     private String place;
 
-    public Integer getId()
-    {
-        return id;
+    public Date getStartDateConverted() throws ParseException {
+        return dateFormat.parse(startDate);
     }
-    public void setId(Integer id)
-    {
-        this.id = id;
+
+    public void setStartDate(Date date) {
+        this.startDate = dateFormat.format(date);
     }
-    public String getTitle()
-    {
-        return title;
+
+    public Date getEndDateConverted() throws ParseException {
+        return dateFormat.parse(endDate);
     }
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
-    public String getDescription()
-    {
-        return description;
-    }
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    public Date getStartDate()
-    {
-        return startDate;
-    }
-    public void setStartDate(Date startDate)
-    {
-        this.startDate = startDate;
-    }
-    public Date getEndDate()
-    {
-        return endDate;
-    }
-    public void setEndDate(Date endDate)
-    {
-        this.endDate = endDate;
-    }
-    public String getPlace()
-    {
-        return place;
-    }
-    public void setPlace(String place)
-    {
-        this.place = place;
+
+    public void setEndDate(Date date) {
+        this.endDate = dateFormat.format(date);
     }
 }

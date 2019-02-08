@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.MarkDto;
-import com.inther.entities.MarkEntity;
+import com.inther.entities.Mark;
 import com.inther.services.MarkService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class MarkController
     @PostMapping
     public ResponseEntity<?> addMark(@Validated(value = {RequestDataValidator.PutMark.class}) @RequestBody MarkDto markDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(markService.addMark(modelMapper.map(markDtoToPut, MarkEntity.class)));
+        return new ResponseEntityWrapper<>(markService.addMark(modelMapper.map(markDtoToPut, Mark.class)));
     }
 
     @Autowired

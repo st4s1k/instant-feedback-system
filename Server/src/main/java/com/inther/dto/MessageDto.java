@@ -1,15 +1,19 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
+import lombok.Data;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.UUID;
 
+@Data
 public class MessageDto implements Serializable
 {
     @Positive(groups = {RequestDataValidator.PatchMessage.class})
     @Null(groups = {RequestDataValidator.PutMessage.class})
     @NotNull(groups = {RequestDataValidator.PatchMessage.class})
-    private Integer id;
+    private String id;
 
     @Positive(groups = {RequestDataValidator.PutMessage.class})
     @Null(groups = {RequestDataValidator.PatchMessage.class})
@@ -27,46 +31,5 @@ public class MessageDto implements Serializable
 
     @Null(groups = {RequestDataValidator.PatchMessage.class})
     @NotNull(groups = {RequestDataValidator.PutMessage.class})
-    private Boolean isAnonymous;
-
-    public Integer getId()
-    {
-        return id;
-    }
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-    public Integer getPresentationId()
-    {
-        return presentationId;
-    }
-    public void setPresentationId(Integer presentationId)
-    {
-        this.presentationId = presentationId;
-    }
-    public String getMessage()
-    {
-        return message;
-    }
-    public void setMessage(String message)
-    {
-        this.message = message;
-    }
-    public String getType()
-    {
-        return type;
-    }
-    public void setType(String type)
-    {
-        this.type = type;
-    }
-    public Boolean getIsAnonymous()
-    {
-        return isAnonymous;
-    }
-    public void setIsAnonymous(Boolean isAnonymous)
-    {
-        this.isAnonymous = isAnonymous;
-    }
+    private Boolean anonymous;
 }

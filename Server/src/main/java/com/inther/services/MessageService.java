@@ -3,8 +3,8 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.MessageEntity;
-import com.inther.entities.PresentationEntity;
+import com.inther.entities.Message;
+import com.inther.entities.Presentation;
 import com.inther.exceptions.AccessDeniedException;
 import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MessageRepository;
@@ -26,7 +26,7 @@ public class MessageService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    private MessageEntity setAuthenticatedEmailPropertyValue(MessageEntity targetEntity)
+    private Message setAuthenticatedEmailPropertyValue(Message targetEntity)
     {
         if (targetEntity.getAnonymous())
         {
@@ -39,11 +39,11 @@ public class MessageService
         return targetEntity;
     }
 
-    public ResponseBean addMessage(MessageEntity messageEntity) throws Exception
+    public ResponseBean addMessage(Message messageEntity) throws Exception
     {
 
-        Optional<PresentationEntity> optionalPresentationEntity = presentationRepository
-                .findPresentationEntityById(messageEntity.getPresentationId());
+        Optional<Presentation> optionalPresentationEntity = presentationRepository
+                .findPresentationById(messageEntity.getPresentationId());
         if (optionalPresentationEntity.isPresent())
         {
             messageRepository.save(setAuthenticatedEmailPropertyValue(messageEntity));
@@ -57,9 +57,9 @@ public class MessageService
         }
         return responseBean;
     }
-    public ResponseBean editMessage(MessageEntity messageEntity) throws Exception
+    public ResponseBean editMessage(Message messageEntity) throws Exception
     {
-        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(messageEntity.getId());
+        Optional<Message> optionalMessageEntity = messageRepository.findMessageEntityById(messageEntity.getId());
         if (optionalMessageEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail()))
@@ -70,7 +70,7 @@ public class MessageService
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else
@@ -81,7 +81,7 @@ public class MessageService
     }
     public ResponseBean deleteMessage(UUID id) throws Exception
     {
-        Optional<MessageEntity> optionalMessageEntity = messageRepository.findMessageEntityById(id);
+        Optional<Message> optionalMessageEntity = messageRepository.findMessageEntityById(id);
         if (optionalMessageEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail())
@@ -94,7 +94,7 @@ public class MessageService
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else

@@ -1,13 +1,13 @@
 package com.inther.repositories;
 
-import com.inther.entities.MarkEntity;
+import com.inther.entities.Mark;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MarkRepository extends JpaRepository<MarkEntity, UUID>
+public interface MarkRepository extends JpaRepository<Mark, UUID>
 {
-    Optional<MarkEntity> findMarkEntityByPresentationIdAndEmail(UUID presentationId, String email);
+    Optional<Mark> findMarkEntityByPresentationIdAndEmail(UUID presentationId, String email);
 }

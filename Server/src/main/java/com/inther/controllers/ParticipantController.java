@@ -3,7 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.ParticipantDto;
-import com.inther.entities.ParticipantEntity;
+import com.inther.entities.Participant;
 import com.inther.services.ParticipantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ParticipantController
     @PostMapping
     public ResponseEntity<?> addParticipant(@Validated(value = {RequestDataValidator.PutParticipant.class}) @RequestBody ParticipantDto participantDtoToPut) throws Exception
     {
-        return new ResponseEntityWrapper<>(participantService.addParticipant(modelMapper.map(participantDtoToPut, ParticipantEntity.class)));
+        return new ResponseEntityWrapper<>(participantService.addParticipant(modelMapper.map(participantDtoToPut, Participant.class)));
     }
 
     @DeleteMapping(value = "/{id}")

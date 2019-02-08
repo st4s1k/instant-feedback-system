@@ -3,8 +3,7 @@ package com.inther.services;
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.ResponseBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.UserAuthorityEntity;
-import com.inther.entities.UserEntity;
+import com.inther.entities.User;
 import com.inther.exceptions.*;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,30 +22,21 @@ public class UserService
     private final ResponseBean responseBean;
     private final HttpHeaders httpHeaders;
 
-    private UserEntity setUserEntityNestedAuthorityEmails(UserEntity userEntity)
+    public ResponseBean addUser(User userEntity) throws Exception
     {
-        for (UserAuthorityEntity userAuthorityEntity : userEntity.getAuthorities())
-        {
-            userAuthorityEntity.setEmail(userEntity.getEmail());
-        }
-        return userEntity;
-    }
-
-    public ResponseBean addUser(UserEntity userEntity) throws Exception
-    {
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        Optional<User> optionalUserEntity = userRepository.findUserByEmail(userEntity.getEmail());
         if (!optionalUserEntity.isPresent())
         {
             if (authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(setUserEntityNestedAuthorityEmails(userEntity)));
+                userRepository.save(serviceUtilityBean.encodeUserEntityPassword(userEntity));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
                 responseBean.setResponse("User with email: '" + userEntity.getEmail() + "' successfully putted");
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else
@@ -58,7 +48,7 @@ public class UserService
     public ResponseEntity<?> getUser(String email) throws Exception
     {
         ResponseEntity<?> responseEntity;
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
+        Optional<User> optionalUserEntity = userRepository.findUserByEmail(email);
         if (optionalUserEntity.isPresent())
         {
             responseEntity = new ResponseEntity<>(optionalUserEntity.get(), httpHeaders, HttpStatus.OK);
@@ -69,9 +59,9 @@ public class UserService
         }
         return responseEntity;
     }
-    public ResponseBean editUser(UserEntity userEntity) throws Exception
+    public ResponseBean editUser(User userEntity) throws Exception
     {
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(userEntity.getEmail());
+        Optional<User> optionalUserEntity = userRepository.findUserByEmail(userEntity.getEmail());
         if (optionalUserEntity.isPresent())
         {
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(userEntity.getEmail())
@@ -85,7 +75,7 @@ public class UserService
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else
@@ -96,13 +86,13 @@ public class UserService
     }
     public ResponseBean deleteUser(String email) throws Exception
     {
-        Optional<UserEntity> optionalUserEntity = userRepository.findUserEntityByEmail(email);
+        Optional<User> optionalUserEntity = userRepository.findUserByEmail(email);
         if (optionalUserEntity.isPresent())
         {
             if (!authorityUtilityBean.getCurrentAuthenticationEmail().equals(email)
                     && authorityUtilityBean.validateAdminAuthority())
             {
-                userRepository.deleteUserEntityByEmail(email);
+                userRepository.deleteUserByEmail(email);
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.OK);
                 responseBean.setResponse("User with email: '" + email + "' successfully deleted");
@@ -114,7 +104,7 @@ public class UserService
             }
             else
             {
-                throw new AccessDeniedException("Access denied for you authority");
+                throw new AccessDeniedException("Access denied for you name");
             }
         }
         else
