@@ -27,6 +27,7 @@ public class User
     public User(AuthenticationDto authenticationDto) {
         this.email = authenticationDto.getEmail();
         this.password = authenticationDto.getPassword();
+        this.role=authenticationDto.getRole();
     }
 
     public User setEmail(String email) {

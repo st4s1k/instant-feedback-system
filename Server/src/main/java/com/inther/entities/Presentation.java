@@ -24,12 +24,15 @@ public class Presentation
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    private UUID userID;
     private String email;
     private String title;
     private String description;
     private Date startDate;
     private Date endDate;
     private String place;
+
+    
 
     @OneToMany(mappedBy = "presentationId",
             fetch = FetchType.LAZY,

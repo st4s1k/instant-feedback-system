@@ -18,4 +18,8 @@ public class AuthenticationDto
     @Size(groups = {RequestDataValidator.PutAuthentication.class}, min = 6, max = 16)
     @NotBlank(groups = {RequestDataValidator.PutAuthentication.class})
     private String password;
+
+    @Size(max = 255)
+    private String role;
+
 }
