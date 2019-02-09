@@ -2,7 +2,7 @@ import { UserDTO } from './dtos/user.dto';
 
 export class User {
   public id: string;
-  public type: string;
+  public role: string;
   public email: string;
   public password: string;
 
@@ -13,7 +13,7 @@ export class User {
   static toDTO(u: User): UserDTO {
     return <UserDTO>{
       id: u.id,
-      type: u.type,
+      role: u.role,
       email: u.email,
       password: u.password
     };

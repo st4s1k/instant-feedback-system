@@ -44,17 +44,18 @@ export class AuthenticationService {
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
           alert('Success!');
-          alert(JSON.stringify(user));
+          // alert(JSON.stringify(user));
           this.userLocal = user;
           this.globalSrv.setNavEmail(this.userLocal.email);
           this.globalSrv.setNavUserId(this.userLocal.id);
           this.globalSrv.setSessionID(this.userLocal.id);
-          this.globalSrv.setUserRole(`${this.userLocal.type}`);
+          this.globalSrv.setUserRole(this.userLocal.role);
 
           localStorage.setItem('sessionID', `${this.userLocal.id}`);
           localStorage.setItem('email', this.userLocal.email);
           localStorage.setItem('userId', `${this.userLocal.id}`);
-          localStorage.setItem('userRole', `${this.userLocal.type}`);
+          localStorage.setItem('userRole', this.userLocal.role);
+          console.log(localStorage.getItem('userRole'));
         }
         return user;
       }));

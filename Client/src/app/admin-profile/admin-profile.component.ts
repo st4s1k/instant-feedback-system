@@ -56,7 +56,7 @@ export class AdminProfileComponent implements OnInit {
     }
     this.editUserForm = this.formBuilder.group({
       email: this.users[i].email,
-      userGroup: this.users[i].type,
+      userGroup: this.users[i].role,
       password: this.users[i].password,
       confirm_password: this.users[i].password
     }, {
@@ -79,7 +79,7 @@ export class AdminProfileComponent implements OnInit {
     this.loading = true;
     this.userService.createUser(<User>{
       email: this.editUserForm.get('email').value,
-      type: this.editUserForm.get('userGroup').value,
+      role: this.editUserForm.get('userGroup').value,
       password: this.editUserForm.get('password').value
     }) .pipe(first()).subscribe(
       data => {
@@ -115,7 +115,7 @@ export class AdminProfileComponent implements OnInit {
     this.userService.updateUser(<User>{
       id: this.users[i].id,
       email: this.editUserForm.get('email').value,
-      type: this.editUserForm.get('userGroup').value,
+      role: this.editUserForm.get('userGroup').value,
       password: this.editUserForm.get('password').value
     }).pipe(first())
       .subscribe(

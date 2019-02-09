@@ -2,7 +2,7 @@ import { User } from '../user.model';
 
 export class UserDTO {
   public id: string;
-  public type: string;
+  public role: string;
   public email: string;
   public password: string;
 
@@ -13,7 +13,7 @@ export class UserDTO {
   static toModel(u: UserDTO): User {
     return <User>{
       id: u.id,
-      type: u.type,
+      role: u.role,
       email: u.email,
       password: u.password
     };
