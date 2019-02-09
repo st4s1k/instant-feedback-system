@@ -13,16 +13,13 @@ public class ServiceUtilityBean
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthorityUtilityBean authorityUtilityBean;
 
-    public User encodeUserPassword(User userEntity)
+    public User encodeUserPassword(User user)
     {
-        if (userEntity.getPassword() != null)
-        {
-            userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
-        }
-        return userEntity;
+        return user.getPassword() == null ? user :
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     }
 
-    public boolean validPassword(String rawPassword, User user) {
+    public boolean isPasswordValid(String rawPassword, User user) {
         return bCryptPasswordEncoder.matches(rawPassword, user.getPassword());
     }
 
@@ -31,6 +28,8 @@ public class ServiceUtilityBean
         targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentAuthenticationEmail());
         return targetEntity;
     }
+
+    /// Омагад омагад... рефлексия... зачем? Всё настолько серьёзно?
     public <T> T patchEntity(T targetEntity, T patchingEntity) throws Exception
     {
         if (targetEntity.getClass().equals(patchingEntity.getClass()))

@@ -1,15 +1,18 @@
 package com.inther.entities;
 
 import com.inther.dto.AuthenticationDto;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Getter
-@Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
+@Entity
 public class User
 {
     @Id
@@ -18,23 +21,8 @@ public class User
     private UUID id;
 
     private String email;
-
     private String password;
-
     private String role;
-
-    public User() { }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String email, String password, String role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     public User(AuthenticationDto authenticationDto) {
         this.email = authenticationDto.getEmail();
@@ -51,8 +39,10 @@ public class User
         return this;
     }
 
-    public User setRole(String role) {
-        this.role = role;
+    public User updateBy(User user) {
+        this.email = user.email;
+        this.password = user.password;
+        this.role = user.role;
         return this;
     }
 }

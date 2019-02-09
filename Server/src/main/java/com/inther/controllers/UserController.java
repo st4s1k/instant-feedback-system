@@ -1,53 +1,77 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.UserDto;
 import com.inther.entities.User;
 import com.inther.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/api/users")
 public class UserController
 {
     private final UserService userService;
     private final ModelMapper modelMapper;
-
-    @PostMapping
-    public ResponseEntity<?> putUser(@Validated(value = {RequestDataValidator.PutUser.class}) @RequestBody UserDto userDtoToPut) throws Exception
-    {
-        return new ResponseEntityWrapper<>(userService.addUser(modelMapper.map(userDtoToPut, User.class)));
-    }
-
-    @GetMapping(value = {"", "/{email}"})
-    public ResponseEntity<?> getUser(@PathVariable(value = "email") String email) throws Exception
-    {
-        return userService.getUser(email);
-    }
-
-    @PutMapping
-    public ResponseEntity<?> editUser(@Validated(value = {RequestDataValidator.PatchUser.class}) @RequestBody UserDto userDtoToPatch) throws Exception
-    {
-
-        return new ResponseEntityWrapper<>(userService.editUser(modelMapper.map(userDtoToPatch, User.class)));
-    }
-
-    @DeleteMapping(value = {"", "/{email}"})
-    public ResponseEntity<?> deleteUser(@PathVariable(value = "email") String email) throws Exception
-    {
-        return new ResponseEntityWrapper<>(userService.deleteUser(email));
-    }
+    private final HttpHeaders httpHeaders;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper)
+    public UserController(UserService userService,
+                          ModelMapper modelMapper,
+                          HttpHeaders httpHeaders)
     {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.httpHeaders = httpHeaders;
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createUser(
+            @Validated(value = {RequestDataValidator.PutUser.class})
+            @RequestBody UserDto userDto)
+    {
+        return userService
+                .createUserAttempt(modelMapper.map(userDto, User.class))
+                .map(user -> new ResponseEntity<>(httpHeaders, HttpStatus.CREATED))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getUser(@PathVariable(value = "id") String id)
+    {
+        return userService
+                .searchForRequestedUser(UUID.fromString(id))
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> editUser(
+            @Validated(value = {RequestDataValidator.PatchUser.class})
+            @RequestBody UserDto userDto)
+    {
+
+        return userService
+                .updateUserData(modelMapper.map(userDto, User.class))
+                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") String id)
+    {
+        return userService
+                .deleteUser(UUID.fromString(id))
+                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 }

@@ -33,7 +33,7 @@ public class AuthenticationService
     {
         return userRepository
                 .findUserByEmail(authDto.getEmail())
-                .filter(user -> serviceUtilityBean.validPassword(authDto.getPassword(), user))
+                .filter(user -> serviceUtilityBean.isPasswordValid(authDto.getPassword(), user))
                 .<ResponseEntity<?>>map(user -> new ResponseEntity<>(user, httpHeaders, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.FORBIDDEN));
     }
