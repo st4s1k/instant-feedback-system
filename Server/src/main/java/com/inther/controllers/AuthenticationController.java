@@ -16,7 +16,7 @@ public class AuthenticationController
     private final AuthenticationService authenticationService;
 
 
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<?> signUp(
             @Validated(value = {RequestDataValidator.PutAuthentication.class})
             @RequestBody AuthenticationDto authenticationDto)
@@ -24,7 +24,7 @@ public class AuthenticationController
         return authenticationService.createUser(authenticationDto);
     }
 
-    @PostMapping("/signin")
+    @PutMapping
     public ResponseEntity<?> signIn(
             @Validated(value = {RequestDataValidator.PutAuthentication.class})
             @RequestBody AuthenticationDto authenticationDto)

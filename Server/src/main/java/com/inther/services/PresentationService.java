@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +34,7 @@ public class PresentationService
     private final ModelMapper modelMapper;
 
 
-    // wtf, going to get rid of this...
-    private Boolean validatePresentationEntityDateAndTime(Presentation storedEntity, Presentation patchingEntity)
+    private Boolean validatePresentationDateAndTime(Presentation storedEntity, Presentation patchingEntity)
     {
         if ((patchingEntity.getStartDate() != null) && (patchingEntity.getEndDate() != null))
         {
@@ -56,20 +54,19 @@ public class PresentationService
         }
     }
 
-    // to be cleaned
     public ResponseEntity<?> addPresentation(PresentationDto presentationDto) throws Exception
     {
-        Presentation presentationEntity = convertToEntity(presentationDto);
+        Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
 
-        Optional<Presentation> optionalUserEntity = presentationRepository.findPresentationByTitle(presentationEntity.getTitle());
+        Optional<Presentation> optionalUserEntity = presentationRepository.findPresentationByTitle(presentation.getTitle());
         if (!optionalUserEntity.isPresent())
         {
-            if (presentationEntity.getStartDate().before(presentationEntity.getEndDate()))
+            if (presentation.getStartDate().before(presentation.getEndDate()))
             {
-                presentationRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(presentationEntity));
+                presentationRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(presentation));
                 responseBean.setHeaders(httpHeaders);
                 responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Presentation with title: '" + presentationEntity.getTitle() + "' successfully added");
+                responseBean.setResponse("Presentation with title: '" + presentation.getTitle() + "' successfully added");
             }
             else
             {
@@ -78,7 +75,7 @@ public class PresentationService
         }
         else
         {
-            throw new DuplicatedEntryException("Presentation with title: '" + presentationEntity.getTitle() + "' already exists");
+            throw new DuplicatedEntryException("Presentation with title: '" + presentation.getTitle() + "' already exists");
         }
         return new ResponseEntityWrapper<>(responseBean);
     }
@@ -86,7 +83,9 @@ public class PresentationService
     public ResponseEntity<?> getPresentationsFromDataBase()
     {
         List<PresentationDto> presentationDtoList = presentationRepository
-                .findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+                .findAll().stream()
+                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .collect(Collectors.toList());
         return (presentationDtoList.isEmpty() ?
                 new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
@@ -96,16 +95,15 @@ public class PresentationService
     {
         return presentationRepository
                 .findPresentationById(id)
-                .map(this::convertToDto)
+                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
                 .<ResponseEntity<?>>map(presentationDto -> new ResponseEntity<>(presentationDto, httpHeaders, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-    // to be cleaned
     public ResponseEntity<?> editPresentation(PresentationDto presentationDto) throws Exception
     {
 
-        Presentation presentationEntity = convertToEntity(presentationDto);
+        Presentation presentationEntity = modelMapper.map(presentationDto, Presentation.class);
 
         Optional<Presentation> optionalPresentationEntity = presentationRepository.findPresentationById(presentationEntity.getId());
         if (optionalPresentationEntity.isPresent())
@@ -113,7 +111,7 @@ public class PresentationService
             if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalPresentationEntity.get().getEmail())
                     || authorityUtilityBean.validateAdminAuthority())
             {
-                if (validatePresentationEntityDateAndTime(optionalPresentationEntity.get(), presentationEntity))
+                if (validatePresentationDateAndTime(optionalPresentationEntity.get(), presentationEntity))
                 {
                     presentationRepository.save(serviceUtilityBean.patchEntity(optionalPresentationEntity.get(), presentationEntity));
                     responseBean.setHeaders(httpHeaders);
@@ -137,7 +135,6 @@ public class PresentationService
         return new ResponseEntityWrapper<>(responseBean);
     }
 
-    // to be cleaned
     public ResponseBean deletePresentation(UUID id) throws Exception
     {
         Optional<Presentation> optionalPresentationEntity = presentationRepository.findPresentationById(id);
@@ -161,20 +158,6 @@ public class PresentationService
             throw new NotFoundEntryException("Presentation with id: '" + id + "' not found");
         }
         return responseBean;
-    }
-
-    private PresentationDto convertToDto(Presentation presentation) {
-        PresentationDto presentationDto = modelMapper.map(presentation, PresentationDto.class);
-        presentationDto.setStartDate(presentation.getStartDate());
-        presentationDto.setEndDate(presentation.getEndDate());
-        return presentationDto;
-    }
-
-    private Presentation convertToEntity(PresentationDto presentationDto) throws ParseException {
-        Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
-        presentation.setStartDate(presentationDto.getStartDateConverted());
-        presentation.setEndDate(presentationDto.getEndDateConverted());
-        return presentation;
     }
 
     @Autowired
