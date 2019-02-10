@@ -10,9 +10,12 @@ import java.util.UUID;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, UUID>
 {
-    Optional<Participant> findParticipantEntityByPresentationIdAndEmail(UUID presentationId, String email);
-    Optional<Participant> findParticipantEntityById(UUID id);
+    Optional<Participant> findParticipantByPresentationIdAndEmail(UUID presentationId, String userEmail);
+    Optional<Participant> findParticipantById(UUID id);
 
     @Transactional
-    void deleteParticipantEntityById(UUID id);
+    void deleteParticipantById(UUID id);
+
+    @Transactional
+    void deleteParticipantByPresentationIdAndEmail(UUID presentationId, String userEmail);
 }

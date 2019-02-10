@@ -9,12 +9,16 @@ import java.io.Serializable;
 @Data
 public class MarkDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PutMark.class})
-    @NotNull(groups = {RequestDataValidator.PutMark.class})
+    @Null(groups = {RequestDataValidator.AddMark.class})
+    private String id;
+
+    @NotNull(groups = {RequestDataValidator.AddMark.class})
     private String presentationId;
 
-    @Positive(groups = {RequestDataValidator.PutMark.class})
-    @Max(groups = {RequestDataValidator.PutMark.class}, value = 5)
-    @NotNull(groups = {RequestDataValidator.PutMark.class})
-    private Integer mark;
+    @NotNull(groups = {RequestDataValidator.AddMark.class})
+    private String userId;
+
+    @Max(groups = {RequestDataValidator.AddMark.class}, value = 5)
+    @NotNull(groups = {RequestDataValidator.AddMark.class})
+    private Integer value;
 }

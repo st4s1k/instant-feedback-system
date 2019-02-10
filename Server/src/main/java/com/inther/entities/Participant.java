@@ -18,13 +18,29 @@ import java.util.UUID;
 public class Participant
 {
     @Id
-    @Type(type = "pg-uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @GeneratedValue
     private UUID id;
 
-    @ManyToOne(targetEntity = Presentation.class, fetch = FetchType.LAZY)
-    @Type(type = "pg-uuid")
+    @ManyToOne(targetEntity = Presentation.class)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID presentationId;
 
     private String email;
+
+    public Participant setPresentationId(UUID presentationId) {
+        this.presentationId = presentationId;
+        return this;
+    }
+
+    public Participant setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public Participant updateBy(Participant participant) {
+        this.presentationId = participant.presentationId;
+        this.email = participant.email;
+        return this;
+    }
 }

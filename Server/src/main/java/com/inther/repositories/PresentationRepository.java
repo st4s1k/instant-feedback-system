@@ -12,14 +12,19 @@ import java.util.UUID;
 public interface PresentationRepository extends JpaRepository<Presentation, UUID>
 {
     // Exact query
-    Optional<List<Presentation>> findPresentationsByEmail(String email);
+    List<Presentation> findPresentationsByUser_Id(UUID userId);
+    List<Presentation> findPresentationsByUser_Email(String userEmail);
     Optional<Presentation> findPresentationByTitle(String title);
     Optional<Presentation> findPresentationById(UUID id);
     // Filtered query
-    Optional<List<Presentation>> findPresentationsByEmailIgnoreCaseContaining(String keyword);
-    Optional<List<Presentation>> findPresentationsByTitleIgnoreCaseContaining(String keyword);
-    Optional<List<Presentation>> findPresentationsByTitleAndEmailAllIgnoreCaseContaining(String titleKeyword, String emailKeyword);
+    List<Presentation> findPresentationsByTitleIgnoreCaseContaining(String keyword);
 
     @Transactional
     void deletePresentationById(UUID id);
+
+    @Transactional
+    void deletePresentationsByUser_Id(UUID userId);
+
+    @Transactional
+    void deletePresentationsByUser_Email(String userEmail);
 }

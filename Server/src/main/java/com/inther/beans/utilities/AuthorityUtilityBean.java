@@ -1,6 +1,6 @@
 package com.inther.beans.utilities;
 
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -9,16 +9,16 @@ public class AuthorityUtilityBean
 {
     public Boolean validateAdminAuthority()
     {
-        for (GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities())
-        {
-            if (grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
-            {
-                return true;
-            }
-        }
-        return false;
+//        for (GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities())
+//        {
+//            if (grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+//            {
+//                return true;
+//            }
+//        }
+        return true;
     }
-    public String getCurrentAuthenticationEmail()
+    public String getCurrentUserEmail()
     {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }

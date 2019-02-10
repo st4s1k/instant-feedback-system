@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -17,14 +18,37 @@ import java.util.UUID;
 public class Mark
 {
     @Id
-    @Type(type = "pg-uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @GeneratedValue
     private UUID id;
 
-    @ManyToOne(targetEntity = Presentation.class, fetch = FetchType.LAZY)
-    @Type(type = "pg-uuid")
-    private UUID presentationId;
+    @ManyToOne
+    private Presentation presentation;
 
-    private String email;
-    private Integer mark;
+    @ManyToOne
+    private User user;
+
+    private Integer value;
+
+    public Mark setPresentation(Presentation presentation) {
+        this.presentation = presentation;
+        return this;
+    }
+
+    public Mark setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Mark setValue(Integer value) {
+        this.value = value;
+        return this;
+    }
+
+    public Mark updateBy(Mark mark) {
+        this.presentation = mark.presentation;
+        this.user = mark.user;
+        this.value = mark.value;
+        return this;
+    }
 }

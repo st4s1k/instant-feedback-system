@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
@@ -35,20 +37,32 @@ public class UserController
 
     @PostMapping
     public ResponseEntity<?> createUser(
-            @Validated(value = {RequestDataValidator.PutUser.class})
+            @Validated(value = {RequestDataValidator.AddUser.class})
             @RequestBody UserDto userDto)
     {
         return userService
-                .createUserAttempt(modelMapper.map(userDto, User.class))
+                .createUser(modelMapper.map(userDto, User.class))
                 .map(user -> new ResponseEntity<>(httpHeaders, HttpStatus.CREATED))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllUsers()
+    {
+        List<UserDto> userDtoList = userService
+                .fetchAllUsers().stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(userDtoList, httpHeaders,
+                userDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getUser(@PathVariable(value = "id") String id)
     {
         return userService
-                .searchForRequestedUser(UUID.fromString(id))
+                .fetchUserById(UUID.fromString(id))
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
@@ -56,7 +70,7 @@ public class UserController
 
     @PutMapping
     public ResponseEntity<?> editUser(
-            @Validated(value = {RequestDataValidator.PatchUser.class})
+            @Validated(value = {RequestDataValidator.UpdateUser.class})
             @RequestBody UserDto userDto)
     {
 

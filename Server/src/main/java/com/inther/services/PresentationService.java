@@ -25,18 +25,23 @@ public class PresentationService
         this.presentationRepository = presentationRepository;
     }
 
-    public Optional<Presentation> createPresentationAttempt(Presentation presentation)
+    public boolean createPresentationAttempt(Presentation presentation)
     {
-        return presentationRepository
-                .findPresentationByTitle(presentation.getTitle())
-                .filter(p -> p.getStartDate().before(p.getEndDate()))
-                .map(p -> p.setEmail(authorityUtilityBean.getCurrentAuthenticationEmail()))
-                .map(presentationRepository::save);
+        return !presentation.getStartDate().before(presentation.getEndDate())
+                && presentationRepository.save(presentation).equals(presentation);
     }
 
-    public List<Presentation> searchForRequestedPresentationsList()
+    public List<Presentation> fetchAllPresentations()
     {
         return presentationRepository.findAll();
+    }
+
+    public List<Presentation> searchForPresentationsWithTitle(String title) {
+        return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
+    }
+
+    public List<Presentation> searchForPresentationsWithEmail(String email) {
+        return presentationRepository.findPresentationsByUser_Email(email);
     }
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)
@@ -47,16 +52,15 @@ public class PresentationService
     public Optional<Boolean> editPresentation(Presentation presentation)
     {
         return presentationRepository.findPresentationById(presentation.getId())
-                .filter(p -> (authorityUtilityBean.getCurrentAuthenticationEmail().equals(p.getEmail())
-                        || authorityUtilityBean.validateAdminAuthority())
-                        && p.getStartDate() != null && p.getEndDate() != null)
+                .filter(p -> (authorityUtilityBean.getCurrentUserEmail().equals(p.getUser().getEmail())
+                        || authorityUtilityBean.validateAdminAuthority()))
                 .map(p -> presentationRepository.exists(Example.of(p.updateBy(presentation))));
     }
 
     public Optional<Boolean> deletePresentation(UUID id)
     {
         return presentationRepository.findPresentationById(id)
-                .filter(p -> authorityUtilityBean.getCurrentAuthenticationEmail().equals(p.getEmail())
+                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getUser().getEmail())
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
                     presentationRepository.deletePresentationById(id);

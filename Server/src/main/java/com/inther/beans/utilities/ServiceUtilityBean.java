@@ -25,7 +25,7 @@ public class ServiceUtilityBean
 
     public <T> T setAuthenticatedEmailPropertyValue(T targetEntity) throws Exception
     {
-        targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentAuthenticationEmail());
+        targetEntity.getClass().getMethod("setEmail", String.class).invoke(targetEntity, authorityUtilityBean.getCurrentUserEmail());
         return targetEntity;
     }
 

@@ -5,29 +5,48 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.List;
+
 @Data
 public class PresentationDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.updatePresentation.class})
-    @Null(groups = {RequestDataValidator.postPresentation.class})
-    @NotNull(groups = {RequestDataValidator.updatePresentation.class})
+    @NotNull
     private String id;
 
-    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
+    @Null(groups = {  RequestDataValidator.UpdatePresentation.class })
+    @NotNull(groups = {
+            RequestDataValidator.GetPresentationPage.class,
+            RequestDataValidator.AddPresentation.class
+    })
+    private String email;
+
+    @NotBlank
     private String title;
 
-    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
+    @NotBlank
     private String description;
 
-    @NotNull(groups = {RequestDataValidator.postPresentation.class})
+    @NotNull
     private String startDate;
 
-    @NotNull(groups = {RequestDataValidator.postPresentation.class})
+    @NotNull
     private String endDate;
 
-    @Size(groups = {RequestDataValidator.postPresentation.class, RequestDataValidator.updatePresentation.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.postPresentation.class})
+    @NotBlank
     private String place;
+
+    @Null
+    @NotNull(groups = {
+            RequestDataValidator.AddPresentation.class,
+            RequestDataValidator.UpdatePresentation.class
+    })
+    private List<ParticipantDto> participants;
+
+    @Null
+    @NotNull(groups = { RequestDataValidator.GetPresentationPage.class })
+    private List<MessageDto> messages;
+
+    @Null
+    @NotNull(groups = { RequestDataValidator.GetPresentationPage.class })
+    private List<MarkDto> marks;
 }

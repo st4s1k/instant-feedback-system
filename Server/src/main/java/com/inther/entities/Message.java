@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.PostgresUUIDType;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -18,16 +19,53 @@ import java.util.UUID;
 public class Message
 {
     @Id
-    @Type(type = "pg-uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @GeneratedValue
     private UUID id;
 
-    @ManyToOne(targetEntity = Presentation.class, fetch = FetchType.LAZY)
-    @Type(type = "pg-uuid")
-    private UUID presentationId;
+    @ManyToOne
+    private Presentation presentation;
 
-    private String email;
+    @ManyToOne
+    private User user;
+
     private String message;
+
     private String type;
-    private Boolean anonymous;
+
+    private boolean anonymous;
+
+    public Message setPresentation(Presentation presentation) {
+        this.presentation = presentation;
+        return this;
+    }
+
+    public Message setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Message setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Message setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public Message setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
+        return this;
+    }
+
+    public Message updateBy(Message message) {
+        this.presentation = message.presentation;
+        this.user = message.user;
+        this.message = message.message;
+        this.type = message.type;
+        this.anonymous = message.anonymous;
+        return this;
+    }
 }

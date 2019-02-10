@@ -5,31 +5,29 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 public class MessageDto implements Serializable
 {
-    @Positive(groups = {RequestDataValidator.PatchMessage.class})
-    @Null(groups = {RequestDataValidator.PutMessage.class})
-    @NotNull(groups = {RequestDataValidator.PatchMessage.class})
+    @Null(groups = {RequestDataValidator.AddMessage.class})
+    @NotNull(groups = {RequestDataValidator.UpdateMessage.class})
     private String id;
 
-    @Positive(groups = {RequestDataValidator.PutMessage.class})
-    @Null(groups = {RequestDataValidator.PatchMessage.class})
-    @NotNull(groups = {RequestDataValidator.PutMessage.class})
+    @Positive(groups = {RequestDataValidator.AddMessage.class})
+    @Null(groups = {RequestDataValidator.UpdateMessage.class})
+    @NotNull(groups = {RequestDataValidator.AddMessage.class})
     private Integer presentationId;
 
-    @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
-    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
+    @Size(groups = {RequestDataValidator.AddMessage.class, RequestDataValidator.UpdateMessage.class}, max = 255)
+    @NotBlank(groups = {RequestDataValidator.AddMessage.class})
     private String message;
 
-    @Size(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, max = 255)
-    @Pattern(groups = {RequestDataValidator.PutMessage.class, RequestDataValidator.PatchMessage.class}, regexp = "TYPE_FEEDBACK|TYPE_QUESTION")
-    @NotBlank(groups = {RequestDataValidator.PutMessage.class})
+    @Size(groups = {RequestDataValidator.AddMessage.class, RequestDataValidator.UpdateMessage.class}, max = 255)
+    @Pattern(groups = {RequestDataValidator.AddMessage.class, RequestDataValidator.UpdateMessage.class}, regexp = "TYPE_FEEDBACK|TYPE_QUESTION")
+    @NotBlank(groups = {RequestDataValidator.AddMessage.class})
     private String type;
 
-    @Null(groups = {RequestDataValidator.PatchMessage.class})
-    @NotNull(groups = {RequestDataValidator.PutMessage.class})
+    @Null(groups = {RequestDataValidator.UpdateMessage.class})
+    @NotNull(groups = {RequestDataValidator.AddMessage.class})
     private Boolean anonymous;
 }

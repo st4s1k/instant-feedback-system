@@ -37,30 +37,28 @@ public class PresentationController
 
     @PostMapping
     public ResponseEntity<?> addPresentation(
-            @Validated(value = {RequestDataValidator.postPresentation.class})
+            @Validated(value = {RequestDataValidator.AddPresentation.class})
             @RequestBody PresentationDto presentationDto)
     {
         return presentationService
-                .createPresentationAttempt(modelMapper.map(presentationDto, Presentation.class))
-                .map(presentation -> new ResponseEntity<>(httpHeaders, HttpStatus.CREATED))
-                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
+                .createPresentationAttempt(modelMapper.map(presentationDto, Presentation.class)) ?
+                new ResponseEntity<>(httpHeaders, HttpStatus.CREATED) :
+                new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT);
     }
 
-    @GetMapping // Adding some criteria? Spring repository methods support filtering.
-    public ResponseEntity<?> getPresentationList()
+    @PutMapping
+    public ResponseEntity<?> editPresentation(
+            @Validated(value = {RequestDataValidator.UpdatePresentation.class})
+            @RequestBody PresentationDto presentationDto)
     {
-        List<PresentationDto> presentationDtoList = presentationService
-                .searchForRequestedPresentationsList().stream()
-                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
-                .collect(Collectors.toList());
-
-        return (presentationDtoList.isEmpty() ?
-                new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT) :
-                new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
+        return presentationService
+                .editPresentation(modelMapper.map(presentationDto, Presentation.class))
+                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.FORBIDDEN))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getPresentation(@PathVariable(value = "id") String id)
+    public ResponseEntity<?> getPresentation(@PathVariable String id)
     {
         return presentationService
                 .searchForRequestedPresentation(UUID.fromString(id))
@@ -69,15 +67,42 @@ public class PresentationController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping
-    public ResponseEntity<?> editPresentation(
-            @Validated(value = {RequestDataValidator.updatePresentation.class})
-            @RequestBody PresentationDto presentationDto)
+    @GetMapping(params = "title_like")
+    public ResponseEntity<?> getPresentationsByTitle(
+            @RequestParam(value = "title_like") String title) {
+        List<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsWithTitle(title).stream()
+                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .collect(Collectors.toList());
+
+        return (presentationDtoList.isEmpty() ?
+                new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT) :
+                new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
+    }
+
+    @GetMapping(params = "email_like")
+    public ResponseEntity<?> getPresentationsByEmail(
+            @RequestParam(value = "email_like") String email) {
+        List<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsWithEmail(email).stream()
+                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .collect(Collectors.toList());
+
+        return (presentationDtoList.isEmpty() ?
+                new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT) :
+                new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getFullPresentationList()
     {
-        return presentationService
-                .editPresentation(modelMapper.map(presentationDto, Presentation.class))
-                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
-                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+        List<PresentationDto> presentationDtoList = presentationService
+                .fetchAllPresentations().stream()
+                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(presentationDtoList, httpHeaders,
+                        presentationDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -85,7 +110,7 @@ public class PresentationController
     {
         return presentationService
                 .deletePresentation(UUID.fromString(id))
-                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.FORBIDDEN))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 }

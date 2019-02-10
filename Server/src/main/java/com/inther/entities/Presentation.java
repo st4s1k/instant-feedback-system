@@ -20,39 +20,79 @@ import java.util.UUID;
 public class Presentation
 {
     @Id
-    @Type(type = "pg-uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @GeneratedValue
     private UUID id;
 
-    private String email;
+    @ManyToOne
+    private User user;
+
     private String title;
+
     private String description;
+
     private Date startDate;
+
     private Date endDate;
+
     private String place;
 
-    @OneToMany(mappedBy = "presentationId",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants;
 
-    @OneToMany(mappedBy = "presentationId",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "presentationId",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
 
-    public Presentation setEmail(String email) {
-        this.email = email;
+    public Presentation setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Presentation setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Presentation setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Presentation setStartDate(Date startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public Presentation setEndDate(Date endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public Presentation setPlace(String place) {
+        this.place = place;
+        return this;
+    }
+
+    public Presentation setParticipants(List<Participant> participants) {
+        this.participants = participants;
+        return this;
+    }
+
+    public Presentation setMessages(List<Message> messages) {
+        this.messages = messages;
+        return this;
+    }
+
+    public Presentation setMarks(List<Mark> marks) {
+        this.marks = marks;
         return this;
     }
 
     public Presentation updateBy(Presentation presentation) {
-        this.email = presentation.email;
+        this.user = presentation.user;
         this.title = presentation.title;
         this.description = presentation.description;
         this.startDate = presentation.startDate;

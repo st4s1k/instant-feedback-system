@@ -6,26 +6,24 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.UUID;
 
 @Data
 public class UserDto implements Serializable
 {
-    @NotNull(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
+    @NotNull(groups = {RequestDataValidator.AddUser.class, RequestDataValidator.UpdateUser.class})
     private String id;
 
-    @Size(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, max = 255)
-    @Email(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
-    @NotBlank(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class})
+    @Size(groups = {RequestDataValidator.AddUser.class, RequestDataValidator.UpdateUser.class}, max = 255)
+    @Email(groups = {RequestDataValidator.AddUser.class, RequestDataValidator.UpdateUser.class})
+    @NotBlank(groups = {RequestDataValidator.AddUser.class, RequestDataValidator.UpdateUser.class})
     private String email;
 
-    @Size(groups = {RequestDataValidator.PutUser.class, RequestDataValidator.PatchUser.class}, min = 6, max = 16)
-    @NotNull(groups = {RequestDataValidator.PutUser.class})
+    @Size(groups = {RequestDataValidator.AddUser.class, RequestDataValidator.UpdateUser.class}, min = 6, max = 16)
+    @NotNull(groups = {RequestDataValidator.AddUser.class})
     private String password;
 
     @Valid
-    @Null(groups = {RequestDataValidator.PatchUser.class})
-    @NotEmpty(groups = {RequestDataValidator.PutUser.class})
+    @Null(groups = {RequestDataValidator.UpdateUser.class})
+    @NotEmpty(groups = {RequestDataValidator.AddUser.class})
     private String Role;
 }

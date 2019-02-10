@@ -1,19 +1,11 @@
 package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
-import com.inther.beans.ResponseBean;
-import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.Participant;
-import com.inther.entities.Presentation;
-import com.inther.exceptions.AccessDeniedException;
-import com.inther.exceptions.DuplicatedEntryException;
-import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.ParticipantRepository;
-import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,74 +13,33 @@ import java.util.UUID;
 public class ParticipantService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
-    private final ServiceUtilityBean serviceUtilityBean;
-    private final PresentationRepository presentationRepository;
     private final ParticipantRepository participantRepository;
-    private final ResponseBean responseBean;
-    private final HttpHeaders httpHeaders;
-
-    public ResponseBean addParticipant(Participant participantEntity) throws Exception
-    {
-        Optional<Presentation> optionalPresentationEntity = presentationRepository
-                .findPresentationById(participantEntity.getPresentationId());
-        if (optionalPresentationEntity.isPresent())
-        {
-            Optional<Participant> optionalParticipantEntity = participantRepository
-                    .findParticipantEntityByPresentationIdAndEmail(participantEntity.getPresentationId(),
-                            authorityUtilityBean.getCurrentAuthenticationEmail());
-            if (!optionalParticipantEntity.isPresent())
-            {
-                participantRepository.save(serviceUtilityBean.setAuthenticatedEmailPropertyValue(participantEntity));
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.CREATED);
-                responseBean.setResponse("Your joined presentation with id: '" + participantEntity.getPresentationId() + "'");
-            }
-            else
-            {
-                throw new DuplicatedEntryException("You are already joined this presentation");
-            }
-        }
-        else
-        {
-            throw new NotFoundEntryException("Presentation with id: '" + participantEntity.getPresentationId() + "' not found");
-        }
-        return responseBean;
-    }
-    public ResponseBean deleteParticipant(UUID id) throws Exception
-    {
-        Optional<Participant> optionalParticipantEntity = participantRepository.findParticipantEntityById(id);
-        if (optionalParticipantEntity.isPresent())
-        {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalParticipantEntity.get().getEmail())
-                    || authorityUtilityBean.validateAdminAuthority())
-            {
-                participantRepository.deleteParticipantEntityById(id);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Participant with id: '" + id + "' successfully deleted");
-            }
-            else
-            {
-                throw new AccessDeniedException("Access denied for you name");
-            }
-        }
-        else
-        {
-            throw new NotFoundEntryException("Participant with id: '" + id + "' not found");
-        }
-        return responseBean;
-    }
 
     @Autowired
-    public ParticipantService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                              PresentationRepository presentationRepository, ParticipantRepository participantRepository,
-                              ResponseBean responseBean, HttpHeaders httpHeaders)
+    public ParticipantService(ParticipantRepository participantRepository,
+                              AuthorityUtilityBean authorityUtilityBean)
     {
-        this.authorityUtilityBean = authorityUtilityBean;
-        this.serviceUtilityBean = serviceUtilityBean;
-        this.presentationRepository = presentationRepository;
         this.participantRepository = participantRepository;
-        this.responseBean = responseBean;
-        this.httpHeaders = httpHeaders;
+        this.authorityUtilityBean = authorityUtilityBean;
+    }
+
+    public boolean addParticipant(Participant participant)
+    {
+        return participantRepository.findParticipantByPresentationIdAndEmail(
+                        participant.getPresentationId(),
+                        participant.getEmail()
+                ).isEmpty()
+                && participantRepository.save(participant).equals(participant);
+    }
+
+    public Optional<Boolean> deleteParticipant(UUID id)
+    {
+        return participantRepository.findParticipantById(id)
+                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getEmail())
+                        || authorityUtilityBean.validateAdminAuthority())
+                .map(p -> {
+                    participantRepository.deleteParticipantById(id);
+                    return !participantRepository.existsById(id);
+                });
     }
 }

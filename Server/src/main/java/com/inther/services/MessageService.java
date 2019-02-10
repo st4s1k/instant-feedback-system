@@ -1,18 +1,15 @@
 package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
-import com.inther.beans.ResponseBean;
-import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.Message;
-import com.inther.entities.Presentation;
-import com.inther.exceptions.AccessDeniedException;
-import com.inther.exceptions.NotFoundEntryException;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,100 +17,54 @@ import java.util.UUID;
 public class MessageService
 {
     private final AuthorityUtilityBean authorityUtilityBean;
-    private final ServiceUtilityBean serviceUtilityBean;
-    private final PresentationRepository presentationRepository;
     private final MessageRepository messageRepository;
-    private final ResponseBean responseBean;
-    private final HttpHeaders httpHeaders;
-
-    private Message setAuthenticatedEmailPropertyValue(Message targetEntity)
-    {
-        if (targetEntity.getAnonymous())
-        {
-            targetEntity.setEmail("ANONYMOUS");
-        }
-        else
-        {
-            targetEntity.setEmail(authorityUtilityBean.getCurrentAuthenticationEmail());
-        }
-        return targetEntity;
-    }
-
-    public ResponseBean addMessage(Message messageEntity) throws Exception
-    {
-
-        Optional<Presentation> optionalPresentationEntity = presentationRepository
-                .findPresentationById(messageEntity.getPresentationId());
-        if (optionalPresentationEntity.isPresent())
-        {
-            messageRepository.save(setAuthenticatedEmailPropertyValue(messageEntity));
-            responseBean.setHeaders(httpHeaders);
-            responseBean.setStatus(HttpStatus.CREATED);
-            responseBean.setResponse("Message for presentation with id: '" + messageEntity.getPresentationId() + "' successfully added");
-        }
-        else
-        {
-            throw new NotFoundEntryException("Presentation with id: '" + messageEntity.getPresentationId() + "' not found");
-        }
-        return responseBean;
-    }
-    public ResponseBean editMessage(Message messageEntity) throws Exception
-    {
-        Optional<Message> optionalMessageEntity = messageRepository.findMessageEntityById(messageEntity.getId());
-        if (optionalMessageEntity.isPresent())
-        {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail()))
-            {
-                messageRepository.save(serviceUtilityBean.patchEntity(optionalMessageEntity.get(), messageEntity));
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setResponse("Message with id: '" + messageEntity.getId() + "' successfully patched");
-            }
-            else
-            {
-                throw new AccessDeniedException("Access denied for you name");
-            }
-        }
-        else
-        {
-            throw new NotFoundEntryException("Message with id: '" + messageEntity.getId() + "' not found");
-        }
-        return responseBean;
-    }
-    public ResponseBean deleteMessage(UUID id) throws Exception
-    {
-        Optional<Message> optionalMessageEntity = messageRepository.findMessageEntityById(id);
-        if (optionalMessageEntity.isPresent())
-        {
-            if (authorityUtilityBean.getCurrentAuthenticationEmail().equals(optionalMessageEntity.get().getEmail())
-                    || authorityUtilityBean.validateAdminAuthority())
-            {
-                messageRepository.deleteMessageEntityById(id);
-                responseBean.setHeaders(httpHeaders);
-                responseBean.setStatus(HttpStatus.OK);
-                responseBean.setResponse("Message with id: '" + id + "' successfully deleted");
-            }
-            else
-            {
-                throw new AccessDeniedException("Access denied for you name");
-            }
-        }
-        else
-        {
-            throw new NotFoundEntryException("Message with id: '" + id + "' not found");
-        }
-        return responseBean;
-    }
+    private final PresentationRepository presentationRepository;
 
     @Autowired
-    public MessageService(AuthorityUtilityBean authorityUtilityBean, ServiceUtilityBean serviceUtilityBean,
-                          PresentationRepository presentationRepository, MessageRepository messageRepository,
-                          ResponseBean responseBean, HttpHeaders httpHeaders)
+    public MessageService(AuthorityUtilityBean authorityUtilityBean,
+                          PresentationRepository presentationRepository,
+                          MessageRepository messageRepository)
     {
         this.authorityUtilityBean = authorityUtilityBean;
-        this.serviceUtilityBean = serviceUtilityBean;
         this.presentationRepository = presentationRepository;
         this.messageRepository = messageRepository;
-        this.responseBean = responseBean;
-        this.httpHeaders = httpHeaders;
+    }
+
+    public Optional<Boolean> addMessage(Message message)
+    {
+        return presentationRepository.findPresentationById(message.getPresentation().getId())
+                .map(p-> LocalDateTime.now()
+                        .isAfter(p.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                        && messageRepository.existsById(messageRepository.save(message).getId()));
+    }
+
+    /**
+     * Edits requested message entity.
+     * <p>
+     *     This will query {@link MessageRepository#findMessageById(UUID)} to obtain the
+     *     message entity.
+     * </p>
+     *
+     * @param message message entity to be edited
+     * @return {@code Optional} edited state of the message
+     */
+
+    public Optional<Boolean> editMessage(Message message)
+    {
+        return messageRepository.findMessageById(message.getId())
+                .filter(foundMsg -> (authorityUtilityBean.getCurrentUserEmail().equals(foundMsg.getUser().getEmail())
+                                || authorityUtilityBean.validateAdminAuthority()))
+                .map(msg -> messageRepository.exists(Example.of(msg.updateBy(message))));
+    }
+
+    public Optional<Boolean> deleteMessage(UUID id)
+    {
+        return messageRepository.findMessageById(id)
+                .filter(message -> authorityUtilityBean.getCurrentUserEmail().equals(message.getUser().getEmail())
+                        || authorityUtilityBean.validateAdminAuthority())
+                .map(message -> {
+                    messageRepository.deleteMessageById(id);
+                    return !presentationRepository.existsById(id);
+                });
     }
 }

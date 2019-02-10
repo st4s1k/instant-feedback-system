@@ -2,11 +2,14 @@ package com.inther.services;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
+import com.inther.entities.Presentation;
 import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,17 +30,20 @@ public class UserService
         this.userRepository = userRepository;
     }
 
-    public Optional<User> createUserAttempt(User user)
+    public Optional<User> createUser(User user)
     {
         return userRepository
                 .findUserByEmail(user.getEmail())
-                .filter(p -> authorityUtilityBean.validateAdminAuthority())
-                .map(p -> p.setEmail(authorityUtilityBean.getCurrentAuthenticationEmail()))
-                .map(serviceUtilityBean::encodeUserPassword)
-                .map(userRepository::save);
+                .map(u -> Optional.<User>empty())
+                .orElseGet(() -> Optional.of(userRepository.save(serviceUtilityBean.encodeUserPassword(user))));
     }
 
-    public Optional<User> searchForRequestedUser(UUID id)
+    public List<User> fetchAllUsers()
+    {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> fetchUserById(UUID id)
     {
         return userRepository.findUserById(id);
     }
@@ -45,7 +51,7 @@ public class UserService
     public Optional<Boolean> updateUserData(User user)
     {
         return userRepository.findUserById(user.getId())
-                .filter(u -> authorityUtilityBean.getCurrentAuthenticationEmail().equals(u.getEmail())
+                .filter(u -> authorityUtilityBean.getCurrentUserEmail().equals(u.getEmail())
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(u -> userRepository.exists(Example.of(u.updateBy(user))));
     }
@@ -53,7 +59,7 @@ public class UserService
     public Optional<Boolean> deleteUser(UUID id)
     {
         return userRepository.findUserById(id)
-                .filter(p -> authorityUtilityBean.getCurrentAuthenticationEmail().equals(p.getEmail())
+                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getEmail())
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
                     userRepository.deleteUserById(id);

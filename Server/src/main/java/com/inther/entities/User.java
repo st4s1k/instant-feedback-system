@@ -1,10 +1,10 @@
 package com.inther.entities;
 
-import com.inther.dto.AuthenticationDto;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,18 +16,19 @@ import java.util.UUID;
 public class User
 {
     @Id
-    @Type(type = "pg-uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @GeneratedValue
     private UUID id;
 
     private String email;
     private String password;
     private String role;
 
-    public User(AuthenticationDto authenticationDto) {
-        this.email = authenticationDto.getEmail();
-        this.password = authenticationDto.getPassword();
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Presentation> presentations;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
 
     public User setEmail(String email) {
         this.email = email;
