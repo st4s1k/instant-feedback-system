@@ -20,12 +20,13 @@ import java.util.UUID;
 public class Presentation
 {
     @Id
-    @Type(type="org.hibernate.type.PostgresUUIDType")
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
-    private User user;
+    private UUID userID;
+
+    private String email;
 
     private String title;
 
@@ -45,11 +46,6 @@ public class Presentation
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
-
-    public Presentation setUser(User user) {
-        this.user = user;
-        return this;
-    }
 
     public Presentation setTitle(String title) {
         this.title = title;
@@ -92,7 +88,7 @@ public class Presentation
     }
 
     public Presentation updateBy(Presentation presentation) {
-        this.user = presentation.user;
+        this.email = presentation.email;
         this.title = presentation.title;
         this.description = presentation.description;
         this.startDate = presentation.startDate;
