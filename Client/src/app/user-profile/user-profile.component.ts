@@ -100,7 +100,7 @@ export class UserProfileComponent implements OnInit {
       this.loading = true;
       this.userService.updateUser(<User>{
         id: localStorage.getItem('userId'),
-        // id: 4,
+        role:localStorage.getItem('userRole'),
         email: localStorage.getItem('email'),
         password: this.changePassForm.get('NewPass').value
       }).pipe(first())

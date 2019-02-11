@@ -17,6 +17,7 @@ import { UserPresentationResolverService } from './services/user-presentation-re
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
+import {AdminGuard} from './_guards/admin.guard';
 
 
 const routes: Routes = [
@@ -64,7 +65,7 @@ const routes: Routes = [
       users: UserListDetailResolverService,
       presentations : PresentationListDetailResolverService
     },
-    canActivate: [AuthGuard]
+    canActivate: [AdminGuard]
   }
 ];
 

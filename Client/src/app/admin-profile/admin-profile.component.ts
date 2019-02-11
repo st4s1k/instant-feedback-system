@@ -56,7 +56,7 @@ export class AdminProfileComponent implements OnInit {
     }
     this.editUserForm = this.formBuilder.group({
       email: this.users[i].email,
-      userGroup: this.users[i].role,
+      userGroup:this.users[i].role,
       password: this.users[i].password,
       confirm_password: this.users[i].password
     }, {
@@ -110,6 +110,7 @@ export class AdminProfileComponent implements OnInit {
     if (this.editUserForm.invalid) {
       return;
     }
+    // if(this.users[i].password==this.editUserForm.get('password').value)
 
     this.loading = true;
     this.userService.updateUser(<User>{
@@ -129,8 +130,8 @@ export class AdminProfileComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          alert(error);
-          console.log(error);
+          alert(error.status);
+          console.log(error.status);
           this.loading = false;
         }
       );
