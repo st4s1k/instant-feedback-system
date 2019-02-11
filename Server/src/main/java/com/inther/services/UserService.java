@@ -48,12 +48,14 @@ public class UserService
         return userRepository.findUserById(id);
     }
 
-    public Optional<Boolean> updateUserData(User user)
+    public Optional<User> updateUserData(User user)
     {
-        return userRepository.findUserById(user.getId())
-//                .filter(u -> authorityUtilityBean.getCurrentUserEmail().equals(u.getEmail())
-//                        || authorityUtilityBean.validateAdminAuthority())
-                .map(u -> userRepository.exists(Example.of(u.updateBy(user))));
+        return userRepository
+                .findUserById(user.getId())
+                .map(foundUser -> userRepository.save(foundUser.updateBy(user
+                        .setPassword(foundUser.getPassword().equals(user.getPassword()) ?
+                                foundUser.getPassword() :
+                                serviceUtilityBean.encodeUserPassword(user).getPassword()))));
     }
 
     public Optional<Boolean> deleteUser(UUID id)

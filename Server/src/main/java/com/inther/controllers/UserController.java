@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -73,10 +74,9 @@ public class UserController
             @Validated(value = {RequestDataValidator.UpdateUser.class})
             @RequestBody UserDto userDto)
     {
-
         return userService
-                .updateUserData(modelMapper.map(userDto, User.class))
-                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .updateUserData(dtoToEntity(userDto))
+                .map(editedUser -> new ResponseEntity<>(editedUser, httpHeaders, HttpStatus.ACCEPTED))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
@@ -87,5 +87,12 @@ public class UserController
                 .deleteUser(UUID.fromString(id))
                 .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+    }
+
+    private User dtoToEntity(UserDto userDto) {
+        return userService
+                .fetchUserById(UUID.fromString(userDto.getId()))
+                .map(foundUser -> modelMapper.map(userDto, User.class).setId(foundUser.getId()))
+                .orElseGet(() ->  modelMapper.map(userDto, User.class));
     }
 }

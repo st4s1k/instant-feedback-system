@@ -34,6 +34,11 @@ public class User
         this.role=authenticationDto.getRole();
     }
 
+    public User setId(UUID id) {
+        this.id = id;
+        return this;
+    }
+
     public User setEmail(String email) {
         this.email = email;
         return this;
