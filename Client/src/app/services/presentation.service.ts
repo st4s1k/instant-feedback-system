@@ -65,9 +65,9 @@ export class PresentationService {
 
   getAvgMark(presentation: Presentation) {
 
-    let value = Number(0).toFixed(2);
+    let value = '0.00';
 
-    if (presentation.marks) {
+    if (presentation.marks.length > 0) {
       let sum = 0;
       presentation.marks.forEach(element => sum += element.mark);
       value = Number(sum / presentation.marks.length).toFixed(2);

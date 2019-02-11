@@ -1,49 +1,53 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 offset-md-4 align-items-center">
-      <!-- <h1>UserProfile</h1> -->
     </div>
   </div>
   <div class="row">
     <div class="col-md-9 pres-part">
-      <div class="container-fluid mt-5 p-0 text-center">
-
-        <h2 class="mb-5">My Presentations</h2>
-
-        <div class="row justify-content-center p-0">
-
-          <div class="col-md-10 col-lg-10 ml-5 mr-5">
-
-            <div class="row card p-0 mt-3 mb-10 btn"  *ngFor='let presentation of presentations; let i=index;'>
-              <div class="col card-body">
-                <div class="row">
-
-                  <div class="col text-left" (click)="openPresentationPage(i)">
-                    <p class="m-0">{{presentation.title}}</p>
+        <div class="container-fluid mt-5 p-0 text-center" *ngIf="presFounded">
+            <h2 class="mb-5">All Presentations</h2>
+            <div class="row justify-content-center p-0">
+    
+              <div class="col-md-10 col-lg-10 ml-5 mr-5">
+    
+                <div class="row card p-0 mt-3 mb-10 btn" *ngFor='let presentation of presentations; let i=index;'>
+                  <div class="col card-body">
+                    <div class="row pres-field">
+                      <div class="col text-left d-flex align-items-center" (click)="openPresentationPage(i)">
+                        <p class="m-0">{{presentation.title}}</p>
+                      </div>
+    
+                      <div class="col-auto d-flex align-items-center">
+                        <p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>
+                      </div>
+    
+                      <div class="col-auto d-flex align-items-center">
+                        <i class="fas fa-star"></i>
+                      </div>
+    
+                      <div><button class="btn btn-primary mr-1" (click)="editPresentationPage(i)"><i
+                            class="fas fa-edit"></i></button>
+                      </div>
+                      <div><button class="btn btn-danger mr-3" (click)="deletePresentationPage(i)"><i
+                            class="fas fa-trash"></i></button></div>
+    
+                    </div>
+    
                   </div>
-
-                  <div class="col-auto">
-                    <p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>
-                  </div>
-
-                  <div class="col-auto">
-                    <i class="fas fa-star"></i>
-                  </div>
-
-                  <div><button class="btn btn-primary mr-1" (click)="editPresentationPage(i)" ><i class="fas fa-edit"></i></button> </div>
-                  <div><button class="btn btn-danger mr-1" (click)="deletePresentationPage(i)" ><i class="fas fa-trash"></i></button></div>
-
+    
                 </div>
-
+    
               </div>
-
+    
             </div>
-
+    
           </div>
-
-        </div>
-
-      </div>
+          <div *ngIf="!presFounded">
+            <div class="container-fluid mt-5 p-0 text-center">
+                <h1>You have no presentations yet </h1>
+            </div>
+          </div>
     </div>
     <div class=" col-md-3 col-xs-12 user-info">
       <div>

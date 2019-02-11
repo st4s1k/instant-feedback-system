@@ -5,11 +5,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, mergeMap, take } from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { HttpClient } from '@angular/common/http';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
+import { EMPTY, of } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,6 +26,8 @@ export class UserProfileComponent implements OnInit {
   changePassForm: FormGroup;
   submitted = false;
   loading = false;
+  id = localStorage.getItem('userId');
+  presFounded = false;
 
   constructor(
     private userService: UserService,
@@ -41,9 +44,24 @@ export class UserProfileComponent implements OnInit {
     this.route.data.subscribe((data: { user: User }) => {
       this.user = data.user;
     });
-    this.route.data.subscribe((data: { presentations: Presentation[] }) => {
-      this.presentations = data.presentations;
-    });
+    // this.route.data.subscribe((data: { presentations: Presentation[] }) => {
+    //   this.presentations = data.presentations;
+    // });
+    this.presentationService.getPresentationsByUser(this.id).pipe(
+      take(1),
+      mergeMap(presentationDtoList => {
+        if (presentationDtoList) {
+          // alert('Sucess: Loaded presentations.');
+          this.presentations = presentationDtoList.map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.presFounded = true;
+        } else { // id not found
+          // this.router.navigate(['/home']);
+          // alert('Error: Cannot load presentations.');
+          this.presFounded = false;
+          return EMPTY;
+        }
+      })
+    );
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmNewPass: ['', Validators.required]
@@ -62,64 +80,64 @@ export class UserProfileComponent implements OnInit {
   deletePresentationPage(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
       this.presentationService.deletePresentation(this.presentations[i].id)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log('data: ' + JSON.stringify(data));
-          this.presentationService.getPresentations().subscribe(
-            presentationDtoList => this.presentations = presentationDtoList.map(
-              presentationDto => PresentationDTO.toModel(presentationDto)
-            )
-          );
-          alert('Deleted');
-        },
-        error => {
-          alert('error: ' + error);
-        }
-      );
-    }
-  }
-
-    getUserProfile(): void {
-      const id = localStorage.getItem('userId');
-      this.userService.getUserById(id)
-        .subscribe(user => this.user = user);
-      console.log(id);
-    }
-
-    changePass() {
-      this.btnChange = true;
-    }
-
-    onSubmit() {
-      this.submitted = true;
-      // if it is not valid return
-      if (this.changePassForm.invalid) {
-        return;
-      }
-      this.loading = true;
-      this.userService.updateUser(<User>{
-        id: localStorage.getItem('userId'),
-        role:localStorage.getItem('userRole'),
-        email: localStorage.getItem('email'),
-        password: this.changePassForm.get('NewPass').value
-      }).pipe(first())
+        .pipe(first())
         .subscribe(
           data => {
-            console.log('Succes Update');
-            alert('Success');
-            this.router.navigate(['/']);
+            console.log('data: ' + JSON.stringify(data));
+            this.presentationService.getPresentations().subscribe(
+              presentationDtoList => this.presentations = presentationDtoList.map(
+                presentationDto => PresentationDTO.toModel(presentationDto)
+              )
+            );
+            alert('Deleted');
           },
           error => {
-            alert(error);
-            console.log(error);
-            this.loading = false;
-          });
+            alert('error: ' + error);
+          }
+        );
     }
-    onCancel() {
-      this.btnChange = false;
-      this.changePassForm.reset();
-    }
-
-
   }
+
+  getUserProfile(): void {
+    const id = localStorage.getItem('userId');
+    this.userService.getUserById(id)
+      .subscribe(user => this.user = user);
+    console.log(id);
+  }
+
+  changePass() {
+    this.btnChange = true;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    // if it is not valid return
+    if (this.changePassForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.userService.updateUser(<User>{
+      id: localStorage.getItem('userId'),
+      role: localStorage.getItem('userRole'),
+      email: localStorage.getItem('email'),
+      password: this.changePassForm.get('NewPass').value
+    }).pipe(first())
+      .subscribe(
+        data => {
+          console.log('Succes Update');
+          alert('Success');
+          this.router.navigate(['/']);
+        },
+        error => {
+          alert(error);
+          console.log(error);
+          this.loading = false;
+        });
+  }
+  onCancel() {
+    this.btnChange = false;
+    this.changePassForm.reset();
+  }
+
+
+}

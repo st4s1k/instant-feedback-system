@@ -10,23 +10,23 @@
 
             <div class="row card p-0 mt-3 mb-10 btn" *ngFor='let presentation of presentations; let i=index;'>
               <div class="col card-body">
-                <div class="row">
-                  <div class="col text-left" (click)="openPresentationPage(i)">
+                <div class="row pres-field">
+                  <div class="col text-left d-flex align-items-center" (click)="openPresentationPage(i)">
                     <p class="m-0">{{presentation.title}}</p>
                   </div>
 
-                  <div class="col-auto">
+                  <div class="col-auto d-flex align-items-center">
                     <p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>
                   </div>
 
-                  <div class="col-auto">
+                  <div class="col-auto d-flex align-items-center">
                     <i class="fas fa-star"></i>
                   </div>
 
                   <div><button class="btn btn-primary mr-1" (click)="editPresentationPage(i)"><i
                         class="fas fa-edit"></i></button>
                   </div>
-                  <div><button class="btn btn-danger mr-1" (click)="deletePresentationPage(i)"><i
+                  <div><button class="btn btn-danger mr-3" (click)="deletePresentationPage(i)"><i
                         class="fas fa-trash"></i></button></div>
 
                 </div>
@@ -43,20 +43,16 @@
     </div>
     <div class="col-md-6">
       <div class="container-fluid mt-5 p-0 text-center">
-        <h2 class="mb-5">All Users</h2>
-        <div class="row addUserbtn">
-          <div class="col-md-6 offset-md-3" *ngIf="!addUserbtn">
+        <!-- <h2 class="mb-5">All Users</h2> -->
+        <div class="row addUserbtn mb-5">
+          <div class="col-md-6"><h2>All Users</h2></div>
+          <div class="col-md-6" *ngIf="!addUserbtn">
             <button class="btn btn-success mb-10 " (click)="addUser()"><i class="fas fa-plus"></i> Add User</button>
           </div>
         </div>
         <div class="row justify-content-center p-0 add-container" *ngIf="addUserbtn">
           <div class="col-md-9 col-lg-9 ml-5 mr-5 ">
             <div class="container add-container">
-              <div class="row">
-                <div class="col-md-6 offset-md-3">
-                  <h3 class="text-center">Add User</h3>
-                </div>
-              </div>
               <div class="row">
                 <form [formGroup]="editUserForm" (ngSubmit)="submitAddUser()">
                   <div class="row justify-content-center">
@@ -170,11 +166,11 @@
 
             <div class="list-group-item list-group-item " *ngFor='let user of users; let i=index;'>
               <div class="row">
-                <div class="col-lg-5 col-md-6 col-sm-5 col-6 text-left">
-                  <p class="m-0">{{user.email}}</p>
+                <div class="col-lg-5 col-md-6 col-sm-5 col-6 text-left d-flex align-items-center">
+                  <div class="m-0">{{user.email}}</div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-4 col-4  text-right">
-                  <p class="m-0">{{user.role}}</p>
+                <div class="col-lg-4 col-md-6 col-sm-4 col-4  text-right d-flex align-items-center">
+                  <div class="m-0">{{user.role}}</div>
                 </div>
                 <div class="col-lg-3 col-md-12 col-sm-3 col-12 ">
                   <div class="row" *ngIf="!arrEditUserbtn[i]">
