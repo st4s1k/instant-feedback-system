@@ -24,7 +24,7 @@ public class Presentation
     @GeneratedValue
     private UUID id;
 
-    private UUID userID;
+//    private UUID userID;
 
     private String email;
 
@@ -37,6 +37,9 @@ public class Presentation
     private Date endDate;
 
     private String place;
+
+    @ManyToOne
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants;
@@ -96,4 +99,8 @@ public class Presentation
         this.place = presentation.place;
         return this;
     }
+
+//    public Object getUser() {
+//
+//    }
 }

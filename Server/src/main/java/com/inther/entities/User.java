@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -23,6 +24,9 @@ public class User
     private String email;
     private String password;
     private String role;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Presentation> presentations;
 
     public User(AuthenticationDto authenticationDto) {
         this.email = authenticationDto.getEmail();
