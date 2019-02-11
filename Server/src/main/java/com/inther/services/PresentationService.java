@@ -40,8 +40,8 @@ public class PresentationService
         return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
     }
 
-    public List<Presentation> searchForPresentationsWithEmail(String email) {
-        return presentationRepository.findPresentationsByUser_Email(email);
+    public List<Presentation> searchForPresentationsByUserId(UUID userId) {
+        return presentationRepository.findPresentationsByUser_Id(userId);
     }
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)

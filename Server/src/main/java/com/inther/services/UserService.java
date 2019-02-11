@@ -51,16 +51,14 @@ public class UserService
     public Optional<Boolean> updateUserData(User user)
     {
         return userRepository.findUserById(user.getId())
-                .filter(u -> authorityUtilityBean.getCurrentUserEmail().equals(u.getEmail())
-                        || authorityUtilityBean.validateAdminAuthority())
+//                .filter(u -> authorityUtilityBean.getCurrentUserEmail().equals(u.getEmail())
+//                        || authorityUtilityBean.validateAdminAuthority())
                 .map(u -> userRepository.exists(Example.of(u.updateBy(user))));
     }
 
     public Optional<Boolean> deleteUser(UUID id)
     {
         return userRepository.findUserById(id)
-                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getEmail())
-                        || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
                     userRepository.deleteUserById(id);
                     return !userRepository.existsById(id);

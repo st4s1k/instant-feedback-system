@@ -80,11 +80,11 @@ public class PresentationController
                 new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
     }
 
-    @GetMapping(params = "email_like")
+    @GetMapping(params = "userId")
     public ResponseEntity<?> getPresentationsByEmail(
-            @RequestParam(value = "email_like") String email) {
+            @RequestParam String userId) {
         List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsWithEmail(email).stream()
+                .searchForPresentationsByUserId(UUID.fromString(userId)).stream()
                 .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
                 .collect(Collectors.toList());
 
