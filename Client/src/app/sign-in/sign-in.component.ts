@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
-
+import { NotifierService } from 'angular-notifier';
 
 
 @Component({
@@ -19,12 +19,16 @@ export class SignInComponent implements OnInit {
     loading = false;
     returnUrl: string;
     error = '';
+    private readonly notifier: NotifierService;
 
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService) { }
+        private authenticationService: AuthenticationService,
+        notifierService: NotifierService) {
+            this.notifier = notifierService;
+         }
 
     ngOnInit() {
         this.signinForm = this.formBuilder.group({
@@ -54,12 +58,12 @@ export class SignInComponent implements OnInit {
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
-
-                    // alert('Succes');
-
+                    this.notifier.notify('success', 'Succes Sign In');
                 },
                 error => {
                     this.error = error;
+                    console.log(error);
+                    this.notifier.notify('error', 'Sign in failed');
                     this.loading = false;
                     alert(error);
                 });

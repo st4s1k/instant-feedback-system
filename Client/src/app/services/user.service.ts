@@ -29,7 +29,6 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    // return this.http.patch<UserDTO>(`${API_URL}/users/${user.id}`, user);
     return this.http.put<UserDTO>(SERVER_URL + USERS_API, user);
   }
 

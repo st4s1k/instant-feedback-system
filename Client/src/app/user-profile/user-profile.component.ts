@@ -11,6 +11,7 @@ import { Presentation } from '../models/presentation.model';
 import { HttpClient } from '@angular/common/http';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { EMPTY, of } from 'rxjs';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,7 +28,10 @@ export class UserProfileComponent implements OnInit {
   submitted = false;
   loading = false;
   id = localStorage.getItem('userId');
+  email = localStorage.getItem('email');
   presFounded = false;
+  notifier: NotifierService;
+  message: String;
 
   constructor(
     private userService: UserService,
@@ -35,28 +39,24 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private globUser: GlobalServUserService,
-    private formBuilder: FormBuilder
-
-  ) { }
+    private formBuilder: FormBuilder,
+    notifierService: NotifierService
+  ) {
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
-    // this.getUserProfile();
-    this.route.data.subscribe((data: { user: User }) => {
-      this.user = data.user;
-    });
-    // this.route.data.subscribe((data: { presentations: Presentation[] }) => {
-    //   this.presentations = data.presentations;
+    this.getUserProfile();
+    // this.route.data.subscribe((data: { user: User }) => {
+    //   this.user = data.user;
     // });
     this.presentationService.getPresentationsByUser(this.id).pipe(
       take(1),
       mergeMap(presentationDtoList => {
         if (presentationDtoList) {
-          // alert('Sucess: Loaded presentations.');
           this.presentations = presentationDtoList.map(presentationDto => PresentationDTO.toModel(presentationDto));
           this.presFounded = true;
-        } else { // id not found
-          // this.router.navigate(['/home']);
-          // alert('Error: Cannot load presentations.');
+        } else {
           this.presFounded = false;
           return EMPTY;
         }
@@ -89,10 +89,12 @@ export class UserProfileComponent implements OnInit {
                 presentationDto => PresentationDTO.toModel(presentationDto)
               )
             );
-            alert('Deleted');
+            this.message = 'Presentation: ' + this.presentations[i].title + 'successfully deleted!';
+            this.notifier.notify('info', this.message.toString());
           },
           error => {
-            alert('error: ' + error);
+            this.notifier.notify('error', 'Error on delete');
+            console.log('error: ' + error);
           }
         );
     }
@@ -124,14 +126,14 @@ export class UserProfileComponent implements OnInit {
     }).pipe(first())
       .subscribe(
         data => {
-          console.log('Succes Update');
-          alert('Success');
+          console.log('Succes Update password');
+          this.notifier.notify('info', 'Password changed successfully');
           this.router.navigate(['/']);
         },
         error => {
-          alert(error);
-          console.log(error);
-          this.loading = false;
+          console.log('Succes Update password');
+          this.notifier.notify('info', 'Password changed successfully');
+          this.router.navigate(['/']);
         });
   }
   onCancel() {

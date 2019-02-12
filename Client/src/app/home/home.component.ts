@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-home',
@@ -16,14 +17,20 @@ export class HomeComponent implements OnInit {
 
   presentations: Presentation[];
 
+  notifier: NotifierService;
+  message: String;
+
   searchBox: FormControl = this.fb.control('', Validators.required);
 
   constructor(
     private ps: PresentationService,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    notifierService: NotifierService
+  ) {
+    this.notifier = notifierService;
+   }
 
   ngOnInit() {
     this.route.data.subscribe((data: { presentations: Presentation[] }) => {
@@ -35,7 +42,8 @@ export class HomeComponent implements OnInit {
   searchAll() {
 
     if (this.searchBox.invalid) {
-      alert('Bad boy! searchByEmail()');
+      console.log('Bad boy! searchByEmail()');
+      this.notifier.notify('warning', 'searchByEmail');
       return;
     }
 
@@ -62,7 +70,8 @@ export class HomeComponent implements OnInit {
   searchByEmail() {
 
     if (this.searchBox.invalid) {
-      alert('Bad boy! searchByEmail()');
+      console.log('Bad boy! searchByEmail()');
+      this.notifier.notify('warning', 'searchByEmail');
       return;
     }
 
@@ -76,7 +85,8 @@ export class HomeComponent implements OnInit {
   searchByTitle() {
 
     if (this.searchBox.invalid) {
-      alert('Bad boy! searchByTitle()');
+      console.log('Bad boy! searchByTitle()');
+      this.notifier.notify('warning', 'searchByTitle');
       return;
     }
 

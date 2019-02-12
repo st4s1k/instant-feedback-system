@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { MustMatch } from '../shared/sign-up.validator';
 import { User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,14 +16,16 @@ export class SignUpComponent implements OnInit {
 
   signupForm: FormGroup;
   submitted = false;
-
+  private readonly notifier: NotifierService;
   loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private auth: AuthenticationService) {
-
+    private auth: AuthenticationService,
+    notifierService: NotifierService
+  ) {
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -46,18 +49,19 @@ export class SignUpComponent implements OnInit {
     }
 
     this.loading = true;
-    this.auth.signup(<User> {
+    this.auth.signup(<User>{
       email: this.signupForm.get('email').value,
-      password: this.signupForm.get('password').value
+      password: this.signupForm.get('password').value,
+      role: 'ROLE_USER'
     }).pipe(first())
       .subscribe(
         data => {
-          console.log('Succes Registration');
-          alert('Success');
           this.router.navigate(['/sign-in']);
+          this.notifier.notify('success', 'Registration Success');
+          console.log(data);
         },
         error => {
-          alert(error);
+          this.notifier.notify('error', 'Registration Failed');
           console.log(error);
           this.loading = false;
         }

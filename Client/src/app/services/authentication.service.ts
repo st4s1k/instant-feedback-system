@@ -43,7 +43,6 @@ export class AuthenticationService {
           // to keep user logged in between page refreshes
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
-          alert('Success!');
           // alert(JSON.stringify(user));
           this.userLocal = user;
           this.globalSrv.setNavEmail(this.userLocal.email);

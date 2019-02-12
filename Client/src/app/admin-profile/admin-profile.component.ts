@@ -10,6 +10,7 @@ import { first } from 'rxjs/operators';
 import { UserDTO } from '../models/dtos/user.dto';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { environment } from 'src/environments/environment.prod';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-admin-profile',
@@ -24,14 +25,19 @@ export class AdminProfileComponent implements OnInit {
   loading = false;
   editUserForm: FormGroup;
   addUserbtn = false;
+  notifier: NotifierService;
+  message: String;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
     private presentationService: PresentationService,
-    private formBuilder: FormBuilder
-  ) { }
+    private formBuilder: FormBuilder,
+    notifierService: NotifierService
+  ) {
+    this.notifier = notifierService;
+  }
   ngOnInit() {
     this.route.data.subscribe((data: { presentations: Presentation[], users: User[] }) => {
       this.presentations = data.presentations;
@@ -56,7 +62,7 @@ export class AdminProfileComponent implements OnInit {
     }
     this.editUserForm = this.formBuilder.group({
       email: this.users[i].email,
-      userGroup:this.users[i].role,
+      userGroup: this.users[i].role,
       password: this.users[i].password,
       confirm_password: this.users[i].password
     }, {
@@ -81,7 +87,7 @@ export class AdminProfileComponent implements OnInit {
       email: this.editUserForm.get('email').value,
       role: this.editUserForm.get('userGroup').value,
       password: this.editUserForm.get('password').value
-    }) .pipe(first()).subscribe(
+    }).pipe(first()).subscribe(
       data => {
         console.log('data: ' + JSON.stringify(data));
         this.userService.getAllUsers().subscribe(
@@ -92,10 +98,10 @@ export class AdminProfileComponent implements OnInit {
         this.loading = false;
         this.addUserbtn = false;
         this.submitted = false;
-        alert('Added');
+        this.notifier.notify('success', 'User successfully added');
       },
       error => {
-        alert('error: ' + error);
+        this.notifier.notify('error', 'Error on adding user');
       }
     );
   }
@@ -122,7 +128,8 @@ export class AdminProfileComponent implements OnInit {
       .subscribe(
         userDto => {
           console.log('Succes');
-          alert('Success');
+          this.message = userDto.email + 'information successfuly updated';
+          this.notifier.notify('success', this.message.toString());
           this.submitted = false;
           this.editUserForm.reset();
           this.arrEditUserbtn[i] = false;
@@ -130,7 +137,7 @@ export class AdminProfileComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          alert(error.status);
+          this.notifier.notify('error', 'Something wrong');
           console.log(error.status);
           this.loading = false;
         }
@@ -144,20 +151,22 @@ export class AdminProfileComponent implements OnInit {
     if (confirm('Are you sure that you want to delete ' + this.users[i].email + ' ?')) {
       // alert(`Deleting user[${i}].id = ${this.users[i].id}: DELETE ${environment.jsonServerUrl}/users/${this.users[i].id}`);
       this.userService.deleteUser(this.users[i].id)
-      .pipe(first()).subscribe(
-        data => {
-          console.log('data: ' + JSON.stringify(data));
-          this.userService.getAllUsers().subscribe(
-            userDtoList => this.users = userDtoList.map(
-              userDto => UserDTO.toModel(userDto)
-            )
-          );
-          alert('Deleted');
-        },
-        error => {
-          alert('error: ' + error);
-        }
-      );
+        .pipe(first()).subscribe(
+          data => {
+            console.log('data: ' + JSON.stringify(data));
+            this.userService.getAllUsers().subscribe(
+              userDtoList => this.users = userDtoList.map(
+                userDto => UserDTO.toModel(userDto)
+              )
+            );
+            this.message = this.users[i].email + 'successfuly deleted';
+            this.notifier.notify('info', this.message.toString());
+          },
+          error => {
+            this.notifier.notify('error', 'Error on delete');
+            console.log('error: ' + error);
+          }
+        );
     }
   }
   openPresentationPage(i: number) {
@@ -169,21 +178,23 @@ export class AdminProfileComponent implements OnInit {
   deletePresentationPage(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
       this.presentationService.deletePresentation(this.presentations[i].id)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log('data: ' + JSON.stringify(data));
-          this.presentationService.getPresentations().subscribe(
-            presentationDtoList => this.presentations = presentationDtoList.map(
-              presentationDto => PresentationDTO.toModel(presentationDto)
-            )
-          );
-          alert('Deleted');
-        },
-        error => {
-          alert('error: ' + error);
-        }
-      );
+        .pipe(first())
+        .subscribe(
+          data => {
+            console.log('data: ' + JSON.stringify(data));
+            this.presentationService.getPresentations().subscribe(
+              presentationDtoList => this.presentations = presentationDtoList.map(
+                presentationDto => PresentationDTO.toModel(presentationDto)
+              )
+            );
+            this.message = 'Presentation: ' + this.presentations[i].title + 'successfully deleted!';
+            this.notifier.notify('info', this.message.toString());
+          },
+          error => {
+            this.notifier.notify('error', 'Error on delete');
+            console.log('error: ' + error);
+          }
+        );
     }
   }
 }
