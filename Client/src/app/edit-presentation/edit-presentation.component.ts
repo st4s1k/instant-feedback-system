@@ -4,7 +4,7 @@ import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from '../services/global-serv-user.service';
 import { User } from '../models/user.model';
 
 @Component({

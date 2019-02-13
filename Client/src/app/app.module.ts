@@ -20,7 +20,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BasicAuthInterceptor } from './_helpers//basic-auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 
-import { GlobalServUserService } from './global-serv-user.service';
+import { GlobalServUserService } from './services/global-serv-user.service';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 /**

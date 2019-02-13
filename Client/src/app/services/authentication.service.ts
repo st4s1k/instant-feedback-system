@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user.model';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from './global-serv-user.service';
 import { UserService } from './user.service';
 import { UserDTO } from '../models/dtos/user.dto';
 

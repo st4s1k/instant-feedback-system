@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from '../services/global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first, mergeMap, take } from 'rxjs/operators';
