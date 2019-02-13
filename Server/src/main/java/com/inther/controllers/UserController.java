@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,10 +53,20 @@ public class UserController
                 userDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping(value = "/current")
     public ResponseEntity<?> getCurrent(@AuthenticationPrincipal final User user) {
         return new ResponseEntity<>(user, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getUser(@PathVariable(value = "id") String id)
+    {
+        return userService
+                .fetchUserById(UUID.fromString(id))
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
 //    @PreAuthorize("hasRole('USER')")
