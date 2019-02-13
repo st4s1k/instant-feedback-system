@@ -66,8 +66,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // this entry point handles when you request a protected page
                 // and you are not yet authenticated
                 .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), SECURED_URLS)
-                .and()
 
+                .and()
                 .authenticationProvider(provider)
                 .addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                 .authorizeRequests()

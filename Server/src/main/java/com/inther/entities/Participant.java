@@ -31,9 +31,4 @@ public class Participant
     public Participant(String email) {
         this.email = email;
     }
-
-    public Participant(UUID presentationId, String email) {
-        this.presentationId = presentationId;
-        this.email = email;
-    }
 }

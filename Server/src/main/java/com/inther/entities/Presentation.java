@@ -42,18 +42,10 @@ public class Presentation
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
-
-    public Double getAvgMark() {
-        return marks == null || getMarks().isEmpty()
-                ? 0d
-                : marks.stream().mapToDouble(Mark::getValue).average().orElse(0d);
-    }
-
-    public Integer getVoteCount() {
-        return marks == null ? 0 : marks.size();
-    }
 }

@@ -7,6 +7,7 @@ import com.inther.entities.Presentation;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -43,32 +44,8 @@ public class BeanConfiguration
     @Bean
     public ModelMapper getModelMapper()
     {
-        Converter<List<String>, List<Participant>> emailListToParticipantListConverter = context ->
-                context.getSource() == null
-                        ? new ArrayList<>()
-                        : context.getSource().stream().map(Participant::new).collect(Collectors.toList());
-
-        Converter<List<Participant>, List<String>> participantListToEmailListemailListConverter = context ->
-                context.getSource() == null
-                        ? new ArrayList<>()
-                        : context.getSource().stream().map(Participant::getEmail).collect(Collectors.toList());
-
-        ModelMapper mm = new ModelMapper();
-
-        mm.addMappings(new PropertyMap<PresentationDto, Presentation>() {
-            @Override
-            protected void configure() {
-                using(emailListToParticipantListConverter).map(source.getParticipants()).setParticipants(null);
-            }
-        });
-
-        mm.addMappings(new PropertyMap<Presentation, PresentationDto>() {
-            @Override
-            protected void configure() {
-                using(participantListToEmailListemailListConverter).map(source.getParticipants()).setParticipants(null);
-            }
-        });
-
-        return mm;
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        return modelMapper;
     }
 }

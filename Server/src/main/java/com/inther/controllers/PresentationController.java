@@ -36,20 +36,22 @@ public class PresentationController
     {
         Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
 
-//        return new ResponseEntity<>(presentationDto, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
+        return new ResponseEntity<>(presentation, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
 
-        return presentationService
-                .newPresentation(presentation).equals(presentation)
-                ? new ResponseEntity<>(presentation.getId(), httpHeaders, HttpStatus.CREATED)
-                : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
+//        return presentationService
+//                .newPresentation(presentation).equals(presentation)
+//                ? new ResponseEntity<>(presentation.getId(), httpHeaders, HttpStatus.CREATED)
+//                : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
     }
 
 //    @PreAuthorize("hasRole('USER')")
     @PutMapping
     public ResponseEntity<?> editPresentation(
-//            @Validated(value = {RequestDataValidator.UpdatePresentation.class})
+           @Validated(value = {RequestDataValidator.UpdatePresentation.class})
             @RequestBody PresentationDto presentationDto)
     {
+
+
         Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
         return presentationService
                 .editPresentation(presentation)
