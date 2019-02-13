@@ -8,7 +8,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first, mergeMap, take } from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
-import { HttpClient } from '@angular/common/http';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { EMPTY, of } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
@@ -71,14 +70,14 @@ export class UserProfileComponent implements OnInit {
 
   }
   openPresentationPage(i: number) {
-    // console.log('Trying to open presentationId ' + this.presentations[i].id);
+    // console.log('Trying to open presentation ' + this.presentations[i].id);
     this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
   editPresentationPage(i: number) {
     this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
   }
   deletePresentationPage(i: number) {
-    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentationId ?')) {
+    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
       this.presentationService.deletePresentation(this.presentations[i].id)
         .pipe(first())
         .subscribe(

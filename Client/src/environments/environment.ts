@@ -6,9 +6,9 @@ export const environment = {
   production: false,
 
   apiUrl: 'http://172.17.41.68:9000',
-  apiPresentationsRoute: '/api/presentationId',
+  apiPresentationsRoute: '/api/presentation',
   apiMessagesRoute: '/api/message',
-  apiUsersRoute: '/api/userEmail'
+  apiUsersRoute: '/api/user'
 };
 
 /*

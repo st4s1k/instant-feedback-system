@@ -16,9 +16,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
-            if (request.url.endsWith('/userEmail/authenticate') && request.method === 'POST') {
+            if (request.url.endsWith('/user/authenticate') && request.method === 'POST') {
                 if (request.body.email === testUser.email && request.body.password === testUser.password) {
-                    // if login details are valid return userEmail details
+                    // if login details are valid return user details
                     const body = {
                         id: testUser.id,
                         type: testUser.type,
@@ -33,13 +33,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
 
             // get users
-            if (request.url.endsWith('/userEmail') && request.method === 'GET') {
-                // check for fake auth authentication in header and return users if valid, this security
+            if (request.url.endsWith('/user') && request.method === 'GET') {
+                // check for fake auth token in header and return users if valid, this security
                 // is implemented server side in a real application
                 if (request.headers.get('Authorization') === `Basic ${window.btoa('test:test')}`) {
                     return of(new HttpResponse({ status: 200, body: [testUser] }));
                 } else {
-                    // return 401 not authorised if authentication is null or invalid
+                    // return 401 not authorised if token is null or invalid
                     return throwError({ status: 401, error: { message: 'Unauthorised' } });
                 }
             }
