@@ -1,29 +1,40 @@
-Rogue One
+### Required software
 
-# Client
+1. [NPM Package Manager](https://www.npmjs.com/get-npm)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
+2. [Visual Studio Code](https://code.visualstudio.com/)
 
-## Development server
+3. [Git](https://git-scm.com/download) 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Setup working environment
 
-## Code scaffolding
+1. Clone this repository
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. Open cmd as admininstrator (or `sudo -i` on linux)
 
-## Build
+3. Go into the `Client` folder, inside the cloned repository
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+4. Run: `npm install`
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Usage
 
-## Running end-to-end tests
+1. Set server IP address:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+	1.1. open with a text editor:
 
-## Further help
+	`Client/src/environments/environment.prod.ts`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+	and
+
+	`Client/src/environments/environment.ts` 
+
+	1.2. Change the `apiUrl: 'http://IP_ADDRESS:PORT'` to match your server IP
+
+2. Start server (from `Client` folder): `npm start`
+
+3. Stop server: `Ctrl+C`
+
+[!] All the changes made on client are updated in real time, so you don't need to restart the client, just save the edited document and the client web-page will reload automatically.
+
+[!] If something doesn't work, check cmd/terminal, where `npm start` is running, if there are any errors.
