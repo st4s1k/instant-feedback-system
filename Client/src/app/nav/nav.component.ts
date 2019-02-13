@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from '../services/global-serv-user.service';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({

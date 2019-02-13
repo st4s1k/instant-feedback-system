@@ -19,7 +19,6 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
 import {AdminGuard} from './_guards/admin.guard';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -28,8 +27,10 @@ const routes: Routes = [
       presentations: PresentationListDetailResolverService
     }
   },
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'sign-up', component: SignUpComponent },
+  { path: 'sign-in',
+    component: SignInComponent },
+  { path: 'sign-up',
+    component: SignUpComponent },
   {
     path: 'new-presentation',
     component: EditPresentationComponent,
@@ -51,7 +52,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'user-profile', component: UserProfileComponent,
+    path: 'user-profile',
+    component: UserProfileComponent,
     resolve: {
       user: UserDetailResolverService
       // presentations : UserPresentationResolverService

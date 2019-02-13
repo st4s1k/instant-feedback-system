@@ -1,4 +1,3 @@
-import { UserDTO } from './user.dto';
 import { MessageDTO } from './message.dto';
 import { MarkDTO } from './mark.dto';
 import { Presentation } from '../presentation.model';
@@ -9,10 +8,11 @@ export class PresentationDTO {
   public email: string;
   public title: string;
   public description: string;
-  public startDate: string;
+  public startTime: string;
+  public endTime: string;
+  public date: string;
   public place: string;
-  public endDate: string;
-  public participants: UserDTO[];
+  public participants: string[];
   public messages: MessageDTO[];
   public marks: MarkDTO[];
 
@@ -21,16 +21,16 @@ export class PresentationDTO {
   }
 
   static toModel(p: PresentationDTO): Presentation {
-    // console.log('presentation.dto.toModel: ' + JSON.stringify(p));
     return <Presentation>{
       id: p.id,
       email: p.email,
       title: p.title,
       description: p.description,
-      startDate: p.startDate,
+      startTime: p.startTime,
+      endTime: p.endTime,
       place: p.place,
-      endDate: p.endDate,
-      participants: p.participants ? p.participants.map(participant => UserDTO.toModel(participant)) : [],
+      date: p.date,
+      participants: p.participants,
       feedback: p.messages ? p.messages.map(message => MessageDTO.toModel(message)) : [],
       marks: p.marks ? p.marks.map(mark => MarkDTO.toModel(mark)) : []
     };
