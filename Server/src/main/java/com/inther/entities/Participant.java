@@ -28,19 +28,12 @@ public class Participant
 
     private String email;
 
-    public Participant setPresentationId(UUID presentationId) {
-        this.presentationId = presentationId;
-        return this;
-    }
-
-    public Participant setEmail(String email) {
+    public Participant(String email) {
         this.email = email;
-        return this;
     }
 
-    public Participant updateBy(Participant participant) {
-        this.presentationId = participant.presentationId;
-        this.email = participant.email;
-        return this;
+    public Participant(UUID presentationId, String email) {
+        this.presentationId = presentationId;
+        this.email = email;
     }
 }

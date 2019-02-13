@@ -18,7 +18,6 @@ public class MarkDto implements Serializable
     @NotNull(groups = {RequestDataValidator.AddMark.class})
     private String userId;
 
-    @Max(groups = {RequestDataValidator.AddMark.class}, value = 5)
     @NotNull(groups = {RequestDataValidator.AddMark.class})
     private Integer value;
 }

@@ -1,12 +1,13 @@
-package com.inther.services;
+package com.inther.services.entity;
 
-import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.entities.Presentation;
+import com.inther.entities.User;
 import com.inther.repositories.PresentationRepository;
+import com.inther.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,21 +15,25 @@ import java.util.UUID;
 @Service
 public class PresentationService
 {
-    private final AuthorityUtilityBean authorityUtilityBean;
     private final PresentationRepository presentationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PresentationService(AuthorityUtilityBean authorityUtilityBean,
-                               PresentationRepository presentationRepository)
+    public PresentationService(PresentationRepository presentationRepository,
+                               UserRepository userRepository)
     {
-        this.authorityUtilityBean = authorityUtilityBean;
         this.presentationRepository = presentationRepository;
+        this.userRepository = userRepository;
     }
 
-    public boolean createPresentationAttempt(Presentation presentation)
+    public Presentation newPresentation(Presentation presentation)
     {
-        return !presentation.getStartDate().before(presentation.getEndDate())
-                && presentationRepository.save(presentation).equals(presentation);
+        Presentation newPresentation = presentationRepository.save(presentation);
+        if (newPresentation.getParticipants() != null && !newPresentation.getParticipants().isEmpty()) {
+            newPresentation.getParticipants().forEach(
+                    participant -> participant.setPresentationId(presentation.getId()));
+        }
+        return newPresentation;
     }
 
     public List<Presentation> fetchAllPresentations()
@@ -41,7 +46,10 @@ public class PresentationService
     }
 
     public List<Presentation> searchForPresentationsByUserId(UUID userId) {
-        return presentationRepository.findPresentationsByUser_Id(userId);
+        Optional<User> user = userRepository.findUserById(userId);
+        return user.isPresent()
+                ? presentationRepository.findPresentationsByEmail(user.get().getEmail())
+                : new ArrayList<>();
     }
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)
@@ -52,16 +60,12 @@ public class PresentationService
     public Optional<Boolean> editPresentation(Presentation presentation)
     {
         return presentationRepository.findPresentationById(presentation.getId())
-                .filter(p -> (authorityUtilityBean.getCurrentUserEmail().equals(p.getUser().getEmail())
-                        || authorityUtilityBean.validateAdminAuthority()))
-                .map(p -> presentationRepository.exists(Example.of(p.updateBy(presentation))));
+                .map(p -> presentationRepository.save(presentation).equals(presentation));
     }
 
     public Optional<Boolean> deletePresentation(UUID id)
     {
         return presentationRepository.findPresentationById(id)
-                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getUser().getEmail())
-                        || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
                     presentationRepository.deletePresentationById(id);
                     return !presentationRepository.existsById(id);

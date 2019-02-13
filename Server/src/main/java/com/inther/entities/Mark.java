@@ -22,33 +22,13 @@ public class Mark
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
-    private Presentation presentation;
+    @ManyToOne(targetEntity = Presentation.class)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    private UUID presentationId;
 
-    @ManyToOne
-    private User user;
+    @ManyToOne(targetEntity = User.class)
+    @Type(type="org.hibernate.type.PostgresUUIDType")
+    private UUID userId;
 
     private Integer value;
-
-    public Mark setPresentation(Presentation presentation) {
-        this.presentation = presentation;
-        return this;
-    }
-
-    public Mark setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public Mark setValue(Integer value) {
-        this.value = value;
-        return this;
-    }
-
-    public Mark updateBy(Mark mark) {
-        this.presentation = mark.presentation;
-        this.user = mark.user;
-        this.value = mark.value;
-        return this;
-    }
 }

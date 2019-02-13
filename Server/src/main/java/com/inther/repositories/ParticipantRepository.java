@@ -12,6 +12,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, UUID>
 {
     Optional<Participant> findParticipantByPresentationIdAndEmail(UUID presentationId, String userEmail);
     Optional<Participant> findParticipantById(UUID id);
+    Optional<Participant> findParticipantByEmail(String email);
 
     @Transactional
     void deleteParticipantById(UUID id);

@@ -10,43 +10,28 @@ import java.util.List;
 @Data
 public class PresentationDto implements Serializable
 {
-    @NotNull
+    @NotBlank(groups = {RequestDataValidator.UpdatePresentation.class})
     private String id;
-
-    @Null(groups = {  RequestDataValidator.UpdatePresentation.class })
-    @NotNull(groups = {
-            RequestDataValidator.GetPresentationPage.class,
-            RequestDataValidator.AddPresentation.class
-    })
+    @NotBlank(groups = {RequestDataValidator.UpdatePresentation.class, RequestDataValidator.AddPresentation.class})
     private String email;
-
     @NotBlank
     private String title;
-
     @NotBlank
     private String description;
-
-    @NotNull
-    private String startDate;
-
-    @NotNull
-    private String endDate;
-
+    @NotBlank
+    private String startTime;
+    @NotBlank
+    private String endTime;
+    @NotBlank
+    private String date;
     @NotBlank
     private String place;
 
-    @Null
-    @NotNull(groups = {
-            RequestDataValidator.AddPresentation.class,
-            RequestDataValidator.UpdatePresentation.class
-    })
-    private List<ParticipantDto> participants;
+    private Double avgMark;
 
-    @Null
-    @NotNull(groups = { RequestDataValidator.GetPresentationPage.class })
+    private Integer voteCount;
+
+    private List<String> participants;
+
     private List<MessageDto> messages;
-
-    @Null
-    @NotNull(groups = { RequestDataValidator.GetPresentationPage.class })
-    private List<MarkDto> marks;
 }

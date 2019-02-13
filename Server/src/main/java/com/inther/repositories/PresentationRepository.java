@@ -12,8 +12,7 @@ import java.util.UUID;
 public interface PresentationRepository extends JpaRepository<Presentation, UUID>
 {
     // Exact query
-    List<Presentation> findPresentationsByUser_Id(UUID userId);
-    List<Presentation> findPresentationsByUser_Email(String userEmail);
+    List<Presentation> findPresentationsByEmail(String userEmail);
     Optional<Presentation> findPresentationByTitle(String title);
     Optional<Presentation> findPresentationById(UUID id);
     // Filtered query
@@ -23,8 +22,5 @@ public interface PresentationRepository extends JpaRepository<Presentation, UUID
     void deletePresentationById(UUID id);
 
     @Transactional
-    void deletePresentationsByUser_Id(UUID userId);
-
-    @Transactional
-    void deletePresentationsByUser_Email(String userEmail);
+    void deletePresentationsByEmail(String userEmail);
 }

@@ -3,12 +3,13 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.MessageDto;
 import com.inther.entities.Message;
-import com.inther.services.MessageService;
+import com.inther.services.entity.MessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +24,7 @@ public class MessageController
     private final ModelMapper modelMapper;
     private final HttpHeaders httpHeaders;
 
-    @Autowired
-    public MessageController(MessageService messageService,
-                             ModelMapper modelMapper,
-                             HttpHeaders httpHeaders)
-    {
-        this.messageService = messageService;
-        this.modelMapper = modelMapper;
-        this.httpHeaders = httpHeaders;
-    }
-
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping
     public ResponseEntity<?> addMessage(
             @Validated(value = {RequestDataValidator.AddMessage.class})
@@ -42,9 +34,10 @@ public class MessageController
                 .map(messageAdded -> messageAdded ?
                         new ResponseEntity<>( "Presentation not started yet!", httpHeaders, HttpStatus.FORBIDDEN) :
                         new ResponseEntity<>( "Message successfully added!", httpHeaders, HttpStatus.ACCEPTED))
-                .orElseGet(() -> new ResponseEntity<>("No such presentation.", httpHeaders, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>("No such presentationId.", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping
     public ResponseEntity<?> editMessage(
             @Validated(value = {RequestDataValidator.UpdateMessage.class})
@@ -54,9 +47,10 @@ public class MessageController
                 .map(messageEdited -> messageEdited ?
                         new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN) :
                         new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.ACCEPTED))
-                .orElseGet(() -> new ResponseEntity<>("No such message!", httpHeaders, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteMessage(@PathVariable String id)
     {
@@ -64,6 +58,16 @@ public class MessageController
                 .map(messageDeleted -> messageDeleted ?
                         new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN) :
                         new ResponseEntity<>( "Message successfully deleted!", httpHeaders, HttpStatus.ACCEPTED))
-                .orElseGet(() -> new ResponseEntity<>("No such message!", httpHeaders, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
+    }
+
+    @Autowired
+    public MessageController(MessageService messageService,
+                             ModelMapper modelMapper,
+                             HttpHeaders httpHeaders)
+    {
+        this.messageService = messageService;
+        this.modelMapper = modelMapper;
+        this.httpHeaders = httpHeaders;
     }
 }

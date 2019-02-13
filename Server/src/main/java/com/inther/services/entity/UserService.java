@@ -1,4 +1,4 @@
-package com.inther.services;
+package com.inther.services.entity;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.beans.utilities.ServiceUtilityBean;
@@ -16,16 +16,13 @@ import java.util.UUID;
 @Service
 public class UserService
 {
-    private final AuthorityUtilityBean authorityUtilityBean;
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(AuthorityUtilityBean authorityUtilityBean,
-                       ServiceUtilityBean serviceUtilityBean,
+    public UserService(ServiceUtilityBean serviceUtilityBean,
                        UserRepository userRepository)
     {
-        this.authorityUtilityBean = authorityUtilityBean;
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = userRepository;
     }
@@ -50,15 +47,15 @@ public class UserService
 
     public Optional<Boolean> updateUserData(User user)
     {
-        return userRepository.findUserById(user.getId())
-//                .filter(u -> authorityUtilityBean.getCurrentUserEmail().equals(u.getEmail())
-//                        || authorityUtilityBean.validateAdminAuthority())
-                .map(u -> userRepository.exists(Example.of(u.updateBy(user))));
+        return userRepository
+                .findUserById(user.getId())
+                .map(u -> userRepository.save(user).equals(user));
     }
 
     public Optional<Boolean> deleteUser(UUID id)
     {
-        return userRepository.findUserById(id)
+        return userRepository
+                .findUserById(id)
                 .map(p -> {
                     userRepository.deleteUserById(id);
                     return !userRepository.existsById(id);

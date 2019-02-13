@@ -18,6 +18,7 @@ public class RequestDataValidator
 
     public interface GetUser {}
     public interface GetPresentationPage {}
+    public interface GetPresentationList {}
     public interface GetParticipant {}
     public interface GetMessage {}
     public interface GetMark {}

@@ -1,4 +1,4 @@
-package com.inther.services;
+package com.inther.services.entity;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.entities.Participant;
@@ -35,7 +35,7 @@ public class ParticipantService
     public Optional<Boolean> deleteParticipant(UUID id)
     {
         return participantRepository.findParticipantById(id)
-                .filter(p -> authorityUtilityBean.getCurrentUserEmail().equals(p.getEmail())
+                .filter(p -> authorityUtilityBean.getCurrentUserId().equals(id)
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
                     participantRepository.deleteParticipantById(id);

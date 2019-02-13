@@ -3,12 +3,14 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.UserDto;
 import com.inther.entities.User;
-import com.inther.services.UserService;
+import com.inther.services.entity.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,16 +27,7 @@ public class UserController
     private final ModelMapper modelMapper;
     private final HttpHeaders httpHeaders;
 
-    @Autowired
-    public UserController(UserService userService,
-                          ModelMapper modelMapper,
-                          HttpHeaders httpHeaders)
-    {
-        this.userService = userService;
-        this.modelMapper = modelMapper;
-        this.httpHeaders = httpHeaders;
-    }
-
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createUser(
             @Validated(value = {RequestDataValidator.AddUser.class})
@@ -46,6 +39,7 @@ public class UserController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAllUsers()
     {
@@ -58,16 +52,13 @@ public class UserController
                 userDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getUser(@PathVariable(value = "id") String id)
-    {
-        return userService
-                .fetchUserById(UUID.fromString(id))
-                .map(user -> modelMapper.map(user, UserDto.class))
-                .map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping(value = "/current")
+    public ResponseEntity<?> getCurrent(@AuthenticationPrincipal final User user) {
+        return new ResponseEntity<>(user, httpHeaders, HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @PutMapping
     public ResponseEntity<?> editUser(
             @Validated(value = {RequestDataValidator.UpdateUser.class})
@@ -80,6 +71,7 @@ public class UserController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable(value = "id") String id)
     {
@@ -87,5 +79,15 @@ public class UserController
                 .deleteUser(UUID.fromString(id))
                 .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+    }
+
+    @Autowired
+    public UserController(UserService userService,
+                          ModelMapper modelMapper,
+                          HttpHeaders httpHeaders)
+    {
+        this.userService = userService;
+        this.modelMapper = modelMapper;
+        this.httpHeaders = httpHeaders;
     }
 }

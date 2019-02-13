@@ -1,11 +1,10 @@
-package com.inther.services;
+package com.inther.services.entity;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.entities.Message;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,9 +31,9 @@ public class MessageService
 
     public Optional<Boolean> addMessage(Message message)
     {
-        return presentationRepository.findPresentationById(message.getPresentation().getId())
+        return presentationRepository.findPresentationById(message.getPresentationId())
                 .map(p-> LocalDateTime.now()
-                        .isAfter(p.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                        .isAfter(p.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                         && messageRepository.existsById(messageRepository.save(message).getId()));
     }
 
@@ -52,15 +51,15 @@ public class MessageService
     public Optional<Boolean> editMessage(Message message)
     {
         return messageRepository.findMessageById(message.getId())
-                .filter(foundMsg -> (authorityUtilityBean.getCurrentUserEmail().equals(foundMsg.getUser().getEmail())
+                .filter(foundMsg -> (authorityUtilityBean.getCurrentUserId().equals(foundMsg.getUserId())
                                 || authorityUtilityBean.validateAdminAuthority()))
-                .map(msg -> messageRepository.exists(Example.of(msg.updateBy(message))));
+                .map(msg -> messageRepository.save(message).equals(message));
     }
 
     public Optional<Boolean> deleteMessage(UUID id)
     {
         return messageRepository.findMessageById(id)
-                .filter(message -> authorityUtilityBean.getCurrentUserEmail().equals(message.getUser().getEmail())
+                .filter(message -> authorityUtilityBean.getCurrentUserId().equals(message.getUserId())
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(message -> {
                     messageRepository.deleteMessageById(id);
