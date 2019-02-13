@@ -30,4 +30,8 @@ public class UserDto implements Serializable
     @Null(groups = {RequestDataValidator.Authentication.class})
     @NotBlank(groups = {RequestDataValidator.AddUser.class})
     private String Role;
+
+    @Null(groups = {RequestDataValidator.Authentication.class})
+    @NotBlank
+    private String token;
 }

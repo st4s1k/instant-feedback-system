@@ -2,8 +2,10 @@ package com.inther.services.authentication;
 
 import com.google.common.collect.ImmutableMap;
 import com.inther.beans.utilities.ServiceUtilityBean;
+import com.inther.dto.UserDto;
 import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +17,30 @@ public class TokenAuthenticationService implements AuthenticationService
     private final TokenService tokens;
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TokenAuthenticationService(TokenService tokens,
                                       ServiceUtilityBean serviceUtilityBean,
-                                      UserRepository userRepository)
+                                      UserRepository userRepository,
+                                      ModelMapper modelMapper)
     {
         this.tokens = tokens;
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public Optional<String> login(String email, String password) {
+    public Optional<UserDto> login(String email, String password) {
         return userRepository
                 .findUserByEmail(email)
                 .filter(user -> serviceUtilityBean.isPasswordValid(password, user))
-                .map(user -> tokens.generate(ImmutableMap.of("email", email)));
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userDto -> {
+                    userDto.setToken(tokens.generate(ImmutableMap.of("email", email)));
+                    return userDto;
+                });
     }
 
     @Override

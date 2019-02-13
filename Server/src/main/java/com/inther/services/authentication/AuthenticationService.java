@@ -1,9 +1,9 @@
 package com.inther.services.authentication;
 
+import com.inther.dto.UserDto;
 import com.inther.entities.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AuthenticationService {
 
@@ -14,7 +14,7 @@ public interface AuthenticationService {
      * @param password
      * @return an {@link Optional} of a userEmail when login succeeds
      */
-    Optional<String> login(String email, String password);
+    Optional<UserDto> login(String email, String password);
 
     /**
      * Finds a userEmail by its dao-key.

@@ -4,6 +4,7 @@ import com.inther.entities.Presentation;
 import com.inther.entities.User;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,16 @@ public class PresentationService
 {
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public PresentationService(PresentationRepository presentationRepository,
-                               UserRepository userRepository)
+                               UserRepository userRepository,
+                               ModelMapper modelMapper)
     {
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public Presentation newPresentation(Presentation presentation)
@@ -60,7 +64,10 @@ public class PresentationService
     public Optional<Boolean> editPresentation(Presentation presentation)
     {
         return presentationRepository.findPresentationById(presentation.getId())
-                .map(p -> presentationRepository.save(presentation).equals(presentation));
+                .map(p -> {
+                    modelMapper.map(p, presentation);
+                    return presentationRepository.save(p).equals(presentation);
+                });
     }
 
     public Optional<Boolean> deletePresentation(UUID id)

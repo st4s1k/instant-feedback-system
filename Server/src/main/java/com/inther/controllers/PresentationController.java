@@ -36,21 +36,24 @@ public class PresentationController
     {
         Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
 
+//        return new ResponseEntity<>(presentationDto, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
+
         return presentationService
                 .newPresentation(presentation).equals(presentation)
-                ? new ResponseEntity<>(httpHeaders, HttpStatus.CREATED)
+                ? new ResponseEntity<>(presentation.getId(), httpHeaders, HttpStatus.CREATED)
                 : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
     }
 
 //    @PreAuthorize("hasRole('USER')")
     @PutMapping
     public ResponseEntity<?> editPresentation(
-            @Validated(value = {RequestDataValidator.UpdatePresentation.class})
+//            @Validated(value = {RequestDataValidator.UpdatePresentation.class})
             @RequestBody PresentationDto presentationDto)
     {
+        Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
         return presentationService
-                .editPresentation(modelMapper.map(presentationDto, Presentation.class))
-                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.FORBIDDEN))
+                .editPresentation(presentation)
+                .map(edited -> new ResponseEntity<>(presentation.getId(), httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.FORBIDDEN))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 

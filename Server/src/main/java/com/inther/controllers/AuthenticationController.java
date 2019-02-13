@@ -17,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
@@ -28,7 +27,7 @@ public class AuthenticationController
     private final TokenAuthenticationService tokenAuthenticationService;
     private final HttpHeaders httpHeaders;
     private final UserRepository userRepository;
-    AuthenticationService authentication;
+    private final AuthenticationService authentication;
 
     @PostMapping
     public ResponseEntity<?> signUp(
@@ -39,13 +38,10 @@ public class AuthenticationController
             userRepository.save(
                     serviceUtilityBean.encodeUserPassword(
                             User.builder()
-                                    .id(UUID.randomUUID())
                                     .email(authDto.getEmail())
                                     .password(authDto.getPassword())
                                     .role("USER")
-                                    .build()
-                    )
-            );
+                                    .build()));
             return signIn(authDto);
         } else {
             return new ResponseEntity<>("User already exists!", httpHeaders, HttpStatus.CONFLICT);
@@ -58,13 +54,13 @@ public class AuthenticationController
             @RequestBody UserDto authDto)
     {
 
-        Optional<String> _token = tokenAuthenticationService.login(authDto.getEmail(), authDto.getPassword());
+        Optional<UserDto> _userDto = tokenAuthenticationService.login(authDto.getEmail(), authDto.getPassword());
 
-        return _token.map(token -> new ResponseEntity<>(token, httpHeaders, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>("could not authorize!", httpHeaders, HttpStatus.UNAUTHORIZED));
+        return _userDto.map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.UNAUTHORIZED));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping
     boolean signOut(@AuthenticationPrincipal final User user) {
         authentication.logout(user);
@@ -75,11 +71,13 @@ public class AuthenticationController
     public AuthenticationController(ServiceUtilityBean serviceUtilityBean,
                                     TokenAuthenticationService tokenAuthenticationService,
                                     HttpHeaders httpHeaders,
-                                    UserRepository userRepository)
+                                    UserRepository userRepository,
+                                    AuthenticationService authentication)
     {
         this.serviceUtilityBean = serviceUtilityBean;
         this.tokenAuthenticationService = tokenAuthenticationService;
         this.httpHeaders = httpHeaders;
         this.userRepository = userRepository;
+        this.authentication = authentication;
     }
 }
