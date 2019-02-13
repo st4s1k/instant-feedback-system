@@ -4,8 +4,6 @@ import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalServUserService } from '../global-serv-user.service';
-import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -16,15 +14,13 @@ export class EditPresentationComponent implements OnInit {
 
   editPresentationFormGroup: FormGroup;
 
-  title: FormControl = this.fb.control('', [Validators.required]);
-  description: FormControl = this.fb.control('', [Validators.required]);
-  startTime: FormControl = this.fb.control('', [Validators.required]);
-  endTime: FormControl = this.fb.control('', [Validators.required]);
-  date: FormControl = this.fb.control('', [Validators.required]);
-  location: FormControl = this.fb.control('', [Validators.required]);
-  emailInvitations: FormArray = this.fb.array([]);
-
-  // presentation: Presentation;
+  title: FormControl = this.fb.control('Template text', [Validators.required]);
+  description: FormControl = this.fb.control('Template text', [Validators.required]);
+  startTime: FormControl = this.fb.control('12:00:00', [Validators.required]);
+  endTime: FormControl = this.fb.control('12:00:00', [Validators.required]);
+  date: FormControl = this.fb.control('1996-12-12', [Validators.required]);
+  location: FormControl = this.fb.control('Template text', [Validators.required]);
+  emailInvitations: FormArray = this.fb.array([this.fb.control('Template@text', Validators.email)]);
 
   pageTitle: string;
 
@@ -35,8 +31,7 @@ export class EditPresentationComponent implements OnInit {
     private presentationService: PresentationService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private gs: GlobalServUserService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -65,37 +60,31 @@ export class EditPresentationComponent implements OnInit {
   modelToFormGroup = function (presentation: Presentation) {
     this.title.setValue(presentation.title);
     this.description.setValue(presentation.description);
-    this.startTime.setValue(presentation.startDate.split('T')[1]);
-    this.endTime.setValue(presentation.endDate.split('T')[1]);
-    this.date.setValue(presentation.startDate.split('T')[0]);
+    this.startTime.setValue(presentation.startTime);
+    this.endTime.setValue(presentation.endTime);
+    this.date.setValue(presentation.date);
     this.location.setValue(presentation.place);
     this.emailInvitations = this.fb.array([]);
 
     for (const participant of presentation.participants) {
       this.emailInvitations.push(this.fb.control(
-        participant.email, [Validators.required, Validators.email]
+        participant, [Validators.required, Validators.email]
       ));
     }
   };
 
   formGroupToModel = function () {
-    const presentation = new Presentation();
 
-    presentation.email = localStorage.getItem('email');
-    presentation.title = this.title.value;
-    presentation.description = this.description.value;
-    presentation.startDate = this.date.value + 'T' + this.startTime.value;
-    presentation.place = this.location.value;
-    presentation.endDate = this.date.value + 'T' + this.endTime.value;
-    presentation.participants = [];
-
-    for (const emailInvitation of this.emailInvitations) {
-      presentation.participants.push(new User({
-        email: emailInvitation
-      }));
-    }
-
-    return presentation;
+    return <Presentation> {
+      email: localStorage.getItem('email'),
+      title: this.title.value,
+      description: this.description.value,
+      startTime: this.startTime.value,
+      endTime:  this.endTime.value,
+      date: this.date.value,
+      place: this.location.value,
+      participants: this.emailInvitations.value
+    };
   };
 
   addEmailInvitation() {
@@ -120,12 +109,22 @@ export class EditPresentationComponent implements OnInit {
 
     const presentation = this.formGroupToModel();
 
-    this.sendNewPresentation(presentation).pipe(first())
+    this.sendNewPresentation(<Presentation> {
+      id: this.route.snapshot.paramMap.get('id'),
+      email: presentation.email,
+      title: presentation.title,
+      description: presentation.description,
+      startTime: presentation.startTime,
+      endTime: presentation.endTime,
+      date: presentation.date,
+      place: presentation.place,
+      participants: presentation.participants
+    }).pipe(first())
       .subscribe(data => {
         console.log(JSON.stringify(data));
         this.router.navigate([`/presentation-page/${data.id}`]);
       }, error => {
-        alert(error);
+        alert("Error:" + error);
       });
   }
 

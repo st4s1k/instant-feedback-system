@@ -7,7 +7,7 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import { Message } from '../models/message.model';
 import { Mark } from '../models/mark.model';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from '../services/global-serv-user.service';
 
 @Component({
   selector: 'app-presentation-page',

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user.model';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from './global-serv-user.service';
 import { UserService } from './user.service';
 import { UserDTO } from '../models/dtos/user.dto';
 
@@ -41,6 +41,7 @@ export class AuthenticationService {
         if (user) {
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
+          // user.authdata = window.btoa(email + ':' + password);
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
           // alert(JSON.stringify(user));

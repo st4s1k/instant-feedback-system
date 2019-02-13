@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalServUserService } from '../global-serv-user.service';
+import { GlobalServUserService } from '../services/global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { first, mergeMap, take } from 'rxjs/operators';
@@ -71,14 +71,14 @@ export class UserProfileComponent implements OnInit {
 
   }
   openPresentationPage(i: number) {
-    // console.log('Trying to open presentation ' + this.presentations[i].id);
+    // console.log('Trying to open presentationId ' + this.presentations[i].id);
     this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
   editPresentationPage(i: number) {
     this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
   }
   deletePresentationPage(i: number) {
-    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
+    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentationId ?')) {
       this.presentationService.deletePresentation(this.presentations[i].id)
         .pipe(first())
         .subscribe(

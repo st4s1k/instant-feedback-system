@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
 
@@ -20,7 +18,7 @@ export class HomeComponent implements OnInit {
   notifier: NotifierService;
   message: String;
 
-  searchBox: FormControl = this.fb.control('', Validators.required);
+  searchBox: FormControl = this.fb.control('');
 
   constructor(
     private ps: PresentationService,
@@ -39,11 +37,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  requestAllPresentations() {
+    this.ps.getPresentations().subscribe(presentationDtoList =>
+      this.presentations = presentationDtoList
+        .map(presentationDto => PresentationDTO.toModel(presentationDto)));
+  }
+
   searchAll() {
 
     if (this.searchBox.invalid) {
-      console.log('Bad boy! searchByEmail()');
-      this.notifier.notify('warning', 'searchByEmail');
+      this.requestAllPresentations();
       return;
     }
 
@@ -68,13 +71,6 @@ export class HomeComponent implements OnInit {
   }
 
   searchByEmail() {
-
-    if (this.searchBox.invalid) {
-      console.log('Bad boy! searchByEmail()');
-      this.notifier.notify('warning', 'searchByEmail');
-      return;
-    }
-
     this.ps.getPresentationsByEmail(this.searchBox.value).subscribe(
       presentationDtoList => this.presentations = presentationDtoList.map(
         presentationDto => PresentationDTO.toModel(presentationDto)
@@ -85,8 +81,7 @@ export class HomeComponent implements OnInit {
   searchByTitle() {
 
     if (this.searchBox.invalid) {
-      console.log('Bad boy! searchByTitle()');
-      this.notifier.notify('warning', 'searchByTitle');
+      this.requestAllPresentations();
       return;
     }
 
@@ -98,7 +93,6 @@ export class HomeComponent implements OnInit {
   }
 
   openPresentationPage(i: number) {
-    // console.log('Trying to open presentation ' + this.presentations[i].id);
     this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
   }
 
