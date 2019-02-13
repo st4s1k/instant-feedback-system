@@ -17,7 +17,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { PresentationPageComponent } from './presentation-page/presentation-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { BasicAuthInterceptor } from './_helpers//basic-auth.interceptor';
+import { BasicAuthInterceptor } from './_helpers/basic-auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 import { GlobalServUserService } from './services/global-serv-user.service';

@@ -41,6 +41,7 @@ export class AuthenticationService {
         if (user) {
           // store user details and basic auth credentials in local storage
           // to keep user logged in between page refreshes
+          // user.authdata = window.btoa(email + ':' + password);
           user.authdata = window.btoa(email + ':' + password);
           localStorage.setItem('currentUser', JSON.stringify(user));
           // alert(JSON.stringify(user));

@@ -9,7 +9,6 @@ import { MustMatch } from '../shared/sign-up.validator';
 import { first } from 'rxjs/operators';
 import { UserDTO } from '../models/dtos/user.dto';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
-import { environment } from 'src/environments/environment.prod';
 import { NotifierService } from 'angular-notifier';
 
 @Component({
@@ -176,7 +175,7 @@ export class AdminProfileComponent implements OnInit {
     this.router.navigate([`/edit-presentation/${this.presentations[i].id}`]);
   }
   deletePresentationPage(i: number) {
-    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentation ?')) {
+    if (confirm('Are you sure that you want to delete ' + this.presentations[i].title + ' presentationId ?')) {
       this.presentationService.deletePresentation(this.presentations[i].id)
         .pipe(first())
         .subscribe(

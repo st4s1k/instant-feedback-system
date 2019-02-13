@@ -52,7 +52,7 @@ export class PresentationService {
   }
 
   updatePresentation(presentation: Presentation) {
-    return this.http.put<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${presentation.id}`, Presentation.toDTO(presentation));
+    return this.http.put<PresentationDTO>(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
   }
 
   deletePresentation(id: string) {
@@ -76,3 +76,4 @@ export class PresentationService {
     return value;
   }
 }
+  

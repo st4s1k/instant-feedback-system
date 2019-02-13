@@ -28,7 +28,7 @@ export class PresentationDetailResolverService implements Resolve<Presentation> 
         if (presentationDto) {
           return of(PresentationDTO.toModel(presentationDto));
         } else { // id not found
-          alert('Error: Could not load a presentation.');
+          alert('Error: Could not load a presentationId.');
           this.router.navigate(['']);
           return EMPTY;
         }
