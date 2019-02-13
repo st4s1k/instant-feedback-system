@@ -1,0 +1,20 @@
+#logo-image {
+  width: 65px;
+  min-width: 30px !important;
+  max-width: 65px !important;
+}
+
+#logo-text {
+  font-size: 25px;
+  color: rgb(241, 93, 34);
+}
+
+.navbar {
+  font-weight: bold;
+  opacity: 0.9;
+  border-bottom: 3px solid rgb(241, 93, 34);
+}
+
+#navbarSupportedContent {
+  min-height: 100% !important;
+}

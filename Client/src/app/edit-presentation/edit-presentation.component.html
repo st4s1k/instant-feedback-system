@@ -1,0 +1,186 @@
+<div class="container col-sm-10 col-md-9 col-lg-7 mt-5 pb-5">
+
+  <div class="row">
+    <div class="col">
+      <h2>{{pageTitle}}</h2>
+      <hr>
+    </div>
+  </div>
+
+  <form [formGroup]="editPresentationFormGroup" (ngSubmit)="save()">
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+
+          <div class="d-flex">
+            <label for="title" class="mr-auto d-inline-flex field-label-responsive">Title of Presentation</label>
+            <div class="form-control-feedback">
+              <div *ngIf="submitted && editPresentationFormGroup.controls.title.errors" class="text-danger">
+                <div *ngIf="editPresentationFormGroup.controls.title.errors.required">Title is required</div>
+              </div>
+            </div>
+          </div>
+
+          <input type="text" name="text" class="form-control" id="title" placeholder="Name of Presentation" required
+            formControlName="title" [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.title.errors }">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+
+          <div class="d-flex">
+            <label for="message" class="mr-auto field-label-responsive">Description</label>
+            <div class="form-control-feedback">
+              <div *ngIf="submitted && editPresentationFormGroup.controls.description.errors" class="text-danger">
+                <div *ngIf="editPresentationFormGroup.controls.description.errors.required">Description is required</div>
+              </div>
+            </div>
+          </div>
+
+          <textarea class="form-control" id="message" cols="30" rows="5" placeholder="Short Description" required
+            formControlName="description" [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.description.errors }"></textarea>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="form-group flex-column">
+
+              <div class="d-flex">
+                <label for="startTime" class="mr-auto field-label-responsive">Start Time</label>
+                <div class="form-control-feedback">
+                  <div class="text-danger" *ngIf="submitted && editPresentationFormGroup.controls.startTime.errors && editPresentationFormGroup.controls.startTime.errors.required">
+                    <span class="d-md-none">Starting time is</span> Required
+                  </div>
+                </div>
+              </div>
+
+              <input type="time" name="startTime" class="form-control" id="startTime" required formControlName="startTime"
+                [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.startTime.errors }">
+
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group flex-column">
+
+              <div class="d-flex">
+                <label for="endTime" class="mr-auto field-label-responsive">End Time</label>
+                <div class="form-control-feedback">
+                  <div class="text-danger" *ngIf="submitted && editPresentationFormGroup.controls.endTime.errors && editPresentationFormGroup.controls.endTime.errors.required">
+                    <span class="d-md-none">Ending time is</span> Required
+                  </div>
+                </div>
+              </div>
+
+              <input type="time" name="endTime" class="form-control" id="endTime" required formControlName="endTime"
+                [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.endTime.errors }">
+
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group flex-column">
+
+              <div class="d-flex">
+                <label for="date" class="mr-auto field-label-responsive">Date</label>
+                <div class="form-control-feedback">
+                  <div class="text-danger" *ngIf="submitted && editPresentationFormGroup.controls.date.errors && editPresentationFormGroup.controls.date.errors.required">
+                    <span class="d-md-none">Date is</span> Required
+                  </div>
+                </div>
+              </div>
+
+              <input type="date" name="date" class="form-control" id="date" required formControlName="date" [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.date.errors }">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+
+          <div class="d-flex">
+            <label for="location" class="mr-auto field-label-responsive">Location</label>
+            <div class="form-control-feedback">
+              <div *ngIf="submitted && editPresentationFormGroup.controls.location.errors " class="text-danger">
+                <div *ngIf="editPresentationFormGroup.controls.location.errors.required">Location is required</div>
+              </div>
+            </div>
+          </div>
+
+          <input type="text" name="location" class="form-control" id="location" required formControlName="location"
+            [ngClass]="{ 'is-invalid': submitted && editPresentationFormGroup.controls.location.errors }">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+
+          <div class="d-flex">
+
+            <label class="field-label-responsive" for="email-invitations">Email Invitations</label>
+
+          </div>
+
+          <div class="d-flex flex-column pb-3" formArrayName="emailInvitations">
+            <div class="d-flex flex-column" *ngFor="let emailInvitation of emailInvitations.controls; let i=index">
+
+              <div class="d-flex form-control-feedback pb-2">
+                <div class="text-danger" *ngIf="submitted && invite_touched && emailInvitation.errors">
+                  Not a valid email form
+                </div>
+              </div>
+
+              <div class="d-flex pb-2">
+                <input class="form-control mr-3" type="text" placeholder="example@inther.com" name="email-invitation"
+                  id="email-invitation" [formControlName]="i" [ngClass]="{ 'is-invalid': submittedFeedback && emailInvitation.errors }">
+                <button class="btn btn-danger m-0 w-auto" (click)="deleteEmailInvitation(i)">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div (click)="addEmailInvitation()" class="col btn btn-dark"><i class="fas fa-plus"></i></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5 mt-3">
+      <button [disabled]="loading" id="SaveBtn" type="submit" class="col-md m-3 btn btn-success">
+        Save
+      </button>
+      <button [disabled]="loading" (click)="discard()" id="DiscardBtn" type="button" class="col-md m-3 btn btn-danger">
+        Discard
+      </button>
+    </div>
+
+  </form>
+
+  <hr>
+  <pre> Presentation form: {{ editPresentationFormGroup.value | json }} </pre>
+  <pre> Presentation object: {{ presentation | json }} </pre>
+
+</div>

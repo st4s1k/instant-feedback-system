@@ -1,0 +1,49 @@
+<nav class="navbar p-0 navbar-expand-md bg-dark navbar-dark sticky-top nav-ref" fxShow="true" fxHide.lt-md="true">
+
+  <div class="navbar-nav align-items-center justify-content-start">
+
+    <div class="nav-item p-2">
+      <a class="nav-link p-0" routerLink="/">
+        <div class="row m-0 align-items-center">
+          <img id="logo-image" src="assets/images/isdlogo.png" alt="isd_logo" class="col rounded img-thumbnail logo p-0">
+          <p id="logo-text" class="col m-0">Presentations</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="p-0 nav-item d-none d-md-block" *ngIf=authenticated>
+      <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
+    </div>
+
+  </div>
+
+  <button class="mr-3 navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"
+    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="navbar-toggler-icon"></i>
+  </button>
+
+  <div class="justify-content-end navbar-collapse collapse" id="navbarSupportedContent" [ngbCollapse]="navbarCollapsed">
+    <div class="nav navbar-nav align-items-center p-3">
+
+      <div class="p-0 nav-item d-md-none" *ngIf=authenticated>
+        <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf="authenticated && UserRole === 'ROLE_ADMIN'">
+          <a class="nav-link" routerLink="admin-profile"><i class="fas fa-user-cog"></i> Admin Page</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=authenticated>
+        <a class="nav-link" routerLink="user-profile"><i class="fas fa-user-tie"></i> {{UserEmail}}</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=authenticated>
+        <a class="nav-link" routerLink="/" (click)="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=!authenticated>
+        <a class="nav-link" routerLink="sign-up"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </div>
+      <div class="p-0 nav-item" *ngIf=!authenticated>
+        <a class="nav-link" routerLink="sign-in"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+      </div>
+    </div>
+  </div>
+
+</nav>

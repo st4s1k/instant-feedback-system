@@ -1,0 +1,65 @@
+.user-info{
+    margin-top: 50px;
+}
+
+.pres-part{
+    margin-bottom: 70px;
+}
+
+.fa-star {
+    font-size: 1.5rem;
+    color: rgb(241, 93, 34);
+  }
+  
+  .card {
+    color: rgb(52, 58, 64);
+    border-color: rgb(52, 58, 64);
+  }
+  
+  .card:hover {
+    color: rgb(241, 93, 34);
+    border-color: rgb(241, 93, 34);
+    // background-color: rgb(255, 238, 223);
+  }
+  
+  /* Extra small devices */
+  @media screen and (max-width: 767px) {
+    .card {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+      font-size: 1.3rem;
+    }
+  }
+  .presentation{
+    margin-bottom: 20px;
+  }
+  .pres-field{
+    
+  }
+  div.container-fluid{
+      margin-bottom: 50px;
+  }
+  .list-group-item{
+    margin-bottom: 10px;
+  }
+  .edit-container{
+    background-color: rgb(243, 243, 243);
+    border: 1px inset #353333;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 10px;
+  }
+  // .add-container{
+  //   background-color: aqua;
+  // }
+  .addUserbtn{
+    margin: 10px;
+  }
+  .list-group-item{
+    border: 1px inset #353333;
+    border-radius: 3px;
+  }

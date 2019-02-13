@@ -1,0 +1,95 @@
+<div class="container" id="sign">
+  <div class="form-horizontal">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <h2>Sign Up</h2>
+        <hr>
+      </div>
+    </div>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="email">E-Mail Address</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
+              <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.email.errors }"
+                placeholder="you@inther.com" required autofocus />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <div *ngIf="submitted && signupForm.controls.email.errors" class="text-danger">
+              <div *ngIf="signupForm.controls.email.errors?.required">Email is required</div>
+              <div *ngIf="signupForm.controls.email.errors?.email">Not valid email form</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group has-danger">
+            <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
+              <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.password.errors }"
+                required placeholder="Password">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <div *ngIf="submitted && signupForm.controls.password.errors" class="text-danger">
+              <div *ngIf="signupForm.controls.password.errors.required">Password is required</div>
+              <div *ngIf="signupForm.controls.password.errors.minlength">Password must be at least 6
+                characters</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="password-confirm">Confirm Password</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem">
+                <i class="fas fa-key"></i>
+              </div>
+              <input type="password" name="password-confirmation" class="form-control" id="password-confirm"
+                placeholder="Password" required formControlName="confirm_password" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.confirm_password.errors }">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <div *ngIf="submitted && signupForm.controls.confirm_password.errors" class="text-danger">
+              <div *ngIf="signupForm.controls.confirm_password.errors.required">Password is required</div>
+              <div *ngIf="signupForm.controls.confirm_password.errors.mustMatch">Password does not match</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7"></div>
+        <div class="col-md-3">
+          <button [disabled]="loading" id="regBtn" type="submit" class="btn btn-success">Sign Up</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+          <pre> Sign Up form: {{signupForm.value | json}} </pre>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

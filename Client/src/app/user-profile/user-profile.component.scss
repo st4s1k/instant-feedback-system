@@ -1,0 +1,44 @@
+.user-info{
+    margin-top: 50px;
+    margin-bottom: 70px;
+}
+
+.pres-part{
+    margin-bottom: 70px;
+}
+
+.changeForm{
+    margin-top: 20px;
+    
+}
+.fa-star {
+    font-size: 1.5rem;
+    color: rgb(241, 93, 34);
+  }
+  
+  .card {
+    color: rgb(52, 58, 64);
+    border-color: rgb(52, 58, 64);
+  }
+  
+  .card:hover {
+    color: rgb(241, 93, 34);
+    border-color: rgb(241, 93, 34);
+    // background-color: rgb(255, 238, 223);
+  }
+  
+  /* Extra small devices */
+  @media screen and (max-width: 767px) {
+    .card {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+      font-size: 1.3rem;
+    }
+  }
+  .presentation{
+    margin-bottom: 20px;
+  }
