@@ -10,6 +10,6 @@ export const environment = {
   signinApiRoute: '/api/auth',
   signupApiRoute: '/api/auth',
 
-  userRole: 'ROLE_USER',
-  adminRole: 'ROLE_ADMIN'
+  userRole: 'USER',
+  adminRole: 'ADMIN'
 };

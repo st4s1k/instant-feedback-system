@@ -28,7 +28,7 @@
       <div class="p-0 nav-item d-md-none" *ngIf=authenticated>
         <a class="nav-link" routerLink="new-presentation"><i class="fas fa-plus"></i> New presentation</a>
       </div>
-      <div class="p-0 nav-item" *ngIf="authenticated && UserRole === 'ROLE_ADMIN'">
+      <div class="p-0 nav-item" *ngIf="authenticated && UserRole === adminRole">
           <a class="nav-link" routerLink="admin-profile"><i class="fas fa-user-cog"></i> Admin Page</a>
       </div>
       <div class="p-0 nav-item" *ngIf=authenticated>
