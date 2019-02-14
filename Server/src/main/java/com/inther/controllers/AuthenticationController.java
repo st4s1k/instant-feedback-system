@@ -42,7 +42,8 @@ public class AuthenticationController
                                     .password(authDto.getPassword())
                                     .role("USER")
                                     .build()));
-            return signIn(authDto);
+//            return signIn(authDto);
+            return new ResponseEntity<>( httpHeaders, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("User already exists!", httpHeaders, HttpStatus.CONFLICT);
         }
