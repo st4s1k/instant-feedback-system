@@ -2,9 +2,9 @@ import { MarkDTO } from './dtos/mark.dto';
 
 export class Mark {
   id: string;
+  presentationId: string;
   userId: string;
-  email: string;
-  mark: number;
+  value: number;
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);
@@ -13,9 +13,9 @@ export class Mark {
   static toDTO(m: Mark): MarkDTO {
     return <MarkDTO>{
       id: m.id,
+      presentationId: m.presentationId,
       userId: m.userId,
-      email: m.email,
-      mark: m.mark
+      value: m.value
     };
   }
 }

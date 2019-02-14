@@ -38,12 +38,12 @@
 
     <div *ngIf=authenticated class="card-body my-mark text-right">
 
-      <h5 *ngIf=myMark class="text-success">Your rate is: {{ myMark }}</h5>
+      <h5 *ngIf=userMark class="text-success">Your rate is: {{ userMark }}</h5>
 
-      <p *ngIf=!myMark class="text-success">Rate this presentation!</p>
+      <p *ngIf=!userMark class="text-success">Rate this presentation!</p>
 
-      <ngb-rating *ngIf="!myMark" class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
-        [readonly]="!canVote">
+      <ngb-rating *ngIf=!userMark class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
+        [readonly]=!canVote>
         <ng-template let-fill="fill" let-index="index">
           <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
         </ng-template>
@@ -64,7 +64,7 @@
     <div class="card-body m-0 p-2">
       {{ feedback.message }}
 
-      <div *ngIf="feedback.email === myEmail">
+      <div *ngIf="feedback.userId === userId">
         <div class="btn card-link p-0" (click)=editMessage(i)>
           <!-- <i class="fas fa-pen"></i> -->
           edit

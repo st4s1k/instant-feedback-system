@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class PresentationController
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<?> addPresentation(
             @Validated(value = {RequestDataValidator.AddPresentation.class})
@@ -44,10 +43,10 @@ public class PresentationController
                 : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @PutMapping
     public ResponseEntity<?> editPresentation(
-           @Validated(value = {RequestDataValidator.UpdatePresentation.class})
+            @Validated(value = {RequestDataValidator.UpdatePresentation.class})
             @RequestBody PresentationDto presentationDto)
     {
 
@@ -55,7 +54,9 @@ public class PresentationController
         Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
         return presentationService
                 .editPresentation(presentation)
-                .map(edited -> new ResponseEntity<>(presentation.getId(), httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.FORBIDDEN))
+                .map(edited -> new ResponseEntity<>(presentation.getId(), httpHeaders, edited
+                        ? HttpStatus.ACCEPTED
+                        : HttpStatus.FORBIDDEN))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
@@ -83,10 +84,10 @@ public class PresentationController
                 : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
     }
 
-    @GetMapping(params = "userEmail")
-    public ResponseEntity<?> getPresentationsByEmail(@RequestParam String userId) {
+    @GetMapping(params = "email")
+    public ResponseEntity<?> getPresentationsByEmail(@RequestParam String email) {
         List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsByUserId(UUID.fromString(userId)).stream()
+                .searchForPresentationsByEmail(email).stream()
                 .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
                 .collect(Collectors.toList());
 
@@ -107,7 +108,7 @@ public class PresentationController
                 presentationDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") String id)
     {

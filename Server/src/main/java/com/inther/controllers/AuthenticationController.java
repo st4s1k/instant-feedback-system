@@ -61,7 +61,7 @@ public class AuthenticationController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.UNAUTHORIZED));
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping
     boolean signOut(@AuthenticationPrincipal final User user) {
         authentication.logout(user);

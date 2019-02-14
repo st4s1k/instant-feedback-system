@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,10 +32,14 @@ public class MessageService
 
     public Optional<Boolean> addMessage(Message message)
     {
-        return presentationRepository.findPresentationById(message.getPresentationId())
-                .map(p-> LocalDateTime.now()
+        return presentationRepository.findPresentationById(message.getPresentation().getId())
+                .map(p -> LocalDateTime.now()
                         .isAfter(p.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                         && messageRepository.existsById(messageRepository.save(message).getId()));
+    }
+
+    public List<Message> fetchMessagesByPresentationId(UUID presentationId) {
+        return messageRepository.findMessagesByPresentation_Id(presentationId);
     }
 
     /**

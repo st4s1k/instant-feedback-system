@@ -5,7 +5,7 @@
   </div>
   <div class="row">
     <div class="col-md-9 pres-part">
-      <div class="container-fluid mt-5 p-0 text-center" *ngIf="presFounded">
+      <div class="container-fluid mt-5 p-0 text-center" *ngIf="presFound" >
         <h2 class="mb-5">All Presentations</h2>
         <div class="row justify-content-center p-0">
 
@@ -19,7 +19,7 @@
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
-                    <p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>
+                    <!--<p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>-->
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
@@ -43,7 +43,7 @@
         </div>
 
       </div>
-      <div *ngIf="!presFounded">
+      <div *ngIf="!presFound">
         <div class="container-fluid mt-5 p-0 text-center">
           <h1>You have no presentations yet </h1>
         </div>
