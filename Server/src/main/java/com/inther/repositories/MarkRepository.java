@@ -12,13 +12,13 @@ import java.util.UUID;
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, UUID>
 {
-    List<Mark> findMarksByPresentationId(UUID presentationId);
-    Optional<Mark> findMarkByUserId(UUID userId);
-    Optional<Mark> findMarkByPresentationIdAndUserId(UUID presentationId, UUID userId);
+    List<Mark> findMarksByPresentation_Id(UUID presentationId);
+    Optional<Mark> findMarkByUser_Id(UUID userId);
+    Optional<Mark> findMarkByPresentation_IdAndUser_Id(UUID presentationId, UUID userId);
 
     @Transactional
     void deleteMarkById(UUID id);
 
     @Transactional
-    void deleteMarkByUserId(UUID id);
+    void deleteMarkByUser_Id(UUID id);
 }

@@ -62,7 +62,7 @@ public class ParticipantController
         {
             participantService.addParticipant(newParticipant);
 
-            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(newParticipant.getPresentationId());
+            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(newParticipant.getPresentation().getId());
             optionalPresentation.ifPresent(presentation ->
                 sendNotificationMessages(newParticipant.getEmail(), "You has been invited on presentation",
                          "Presentation name: " + presentation.getTitle()

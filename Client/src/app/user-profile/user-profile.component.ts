@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
   loading = false;
   id = localStorage.getItem('userId');
   email = localStorage.getItem('email');
-  presFounded = false;
+  presFound=true;
   notifier: NotifierService;
   message: String;
 
@@ -45,28 +45,29 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUserProfile();
-    // this.route.data.subscribe((data: { user: User }) => {
-    //   this.user = data.user;
-    // });
-    this.presentationService.getPresentationsByUser(this.id).pipe(
-      take(1),
-      mergeMap(presentationDtoList => {
-        if (presentationDtoList) {
-          this.presentations = presentationDtoList.map(presentationDto => PresentationDTO.toModel(presentationDto));
-          this.presFounded = true;
-        } else {
-          this.presFounded = false;
-          return EMPTY;
-        }
-      })
-    );
+    // this.getUserProfile();
+    this.route.data.subscribe((data: { user: User }) => {
+      this.user = data.user;
+    });
+
+    this.presentationService.getPresentationsByEmail(this.email)
+      .subscribe(presentationList =>{this.presentations = presentationList
+
+        if(presentationList){
+          this.presFound=true;
+        }else  this.presFound=false;
+        },
+        error => {
+          alert(error);
+          this.presFound=false;
+        });
+
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmNewPass: ['', Validators.required]
     }, {
-        validator: MustMatch('NewPass', 'ConfirmNewPass')
-      });
+      validator: MustMatch('NewPass', 'ConfirmNewPass')
+    });
 
   }
   openPresentationPage(i: number) {

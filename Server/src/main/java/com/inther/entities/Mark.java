@@ -1,5 +1,6 @@
 package com.inther.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,13 +23,19 @@ public class Mark
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(targetEntity = Presentation.class)
-    @Type(type="org.hibernate.type.PostgresUUIDType")
-    private UUID presentationId;
+    @ManyToOne
+    private Presentation presentation;
 
-    @ManyToOne(targetEntity = User.class)
-    @Type(type="org.hibernate.type.PostgresUUIDType")
-    private UUID userId;
+    @ManyToOne
+    private User user;
 
     private Integer value;
+
+    public String getUserId() {
+        return this.user.getId().toString();
+    }
+
+    public String getPresentationId() {
+        return this.presentation.getId().toString();
+    }
 }

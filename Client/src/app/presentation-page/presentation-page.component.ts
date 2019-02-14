@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer, Renderer2 } from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
@@ -8,6 +8,10 @@ import { first } from 'rxjs/operators';
 import { Message } from '../models/message.model';
 import { Mark } from '../models/mark.model';
 import { GlobalServUserService } from '../services/global-serv-user.service';
+import { MarkService } from '../services/mark.service';
+import { MessageService } from '../services/message.service';
+import { MessageDTO } from '../models/dtos/message.dto';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-presentation-page',
@@ -16,18 +20,19 @@ import { GlobalServUserService } from '../services/global-serv-user.service';
 })
 export class PresentationPageComponent implements OnInit {
 
-  TYPE_FEEDBACK = 'TYPE_FEEDBACK';
-  TYPE_QUESTION = 'TYPE_QUESTION';
+  TYPE_FEEDBACK = environment.msgTypeFeedback;
+  TYPE_QUESTION = environment.msgTypeQuestion;
 
   presentation: Presentation;
+  feedback: Message[];
+
   currentRate = 0;
   submittedRate = false;
   submittedFeedback = false;
   feedbackAdded = false;
   canVote = false;
-  myMark = 0;
-  myEmail: string;
-  avgMark = 0;
+  userMark = 0;
+  userId: string;
   ratingsCount = 0;
   editingMessage = -1;
 
@@ -49,127 +54,111 @@ export class PresentationPageComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private gs: GlobalServUserService,
-    private renderer: Renderer
+    private ms: MarkService,
+    private msgSrv: MessageService
   ) {
     this.gs.SessionID.subscribe((sessId) => this.authenticated = sessId);
   }
 
   ngOnInit() {
 
-    this.myEmail = localStorage.getItem('email');
+    this.userId = localStorage.getItem('userId');
 
-    this.route.data.subscribe((data: { presentation: Presentation }) => {
+    this.route.data.subscribe((data: {
+      presentation: Presentation,
+      userMark: number,
+      messages: Message[]
+    }) => {
       this.presentation = data.presentation;
-
-    //   this.avgMark = +this.ps.getAvgMark(this.presentation);
-    //
-    //   this.ratingsCount = this.presentation.marks.length;
-    //
-    //   const markObject = this.presentation.marks
-    //     .find(mark => mark.email === this.myEmail);
-    //
-    //   if (!markObject) {
-    //     this.canVote = true;
-    //   } else {
-    //     this.myMark = markObject.mark;
-    //     this.currentRate = markObject.mark;
-    //   }
+      this.userMark = data.userMark;
+      this.feedback = data.messages;
     });
   }
 
-  // submitRate(rate: number) {
-  //
-  //   this.submittedRate = true;
-  //   this.canVote = false;
-  //   this.myMark = rate;
-  //   this.currentRate = rate;
-  //
-  //   if (!this.presentation.marks) {
-  //     this.presentation.marks = [];
-  //   }
-  //
-  //   this.presentation.marks.push(new Mark({
-  //     userId: +localStorage.getItem('userId'),
-  //     email: localStorage.getItem('email'),
-  //     mark: +rate.toFixed(2)
-  //   }));
-  //
-  //   this.avgMark = +this.ps.getAvgMark(this.presentation);
-  //
-  //   this.ps.updatePresentation(this.presentation).pipe(first()).subscribe(
-  //     data => {
-  //       // alert('Succes!');
-  //       // console.log('Succes!: ' + JSON.stringify(data));
-  //     },
-  //     error => {
-  //       alert('Error!');
-  //       console.log('Error!: ' + JSON.stringify(error));
-  //     }
-  //   );
-  //
-  // }
+  submitRate(rate: number) {
 
-  // editMessage(i: number) {
-  //   // alert('editing message ' + i);
-  //
-  //   this.editingMessage = i;
-  //
-  //   this.feedbackBox.setValue(this.presentation.feedback[i].message);
-  //   this.anonymity.setValue(this.presentation.feedback[i].anonymity);
-  //   this.type.setValue(this.presentation.feedback[i].type);
-  //
-  //   this.renderer.invokeElementMethod(this.feedbackBoxView.nativeElement, 'focus');
-  // }
-  //
-  // deleteMessage(i: number) {
-  //   if (confirm('Are you sure, you want to delete this message?')) {
-  //     alert(`Deleting message[${i}].id = ${this.presentation.feedback[i].id}`);
-  //     this.ps.deleteMessage(this.presentation.feedback[i].id);
-  //   }
-  // }
+    this.submittedRate = true;
+    this.canVote = false;
+    this.userMark = rate;
+    this.currentRate = rate;
 
-  // leaveFeedback(type: string) {
-  //
-  //   this.submittedFeedback = true;
-  //
-  //   if (this.feedbackFormGroup.invalid) {
-  //     return;
-  //   }
-  //
-  //   const currentFeedback = new Message({
-  //     email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
-  //     message: this.feedbackBox.value,
-  //     type: this.type.value,
-  //     anonymity: this.anonymity.value
-  //   });
-  //
-  //   if (this.editingMessage >= 0) {
-  //     this.presentation.feedback[this.editingMessage] = currentFeedback;
-  //     this.editingMessage = -1;
-  //   } else {
-  //     if (!this.presentation.feedback) {
-  //       this.presentation.feedback = [];
-  //     }
-  //     this.presentation.feedback.push(currentFeedback);
-  //   }
+    this.ms.addMark(new Mark(<Mark>{
+      userId: localStorage.getItem('userId'),
+      presentationId: this.presentation.id,
+      value: rate
+    })).pipe(first()).subscribe( avgMark => this.presentation.avgMark = avgMark,
+      error => {
+        alert('Error!');
+        console.log('Error!: ' + JSON.stringify(error));
+      }
+    );
+  }
 
-  //   this.ps.updatePresentation(this.presentation).pipe(first())
-  //     .subscribe(
-  //       data => {
-  //         alert('Succes!:' + JSON.stringify(data));
-  //       },
-  //       error => {
-  //         alert('Error!: ' + error);
-  //       }
-  //     );
-  //
-  //   this.feedbackFormGroup.reset({
-  //     feedbackBox: '',
-  //     type: 'feedback',
-  //     anonymity: false
-  //   });
-  //
-  //   this.submittedFeedback = false;
-  // }
+  editMessage(i: number) {
+    alert('editing message ' + i);
 
+    this.editingMessage = i;
+
+    this.feedbackBox.setValue(this.feedback[i].text);
+    this.anonymity.setValue(this.feedback[i].anonymity);
+    this.type.setValue(this.feedback[i].type);
+
+    this.feedbackBoxView.nativeElement.focus();
+  }
+
+  deleteMessage(i: number) {
+    if (confirm('Are you sure, you want to delete this message?')) {
+      alert(`Deleting message[${i}].id = ${this.feedback[i].id}`);
+      this.msgSrv.deleteMessage(this.feedback[i].id);
+    }
+  }
+
+  leaveFeedback() {
+
+    this.submittedFeedback = true;
+
+    if (this.feedbackFormGroup.invalid) {
+      return;
+    }
+
+    this.addMessage(new Message(<Message>{
+      userId: localStorage.getItem('userId'),
+      presentationId: this.presentation.id,
+      email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
+      text: this.feedbackBox.value,
+      type: this.type.value,
+      anonymity: this.anonymity.value
+    }));
+
+    this.feedbackFormGroup.reset({
+      feedbackBox: '',
+      type: 'feedback',
+      anonymity: false
+    });
+
+    this.submittedFeedback = false;
+  }
+
+  addMessage(currentFeedback: Message) {
+    this.msgSrv.updateMessage(currentFeedback).pipe(first())
+      .subscribe(messageDto => {
+          const message = MessageDTO.toModel(messageDto);
+
+          if (this.editingMessage >= 0) {
+            this.feedback[this.editingMessage] = message;
+            this.editingMessage = -1;
+          } else {
+            if (!this.feedback) {
+              this.feedback = [];
+            }
+            this.feedback.push(message);
+          }
+
+          alert('Succes!:' + JSON.stringify(messageDto));
+        },
+        error => {
+          alert('Error!: ' + error);
+        }
+      );
+  }
 }

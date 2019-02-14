@@ -27,7 +27,8 @@ public class PresentationService
     @Autowired
     public PresentationService(PresentationRepository presentationRepository,
                                UserRepository userRepository,
-                               ModelMapper modelMapper, MailSender mailSender)
+                               ModelMapper modelMapper,
+                               MailSender mailSender)
     {
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
@@ -61,10 +62,10 @@ public class PresentationService
         return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
     }
 
-    public List<Presentation> searchForPresentationsByUserId(UUID userId) {
-        Optional<User> user = userRepository.findUserById(userId);
+    public List<Presentation> searchForPresentationsByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
         return user.isPresent()
-                ? presentationRepository.findPresentationsByEmail(user.get().getEmail())
+                ? presentationRepository.findPresentationsByUser(user.get())
                 : new ArrayList<>();
     }
 
@@ -77,8 +78,8 @@ public class PresentationService
     {
         return presentationRepository.findPresentationById(presentation.getId())
                 .map(p -> {
-                    modelMapper.map(p, presentation);
-                    return presentationRepository.save(p).equals(presentation);
+                    presentationRepository.save(presentation);
+                    return true;
                 });
     }
 

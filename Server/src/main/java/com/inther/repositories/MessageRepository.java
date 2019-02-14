@@ -12,10 +12,11 @@ import java.util.UUID;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, UUID>
 {
-    List<Message> findMessagesByUserId(UUID user_id);
+    List<Message> findMessagesByUser_Id(UUID userId);
     List<Message> findMessageByAnonymousTrue();
+    List<Message> findMessagesByPresentation_Id(UUID presentationId);
     Optional<Message> findMessageById(UUID id);
-    Optional<Message> findMessageByIdAndUserId(UUID id, UUID user_id);
+    Optional<Message> findMessageByIdAndUser_Id(UUID id, UUID userId);
 
     @Transactional
     void deleteMessageById(UUID id);

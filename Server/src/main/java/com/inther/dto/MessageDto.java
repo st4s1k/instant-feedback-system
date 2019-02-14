@@ -18,8 +18,12 @@ public class MessageDto implements Serializable
     @NotBlank(groups = {RequestDataValidator.AddMessage.class})
     private String userId;
 
+    @Email
     @NotBlank(groups = {RequestDataValidator.AddMessage.class})
-    private String message;
+    private String email;
+
+    @NotBlank(groups = {RequestDataValidator.AddMessage.class})
+    private String text;
 
     @NotBlank(groups = {RequestDataValidator.AddMessage.class})
     private String type;
