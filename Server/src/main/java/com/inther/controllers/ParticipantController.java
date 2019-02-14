@@ -1,15 +1,18 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.ParticipantDto;
 import com.inther.entities.Participant;
+import com.inther.entities.Presentation;
+import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.ParticipantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,8 @@ public class ParticipantController
     private final HttpHeaders httpHeaders;
     private final ParticipantService participantService;
     private final ModelMapper modelMapper;
+    private final MailSender mailSender;
+    private final PresentationRepository presentationRepository;
 
     @GetMapping(value = "/{id}")
     public List<ParticipantDto> getPresentationParticipants(@PathVariable String id) {
@@ -35,13 +40,37 @@ public class ParticipantController
                 .collect(Collectors.toList());
     }
 
+    private void sendNotificationMessages(String to, String subject, String text)
+    {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(text);
+        mailSender.send(simpleMailMessage);
+    }
+
     @PutMapping
     public ResponseEntity<?> putParticipant(
             @Validated(value = {RequestDataValidator.AddParticipant.class})
-            @RequestBody ParticipantDto participantDtoToPut)
+            @RequestBody List<ParticipantDto> participantDtoToPut)
     {
         Participant newParticipant = modelMapper.map(participantDtoToPut, Participant.class);
         Optional<UUID> newParticipantId = participantService.addParticipant(newParticipant);
+
+
+        for (ParticipantDto participantDto : participantDtoToPut)
+        {
+            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(participantDto.getPresentationId());
+            optionalPresentation.ifPresent(presentation ->
+                sendNotificationMessages(participantDto.getEmail(), "You has been invited on presentation",
+                         "Presentation name: " + presentation.getTitle()
+                            + "n/Presentation description: " + presentation.getDescription()
+                            + "n/n/Presentation start time: " + presentation.getStartTime()
+                            + "n/n/Presentation end time: " + presentation.getStartTime()
+                            + "n/n/Presentation place: " + presentation.getPlace())
+            );
+        }
+
 
         return newParticipantId.isPresent()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.CREATED)
@@ -60,10 +89,12 @@ public class ParticipantController
     }
 
     @Autowired
-    public ParticipantController(HttpHeaders httpHeaders, ParticipantService participantService, ModelMapper modelMapper)
+    public ParticipantController(HttpHeaders httpHeaders, ParticipantService participantService, ModelMapper modelMapper, MailSender mailSender, PresentationRepository presentationRepository)
     {
         this.httpHeaders = httpHeaders;
         this.participantService = participantService;
         this.modelMapper = modelMapper;
+        this.mailSender = mailSender;
+        this.presentationRepository = presentationRepository;
     }
 }

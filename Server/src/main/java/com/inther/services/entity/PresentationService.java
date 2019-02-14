@@ -49,12 +49,6 @@ public class PresentationService
 
     public Presentation newPresentation(Presentation presentation)
     {
-        sendNotificationMessages(presentation, "You has been invited on presentation",
-                "Presentation name: " + presentation.getTitle()
-                        + "n/Presentation description: " + presentation.getDescription()
-                        + "n/n/Presentation start time: " + presentation.getStartTime()
-                        + "n/n/Presentation end time: " + presentation.getStartTime()
-                        + "n/n/Presentation place: " + presentation.getPlace());
         return presentationRepository.save(presentation);
     }
 
