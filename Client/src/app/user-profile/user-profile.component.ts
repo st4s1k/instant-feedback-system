@@ -127,13 +127,15 @@ export class UserProfileComponent implements OnInit {
         data => {
           console.log('Succes Update password');
           this.notifier.notify('info', 'Password changed successfully');
-          this.router.navigate(['/']);
         },
         error => {
           console.log('Succes Update password');
           this.notifier.notify('info', 'Password changed successfully');
-          this.router.navigate(['/']);
         });
+    this.loading = false;
+    this.submitted = false;
+    this.btnChange = false;
+    this.changePassForm.reset();
   }
   onCancel() {
     this.btnChange = false;
