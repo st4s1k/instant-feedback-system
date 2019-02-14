@@ -61,11 +61,11 @@ export class SignInComponent implements OnInit {
                     this.notifier.notify('success', 'Succes Sign In');
                 },
                 error => {
-                    this.error = error;
                     console.log(error);
                     this.notifier.notify('error', 'Sign in failed');
+                    this.notifier.notify('error', error);
                     this.loading = false;
-                    alert(error);
+                    // alert(error);
                 });
     }
 }

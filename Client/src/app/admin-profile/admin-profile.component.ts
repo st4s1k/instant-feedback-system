@@ -10,6 +10,7 @@ import { first } from 'rxjs/operators';
 import { UserDTO } from '../models/dtos/user.dto';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
+import {environment} from "../../environments/environment.prod";
 
 @Component({
   selector: 'app-admin-profile',
@@ -26,7 +27,8 @@ export class AdminProfileComponent implements OnInit {
   addUserbtn = false;
   notifier: NotifierService;
   message: String;
-
+  roleUser = environment.userRole;
+  roleAdmin = environment.adminRole;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -101,6 +103,7 @@ export class AdminProfileComponent implements OnInit {
       },
       error => {
         this.notifier.notify('error', 'Error on adding user');
+        this.notifier.notify('error',error);
       }
     );
   }
@@ -110,34 +113,34 @@ export class AdminProfileComponent implements OnInit {
   }
   onSubmitEdit(i: number) {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.editUserForm.invalid) {
       return;
     }
-    // if(this.users[i].password==this.editUserForm.get('password').value)
-
     this.loading = true;
-    this.userService.updateUser(<User>{
+
+    const editingUser = <User>{
       id: this.users[i].id,
       email: this.editUserForm.get('email').value,
       role: this.editUserForm.get('userGroup').value,
       password: this.editUserForm.get('password').value
-    }).pipe(first())
+    };
+
+    this.userService.updateUser(editingUser).pipe(first())
       .subscribe(
-        userDto => {
+        data => {
           console.log('Succes');
-          this.message = userDto.email + 'information successfuly updated';
+          this.message = editingUser.email + 'information successfuly updated';
           this.notifier.notify('success', this.message.toString());
           this.submitted = false;
           this.editUserForm.reset();
           this.arrEditUserbtn[i] = false;
-          this.users[i] = UserDTO.toModel(userDto);
+          this.users[i] = UserDTO.toModel(editingUser);
           this.loading = false;
         },
         error => {
           this.notifier.notify('error', 'Something wrong');
-          console.log(error.status);
+          this.notifier.notify('error', error);
           this.loading = false;
         }
       );

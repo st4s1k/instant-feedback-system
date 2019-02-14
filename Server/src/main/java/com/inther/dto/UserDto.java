@@ -5,13 +5,14 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 public class UserDto implements Serializable
 {
     @Null(groups = {RequestDataValidator.Authentication.class})
-    @NotBlank(groups = {RequestDataValidator.UpdateUser.class})
-    private String id;
+    @NotNull(groups = {RequestDataValidator.UpdateUser.class})
+    private UUID id;
 
     @Email
     @NotBlank(groups = {
