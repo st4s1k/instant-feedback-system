@@ -3,6 +3,7 @@ package com.inther.services.entity;
 import com.inther.entities.Participant;
 import com.inther.entities.Presentation;
 import com.inther.entities.User;
+import com.inther.repositories.ParticipantRepository;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -21,24 +22,29 @@ public class PresentationService
 {
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
+    private final ParticipantRepository participantRepository;
     private final ModelMapper modelMapper;
     private final MailSender mailSender;
 
     @Autowired
     public PresentationService(PresentationRepository presentationRepository,
                                UserRepository userRepository,
-                               ModelMapper modelMapper,
+                               ParticipantRepository participantRepository, ModelMapper modelMapper,
                                MailSender mailSender)
     {
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
+        this.participantRepository = participantRepository;
         this.modelMapper = modelMapper;
         this.mailSender = mailSender;
     }
 
     private void sendNotificationMessages(Presentation presentation, String subject, String text)
     {
-        for (Participant participant : presentation.getParticipants())
+
+
+
+        for (Participant participant : participantRepository.findParticipantsByPresentation_Id(presentation.getId()))
         {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setTo(participant.getEmail());

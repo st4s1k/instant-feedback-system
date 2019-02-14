@@ -59,8 +59,8 @@ public class BeanConfiguration
         Converter<String, User> emailToUserConverter = context ->
                 userRepository.findUserByEmail(context.getSource()).orElse(null);
 
-        Converter<String, Presentation> presentationIdToEntityConvertor = context ->
-                presentationRepository.findPresentationById(UUID.fromString(context.getSource())).orElse(null);
+        Converter<UUID, Presentation> presentationIdToEntityConvertor = context ->
+                presentationRepository.findPresentationById(context.getSource()).orElse(null);
 
         modelMapper.addMappings(new PropertyMap<Presentation, PresentationDto>() {
             @Override
