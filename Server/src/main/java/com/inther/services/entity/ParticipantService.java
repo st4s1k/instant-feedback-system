@@ -6,6 +6,7 @@ import com.inther.repositories.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,13 +24,18 @@ public class ParticipantService
         this.authorityUtilityBean = authorityUtilityBean;
     }
 
-    public boolean addParticipant(Participant participant)
+    public Optional<UUID> addParticipant(Participant participant)
     {
-        return participantRepository.findParticipantByPresentationIdAndEmail(
-                        participant.getPresentationId(),
-                        participant.getEmail()
-                ).isEmpty()
-                && participantRepository.save(participant).equals(participant);
+        Optional<Participant> similarParticipant = participantRepository
+                .findParticipantByPresentationIdAndEmail(participant.getPresentationId(), participant.getEmail());
+
+        return similarParticipant.isPresent()
+                ? Optional.empty()
+                : Optional.of(participantRepository.save(participant).getId());
+    }
+
+    public List<Participant> fetchPresentationParticipants(UUID presentationId) {
+        return participantRepository.findParticipantsByPresentationId(presentationId);
     }
 
     public Optional<Boolean> deleteParticipant(UUID id)

@@ -54,18 +54,10 @@ public class UserService
                     foundUser.setPassword(foundUser.getPassword().equals(user.getPassword())
                             ? foundUser.getPassword()
                             : serviceUtilityBean.encodeUserPassword(user).getPassword());
+                    modelMapper.map(user, foundUser);
                     return userRepository.save(foundUser).equals(user);
                 });
     }
-//    {
-//        return userRepository
-//                .findUserById(user.getId())
-//                .map(foundUser -> userRepository.save(
-//                        foundUser.setPassword(foundUser.getPassword().equals(user.getPassword())
-//                                ? foundUser.getPassword()
-//                                : serviceUtilityBean.encodeUserPassword(user).getPassword())
-//                        ).equals(user));
-//    }
 
     public Optional<Boolean> deleteUser(UUID id)
     {

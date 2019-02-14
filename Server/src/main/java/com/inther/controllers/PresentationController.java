@@ -36,12 +36,12 @@ public class PresentationController
     {
         Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
 
-        return new ResponseEntity<>(presentation, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
+//        return new ResponseEntity<>(presentation, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
 
-//        return presentationService
-//                .newPresentation(presentation).equals(presentation)
-//                ? new ResponseEntity<>(presentation.getId(), httpHeaders, HttpStatus.CREATED)
-//                : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
+        return presentationService
+                .newPresentation(presentation).equals(presentation)
+                ? new ResponseEntity<>(presentation.getId(), httpHeaders, HttpStatus.CREATED)
+                : new ResponseEntity<>(httpHeaders, HttpStatus.EXPECTATION_FAILED);
     }
 
 //    @PreAuthorize("hasRole('USER')")

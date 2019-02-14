@@ -62,18 +62,4 @@ export class PresentationService {
   deleteMessage(id: string) {
     return this.http.delete(SERVER_URL + MSG_API + `/${id}`);
   }
-
-  getAvgMark(presentation: Presentation) {
-
-    let value = '0.00';
-
-    if (presentation.marks.length > 0) {
-      let sum = 0;
-      presentation.marks.forEach(element => sum += element.mark);
-      value = Number(sum / presentation.marks.length).toFixed(2);
-    }
-
-    return value;
-  }
 }
-  

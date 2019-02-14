@@ -66,11 +66,8 @@ export class EditPresentationComponent implements OnInit {
     this.location.setValue(presentation.place);
     this.emailInvitations = this.fb.array([]);
 
-    for (const participant of presentation.participants) {
-      this.emailInvitations.push(this.fb.control(
-        participant, [Validators.required, Validators.email]
-      ));
-    }
+
+    this.addEmailInvitation('');
   };
 
   formGroupToModel = function () {
@@ -83,15 +80,18 @@ export class EditPresentationComponent implements OnInit {
       endTime:  this.endTime.value,
       date: this.date.value,
       place: this.location.value,
-      participants: this.emailInvitations.value
     };
   };
 
-  addEmailInvitation() {
+  addEmailInvitation_Btn() {
     this.invite_touched = true;
 
+    this.addEmailInvitation('');
+  }
+
+  addEmailInvitation(email: string) {
     this.emailInvitations.push(this.fb.control(
-      '', [Validators.required, Validators.email]
+      email, [Validators.required, Validators.email]
     ));
   }
 
@@ -118,13 +118,12 @@ export class EditPresentationComponent implements OnInit {
       endTime: presentation.endTime,
       date: presentation.date,
       place: presentation.place,
-      participants: presentation.participants
     }).pipe(first())
-      .subscribe(data => {
-        console.log(JSON.stringify(data));
-        this.router.navigate([`/presentation-page/${data.id}`]);
+      .subscribe(id => {
+        console.log(JSON.stringify(id));
+        this.router.navigate([`/presentation-page/${id}`]);
       }, error => {
-        alert("Error:" + error);
+        alert('Error:' + error);
       });
   }
 

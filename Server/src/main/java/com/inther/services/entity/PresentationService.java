@@ -32,12 +32,7 @@ public class PresentationService
 
     public Presentation newPresentation(Presentation presentation)
     {
-        Presentation newPresentation = presentationRepository.save(presentation);
-        if (newPresentation.getParticipants() != null && !newPresentation.getParticipants().isEmpty()) {
-            newPresentation.getParticipants().forEach(
-                    participant -> participant.setPresentationId(presentation.getId()));
-        }
-        return newPresentation;
+        return presentationRepository.save(presentation);
     }
 
     public List<Presentation> fetchAllPresentations()

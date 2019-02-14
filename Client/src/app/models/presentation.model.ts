@@ -12,9 +12,6 @@ export class Presentation {
   public endTime: string;
   public date: string;
   public place: string;
-  public participants: string[];
-  public feedback: Message[];
-  public marks: Mark[];
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);
@@ -30,9 +27,6 @@ export class Presentation {
       endTime: p.endTime,
       place: p.place,
       date: p.date,
-      participants: p.participants,
-      messages: p.feedback ? p.feedback.map(message => Message.toDTO(message)) : [],
-      marks: p.marks ? p.marks.map(mark => Mark.toDTO(mark)) : []
     };
   }
 
