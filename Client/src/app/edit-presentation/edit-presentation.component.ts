@@ -4,6 +4,7 @@ import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -26,13 +27,17 @@ export class EditPresentationComponent implements OnInit {
 
   submitted = false;
   invite_touched = false;
+  notifier: NotifierService;
 
   constructor(
     private presentationService: PresentationService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    notifierService: NotifierService
+  ) {
+  this.notifier = notifierService;
+}
 
   ngOnInit() {
 
@@ -122,8 +127,10 @@ export class EditPresentationComponent implements OnInit {
       .subscribe(id => {
         console.log(JSON.stringify(id));
         this.router.navigate([`/presentation-page/${id}`]);
+
       }, error => {
-        alert('Error:' + error);
+        // alert('Error:' + error);
+        this.notifier.notify('error',error);
       });
   }
 
@@ -131,6 +138,7 @@ export class EditPresentationComponent implements OnInit {
     if (this.router.url === '/new-presentation') {
       return this.presentationService.createPresentation(presentation);
     } else {
+      this.notifier.notify('success','Success');
       return this.presentationService.updatePresentation(presentation);
     }
   }

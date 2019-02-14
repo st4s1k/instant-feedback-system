@@ -6,12 +6,13 @@ import lombok.Data;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class PresentationDto implements Serializable
 {
-    @NotBlank(groups = {RequestDataValidator.UpdatePresentation.class})
-    private String id;
+    @NotNull(groups = {RequestDataValidator.UpdatePresentation.class})
+    private UUID id;
 
     @NotBlank(groups = {RequestDataValidator.UpdatePresentation.class, RequestDataValidator.AddPresentation.class})
     private String email;
