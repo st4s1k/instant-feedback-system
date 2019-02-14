@@ -27,7 +27,7 @@ public class Participant
 
     private String email;
 
-    public String getPresentationId() {
-        return this.presentation.getId().toString();
+    public UUID getPresentationId() {
+        return this.presentation.getId();
     }
 }
