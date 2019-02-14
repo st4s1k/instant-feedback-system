@@ -64,7 +64,7 @@ export class SignUpComponent implements OnInit {
         },
         error => {
           this.message = 'Registration Failed : ' + error ;
-          this.notifier.notify('error', error);
+          this.notifier.notify('error',this.message);
           console.log(error);
           this.loading = false;
         }

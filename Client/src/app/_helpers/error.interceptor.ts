@@ -16,18 +16,19 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError( (error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            // auto logout if 401 response returned from api
-            alert('ERR 401! ' + error.error.message);
-            this.authenticationService.logout();
-            location.reload(true);
-          }
           let errMsg = '';
           // Client Side Error
           if (error.error instanceof ErrorEvent) {
             errMsg = `Error: ${error.error.message}`;
-          } else {  // Server Side Error
-            errMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          }
+          else {  // Server Side Error
+            if (error.status === 401) {
+              // auto logout if 401 response returned from api
+              this.authenticationService.logout();
+              errMsg=`Error Code: ${error.status},  Message: Email or password are incorrect`;
+            } else {
+              errMsg = `Error Code: ${error.status},  Message: ${error.error}`;
+            }
           }
           return throwError(errMsg);
         })

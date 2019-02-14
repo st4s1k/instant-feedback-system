@@ -59,7 +59,7 @@ const routes: Routes = [
     path: 'user-profile',
     component: UserProfileComponent,
     resolve: {
-      user: UserDetailResolverService
+      user: UserDetailResolverService,
       // presentations : UserPresentationResolverService
     },
     canActivate: [AuthGuard]

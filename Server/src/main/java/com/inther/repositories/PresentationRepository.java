@@ -14,6 +14,7 @@ public interface PresentationRepository extends JpaRepository<Presentation, UUID
 {
     // Exact query
     List<Presentation> findPresentationsByUser(User user);
+    List<Presentation> findPresentationsByUser_Email(String userEmail);
     Optional<Presentation> findPresentationByTitle(String title);
     Optional<Presentation> findPresentationById(UUID id);
     // Filtered query

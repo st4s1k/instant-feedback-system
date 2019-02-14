@@ -16,7 +16,7 @@
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
-                    <p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>
+                    <!--<p class="m-0">{{presentationService.getAvgMark(presentation)}}</p>-->
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
@@ -57,13 +57,13 @@
                 <form [formGroup]="editUserForm" (ngSubmit)="submitAddUser()">
                   <div class="row justify-content-center">
                     <div class="col-md-3 field-label-responsive">
-                      <label for="email">E-Mail Address</label>
+                      <label for="email1">E-Mail Address</label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
                         <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                           <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
-                          <input type="text" formControlName="email" class="form-control"
+                          <input type="text" formControlName="email" class="form-control" id="email1"
                             [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.email.errors }"
                             placeholder="you@inther.com" required autofocus />
                         </div>
@@ -78,7 +78,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-3 field-label-responsive">
-                      <label for="userGroup">User Group</label>
+                      <label for="userGroup1">User Group</label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
@@ -86,9 +86,9 @@
                           <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-users"></i></div>
                           <select class="form-control" name="userGroup" formControlName="userGroup"
                             [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.userGroup.errors }"
-                            id="userGroup" required autofocus>
-                            <option value="ROLE_USER">User</option>
-                            <option value="ROLE_ADMIN">Admin</option>
+                            id="userGroup1" required autofocus>
+                            <option value="{{roleUser}}">User</option>
+                            <option value="{{roleAdmin}}">Admin</option>
                           </select>
                         </div>
                         <div class="form-control-feedback">
@@ -101,13 +101,13 @@
                   </div>
                   <div class="row">
                     <div class="col-md-3 field-label-responsive">
-                      <label for="password">Password</label>
+                      <label for="password1">Password</label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group has-danger">
                         <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                           <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
-                          <input type="password" formControlName="password" class="form-control"
+                          <input type="password" formControlName="password" class="form-control" id="password1"
                             [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.password.errors }" required
                             placeholder="Password">
                         </div>
@@ -123,7 +123,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-3 field-label-responsive">
-                      <label for="password-confirm">Confirm Password</label>
+                      <label for="password-confirm1">Confirm Password</label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
@@ -131,7 +131,7 @@
                           <div class="input-group-addon" style="width: 2.6rem">
                             <i class="fas fa-key"></i>
                           </div>
-                          <input type="password" name="password-confirmation" class="form-control" id="password-confirm"
+                          <input type="password" name="password-confirmation" class="form-control" id="password-confirm1"
                             placeholder="Password" required formControlName="confirm_password"
                             [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.confirm_password.errors }">
                         </div>
@@ -191,13 +191,13 @@
                   <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEdit(i)">
                     <div class="row">
                       <div class="col-md-3 field-label-responsive">
-                        <label for="email">E-Mail Address</label>
+                        <label for="email2">E-Mail Address</label>
                       </div>
                       <div class="col-md-9">
                         <div class="form-group">
                           <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
-                            <input type="text" formControlName="email" class="form-control"
+                            <input type="text" formControlName="email" class="form-control" id="email2"
                               [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.email.errors }"
                               placeholder="you@inther.com" required autofocus />
                           </div>
@@ -221,8 +221,8 @@
                             <select class="form-control" name="userGroup" formControlName="userGroup"
                               [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.userGroup.errors }"
                               id="userGroup" required autofocus>
-                              <option value="ROLE_USER">User</option>
-                              <option value="ROLE_ADMIN">Admin</option>
+                              <option value="{{roleUser}}">User</option>
+                              <option value="{{roleAdmin}}">Admin</option>
                             </select>
                           </div>
                           <div class="form-control-feedback">
@@ -235,13 +235,13 @@
                     </div>
                     <div class="row">
                       <div class="col-md-3 field-label-responsive">
-                        <label for="password">Password</label>
+                        <label for="password2">Password</label>
                       </div>
                       <div class="col-md-9">
                         <div class="form-group has-danger">
                           <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
-                            <input type="password" formControlName="password" class="form-control"
+                            <input type="password" formControlName="password" class="form-control" id="password2"
                               [ngClass]="{ 'is-invalid': submitted && editUserForm.controls.password.errors }" required
                               placeholder="Password">
                           </div>
