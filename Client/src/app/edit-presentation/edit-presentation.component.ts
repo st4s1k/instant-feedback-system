@@ -5,6 +5,8 @@ import { Presentation } from '../models/presentation.model';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { ParticipantService } from '../services/participant.service';
+import { Participant } from '../models/participant.model';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -31,13 +33,14 @@ export class EditPresentationComponent implements OnInit {
 
   constructor(
     private presentationService: PresentationService,
+    private participantService: ParticipantService,
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     notifierService: NotifierService
   ) {
-  this.notifier = notifierService;
-}
+    this.notifier = notifierService;
+  }
 
   ngOnInit() {
 
@@ -77,12 +80,12 @@ export class EditPresentationComponent implements OnInit {
 
   formGroupToModel = function () {
 
-    return <Presentation> {
+    return <Presentation>{
       email: localStorage.getItem('email'),
       title: this.title.value,
       description: this.description.value,
       startTime: this.startTime.value,
-      endTime:  this.endTime.value,
+      endTime: this.endTime.value,
       date: this.date.value,
       place: this.location.value,
     };
@@ -114,7 +117,7 @@ export class EditPresentationComponent implements OnInit {
 
     const presentation = this.formGroupToModel();
 
-    this.sendNewPresentation(<Presentation> {
+    this.sendNewPresentation(<Presentation>{
       id: this.route.snapshot.paramMap.get('id'),
       email: presentation.email,
       title: presentation.title,
@@ -126,11 +129,18 @@ export class EditPresentationComponent implements OnInit {
     }).pipe(first())
       .subscribe(id => {
         console.log(JSON.stringify(id));
+        if (this.emailInvitations.value) {
+          this.participantService.addParticipants(this.emailInvitations.value.map(email => new Participant(<Participant>{
+            presentationID: this.route.snapshot.paramMap.get('id'),
+            email: email
+          })).subscribe()
+          );
+        }
         this.router.navigate([`/presentation-page/${id}`]);
 
       }, error => {
         // alert('Error:' + error);
-        this.notifier.notify('error',error);
+        this.notifier.notify('error', error);
       });
   }
 
@@ -138,7 +148,7 @@ export class EditPresentationComponent implements OnInit {
     if (this.router.url === '/new-presentation') {
       return this.presentationService.createPresentation(presentation);
     } else {
-      this.notifier.notify('success','Success');
+      this.notifier.notify('success', 'Success');
       return this.presentationService.updatePresentation(presentation);
     }
   }

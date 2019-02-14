@@ -41,7 +41,7 @@ export class PresentationService {
   getPresentationsByEmail(email: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        email:'' + email
+        email: '' + email
       }
     });
   }

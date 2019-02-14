@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
   loading = false;
   id = localStorage.getItem('userId');
   email = localStorage.getItem('email');
-  presFound=true;
+  presFound = true;
   notifier: NotifierService;
   message: String;
 
@@ -51,23 +51,24 @@ export class UserProfileComponent implements OnInit {
     });
 
     this.presentationService.getPresentationsByEmail(this.email)
-      .subscribe(presentationList =>{this.presentations = presentationList
+      .subscribe(presentationList => {
+        this.presentations = presentationList;
 
-        if(presentationList){
-          this.presFound=true;
-        }else  this.presFound=false;
-        },
+        if (presentationList) {
+          this.presFound = true;
+        } else { this.presFound = false; }
+      },
         error => {
           alert(error);
-          this.presFound=false;
+          this.presFound = false;
         });
 
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmNewPass: ['', Validators.required]
     }, {
-      validator: MustMatch('NewPass', 'ConfirmNewPass')
-    });
+        validator: MustMatch('NewPass', 'ConfirmNewPass')
+      });
 
   }
   openPresentationPage(i: number) {

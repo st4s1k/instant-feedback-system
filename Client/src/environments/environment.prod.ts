@@ -6,6 +6,7 @@ export const environment = {
 
   presentationsApiRoute: '/api/presentations',
   messagesApiRoute: '/api/messages',
+  participantApiRoute: '/api/participants',
   marksApiRoute: '/api/marks',
   usersApiRoute: '/api/users',
   signinApiRoute: '/api/auth',
