@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment.prod';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 const SERVER_URL = environment.serverUrl;
-const MSG_API = environment.messagesApiRoute;
 const PRESENTATIONS_API = environment.presentationsApiRoute;
 
 @Injectable({
@@ -57,9 +56,5 @@ export class PresentationService {
 
   deletePresentation(id: string) {
     return this.http.delete<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
-  }
-
-  deleteMessage(id: string) {
-    return this.http.delete(SERVER_URL + MSG_API + `/${id}`);
   }
 }

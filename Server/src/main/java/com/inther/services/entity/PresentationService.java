@@ -47,7 +47,7 @@ public class PresentationService
     public List<Presentation> searchForPresentationsByUserId(UUID userId) {
         Optional<User> user = userRepository.findUserById(userId);
         return user.isPresent()
-                ? presentationRepository.findPresentationsByEmail(user.get().getEmail())
+                ? presentationRepository.findPresentationsByUser(user.get())
                 : new ArrayList<>();
     }
 
@@ -60,8 +60,8 @@ public class PresentationService
     {
         return presentationRepository.findPresentationById(presentation.getId())
                 .map(p -> {
-                    modelMapper.map(p, presentation);
-                    return presentationRepository.save(p).equals(presentation);
+                    presentationRepository.save(presentation);
+                    return true;
                 });
     }
 

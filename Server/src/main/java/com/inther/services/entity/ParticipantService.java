@@ -27,7 +27,7 @@ public class ParticipantService
     public Optional<UUID> addParticipant(Participant participant)
     {
         Optional<Participant> similarParticipant = participantRepository
-                .findParticipantByPresentationIdAndEmail(participant.getPresentationId(), participant.getEmail());
+                .findParticipantByPresentation_IdAndEmail(participant.getPresentation().getId(), participant.getEmail());
 
         return similarParticipant.isPresent()
                 ? Optional.empty()
@@ -35,7 +35,7 @@ public class ParticipantService
     }
 
     public List<Participant> fetchPresentationParticipants(UUID presentationId) {
-        return participantRepository.findParticipantsByPresentationId(presentationId);
+        return participantRepository.findParticipantsByPresentation_Id(presentationId);
     }
 
     public Optional<Boolean> deleteParticipant(UUID id)

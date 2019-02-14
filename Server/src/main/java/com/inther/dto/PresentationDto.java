@@ -33,4 +33,6 @@ public class PresentationDto implements Serializable
 
     @NotBlank
     private String place;
+
+    private Double avgMark;
 }

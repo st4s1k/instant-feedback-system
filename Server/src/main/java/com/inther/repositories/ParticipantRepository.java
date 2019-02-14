@@ -12,14 +12,14 @@ import java.util.UUID;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, UUID>
 {
-    Optional<Participant> findParticipantByPresentationIdAndEmail(UUID presentationId, String userEmail);
+    Optional<Participant> findParticipantByPresentation_IdAndEmail(UUID presentationId, String participantemal);
     Optional<Participant> findParticipantById(UUID id);
     Optional<Participant> findParticipantByEmail(String email);
-    List<Participant> findParticipantsByPresentationId(UUID presentationId);
+    List<Participant> findParticipantsByPresentation_Id(UUID presentationId);
 
     @Transactional
     void deleteParticipantById(UUID id);
 
     @Transactional
-    void deleteParticipantByPresentationIdAndEmail(UUID presentationId, String userEmail);
+    void deleteParticipantByPresentation_IdAndEmail(UUID presentationId, String userEmail);
 }

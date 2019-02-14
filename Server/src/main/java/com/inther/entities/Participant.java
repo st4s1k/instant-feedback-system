@@ -22,13 +22,12 @@ public class Participant
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(targetEntity = Presentation.class)
-    @Type(type="org.hibernate.type.PostgresUUIDType")
-    private UUID presentationId;
+    @ManyToOne
+    private Presentation presentation;
 
     private String email;
 
-    public Participant(String email) {
-        this.email = email;
+    public String getPresentationId() {
+        return this.presentation.getId().toString();
     }
 }

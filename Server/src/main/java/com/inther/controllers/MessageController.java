@@ -3,6 +3,7 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.MessageDto;
 import com.inther.entities.Message;
+import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.MessageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins="*", maxAge = 3600)
@@ -23,8 +25,9 @@ public class MessageController
     private final MessageService messageService;
     private final ModelMapper modelMapper;
     private final HttpHeaders httpHeaders;
+    private final PresentationRepository presentationRepository;
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping
     public ResponseEntity<?> addMessage(
             @Validated(value = {RequestDataValidator.AddMessage.class})
@@ -37,7 +40,21 @@ public class MessageController
                 .orElseGet(() -> new ResponseEntity<>("No such presentationId.", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping(params = "presentationId")
+    public ResponseEntity<?> getMessagesByPresentation(
+            @RequestParam(value = "presentationId") String id)
+    {
+        if (presentationRepository.findPresentationById(UUID.fromString(id)).isPresent()) {
+            List<Message> msgList = messageService.fetchMessagesByPresentationId(UUID.fromString(id));
+            return new ResponseEntity<>(msgList, httpHeaders, msgList.isEmpty()
+                    ? HttpStatus.NO_CONTENT
+                    : HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Presentation not found!", httpHeaders, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping
     public ResponseEntity<?> editMessage(
             @Validated(value = {RequestDataValidator.UpdateMessage.class})
@@ -50,7 +67,7 @@ public class MessageController
                 .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteMessage(@PathVariable String id)
     {
@@ -64,10 +81,12 @@ public class MessageController
     @Autowired
     public MessageController(MessageService messageService,
                              ModelMapper modelMapper,
-                             HttpHeaders httpHeaders)
+                             HttpHeaders httpHeaders,
+                             PresentationRepository presentationRepository)
     {
         this.messageService = messageService;
         this.modelMapper = modelMapper;
         this.httpHeaders = httpHeaders;
+        this.presentationRepository = presentationRepository;
     }
 }

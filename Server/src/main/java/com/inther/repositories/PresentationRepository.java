@@ -1,6 +1,7 @@
 package com.inther.repositories;
 
 import com.inther.entities.Presentation;
+import com.inther.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public interface PresentationRepository extends JpaRepository<Presentation, UUID>
 {
     // Exact query
-    List<Presentation> findPresentationsByEmail(String userEmail);
+    List<Presentation> findPresentationsByUser(User user);
     Optional<Presentation> findPresentationByTitle(String title);
     Optional<Presentation> findPresentationById(UUID id);
     // Filtered query
@@ -22,5 +23,5 @@ public interface PresentationRepository extends JpaRepository<Presentation, UUID
     void deletePresentationById(UUID id);
 
     @Transactional
-    void deletePresentationsByEmail(String userEmail);
+    void deletePresentationsByUser(User user);
 }

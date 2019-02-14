@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
@@ -34,17 +36,45 @@ public class MarkController
     {
         // Ugh.. big clump of methods. Source of untraceable trouble. Should fix it someday...)
         Mark mark = modelMapper.map(markDto, Mark.class);
-        return presentationRepository.findPresentationById(mark.getPresentationId())
-                .map(presentation -> userRepository.findUserById(mark.getUserId()))
+        return presentationRepository.findPresentationById(mark.getPresentation().getId())
+                .map(presentation -> userRepository.findUserById(mark.getUser().getId()))
                 .filter(Optional::isPresent).map(Optional::get)
                 .map(user -> markService.newMark(mark)
                         .map(newMark -> new ResponseEntity<>("User " + user.getEmail() +
-                                        " successfully rated presentationId, ID: " + mark.getPresentationId(),
+                                " successfully rated presentationId, ID: " + mark.getPresentationId(),
                                 httpHeaders, HttpStatus.CREATED))
                         .orElse(new ResponseEntity<>("User has already rated this presentationId!",
                                 httpHeaders, HttpStatus.CONFLICT)))
                 .orElseGet(() -> new ResponseEntity<>("No such presentationId OR userEmail.",
                         httpHeaders, HttpStatus.BAD_REQUEST));
+    }
+
+    @GetMapping(params = "presentationId")
+    public ResponseEntity<?> getMarksByPresentation(
+            @RequestParam(value = "presentationId") String id)
+    {
+        if (presentationRepository.findPresentationById(UUID.fromString(id)).isPresent()) {
+            List<Mark> markList = markService.fetchMarksByPresentationId(UUID.fromString(id));
+            return new ResponseEntity<>(markList, httpHeaders, markList.isEmpty()
+                    ? HttpStatus.NO_CONTENT
+                    : HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Presentation not found!", httpHeaders, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(params = "userId")
+    public ResponseEntity<?> getUserMark(
+            @RequestParam(value = "userId") String id)
+    {
+        if (userRepository.findUserById(UUID.fromString(id)).isPresent()) {
+            Optional<Mark> mark = markService.fetchUserMark(UUID.fromString(id));
+            return mark.isEmpty()
+                    ? new ResponseEntity<>(mark, httpHeaders, HttpStatus.OK)
+                    : new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>("User not found!", httpHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @Autowired

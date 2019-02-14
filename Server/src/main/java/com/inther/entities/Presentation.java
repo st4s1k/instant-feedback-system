@@ -1,5 +1,6 @@
 package com.inther.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,8 @@ public class Presentation
     @GeneratedValue
     private UUID id;
 
-    private String email;
+    @ManyToOne
+    private User user;
 
     private String title;
 
@@ -48,4 +50,14 @@ public class Presentation
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
+
+    public Double getAvgMark() {
+        return this.marks == null || this.marks.isEmpty()
+                ? 0d
+                : this.marks.stream().mapToDouble(Mark::getValue).average().orElse(0d);
+    }
+
+    public String getEmail() {
+        return this.user == null ? null : this.user.getEmail();
+    }
 }

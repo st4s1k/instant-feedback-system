@@ -18,6 +18,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
 import {AdminGuard} from './_guards/admin.guard';
+import { UserMarkResolverService } from './services/user-mark-resolver.service';
+import { PresentationMessagesResolverService } from './services/presentation-messages-resolver.service';
 
 const routes: Routes = [
   {
@@ -48,7 +50,9 @@ const routes: Routes = [
     path: 'presentation-page/:id',
     component: PresentationPageComponent,
     resolve: {
-      presentation: PresentationDetailResolverService
+      presentation: PresentationDetailResolverService,
+      userMark: UserMarkResolverService,
+      messages: PresentationMessagesResolverService
     }
   },
   {

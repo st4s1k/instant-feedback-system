@@ -6,10 +6,14 @@ export const environment = {
 
   presentationsApiRoute: '/api/presentations',
   messagesApiRoute: '/api/messages',
+  marksApiRoute: '/api/marks',
   usersApiRoute: '/api/users',
   signinApiRoute: '/api/auth',
   signupApiRoute: '/api/auth',
 
   userRole: 'USER',
-  adminRole: 'ADMIN'
+  adminRole: 'ADMIN',
+
+  msgTypeFeedback: 'TYPE_FEEDBACK',
+  msgTypeQuestion: 'TYPE_QUESTION'
 };

@@ -1,7 +1,6 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.assets.wrappers.ResponseEntityWrapper;
 import com.inther.dto.ParticipantDto;
 import com.inther.entities.Participant;
 import com.inther.services.entity.ParticipantService;

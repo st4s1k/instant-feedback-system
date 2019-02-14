@@ -12,7 +12,7 @@ import { AuthenticationService } from '../services/authentication.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private authenticationService: AuthenticationService) { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(
         catchError( (error: HttpErrorResponse) => {
@@ -26,12 +26,11 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Client Side Error
           if (error.error instanceof ErrorEvent) {
             errMsg = `Error: ${error.error.message}`;
-          }
-          else {  // Server Side Error
+          } else {  // Server Side Error
             errMsg = `Error Code: ${error.status},  Message: ${error.message}`;
           }
           return throwError(errMsg);
         })
-      )
+      );
   }
 }

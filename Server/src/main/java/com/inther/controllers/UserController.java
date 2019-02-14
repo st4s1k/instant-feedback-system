@@ -28,7 +28,7 @@ public class UserController
     private final ModelMapper modelMapper;
     private final HttpHeaders httpHeaders;
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createUser(
             @Validated(value = {RequestDataValidator.AddUser.class})
@@ -40,7 +40,7 @@ public class UserController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAllUsers()
     {
@@ -69,7 +69,7 @@ public class UserController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @PutMapping
     public ResponseEntity<?> editUser(
             @Validated(value = {RequestDataValidator.UpdateUser.class})
@@ -82,7 +82,7 @@ public class UserController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable(value = "id") String id)
     {
