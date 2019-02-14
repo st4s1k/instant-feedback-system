@@ -6,6 +6,8 @@ import { MustMatch } from '../shared/sign-up.validator';
 import { User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { NotifierService } from 'angular-notifier';
+import {environment} from "../../environments/environment.prod";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-sign-up',
@@ -18,6 +20,7 @@ export class SignUpComponent implements OnInit {
   submitted = false;
   private readonly notifier: NotifierService;
   loading = false;
+  message:string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,7 +55,6 @@ export class SignUpComponent implements OnInit {
     this.auth.signup(<User>{
       email: this.signupForm.get('email').value,
       password: this.signupForm.get('password').value,
-      role: 'ROLE_USER'
     }).pipe(first())
       .subscribe(
         data => {
@@ -61,7 +63,8 @@ export class SignUpComponent implements OnInit {
           console.log(data);
         },
         error => {
-          this.notifier.notify('error', 'Registration Failed');
+          this.message = 'Registration Failed : ' + error ;
+          this.notifier.notify('error', error);
           console.log(error);
           this.loading = false;
         }
