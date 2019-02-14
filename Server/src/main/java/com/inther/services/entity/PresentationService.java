@@ -67,11 +67,8 @@ public class PresentationService
         return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
     }
 
-    public List<Presentation> searchForPresentationsByUserId(UUID userId) {
-        Optional<User> user = userRepository.findUserById(userId);
-        return user.isPresent()
-                ? presentationRepository.findPresentationsByEmail(user.get().getEmail())
-                : new ArrayList<>();
+    public List<Presentation> searchForPresentationsByEmail(String email) {
+        return presentationRepository.findPresentationsByEmail(email);
     }
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)

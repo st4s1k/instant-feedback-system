@@ -23,14 +23,6 @@ export class PresentationService {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
   }
 
-  getPresentationsByUser(userId: string) {
-    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
-      params: {
-        userId: '' + userId
-      }
-    });
-  }
-
   getPresentationsByTitle(title: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
@@ -39,10 +31,18 @@ export class PresentationService {
     });
   }
 
+  getPresentationsByUserId(userId: string) {
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
+      params: {
+        userId: '' + userId
+      }
+    });
+  }
+
   getPresentationsByEmail(email: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        email_like: email
+        email:'' + email
       }
     });
   }
