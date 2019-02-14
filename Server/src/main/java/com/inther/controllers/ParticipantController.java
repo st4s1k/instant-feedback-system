@@ -54,15 +54,17 @@ public class ParticipantController
             @Validated(value = {RequestDataValidator.AddParticipant.class})
             @RequestBody List<ParticipantDto> participantDtoToPut)
     {
-        Participant newParticipant = modelMapper.map(participantDtoToPut, Participant.class);
-        Optional<UUID> newParticipantId = participantService.addParticipant(newParticipant);
+        List<Participant> newParticipantList = participantDtoToPut.stream()
+        .map(participantDto -> modelMapper.map(participantDto, Participant.class))
+                .collect(Collectors.toList());
 
-
-        for (ParticipantDto participantDto : participantDtoToPut)
+        for (Participant newParticipant : newParticipantList)
         {
-            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(participantDto.getPresentationId());
+            participantService.addParticipant(newParticipant);
+
+            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(newParticipant.getPresentationId());
             optionalPresentation.ifPresent(presentation ->
-                sendNotificationMessages(participantDto.getEmail(), "You has been invited on presentation",
+                sendNotificationMessages(newParticipant.getEmail(), "You has been invited on presentation",
                          "Presentation name: " + presentation.getTitle()
                             + "n/Presentation description: " + presentation.getDescription()
                             + "n/n/Presentation start time: " + presentation.getStartTime()
@@ -71,10 +73,7 @@ public class ParticipantController
             );
         }
 
-
-        return newParticipantId.isPresent()
-                ? new ResponseEntity<>(httpHeaders, HttpStatus.CREATED)
-                : new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
