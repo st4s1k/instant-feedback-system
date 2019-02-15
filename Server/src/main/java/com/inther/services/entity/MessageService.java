@@ -33,9 +33,10 @@ public class MessageService
     public Optional<Boolean> addMessage(Message message)
     {
         return presentationRepository.findPresentationById(message.getPresentation().getId())
-                .map(p -> LocalDateTime.now()
-                        .isAfter(p.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-                        && messageRepository.existsById(messageRepository.save(message).getId()));
+                .map(p ->
+//                        LocalDateTime.now().isAfter(p.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+//                        &&
+                                messageRepository.save(message).equals(message));
     }
 
     public List<Message> fetchMessagesByPresentationId(UUID presentationId) {

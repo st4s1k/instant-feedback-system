@@ -7,7 +7,7 @@ export class MessageDTO {
   email: string;
   text: string;
   type: string;
-  anonymity: boolean;
+  anonymous: boolean;
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);
@@ -21,7 +21,7 @@ export class MessageDTO {
       email: m.email,
       text: m.text,
       type: m.type,
-      anonymity: m.anonymity
+      anonymous: m.anonymous
     };
   }
 }

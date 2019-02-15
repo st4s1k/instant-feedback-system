@@ -40,14 +40,14 @@ export class PresentationPageComponent implements OnInit {
   authenticated = localStorage.getItem('sessionID');
 
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
-  anonymity: FormControl = this.fb.control(false);
+  anonymous: FormControl = this.fb.control(false);
   feedbackBox: FormControl = this.fb.control('', Validators.required);
   @ViewChild('fbb') feedbackBoxView: ElementRef;
 
   feedbackFormGroup: FormGroup = this.fb.group({
     feedbackBox: this.feedbackBox,
     type: this.type,
-    anonymity: this.anonymity
+    anonymity: this.anonymous
   });
 
   constructor(
@@ -71,8 +71,8 @@ export class PresentationPageComponent implements OnInit {
       this.presentation = data.presentation;
 
       if (this.userId) {
-      this.ms.getUserMark(this.userId)
-        .pipe(first()).subscribe(markDto => {
+        this.ms.getUserMark(this.userId)
+          .pipe(first()).subscribe(markDto => {
           if (markDto) {
             this.userMark = MarkDTO.toModel(markDto);
           } else {
@@ -121,7 +121,7 @@ export class PresentationPageComponent implements OnInit {
     this.editingMessage = i;
 
     this.feedbackBox.setValue(this.feedback[i].text);
-    this.anonymity.setValue(this.feedback[i].anonymity);
+    this.anonymous.setValue(this.feedback[i].anonymous);
     this.type.setValue(this.feedback[i].type);
 
     this.feedbackBoxView.nativeElement.focus();
@@ -142,43 +142,45 @@ export class PresentationPageComponent implements OnInit {
       return;
     }
 
-    this.addMessage(new Message(<Message>{
+    this.sendMessage(new Message(<Message>{
       userId: localStorage.getItem('userId'),
       presentationId: this.presentation.id,
-      email: (this.anonymity.value ? 'anonymous' : localStorage.getItem('email')),
+      email: (this.anonymous.value ? 'anonymous' : localStorage.getItem('email')),
       text: this.feedbackBox.value,
       type: this.type.value,
-      anonymity: this.anonymity.value
-    }));
+      anonymous: this.anonymous.value
+    })).pipe(first()).subscribe(messageDto => {
+        const message = MessageDTO.toModel(messageDto);
+        if (this.editingMessage >= 0) {
+          this.feedback[this.editingMessage] = message;
+        } else {
+          if (!this.feedback) {
+            this.feedback = [];
+          }
+          this.feedback.push(message);
+        }
+        alert('Succes!:' + JSON.stringify(messageDto));
+      }, error => {
+        alert('Error!: ' + error);
+      }
+    );
+
+
 
     this.feedbackFormGroup.reset({
       feedbackBox: '',
-      type: 'feedback',
+      type: this.TYPE_FEEDBACK,
       anonymity: false
     });
 
     this.submittedFeedback = false;
   }
 
-  addMessage(currentFeedback: Message) {
-    this.msgSrv.updateMessage(currentFeedback).pipe(first())
-      .subscribe(messageDto => {
-          const message = MessageDTO.toModel(messageDto);
-
-          if (this.editingMessage >= 0) {
-            this.feedback[this.editingMessage] = message;
-            this.editingMessage = -1;
-          } else {
-            if (!this.feedback) {
-              this.feedback = [];
-            }
-            this.feedback.push(message);
-          }
-          alert('Succes!:' + JSON.stringify(messageDto));
-        },
-        error => {
-          alert('Error!: ' + error);
-        }
-      );
+  sendMessage(currentFeedback: Message) {
+    if (this.editingMessage >= 0) {
+      return this.msgSrv.updateMessage(currentFeedback);
+    } else {
+      return this.msgSrv.addMessage(currentFeedback);
+    }
   }
 }
