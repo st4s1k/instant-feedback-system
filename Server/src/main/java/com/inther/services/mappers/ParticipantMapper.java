@@ -15,39 +15,39 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
     }
 
     @Override
-    public Participant toEntity(ParticipantDto participantDto) {
+    public Participant toEntity(ParticipantDto dto) {
 
-        if (participantDto == null) { return null; }
+        if (dto == null) { return null; }
 
         return Participant.builder()
-                .id(participantDto.getId())
-                .presentation(participantDto.getPresentationId() == null
+                .id(dto.getId())
+                .presentation(dto.getPresentationId() == null
                         ? null
                         : presentationRepository
-                        .findPresentationById(participantDto.getPresentationId())
+                        .findPresentationById(dto.getPresentationId())
                         .orElse(null))
-                .email(participantDto.getEmail())
+                .email(dto.getEmail())
                 .build();
     }
 
     @Override
-    public ParticipantDto toDto(Participant participant) {
+    public ParticipantDto toDto(Participant entity) {
 
-        if (participant == null) { return null; }
+        if (entity == null) { return null; }
 
         return ParticipantDto.builder()
-                .id(participant.getId())
-                .presentationId(participant.getPresentation() == null
+                .id(entity.getId())
+                .presentationId(entity.getPresentation() == null
                         ? null
-                        : participant.getPresentation().getId())
-                .email(participant.getEmail())
+                        : entity.getPresentation().getId())
+                .email(entity.getEmail())
                 .build();
     }
 
     @Override
     public void patchEntity(Participant source, Participant destination) {
 
-        if (source == null || destination == null) { return; }
+        if (source == null || destination == null || source.equals(destination)) { return; }
 
         destination.setId(source.getId());
         destination.setPresentation(source.getPresentation());
@@ -57,7 +57,7 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
     @Override
     public void patchDto(ParticipantDto source, ParticipantDto destination) {
 
-        if (source == null || destination == null) { return; }
+        if (source == null || destination == null || source.equals(destination)) { return; }
 
         destination.setId(source.getId());
         destination.setPresentationId(source.getPresentationId());

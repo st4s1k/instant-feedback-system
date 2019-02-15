@@ -19,47 +19,47 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
     }
 
     @Override
-    public Mark toEntity(MarkDto markDto) {
+    public Mark toEntity(MarkDto dto) {
 
-        if (markDto == null) { return null; }
+        if (dto == null) { return null; }
 
         return Mark.builder()
-                .id(markDto.getId())
-                .presentation(markDto.getPresentationId() == null
+                .id(dto.getId())
+                .presentation(dto.getPresentationId() == null
                         ? null
                         : presentationRepository
-                        .findPresentationById(markDto.getPresentationId())
+                        .findPresentationById(dto.getPresentationId())
                         .orElse(null))
-                .user(markDto.getUserId() == null
+                .user(dto.getUserId() == null
                         ? null
                         : userRepository
-                        .findUserById(markDto.getUserId())
+                        .findUserById(dto.getUserId())
                         .orElse(null))
-                .value(markDto.getValue())
+                .value(dto.getValue())
                 .build();
     }
 
     @Override
-    public MarkDto toDto(Mark mark) {
+    public MarkDto toDto(Mark entity) {
 
-        if (mark == null) { return null; }
+        if (entity == null) { return null; }
 
         return MarkDto.builder()
-                .id(mark.getId())
-                .presentationId(mark.getPresentation() == null
+                .id(entity.getId())
+                .presentationId(entity.getPresentation() == null
                         ? null
-                        : mark.getPresentation().getId())
-                .userId(mark.getUser() == null
+                        : entity.getPresentation().getId())
+                .userId(entity.getUser() == null
                         ? null
-                        : mark.getUser().getId())
-                .value(mark.getValue())
+                        : entity.getUser().getId())
+                .value(entity.getValue())
                 .build();
     }
 
     @Override
     public void patchEntity(Mark source, Mark destination) {
 
-        if (source == null || destination == null) { return; }
+        if (source == null || destination == null || source.equals(destination)) { return; }
 
         destination.setId(source.getId());
         destination.setPresentation(source.getPresentation());
@@ -70,7 +70,7 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
     @Override
     public void patchDto(MarkDto source, MarkDto destination) {
 
-        if (source == null || destination == null) { return; }
+        if (source == null || destination == null || source.equals(destination)) { return; }
 
         destination.setId(source.getId());
         destination.setPresentationId(source.getPresentationId());
