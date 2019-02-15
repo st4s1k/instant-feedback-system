@@ -70,6 +70,7 @@ export class PresentationPageComponent implements OnInit {
     }) => {
       this.presentation = data.presentation;
 
+      if (this.userId) {
       this.ms.getUserMark(this.userId)
         .pipe(first()).subscribe(markDto => {
           if (markDto) {
@@ -78,6 +79,9 @@ export class PresentationPageComponent implements OnInit {
             this.canVote = true;
           }
         });
+      } else {
+        this.canVote = false;
+      }
 
       this.msgSrv.getPresentationMessages(this.presentation.id)
         .pipe(first()).subscribe(messagesDto => {

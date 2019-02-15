@@ -57,7 +57,7 @@
 
             <div class="col-auto d-flex align-items-center">
               <div>
-                {{presentation.avgMark.toFixed(2)}}
+                {{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '[null]' }}
               </div>
             </div>
 

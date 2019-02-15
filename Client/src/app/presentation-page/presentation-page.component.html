@@ -10,7 +10,8 @@
 
       <div class="col-auto text-center average-mark">
 
-        <p class="mb-0">{{ presentation.avgMark.toFixed(2) }}
+        <p class="mb-0">
+          {{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '[null]' }}
           <span class="mb-2" id="ratings-count">
             <i class="fas fa-user"></i> {{ ratingsCount }} votes
           </span>
