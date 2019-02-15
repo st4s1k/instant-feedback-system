@@ -16,7 +16,7 @@
           <div class="form-group">
             <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-at"></i></div>
-              <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.email.errors }"
+              <input type="text" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.email.errors }"
                 placeholder="you@inther.com" required autofocus />
             </div>
           </div>
@@ -38,7 +38,7 @@
           <div class="form-group has-danger">
             <div class="align-items-center input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i></div>
-              <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.password.errors }"
+              <input type="password" id="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && signupForm.controls.password.errors }"
                 required placeholder="Password">
             </div>
           </div>
@@ -81,13 +81,6 @@
         <div class="col-md-7"></div>
         <div class="col-md-3">
           <button [disabled]="loading" id="regBtn" type="submit" class="btn btn-success">Sign Up</button>
-        </div>
-      </div>
-      <hr>
-      <div class="row justify-content-center">
-        <div class="col-md-1"></div>
-        <div class="col-md-6">
-          <pre> Sign Up form: {{signupForm.value | json}} </pre>
         </div>
       </div>
     </form>

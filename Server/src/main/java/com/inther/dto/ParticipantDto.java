@@ -13,9 +13,9 @@ public class ParticipantDto
     @NotNull(groups = {RequestDataValidator.DeleteParticipant.class})
     private UUID id;
 
-    @NotBlank
+    @NotNull
     private UUID presentationId;
 
-    @NotBlank
+    @NotNull
     private String email;
 }
