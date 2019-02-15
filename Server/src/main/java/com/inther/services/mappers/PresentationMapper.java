@@ -85,9 +85,6 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
         destination.setEndTime(source.getEndTime());
         destination.setDate(source.getDate());
         destination.setPlace(source.getPlace());
-        destination.setParticipants(source.getParticipants());
-        destination.setMessages(source.getMessages());
-        destination.setMarks(source.getMarks());
     }
 
     @Override
