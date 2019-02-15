@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins="*", maxAge = 3600)
 @RestController
@@ -45,7 +46,9 @@ public class MessageController
     {
         if (presentationRepository.findPresentationById(UUID.fromString(id)).isPresent()) {
             List<Message> msgList = messageService.fetchMessagesByPresentationId(UUID.fromString(id));
-            return new ResponseEntity<>(msgList, httpHeaders, msgList.isEmpty()
+            List<MessageDto> msgDtoList = msgList.stream().map(messageMapper::toDto).collect(Collectors.toList());
+
+            return new ResponseEntity<>(msgDtoList, httpHeaders, msgList.isEmpty()
                     ? HttpStatus.NO_CONTENT
                     : HttpStatus.OK);
         } else {
