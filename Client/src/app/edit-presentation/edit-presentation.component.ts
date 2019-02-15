@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
-import { first } from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { ParticipantService } from '../services/participant.service';
@@ -30,6 +30,9 @@ export class EditPresentationComponent implements OnInit {
   submitted = false;
   invite_touched = false;
   notifier: NotifierService;
+
+  tempID;
+  arrayControl;
 
   constructor(
     private presentationService: PresentationService,
@@ -128,13 +131,23 @@ export class EditPresentationComponent implements OnInit {
       place: presentation.place,
     }).pipe(first())
       .subscribe(id => {
+        this.notifier.notify('success', 'Presentation saved');
         console.log(JSON.stringify(id));
+        this.tempID=id;
         if (this.emailInvitations.value) {
-          this.participantService.addParticipants(this.emailInvitations.value.map(email => new Participant(<Participant>{
-            presentationID: this.route.snapshot.paramMap.get('id'),
+          this.arrayControl = this.emailInvitations.value;
+          console.log(this.emailInvitations.value);
+          this.participantService.addParticipants(
+            this.emailInvitations.value.map(email => new Participant(<Participant>{
+            presentationID: this.tempID,
             email: email
-          })).subscribe()
-          );
+          }))
+          ).subscribe(success=>{
+            this.notifier.notify('success', 'Invites are sent');
+          },
+            error1 => {
+              this.notifier.notify('error', 'Invite not sent'+error1);
+            });
         }
         this.router.navigate([`/presentation-page/${id}`]);
 

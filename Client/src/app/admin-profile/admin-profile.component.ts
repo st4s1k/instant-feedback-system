@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
 import { UserDTO } from '../models/dtos/user.dto';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
-import {environment} from "../../environments/environment.prod";
+import { environment } from '../../environments/environment.prod';
 
 @Component({
   selector: 'app-admin-profile',
@@ -103,7 +103,7 @@ export class AdminProfileComponent implements OnInit {
       },
       error => {
         this.notifier.notify('error', 'Error on adding user');
-        this.notifier.notify('error',error);
+        this.notifier.notify('error', error);
       }
     );
   }

@@ -6,8 +6,6 @@ import { MustMatch } from '../shared/sign-up.validator';
 import { User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { NotifierService } from 'angular-notifier';
-import {environment} from "../../environments/environment.prod";
-import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-sign-up',
