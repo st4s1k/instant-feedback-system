@@ -1,16 +1,15 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.services.mappers.MessageMapper;
 import com.inther.dto.MessageDto;
 import com.inther.entities.Message;
 import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.MessageService;
-import com.inther.mappers.MessageMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import java.util.UUID;
 public class MessageController
 {
     private final MessageService messageService;
-    private final MessageMapperImpl messageMapper;
+    private final MessageMapper messageMapper;
     private final HttpHeaders httpHeaders;
     private final PresentationRepository presentationRepository;
 
@@ -31,12 +30,12 @@ public class MessageController
     @PostMapping
     public ResponseEntity<?> addMessage(
             @Validated(value = {RequestDataValidator.AddMessage.class})
-            @RequestBody MessageDto messageDtoToPut)
+            @RequestBody MessageDto messageDto)
     {
-        return messageService.addMessage(messageMapper.toEntity(messageDtoToPut))
-                .map(messageAdded -> messageAdded ?
-                        new ResponseEntity<>( "Presentation not started yet!", httpHeaders, HttpStatus.FORBIDDEN) :
-                        new ResponseEntity<>( "Message successfully added!", httpHeaders, HttpStatus.ACCEPTED))
+        return messageService.addMessage(messageMapper.toEntity(messageDto))
+                .map(messageAdded -> messageAdded
+                        ? new ResponseEntity<>( "Presentation not started yet!", httpHeaders, HttpStatus.FORBIDDEN)
+                        : new ResponseEntity<>( "Message successfully added!", httpHeaders, HttpStatus.ACCEPTED))
                 .orElseGet(() -> new ResponseEntity<>("No such presentationId.", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
@@ -61,9 +60,9 @@ public class MessageController
             @RequestBody MessageDto messageDtoToPatch)
     {
         return messageService.editMessage(messageMapper.toEntity(messageDtoToPatch))
-                .map(messageEdited -> messageEdited ?
-                        new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN) :
-                        new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.ACCEPTED))
+                .map(messageEdited -> messageEdited
+                        ? new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN)
+                        : new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.ACCEPTED))
                 .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
@@ -72,15 +71,15 @@ public class MessageController
     public ResponseEntity<?> deleteMessage(@PathVariable String id)
     {
         return messageService.deleteMessage(UUID.fromString(id))
-                .map(messageDeleted -> messageDeleted ?
-                        new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN) :
-                        new ResponseEntity<>( "Message successfully deleted!", httpHeaders, HttpStatus.ACCEPTED))
+                .map(messageDeleted -> messageDeleted
+                        ? new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN)
+                        : new ResponseEntity<>( "Message successfully deleted!", httpHeaders, HttpStatus.ACCEPTED))
                 .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired
     public MessageController(MessageService messageService,
-                             MessageMapperImpl messageMapper,
+                             MessageMapper messageMapper,
                              HttpHeaders httpHeaders,
                              PresentationRepository presentationRepository)
     {

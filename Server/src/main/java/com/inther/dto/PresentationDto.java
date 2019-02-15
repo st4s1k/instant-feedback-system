@@ -1,6 +1,7 @@
 package com.inther.dto;
 
 import com.inther.assets.validators.RequestDataValidator;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Data
+@Builder
 public class PresentationDto implements Serializable
 {
     @NotNull(groups = {RequestDataValidator.UpdatePresentation.class})

@@ -1,13 +1,13 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.services.mappers.MarkMapper;
 import com.inther.dto.MarkDto;
 import com.inther.entities.Mark;
 import com.inther.repositories.MarkRepository;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
 import com.inther.services.entity.MarkService;
-import com.inther.mappers.MarkMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class MarkController
 {
     private final MarkService markService;
-    private final MarkMapperImpl markMapper;
+    private final MarkMapper markMapper;
     private final HttpHeaders httpHeaders;
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
@@ -45,7 +45,8 @@ public class MarkController
         } else if (markRepository.findMarkByPresentation_IdAndUser_Id(
                 mark.getPresentation().getId(),
                 mark.getUser().getId()).isPresent()) {
-            return new ResponseEntity<>("User has already rated this presentationId!", httpHeaders, HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User has already rated this presentationId!",
+                    httpHeaders, HttpStatus.CONFLICT);
         } else {
             markService.newMark(mark);
             return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
@@ -72,13 +73,9 @@ public class MarkController
     {
         if (userRepository.findUserById(UUID.fromString(id)).isPresent()) {
             Optional<Mark> mark = markService.fetchUserMark(UUID.fromString(id));
-            MarkDto markDto = new MarkDto();
-            if (mark.isPresent()) {
-                markDto = markMapper.toDto(mark.get());
-            }
             return !mark.isPresent()
                     ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(markDto, httpHeaders, HttpStatus.OK);
+                    : new ResponseEntity<>(markMapper.toDto(mark.get()), httpHeaders, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User not found!", httpHeaders, HttpStatus.NOT_FOUND);
         }
@@ -86,10 +83,11 @@ public class MarkController
 
     @Autowired
     public MarkController(MarkService markService,
-                          MarkMapperImpl markMapper,
+                          MarkMapper markMapper,
                           HttpHeaders httpHeaders,
                           PresentationRepository presentationRepository,
-                          UserRepository userRepository, MarkRepository markRepository)
+                          UserRepository userRepository,
+                          MarkRepository markRepository)
     {
         this.markService = markService;
         this.markMapper = markMapper;

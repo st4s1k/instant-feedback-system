@@ -1,12 +1,12 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.services.mappers.ParticipantMapper;
 import com.inther.dto.ParticipantDto;
 import com.inther.entities.Participant;
 import com.inther.entities.Presentation;
 import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.ParticipantService;
-import com.inther.mappers.ParticipantMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ParticipantController
 {
     private final HttpHeaders httpHeaders;
     private final ParticipantService participantService;
-    private final ParticipantMapperImpl participantMapper;
+    private final ParticipantMapper participantMapper;
     private final MailSender mailSender;
     private final PresentationRepository presentationRepository;
 
@@ -63,7 +63,9 @@ public class ParticipantController
         {
             participantService.addParticipant(newParticipant);
 
-            Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(newParticipant.getPresentation().getId());
+            Optional<Presentation> optionalPresentation = presentationRepository
+                    .findPresentationById(newParticipant.getPresentation().getId());
+
             optionalPresentation.ifPresent(presentation ->
                 sendNotificationMessages(newParticipant.getEmail(), "You has been invited on presentation",
                          "Presentation name: " + presentation.getTitle()
@@ -91,7 +93,7 @@ public class ParticipantController
     @Autowired
     public ParticipantController(HttpHeaders httpHeaders,
                                  ParticipantService participantService,
-                                 ParticipantMapperImpl participantMapper,
+                                 ParticipantMapper participantMapper,
                                  MailSender mailSender,
                                  PresentationRepository presentationRepository)
     {

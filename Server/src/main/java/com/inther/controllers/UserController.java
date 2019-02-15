@@ -1,10 +1,10 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.services.mappers.UserMapper;
 import com.inther.dto.UserDto;
 import com.inther.entities.User;
 import com.inther.services.entity.UserService;
-import com.inther.mappers.UserMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserController
 {
     private final UserService userService;
-    private final UserMapperImpl userMapper;
+    private final UserMapper userMapper;
     private final HttpHeaders httpHeaders;
 
     //    @PreAuthorize("hasRole('ADMIN')")
@@ -76,7 +76,9 @@ public class UserController
 
         return userService
                 .updateUserData(userMapper.toEntity(userDto))
-                .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .map(edited -> new ResponseEntity<>(httpHeaders, edited
+                        ? HttpStatus.ACCEPTED
+                        : HttpStatus.CONFLICT))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
@@ -86,13 +88,15 @@ public class UserController
     {
         return userService
                 .deleteUser(UUID.fromString(id))
-                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
+                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted
+                        ? HttpStatus.ACCEPTED
+                        : HttpStatus.CONFLICT))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired
     public UserController(UserService userService,
-                          UserMapperImpl userMapper,
+                          UserMapper userMapper,
                           HttpHeaders httpHeaders)
     {
         this.userService = userService;

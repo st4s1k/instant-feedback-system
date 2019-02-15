@@ -3,7 +3,7 @@ package com.inther.services.entity;
 import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
-import com.inther.mappers.UserMapperImpl;
+import com.inther.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ public class UserService
 {
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
-    private final UserMapperImpl userMapper;
+    private final UserMapper userMapper;
 
     @Autowired
     public UserService(ServiceUtilityBean serviceUtilityBean,
                        UserRepository userRepository,
-                       UserMapperImpl userMapper)
+                       UserMapper userMapper)
     {
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = userRepository;

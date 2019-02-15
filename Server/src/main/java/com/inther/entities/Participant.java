@@ -1,7 +1,5 @@
 package com.inther.entities;
 
-import com.inther.dto.ParticipantDto;
-import com.inther.mappers.PresentationMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
