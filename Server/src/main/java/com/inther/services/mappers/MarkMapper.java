@@ -23,20 +23,25 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
 
         if (dto == null) { return null; }
 
-        return Mark.builder()
-                .id(dto.getId())
-                .presentation(dto.getPresentationId() == null
-                        ? null
-                        : presentationRepository
-                        .findPresentationById(dto.getPresentationId())
-                        .orElse(null))
-                .user(dto.getUserId() == null
-                        ? null
-                        : userRepository
-                        .findUserById(dto.getUserId())
-                        .orElse(null))
-                .value(dto.getValue())
-                .build();
+        Mark entity = Mark.builder().build();
+
+        entity.setId(dto.getId());
+
+        entity.setPresentation(dto.getPresentationId() == null
+                ? null
+                : presentationRepository
+                .findPresentationById(dto.getPresentationId())
+                .orElse(null));
+
+        entity.setUser(dto.getUserId() == null
+                ? null
+                : userRepository
+                .findUserById(dto.getUserId())
+                .orElse(null));
+
+        entity.setValue(dto.getValue());
+
+        return entity;
     }
 
     @Override
@@ -44,16 +49,17 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
 
         if (entity == null) { return null; }
 
-        return MarkDto.builder()
-                .id(entity.getId())
-                .presentationId(entity.getPresentation() == null
+        MarkDto dto = MarkDto.builder().build();
+        dto.setId(entity.getId());
+        dto.setPresentationId(entity.getPresentation() == null
                         ? null
-                        : entity.getPresentation().getId())
-                .userId(entity.getUser() == null
+                        : entity.getPresentation().getId());
+        dto.setUserId(entity.getUser() == null
                         ? null
-                        : entity.getUser().getId())
-                .value(entity.getValue())
-                .build();
+                        : entity.getUser().getId());
+        dto.setValue(entity.getValue());
+
+        return dto;
     }
 
     @Override

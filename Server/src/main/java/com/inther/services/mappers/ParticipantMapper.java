@@ -19,15 +19,16 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
 
         if (dto == null) { return null; }
 
-        return Participant.builder()
-                .id(dto.getId())
-                .presentation(dto.getPresentationId() == null
+        Participant entity = Participant.builder().build();
+        entity.setId(dto.getId());
+        entity.setPresentation(dto.getPresentationId() == null
                         ? null
                         : presentationRepository
                         .findPresentationById(dto.getPresentationId())
-                        .orElse(null))
-                .email(dto.getEmail())
-                .build();
+                        .orElse(null));
+        entity.setEmail(dto.getEmail());
+
+        return entity;
     }
 
     @Override
@@ -35,13 +36,14 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
 
         if (entity == null) { return null; }
 
-        return ParticipantDto.builder()
-                .id(entity.getId())
-                .presentationId(entity.getPresentation() == null
+        ParticipantDto dto = ParticipantDto.builder().build();
+        dto.setId(entity.getId());
+        dto.setPresentationId(entity.getPresentation() == null
                         ? null
-                        : entity.getPresentation().getId())
-                .email(entity.getEmail())
-                .build();
+                        : entity.getPresentation().getId());
+        dto.setEmail(entity.getEmail());
+
+        return dto;
     }
 
     @Override

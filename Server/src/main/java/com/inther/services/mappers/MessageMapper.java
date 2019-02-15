@@ -23,24 +23,25 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
 
         if (dto == null) { return null; }
 
-        return Message.builder()
-                .id(dto.getId())
-                .presentation(dto.getPresentationId() == null
-                        ? null
-                        : presentationRepository
-                        .findPresentationById(dto.getPresentationId())
-                        .orElse(null))
-                .user(dto.getUserId() == null
-                        ? null
-                        : userRepository
-                        .findUserById(dto.getUserId()).orElse(null))
-                .text(dto.getText())
-                .type(dto.getType())
-                // I would like to mention,
-                // that using lombok, it handles Boolean objects with "get" method prefix,
-                // unlike boolean primitives which are handled with "is" method prefix.
-                .anonymous(dto.getAnonymous())
-                .build();
+        Message entity = Message.builder().build();
+        entity.setId(dto.getId());
+        entity.setPresentation(dto.getPresentationId() == null
+                ? null
+                : presentationRepository
+                .findPresentationById(dto.getPresentationId())
+                .orElse(null));
+        entity.setUser(dto.getUserId() == null
+                ? null
+                : userRepository
+                .findUserById(dto.getUserId()).orElse(null));
+        entity.setText(dto.getText());
+        entity.setType(dto.getType());
+        // I would like to mention,
+        // that using lombok, it handles Boolean objects with "get" method prefix,
+        // unlike boolean primitives which are handled with "is" method prefix.
+        entity.setAnonymous(dto.getAnonymous());
+
+        return entity;
     }
 
     @Override
@@ -48,21 +49,22 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
 
         if (entity == null) { return null; }
 
-        return MessageDto.builder()
-                .id(entity.getId())
-                .presentationId(entity.getPresentation() == null
+        MessageDto dto = MessageDto.builder().build();
+        dto.setId(entity.getId());
+        dto.setPresentationId(entity.getPresentation() == null
                         ? null
-                        : entity.getPresentation().getId())
-                .userId(entity.getUser() == null
+                        : entity.getPresentation().getId());
+        dto.setUserId(entity.getUser() == null
                         ? null
-                        : entity.getUser().getId())
-                .email(entity.getUser() == null
+                        : entity.getUser().getId());
+        dto.setEmail(entity.getUser() == null
                         ? null
-                        : entity.getUser().getEmail())
-                .text(entity.getText())
-                .type(entity.getType())
-                .anonymous(entity.getAnonymous())
-                .build();
+                        : entity.getUser().getEmail());
+        dto.setText(entity.getText());
+        dto.setType(entity.getType());
+        dto.setAnonymous(entity.getAnonymous());
+
+        return dto;
     }
 
     @Override
