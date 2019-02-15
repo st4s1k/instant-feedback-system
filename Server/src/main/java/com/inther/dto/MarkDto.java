@@ -5,18 +5,19 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 public class MarkDto implements Serializable
 {
     @Null(groups = {RequestDataValidator.AddMark.class})
-    private String id;
+    private UUID id;
 
     @NotNull(groups = {RequestDataValidator.AddMark.class})
-    private String presentationId;
+    private UUID presentationId;
 
     @NotNull(groups = {RequestDataValidator.AddMark.class})
-    private String userId;
+    private UUID userId;
 
     @NotNull(groups = {RequestDataValidator.AddMark.class})
     private Integer value;

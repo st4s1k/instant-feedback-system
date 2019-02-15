@@ -3,10 +3,11 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.MarkDto;
 import com.inther.entities.Mark;
+import com.inther.repositories.MarkRepository;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
 import com.inther.services.entity.MarkService;
-import org.modelmapper.ModelMapper;
+import com.inther.mappers.MarkMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,29 +25,31 @@ import java.util.UUID;
 public class MarkController
 {
     private final MarkService markService;
-    private final ModelMapper modelMapper;
+    private final MarkMapperImpl markMapper;
     private final HttpHeaders httpHeaders;
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
+    private final MarkRepository markRepository;
 
     @PostMapping
     public ResponseEntity<?> addMark(
             @Validated(value = {RequestDataValidator.AddMark.class})
             @RequestBody MarkDto markDto)
     {
-        // Ugh.. big clump of methods. Source of untraceable trouble. Should fix it someday...)
-        Mark mark = modelMapper.map(markDto, Mark.class);
-        return presentationRepository.findPresentationById(mark.getPresentation().getId())
-                .map(presentation -> userRepository.findUserById(mark.getUser().getId()))
-                .filter(Optional::isPresent).map(Optional::get)
-                .map(user -> markService.newMark(mark)
-                        .map(newMark -> new ResponseEntity<>("User " + user.getEmail() +
-                                " successfully rated presentationId, ID: " + mark.getPresentationId(),
-                                httpHeaders, HttpStatus.CREATED))
-                        .orElse(new ResponseEntity<>("User has already rated this presentationId!",
-                                httpHeaders, HttpStatus.CONFLICT)))
-                .orElseGet(() -> new ResponseEntity<>("No such presentationId OR userEmail.",
-                        httpHeaders, HttpStatus.BAD_REQUEST));
+        Mark mark = markMapper.toEntity(markDto);
+
+        if (!presentationRepository.findPresentationById(mark.getPresentation().getId()).isPresent()) {
+            return new ResponseEntity<>("No such presentation!", httpHeaders, HttpStatus.BAD_REQUEST);
+        } else if (!userRepository.findUserById(mark.getUser().getId()).isPresent()){
+            return new ResponseEntity<>("No such user!", httpHeaders, HttpStatus.BAD_REQUEST);
+        } else if (markRepository.findMarkByPresentation_IdAndUser_Id(
+                mark.getPresentation().getId(),
+                mark.getUser().getId()).isPresent()) {
+            return new ResponseEntity<>("User has already rated this presentationId!", httpHeaders, HttpStatus.CONFLICT);
+        } else {
+            markService.newMark(mark);
+            return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping(params = "presentationId")
@@ -69,9 +72,13 @@ public class MarkController
     {
         if (userRepository.findUserById(UUID.fromString(id)).isPresent()) {
             Optional<Mark> mark = markService.fetchUserMark(UUID.fromString(id));
-            return mark.isEmpty()
-                    ? new ResponseEntity<>(mark, httpHeaders, HttpStatus.OK)
-                    : new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
+            MarkDto markDto = new MarkDto();
+            if (mark.isPresent()) {
+                markDto = markMapper.toDto(mark.get());
+            }
+            return !mark.isPresent()
+                    ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
+                    : new ResponseEntity<>(markDto, httpHeaders, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User not found!", httpHeaders, HttpStatus.NOT_FOUND);
         }
@@ -79,15 +86,16 @@ public class MarkController
 
     @Autowired
     public MarkController(MarkService markService,
-                          ModelMapper modelMapper,
+                          MarkMapperImpl markMapper,
                           HttpHeaders httpHeaders,
                           PresentationRepository presentationRepository,
-                          UserRepository userRepository)
+                          UserRepository userRepository, MarkRepository markRepository)
     {
         this.markService = markService;
-        this.modelMapper = modelMapper;
+        this.markMapper = markMapper;
         this.httpHeaders = httpHeaders;
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
+        this.markRepository = markRepository;
     }
 }

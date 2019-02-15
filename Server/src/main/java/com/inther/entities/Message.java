@@ -33,16 +33,4 @@ public class Message
     private String type;
 
     private Boolean anonymous;
-
-    public String getEmail() {
-        return this.user.getEmail();
-    }
-
-    public String getUserId() {
-        return this.user.getId().toString();
-    }
-
-    public String getPresentationId() {
-        return this.presentation.getId().toString();
-    }
 }

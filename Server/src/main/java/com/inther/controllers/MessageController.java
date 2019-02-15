@@ -5,7 +5,7 @@ import com.inther.dto.MessageDto;
 import com.inther.entities.Message;
 import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.MessageService;
-import org.modelmapper.ModelMapper;
+import com.inther.mappers.MessageMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class MessageController
 {
     private final MessageService messageService;
-    private final ModelMapper modelMapper;
+    private final MessageMapperImpl messageMapper;
     private final HttpHeaders httpHeaders;
     private final PresentationRepository presentationRepository;
 
@@ -33,7 +33,7 @@ public class MessageController
             @Validated(value = {RequestDataValidator.AddMessage.class})
             @RequestBody MessageDto messageDtoToPut)
     {
-        return messageService.addMessage(modelMapper.map(messageDtoToPut, Message.class))
+        return messageService.addMessage(messageMapper.toEntity(messageDtoToPut))
                 .map(messageAdded -> messageAdded ?
                         new ResponseEntity<>( "Presentation not started yet!", httpHeaders, HttpStatus.FORBIDDEN) :
                         new ResponseEntity<>( "Message successfully added!", httpHeaders, HttpStatus.ACCEPTED))
@@ -60,7 +60,7 @@ public class MessageController
             @Validated(value = {RequestDataValidator.UpdateMessage.class})
             @RequestBody MessageDto messageDtoToPatch)
     {
-        return messageService.editMessage(modelMapper.map(messageDtoToPatch, Message.class))
+        return messageService.editMessage(messageMapper.toEntity(messageDtoToPatch))
                 .map(messageEdited -> messageEdited ?
                         new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN) :
                         new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.ACCEPTED))
@@ -80,12 +80,12 @@ public class MessageController
 
     @Autowired
     public MessageController(MessageService messageService,
-                             ModelMapper modelMapper,
+                             MessageMapperImpl messageMapper,
                              HttpHeaders httpHeaders,
                              PresentationRepository presentationRepository)
     {
         this.messageService = messageService;
-        this.modelMapper = modelMapper;
+        this.messageMapper = messageMapper;
         this.httpHeaders = httpHeaders;
         this.presentationRepository = presentationRepository;
     }

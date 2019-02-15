@@ -3,7 +3,7 @@ package com.inther.services.entity;
 import com.inther.beans.utilities.ServiceUtilityBean;
 import com.inther.entities.User;
 import com.inther.repositories.UserRepository;
-import org.modelmapper.ModelMapper;
+import com.inther.mappers.UserMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,16 @@ public class UserService
 {
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    private final UserMapperImpl userMapper;
 
     @Autowired
     public UserService(ServiceUtilityBean serviceUtilityBean,
                        UserRepository userRepository,
-                       ModelMapper modelMapper)
+                       UserMapperImpl userMapper)
     {
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
     }
 
     public Optional<User> createUser(User user)
@@ -54,7 +54,7 @@ public class UserService
                     foundUser.setPassword(foundUser.getPassword().equals(user.getPassword())
                             ? foundUser.getPassword()
                             : serviceUtilityBean.encodeUserPassword(user).getPassword());
-                    modelMapper.map(user, foundUser);
+                    userMapper.patchEntity(user, foundUser);
                     return userRepository.save(foundUser).equals(user);
                 });
     }

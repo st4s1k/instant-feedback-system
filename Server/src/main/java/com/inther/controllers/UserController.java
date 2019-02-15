@@ -4,18 +4,16 @@ import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.UserDto;
 import com.inther.entities.User;
 import com.inther.services.entity.UserService;
-import org.modelmapper.ModelMapper;
+import com.inther.mappers.UserMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserController
 {
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final UserMapperImpl userMapper;
     private final HttpHeaders httpHeaders;
 
     //    @PreAuthorize("hasRole('ADMIN')")
@@ -35,7 +33,7 @@ public class UserController
             @RequestBody UserDto userDto)
     {
         return userService
-                .createUser(modelMapper.map(userDto, User.class))
+                .createUser(userMapper.toEntity(userDto))
                 .map(user -> new ResponseEntity<>(httpHeaders, HttpStatus.CREATED))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT));
     }
@@ -46,7 +44,7 @@ public class UserController
     {
         List<UserDto> userDtoList = userService
                 .fetchAllUsers().stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::toDto)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(userDtoList, httpHeaders,
@@ -64,7 +62,7 @@ public class UserController
     {
         return userService
                 .fetchUserById(UUID.fromString(id))
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::toDto)
                 .map(userDto -> new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
@@ -77,7 +75,7 @@ public class UserController
     {
 
         return userService
-                .updateUserData(modelMapper.map(userDto, User.class))
+                .updateUserData(userMapper.toEntity(userDto))
                 .map(edited -> new ResponseEntity<>(httpHeaders, edited ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
@@ -94,11 +92,11 @@ public class UserController
 
     @Autowired
     public UserController(UserService userService,
-                          ModelMapper modelMapper,
+                          UserMapperImpl userMapper,
                           HttpHeaders httpHeaders)
     {
         this.userService = userService;
-        this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
         this.httpHeaders = httpHeaders;
     }
 }

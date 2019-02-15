@@ -6,7 +6,6 @@ import com.inther.entities.User;
 import com.inther.repositories.ParticipantRepository;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,19 +22,17 @@ public class PresentationService
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
-    private final ModelMapper modelMapper;
     private final MailSender mailSender;
 
     @Autowired
     public PresentationService(PresentationRepository presentationRepository,
                                UserRepository userRepository,
-                               ParticipantRepository participantRepository, ModelMapper modelMapper,
+                               ParticipantRepository participantRepository,
                                MailSender mailSender)
     {
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
-        this.modelMapper = modelMapper;
         this.mailSender = mailSender;
     }
 

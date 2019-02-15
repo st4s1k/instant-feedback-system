@@ -3,9 +3,9 @@ package com.inther.controllers;
 import com.inther.assets.validators.RequestDataValidator;
 import com.inther.dto.PresentationDto;
 import com.inther.entities.Presentation;
+import com.inther.mappers.PresentationMapperImpl;
 import com.inther.repositories.UserRepository;
 import com.inther.services.entity.PresentationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class PresentationController
 {
     private final PresentationService presentationService;
     private final HttpHeaders httpHeaders;
-    private final ModelMapper modelMapper;
+    private final PresentationMapperImpl presentationMapper;
     private final UserRepository userRepository;
 
     //    @PreAuthorize("hasRole('USER')")
@@ -33,7 +33,7 @@ public class PresentationController
             @Validated(value = {RequestDataValidator.AddPresentation.class})
             @RequestBody PresentationDto presentationDto)
     {
-        Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
+        Presentation presentation = presentationMapper.toEntity(presentationDto);
 
 //        return new ResponseEntity<>(presentation, httpHeaders, HttpStatus.TEMPORARY_REDIRECT);
 
@@ -51,7 +51,7 @@ public class PresentationController
     {
 
 
-        Presentation presentation = modelMapper.map(presentationDto, Presentation.class);
+        Presentation presentation = presentationMapper.toEntity(presentationDto);
         return presentationService
                 .editPresentation(presentation)
                 .map(edited -> new ResponseEntity<>(presentation.getId(), httpHeaders, edited
@@ -65,7 +65,7 @@ public class PresentationController
     {
         return presentationService
                 .searchForRequestedPresentation(UUID.fromString(id))
-                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .map(presentationMapper::toDto)
                 .map(presentationDto -> new ResponseEntity<>(presentationDto, httpHeaders, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
@@ -76,7 +76,7 @@ public class PresentationController
             @RequestParam(value = "title_like") String title) {
         List<PresentationDto> presentationDtoList = presentationService
                 .searchForPresentationsWithTitle(title).stream()
-                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
         return (presentationDtoList.isEmpty()
@@ -88,7 +88,7 @@ public class PresentationController
     public ResponseEntity<?> getPresentationsByEmail(@RequestParam String email) {
         List<PresentationDto> presentationDtoList = presentationService
                 .searchForPresentationsByEmail(email).stream()
-                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
         return (presentationDtoList.isEmpty()
@@ -101,7 +101,7 @@ public class PresentationController
     {
         List<PresentationDto> presentationDtoList = presentationService
                 .fetchAllPresentations().stream()
-                .map(presentation -> modelMapper.map(presentation, PresentationDto.class))
+                .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(presentationDtoList, httpHeaders,
@@ -121,12 +121,12 @@ public class PresentationController
     @Autowired
     public PresentationController(PresentationService presentationService,
                                   HttpHeaders httpHeaders,
-                                  ModelMapper modelMapper,
+                                  PresentationMapperImpl presentationMapper,
                                   UserRepository userRepository)
     {
         this.userRepository = userRepository;
         this.presentationService = presentationService;
         this.httpHeaders = httpHeaders;
-        this.modelMapper = modelMapper;
+        this.presentationMapper = presentationMapper;
     }
 }

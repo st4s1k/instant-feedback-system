@@ -10,7 +10,7 @@
 
       <div class="col-auto text-center average-mark">
 
-        <p class="mb-0">{{ avgMark.toFixed(2) }}
+        <p class="mb-0">{{ presentation.avgMark.toFixed(2) }}
           <span class="mb-2" id="ratings-count">
             <i class="fas fa-user"></i> {{ ratingsCount }} votes
           </span>
@@ -38,11 +38,11 @@
 
     <div *ngIf=authenticated class="card-body my-mark text-right">
 
-      <h5 *ngIf=userMark class="text-success">Your rate is: {{ userMark }}</h5>
+      <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value }}</h5>
 
-      <p *ngIf=!userMark class="text-success">Rate this presentation!</p>
+      <p *ngIf='!userMark || !userMark.value' class="text-success">Rate this presentation!</p>
 
-      <ngb-rating *ngIf=!userMark class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
+      <ngb-rating *ngIf='!userMark || !userMark.value' class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
         [readonly]=!canVote>
         <ng-template let-fill="fill" let-index="index">
           <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
@@ -95,10 +95,10 @@
           <div class="d-flex mt-2 align-items-center">
 
             <label class="col-auto m-0">
-              <input formControlName="type" value=TYPE_FEEDBACK type="radio"> feedback
+              <input formControlName="type" value='{{TYPE_FEEDBACK}}' type="radio"> feedback
             </label>
             <label class="col-auto m-0">
-              <input formControlName="type" value=TYPE_QUESTION type="radio"> question
+              <input formControlName="type" value='{{TYPE_QUESTION}}' type="radio"> question
             </label>
             <label class="col-auto m-0 mr-auto">
               <input formControlName="anonymity" type="checkbox"> anonymous

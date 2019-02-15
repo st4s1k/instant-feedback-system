@@ -5,11 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GlobalServUserService } from '../services/global-serv-user.service';
 import { MustMatch } from '../shared/sign-up.validator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { first, mergeMap, take } from 'rxjs/operators';
+import { first} from 'rxjs/operators';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
-import { EMPTY, of } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
 
 @Component({
@@ -54,9 +53,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe(presentationList => {
         this.presentations = presentationList;
 
-        if (presentationList) {
-          this.presFound = true;
-        } else { this.presFound = false; }
+        this.presFound = !!presentationList;
       },
         error => {
           alert(error);
@@ -126,11 +123,11 @@ export class UserProfileComponent implements OnInit {
       password: this.changePassForm.get('NewPass').value
     }).pipe(first())
       .subscribe(
-        data => {
+        () => {
           console.log('Succes Update password');
           this.notifier.notify('info', 'Password changed successfully');
         },
-        error => {
+        () => {
           console.log('Succes Update password');
           this.notifier.notify('info', 'Password changed successfully');
         });

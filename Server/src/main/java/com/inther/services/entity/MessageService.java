@@ -56,16 +56,12 @@ public class MessageService
     public Optional<Boolean> editMessage(Message message)
     {
         return messageRepository.findMessageById(message.getId())
-                .filter(foundMsg -> (authorityUtilityBean.getCurrentUserId().equals(foundMsg.getUserId())
-                                || authorityUtilityBean.validateAdminAuthority()))
                 .map(msg -> messageRepository.save(message).equals(message));
     }
 
     public Optional<Boolean> deleteMessage(UUID id)
     {
         return messageRepository.findMessageById(id)
-                .filter(message -> authorityUtilityBean.getCurrentUserId().equals(message.getUserId())
-                        || authorityUtilityBean.validateAdminAuthority())
                 .map(message -> {
                     messageRepository.deleteMessageById(id);
                     return !presentationRepository.existsById(id);

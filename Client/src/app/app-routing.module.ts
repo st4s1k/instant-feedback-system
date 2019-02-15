@@ -12,14 +12,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { PresentationListDetailResolverService } from './services/presentation-list-detail-resolver.service';
-import { UserPresentationResolverService } from './services/user-presentation-resolver.service';
 // Guards
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
 import {AdminGuard} from './_guards/admin.guard';
-import { UserMarkResolverService } from './services/user-mark-resolver.service';
-import { PresentationMessagesResolverService } from './services/presentation-messages-resolver.service';
 
 const routes: Routes = [
   {
@@ -51,8 +48,6 @@ const routes: Routes = [
     component: PresentationPageComponent,
     resolve: {
       presentation: PresentationDetailResolverService,
-      userMark: UserMarkResolverService,
-      messages: PresentationMessagesResolverService
     }
   },
   {

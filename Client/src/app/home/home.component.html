@@ -29,7 +29,8 @@
         </div>
       </div>
 
-      <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)" *ngFor='let presentation of presentations; let i=index;'>
+      <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)"
+           *ngFor='let presentation of presentations; let i=index;'>
         <div class="col card-header pt-2 pb-2 text-left">
           <div class="row">
 
@@ -56,7 +57,7 @@
 
             <div class="col-auto d-flex align-items-center">
               <div>
-                {{presentation.avgMark}}
+                {{presentation.avgMark.toFixed(2)}}
               </div>
             </div>
 

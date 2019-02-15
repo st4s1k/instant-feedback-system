@@ -5,18 +5,20 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 public class MessageDto implements Serializable
 {
-    @NotBlank(groups = {RequestDataValidator.UpdateMessage.class})
-    private String id;
+    @Null(groups = {RequestDataValidator.AddMessage.class})
+    @NotNull(groups = {RequestDataValidator.UpdateMessage.class})
+    private UUID id;
 
-    @NotBlank(groups = {RequestDataValidator.AddMessage.class})
-    private String presentationId;
+    @NotNull(groups = {RequestDataValidator.AddMessage.class})
+    private UUID presentationId;
 
-    @NotBlank(groups = {RequestDataValidator.AddMessage.class})
-    private String userId;
+    @NotNull(groups = {RequestDataValidator.AddMessage.class})
+    private UUID userId;
 
     @Email
     @NotBlank(groups = {RequestDataValidator.AddMessage.class})

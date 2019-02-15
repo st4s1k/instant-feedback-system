@@ -20,12 +20,9 @@ public class MarkService
         this.markRepository = markRepository;
     }
 
-    public Optional<Mark> newMark(Mark mark)
+    public Mark newMark(Mark mark)
     {
-        return markRepository
-                .findMarkByPresentation_IdAndUser_Id(mark.getPresentation().getId(), mark.getUser().getId())
-                .map(u -> Optional.<Mark>empty())
-                .orElseGet(() -> Optional.of(markRepository.save(mark)));
+        return markRepository.save(mark);
     }
 
     public List<Mark> fetchMarksByPresentationId(UUID presentationId) {

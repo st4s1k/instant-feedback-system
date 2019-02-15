@@ -1,5 +1,7 @@
 package com.inther.entities;
 
+import com.inther.dto.ParticipantDto;
+import com.inther.mappers.PresentationMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,8 +28,4 @@ public class Participant
     private Presentation presentation;
 
     private String email;
-
-    public UUID getPresentationId() {
-        return this.presentation.getId();
-    }
 }

@@ -30,12 +30,4 @@ public class Mark
     private User user;
 
     private Integer value;
-
-    public String getUserId() {
-        return this.user.getId().toString();
-    }
-
-    public String getPresentationId() {
-        return this.presentation.getId().toString();
-    }
 }

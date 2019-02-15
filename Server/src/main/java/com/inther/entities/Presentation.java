@@ -1,6 +1,5 @@
 package com.inther.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,10 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -34,10 +32,13 @@ public class Presentation
 
     private String description;
 
-    private Time startTime;
+    @Temporal(TemporalType.TIME)
+    private Date startTime;
 
-    private Time endTime;
+    @Temporal(TemporalType.TIME)
+    private Date endTime;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     private String place;
@@ -50,14 +51,4 @@ public class Presentation
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Mark> marks;
-
-    public Double getAvgMark() {
-        return this.marks == null || this.marks.isEmpty()
-                ? 0d
-                : this.marks.stream().mapToDouble(Mark::getValue).average().orElse(0d);
-    }
-
-    public String getEmail() {
-        return this.user == null ? null : this.user.getEmail();
-    }
 }

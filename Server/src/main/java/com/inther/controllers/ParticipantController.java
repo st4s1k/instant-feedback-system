@@ -6,7 +6,7 @@ import com.inther.entities.Participant;
 import com.inther.entities.Presentation;
 import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.ParticipantService;
-import org.modelmapper.ModelMapper;
+import com.inther.mappers.ParticipantMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ParticipantController
 {
     private final HttpHeaders httpHeaders;
     private final ParticipantService participantService;
-    private final ModelMapper modelMapper;
+    private final ParticipantMapperImpl participantMapper;
     private final MailSender mailSender;
     private final PresentationRepository presentationRepository;
 
@@ -36,7 +36,7 @@ public class ParticipantController
         return participantService
                 .fetchPresentationParticipants(UUID.fromString(id))
                 .stream()
-                .map(participant -> modelMapper.map(participant, ParticipantDto.class))
+                .map(participantMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -54,8 +54,9 @@ public class ParticipantController
             @Validated(value = {RequestDataValidator.AddParticipant.class})
             @RequestBody List<ParticipantDto> participantDtoToPut)
     {
-        List<Participant> newParticipantList = participantDtoToPut.stream()
-        .map(participantDto -> modelMapper.map(participantDto, Participant.class))
+        List<Participant> newParticipantList = participantDtoToPut
+                .stream()
+                .map(participantMapper::toEntity)
                 .collect(Collectors.toList());
 
         for (Participant newParticipant : newParticipantList)
@@ -88,11 +89,15 @@ public class ParticipantController
     }
 
     @Autowired
-    public ParticipantController(HttpHeaders httpHeaders, ParticipantService participantService, ModelMapper modelMapper, MailSender mailSender, PresentationRepository presentationRepository)
+    public ParticipantController(HttpHeaders httpHeaders,
+                                 ParticipantService participantService,
+                                 ParticipantMapperImpl participantMapper,
+                                 MailSender mailSender,
+                                 PresentationRepository presentationRepository)
     {
         this.httpHeaders = httpHeaders;
         this.participantService = participantService;
-        this.modelMapper = modelMapper;
+        this.participantMapper = participantMapper;
         this.mailSender = mailSender;
         this.presentationRepository = presentationRepository;
     }

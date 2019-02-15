@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Message } from '../models/message.model';
@@ -12,6 +12,7 @@ import { MarkService } from '../services/mark.service';
 import { MessageService } from '../services/message.service';
 import { MessageDTO } from '../models/dtos/message.dto';
 import { environment } from 'src/environments/environment.prod';
+import {MarkDTO} from '../models/dtos/mark.dto';
 
 @Component({
   selector: 'app-presentation-page',
@@ -31,7 +32,7 @@ export class PresentationPageComponent implements OnInit {
   submittedFeedback = false;
   feedbackAdded = false;
   canVote = false;
-  userMark = 0;
+  userMark: Mark;
   userId: string;
   ratingsCount = 0;
   editingMessage = -1;
@@ -66,12 +67,25 @@ export class PresentationPageComponent implements OnInit {
 
     this.route.data.subscribe((data: {
       presentation: Presentation,
-      userMark: number,
-      messages: Message[]
     }) => {
       this.presentation = data.presentation;
-      this.userMark = data.userMark;
-      this.feedback = data.messages;
+
+      this.ms.getUserMark(this.userId)
+        .pipe(first()).subscribe(markDto => {
+          if (markDto) {
+            this.userMark = MarkDTO.toModel(markDto);
+          } else {
+            this.canVote = true;
+          }
+        });
+
+      this.msgSrv.getPresentationMessages(this.presentation.id)
+        .pipe(first()).subscribe(messagesDto => {
+        if (messagesDto) {
+          this.feedback = messagesDto.map(messageDto =>
+            MessageDTO.toModel(messageDto));
+        }
+      });
     });
   }
 
@@ -79,7 +93,10 @@ export class PresentationPageComponent implements OnInit {
 
     this.submittedRate = true;
     this.canVote = false;
-    this.userMark = rate;
+    this.userMark = new Mark(<Mark>{
+      presentationId: this.presentation.id,
+      value: rate
+    });
     this.currentRate = rate;
 
     this.ms.addMark(new Mark(<Mark>{
@@ -153,7 +170,6 @@ export class PresentationPageComponent implements OnInit {
             }
             this.feedback.push(message);
           }
-
           alert('Succes!:' + JSON.stringify(messageDto));
         },
         error => {
