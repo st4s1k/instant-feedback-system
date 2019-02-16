@@ -20,4 +20,10 @@ public interface MessageRepository extends JpaRepository<Message, UUID>
 
     @Transactional
     void deleteMessageById(UUID id);
+
+    @Transactional
+    void deleteMessagesByPresentation_Id(UUID presentationId);
+
+    @Transactional
+    void deleteMessagesByUser_Id(UUID userId);
 }

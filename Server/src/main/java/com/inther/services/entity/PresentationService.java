@@ -3,9 +3,7 @@ package com.inther.services.entity;
 import com.inther.entities.Participant;
 import com.inther.entities.Presentation;
 import com.inther.entities.User;
-import com.inther.repositories.ParticipantRepository;
-import com.inther.repositories.PresentationRepository;
-import com.inther.repositories.UserRepository;
+import com.inther.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,17 +20,23 @@ public class PresentationService
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
+    private final MessageRepository messageRepository;
+    private final MarkRepository markRepository;
     private final MailSender mailSender;
 
     @Autowired
     public PresentationService(PresentationRepository presentationRepository,
                                UserRepository userRepository,
                                ParticipantRepository participantRepository,
+                               MessageRepository messageRepository,
+                               MarkRepository markRepository,
                                MailSender mailSender)
     {
         this.presentationRepository = presentationRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
+        this.messageRepository = messageRepository;
+        this.markRepository = markRepository;
         this.mailSender = mailSender;
     }
 
@@ -89,12 +93,23 @@ public class PresentationService
     public Optional<Boolean> deletePresentation(UUID id)
     {
         Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(id);
-        optionalPresentation.ifPresent(presentation -> sendNotificationMessages(presentation, "Presentation was canceled",
-                "Presentation '" + presentation.getTitle() + "' was canceled"));
-        return presentationRepository.findPresentationById(id)
-                .map(p -> {
-                    presentationRepository.deletePresentationById(id);
-                    return !presentationRepository.existsById(id);
-                });
+        if (optionalPresentation.isPresent()) {
+            sendNotificationMessages(optionalPresentation.get(),
+                    "Presentation was canceled",
+                    "Presentation '" + optionalPresentation.get().getTitle() + "' was canceled");
+
+            // Delete all presentation marks
+            markRepository.deleteMarksByPresentation_Id(id);
+            // Delete all presentation messages
+            messageRepository.deleteMessagesByPresentation_Id(id);
+            // Delete all presentation participants
+            participantRepository.deleteParticipantsByPresentation_Id(id);
+            // Delete presentation
+            presentationRepository.deletePresentationById(id);
+
+            return Optional.of(!presentationRepository.existsById(id));
+        } else {
+            return Optional.empty();
+        }
     }
 }

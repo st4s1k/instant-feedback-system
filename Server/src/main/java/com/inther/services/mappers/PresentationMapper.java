@@ -3,6 +3,7 @@ package com.inther.services.mappers;
 import com.inther.dto.PresentationDto;
 import com.inther.entities.Mark;
 import com.inther.entities.Presentation;
+import com.inther.repositories.MarkRepository;
 import com.inther.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,15 +11,19 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 @Service
 public class PresentationMapper implements Mapper<Presentation, PresentationDto> {
 
     private final UserRepository userRepository;
+    private final MarkRepository markRepository;
 
-    public PresentationMapper(UserRepository userRepository) {
+    public PresentationMapper(UserRepository userRepository,
+                              MarkRepository markRepository) {
         this.userRepository = userRepository;
+        this.markRepository = markRepository;
     }
 
     @Override
@@ -87,9 +92,10 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
                 ? null
                 : entity.getDate().toString()); // maybe some formatting needed
         dto.setPlace(entity.getPlace());
-        dto.setAvgMark(entity.getMarks() == null
-                ? 0d
-                : entity.getMarks().stream().mapToDouble(Mark::getValue).average().orElse(0d));
+
+        dto.setAvgMark(markRepository
+                .findMarksByPresentation_Id(entity.getId()).stream()
+                .mapToDouble(Mark::getValue).average().orElse(0d));
 
         return dto;
     }

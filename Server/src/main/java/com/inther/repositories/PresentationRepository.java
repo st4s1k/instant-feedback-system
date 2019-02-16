@@ -24,5 +24,5 @@ public interface PresentationRepository extends JpaRepository<Presentation, UUID
     void deletePresentationById(UUID id);
 
     @Transactional
-    void deletePresentationsByUser(User user);
+    void deletePresentationsByUser_Id(UUID userId);
 }

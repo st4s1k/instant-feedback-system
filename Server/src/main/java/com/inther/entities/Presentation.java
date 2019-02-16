@@ -43,13 +43,4 @@ public class Presentation
     private LocalDate date;
 
     private String place;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Participant> participants;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Message> messages;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Mark> marks;
 }

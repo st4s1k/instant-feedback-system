@@ -21,4 +21,10 @@ public interface MarkRepository extends JpaRepository<Mark, UUID>
 
     @Transactional
     void deleteMarkByUser_Id(UUID id);
+
+    @Transactional
+    void deleteMarksByPresentation_Id(UUID presentationId);
+
+    @Transactional
+    void deleteMarksByUser_Id(UUID userId);
 }

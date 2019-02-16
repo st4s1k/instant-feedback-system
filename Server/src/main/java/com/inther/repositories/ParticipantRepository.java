@@ -22,4 +22,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, UUID>
 
     @Transactional
     void deleteParticipantByPresentation_IdAndEmail(UUID presentationId, String userEmail);
+
+    @Transactional
+    void deleteParticipantsByPresentation_Id(UUID presentationId);
 }
