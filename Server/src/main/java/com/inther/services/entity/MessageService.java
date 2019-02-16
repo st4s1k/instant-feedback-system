@@ -6,10 +6,12 @@ import com.inther.entities.Presentation;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +43,9 @@ public class MessageService
         if (!presentation.isPresent()) {
             status = 0;
         } else if (LocalDateTime.now().isAfter(
-                presentation.get().getDate().toInstant()
+                LocalDateTime.parse(
+                        presentation.get().getDate().toString() + '+' + presentation.get().getEndTime().toString(),
+                        DateTimeFormatter.ISO_DATE)
                         .atZone(ZoneId.systemDefault()).toLocalDateTime())) {
             status = -1;
         } else {

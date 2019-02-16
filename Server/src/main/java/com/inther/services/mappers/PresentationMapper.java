@@ -4,10 +4,14 @@ import com.inther.dto.PresentationDto;
 import com.inther.entities.Mark;
 import com.inther.entities.Presentation;
 import com.inther.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
+@Slf4j
 @Service
 public class PresentationMapper implements Mapper<Presentation, PresentationDto> {
 
@@ -23,22 +27,40 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
         if (dto == null) { return null; }
 
         Presentation entity = Presentation.builder().build();
+
         entity.setId(dto.getId());
+        log.debug("entity.setId(" + dto.getId() + ") = " + entity.getId());
+
         entity.setUser(dto.getEmail() == null
                 ? null
                 : userRepository.findUserByEmail(dto.getEmail()).orElse(null));
+        log.debug("entity.setUser(" + dto.getEmail() + ") = " + entity.getUser());
+
         entity.setTitle(dto.getTitle());
+        log.debug("entity.setTitle(" + dto.getTitle() + ") = " + entity.getTitle());
+
         entity.setDescription(dto.getDescription());
+        log.debug("entity.setDescription(" + dto.getDescription() + ") = " + entity.getDescription());
+
         entity.setStartTime(dto.getStartTime() == null
                 ? null
-                : Date.valueOf(dto.getStartTime()));
+                : LocalTime.parse(dto.getStartTime(), DateTimeFormatter.ISO_TIME));
+        log.debug("entity.setStartTime(" + dto.getStartTime() + ") = " + entity.getStartTime());
+
         entity.setEndTime(dto.getEndTime() == null
                 ? null
-                : Date.valueOf(dto.getEndTime()));
+                : LocalTime.parse(dto.getEndTime(), DateTimeFormatter.ISO_TIME));
+        log.debug("entity.setEndTime(" + dto.getEndTime() + ") = " + entity.getEndTime());
+
         entity.setDate(dto.getDate() == null
                 ? null
-                : Date.valueOf(dto.getDate()));
+                : LocalDate.parse(dto.getDate(), DateTimeFormatter.ISO_DATE));
+        log.debug("entity.setDate(" + dto.getDate() + ") = " + entity.getDate());
+
         entity.setPlace(dto.getPlace());
+        log.debug("entity.setPlace(" + dto.getPlace() + ") = " + entity.getPlace());
+
+        log.debug("Result entity: {}", entity);
 
         return entity;
     }
@@ -65,7 +87,7 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
                 ? null
                 : entity.getDate().toString()); // maybe some formatting needed
         dto.setPlace(entity.getPlace());
-        dto.setAvgMark(entity.getMarks() == null || entity.getMarks().isEmpty()
+        dto.setAvgMark(entity.getMarks() == null
                 ? 0d
                 : entity.getMarks().stream().mapToDouble(Mark::getValue).average().orElse(0d));
 

@@ -5,10 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,14 +33,14 @@ public class Presentation
 
     private String description;
 
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime startTime;
 
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime endTime;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate date;
 
     private String place;
 
