@@ -39,7 +39,7 @@
 
     <div *ngIf=authenticated class="card-body my-mark text-right">
 
-      <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value }}</h5>
+      <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value.toFixed(2) }}</h5>
 
       <p *ngIf='!userMark || !userMark.value' class="text-success">Rate this presentation!</p>
 
@@ -56,21 +56,21 @@
 
   </div>
 
-  <div class="card bg-transparent border-0 p-0 m-0 mt-3 mb-3" *ngFor='let feedback of presentation.feedback; let i=index;'>
+  <div class="card bg-transparent border-0 p-0 m-0 mt-3 mb-3" *ngFor='let message of feedback; let i=index;'>
 
     <div class="d-flex bg-transparent card-header pl-2 pr-2 pb-1 pt-1">
-      <div class="mr-auto"><b>{{ feedback.email }}</b></div>
+      <div class="mr-auto"><b>{{ message.email }}</b></div>
     </div>
 
     <div class="card-body m-0 p-2">
-      {{ feedback.message }}
+      {{ message.text }}
 
-      <div *ngIf="feedback.userId === userId">
+      <div *ngIf="message.userId === userId">
         <div class="btn card-link p-0" (click)=editMessage(i)>
           <!-- <i class="fas fa-pen"></i> -->
           edit
         </div>
-        <div class="btn card-link p-0" (click)=deleteMessage(i) *ngIf="feedback.email === myEmail">
+        <div class="btn card-link p-0" (click)=deleteMessage(i)>
           <!-- <i class="fas fa-times"></i> -->
           delete
         </div>

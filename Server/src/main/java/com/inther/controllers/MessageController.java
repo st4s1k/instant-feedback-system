@@ -33,11 +33,21 @@ public class MessageController
             @Validated(value = {RequestDataValidator.AddMessage.class})
             @RequestBody MessageDto messageDto)
     {
-        return messageService.addMessage(messageMapper.toEntity(messageDto))
-                .map(messageAdded -> messageAdded
-                        ? new ResponseEntity<>( "Presentation not started yet!", httpHeaders, HttpStatus.FORBIDDEN)
-                        : new ResponseEntity<>( "Message successfully added!", httpHeaders, HttpStatus.ACCEPTED))
-                .orElseGet(() -> new ResponseEntity<>("No such presentationId.", httpHeaders, HttpStatus.NOT_FOUND));
+        int status = messageService.addMessage(messageMapper.toEntity(messageDto));
+        String statusMessage = "no message";
+        switch (status) {
+            case 0:
+                statusMessage = "No such presentationId.";
+                break;
+            case -1:
+                statusMessage = "Presentation not started yet!";
+                break;
+            case 1:
+                statusMessage = "Message successfully added!";
+                break;
+        }
+
+        return new ResponseEntity<>(statusMessage, httpHeaders, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(params = "presentationId")

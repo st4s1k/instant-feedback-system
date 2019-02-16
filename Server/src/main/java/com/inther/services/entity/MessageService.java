@@ -2,6 +2,7 @@ package com.inther.services.entity;
 
 import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.entities.Message;
+import com.inther.entities.Presentation;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,25 @@ public class MessageService
         this.messageRepository = messageRepository;
     }
 
-    public Optional<Boolean> addMessage(Message message)
+    public int addMessage(Message message)
     {
-        return presentationRepository.findPresentationById(message.getPresentation().getId())
-                .map(p ->
-//                        LocalDateTime.now().isAfter(p.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-//                        &&
-                                messageRepository.save(message).equals(message));
+        int status;
+
+        Optional<Presentation> presentation = presentationRepository
+                .findPresentationById(message.getPresentation().getId());
+
+        if (!presentation.isPresent()) {
+            status = 0;
+        } else if (LocalDateTime.now().isAfter(
+                presentation.get().getDate().toInstant()
+                        .atZone(ZoneId.systemDefault()).toLocalDateTime())) {
+            status = -1;
+        } else {
+            messageRepository.save(message);
+            status = 1;
+        }
+
+        return status;
     }
 
     public List<Message> fetchMessagesByPresentationId(UUID presentationId) {

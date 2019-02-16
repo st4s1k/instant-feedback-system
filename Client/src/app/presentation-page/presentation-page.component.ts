@@ -87,6 +87,8 @@ export class PresentationPageComponent implements OnInit {
         if (messagesDto) {
           this.feedback = messagesDto.map(messageDto =>
             MessageDTO.toModel(messageDto));
+        } else {
+          alert('No messages!');
         }
       });
     });
