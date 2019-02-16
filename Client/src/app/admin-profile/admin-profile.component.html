@@ -16,7 +16,7 @@
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
-                    <p class="m-0">{{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '[null]' }}</p>
+                    <p class="m-0">{{ presentation.avgMark ? '0.00' : presentation.avgMark.toFixed(2) }}</p>
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
@@ -46,11 +46,11 @@
         <!-- <h2 class="mb-5">All Users</h2> -->
         <div class="row addUserbtn mb-5">
           <div class="col-md-6"><h2>All Users</h2></div>
-          <div class="col-md-6" *ngIf="!addUserbtn">
+          <div class="col-md-6" *ngIf="!addUserBtn">
             <button class="btn btn-success mb-10 " (click)="addUser()"><i class="fas fa-plus"></i> Add User</button>
           </div>
         </div>
-        <div class="row justify-content-center p-0 add-container" *ngIf="addUserbtn">
+        <div class="row justify-content-center p-0 add-container" *ngIf="addUserBtn">
           <div class="col-md-9 col-lg-9 ml-5 mr-5 ">
             <div class="container add-container">
               <div class="row">
@@ -160,7 +160,7 @@
             </div>
           </div>
         </div>
-        <div class="row justify-content-center p-0" *ngIf="!addUserbtn">
+        <div class="row justify-content-center p-0" *ngIf="!addUserBtn">
 
           <div class="col-md-10 col-lg-10 ml-5 mr-5 list-group">
 

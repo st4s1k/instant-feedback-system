@@ -67,7 +67,7 @@ public class ParticipantController
                     .findPresentationById(newParticipant.getPresentation().getId());
 
             optionalPresentation.ifPresent(presentation ->
-                sendNotificationMessages(newParticipant.getEmail(), "You has been invited on presentation",
+                sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
                          "Presentation name: " + presentation.getTitle()
                             + "n/Presentation description: " + presentation.getDescription()
                             + "n/n/Presentation start time: " + presentation.getStartTime()
@@ -85,9 +85,9 @@ public class ParticipantController
         Optional<Boolean> participantRemovalStatus = participantService.deleteParticipant(UUID.fromString(id));
 
         return participantRemovalStatus.map(deleted -> deleted
-                ? new ResponseEntity<>(httpHeaders, HttpStatus.OK)
-                : new ResponseEntity<>(httpHeaders, HttpStatus.CONFLICT))
-                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+                ? new ResponseEntity<>("Participant successfully deleted.", httpHeaders, HttpStatus.OK)
+                : new ResponseEntity<>("Unable to delete participant", httpHeaders, HttpStatus.CONFLICT))
+                .orElseGet(() -> new ResponseEntity<>("Participant not found.", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired

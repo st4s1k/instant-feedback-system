@@ -11,13 +11,13 @@
       <div class="col-auto text-center average-mark">
 
         <p class="mb-0">
-          {{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '[null]' }}
+          {{ presentation.avgMark ? '0.00' : presentation.avgMark.toFixed(2) }}
           <span class="mb-2" id="ratings-count">
-            <i class="fas fa-user"></i> {{ ratingsCount }} votes
+            <i class="fas fa-user"></i> {{ voteCount }} votes
           </span>
         </p>
 
-        <ngb-rating [(rate)]="avgMark" [readonly]="true" max="5">
+        <ngb-rating [(rate)]="presentation.avgMark" [readonly]="true" max="5">
           <ng-template #t let-fill="fill">
             <span class="star" [class.filled]="fill === 100">
               <span class="half" [style.width.%]="fill">

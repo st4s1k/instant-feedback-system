@@ -30,11 +30,10 @@ export class PresentationPageComponent implements OnInit {
   currentRate = 0;
   submittedRate = false;
   submittedFeedback = false;
-  feedbackAdded = false;
   canVote = false;
   userMark: Mark;
   userId: string;
-  ratingsCount = 0;
+  voteCount = 0;
   editingMessage = -1;
 
   authenticated = localStorage.getItem('sessionID');
@@ -107,7 +106,7 @@ export class PresentationPageComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       presentationId: this.presentation.id,
       value: rate
-    })).pipe(first()).subscribe( avgMark => this.presentation.avgMark = avgMark,
+    })).pipe(first()).subscribe( avgMark => this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark,
       error => {
         alert('Error!');
         console.log('Error!: ' + JSON.stringify(error));

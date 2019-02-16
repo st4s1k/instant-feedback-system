@@ -76,9 +76,9 @@ public class PresentationController
                 .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
-        return (presentationDtoList.isEmpty()
+        return presentationDtoList.isEmpty()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
+                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping(params = "email")
@@ -89,9 +89,9 @@ public class PresentationController
                 .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
-        return (presentationDtoList.isEmpty()
+        return presentationDtoList.isEmpty()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK));
+                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping
@@ -114,10 +114,10 @@ public class PresentationController
     {
         return presentationService
                 .deletePresentation(UUID.fromString(id))
-                .map(deleted -> new ResponseEntity<>(httpHeaders, deleted
+                .map(deleted -> new ResponseEntity<>("Presentation successfully deleted.", httpHeaders, deleted
                         ? HttpStatus.ACCEPTED
                         : HttpStatus.FORBIDDEN))
-                .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>("Presentation not found.", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired

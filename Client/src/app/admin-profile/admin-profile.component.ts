@@ -20,15 +20,16 @@ import { environment } from '../../environments/environment.prod';
 export class AdminProfileComponent implements OnInit {
   users: User[];
   presentations: Presentation[];
-  arrEditUserbtn = new Array() as Array<boolean>;
+  arrEditUserbtn = [] as Array<boolean>;
   submitted = false;
   loading = false;
   editUserForm: FormGroup;
-  addUserbtn = false;
+  addUserBtn = false;
   notifier: NotifierService;
   message: String;
   roleUser = environment.userRole;
   roleAdmin = environment.adminRole;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -50,31 +51,29 @@ export class AdminProfileComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm_password: ['', Validators.required]
     }, {
-        validator: MustMatch('password', 'confirm_password')
-      });
+      validator: MustMatch('password', 'confirm_password')
+    });
   }
 
   editUser(i: number) {
     console.log(this.users[i].id);
-    if (this.arrEditUserbtn[i] === true) {
-      this.arrEditUserbtn[i] = false;
-    } else {
-      this.arrEditUserbtn[i] = true;
-    }
+
+    this.arrEditUserbtn[i] = this.arrEditUserbtn[i] !== true;
+
     this.editUserForm = this.formBuilder.group({
       email: this.users[i].email,
       userGroup: this.users[i].role,
       password: this.users[i].password,
       confirm_password: this.users[i].password
     }, {
-        validator: MustMatch('password', 'confirm_password')
-      });
+      validator: MustMatch('password', 'confirm_password')
+    });
   }
   addUser() {
-    if (this.addUserbtn === false) {
-      this.addUserbtn = true;
+    if (this.addUserBtn === false) {
+      this.addUserBtn = true;
     } else {
-      this.addUserbtn = false;
+      this.addUserBtn = false;
     }
   }
   submitAddUser() {
@@ -97,7 +96,7 @@ export class AdminProfileComponent implements OnInit {
           )
         );
         this.loading = false;
-        this.addUserbtn = false;
+        this.addUserBtn = false;
         this.submitted = false;
         this.notifier.notify('success', 'User successfully added');
       },
@@ -108,7 +107,7 @@ export class AdminProfileComponent implements OnInit {
     );
   }
   onCancelAdd() {
-    this.addUserbtn = false;
+    this.addUserBtn = false;
     this.editUserForm.reset();
   }
   onSubmitEdit(i: number) {
@@ -154,21 +153,21 @@ export class AdminProfileComponent implements OnInit {
       // alert(`Deleting user[${i}].id = ${this.users[i].id}: DELETE ${environment.jsonServerUrl}/users/${this.users[i].id}`);
       this.userService.deleteUser(this.users[i].id)
         .pipe(first()).subscribe(
-          data => {
-            console.log('data: ' + JSON.stringify(data));
-            this.userService.getAllUsers().subscribe(
-              userDtoList => this.users = userDtoList.map(
-                userDto => UserDTO.toModel(userDto)
-              )
-            );
-            this.message = this.users[i].email + 'successfuly deleted';
-            this.notifier.notify('info', this.message.toString());
-          },
-          error => {
-            this.notifier.notify('error', 'Error on delete');
-            console.log('error: ' + error);
-          }
-        );
+        data => {
+          console.log('data: ' + JSON.stringify(data));
+          this.userService.getAllUsers().subscribe(
+            userDtoList => this.users = userDtoList.map(
+              userDto => UserDTO.toModel(userDto)
+            )
+          );
+          this.message = this.users[i].email + 'successfuly deleted';
+          this.notifier.notify('info', this.message.toString());
+        },
+        error => {
+          this.notifier.notify('error', 'Error on delete');
+          console.log('error: ' + error);
+        }
+      );
     }
   }
   openPresentationPage(i: number) {
