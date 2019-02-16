@@ -4,8 +4,10 @@ import com.inther.dto.MarkDto;
 import com.inther.entities.Mark;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MarkMapper implements Mapper<Mark, MarkDto> {
 
@@ -21,31 +23,33 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
     @Override
     public Mark toEntity(MarkDto dto) {
 
+        log.debug("Source DTO: {}", dto);
+
         if (dto == null) { return null; }
 
         Mark entity = Mark.builder().build();
-
         entity.setId(dto.getId());
-
         entity.setPresentation(dto.getPresentationId() == null
                 ? null
                 : presentationRepository
                 .findPresentationById(dto.getPresentationId())
                 .orElse(null));
-
         entity.setUser(dto.getUserId() == null
                 ? null
                 : userRepository
                 .findUserById(dto.getUserId())
                 .orElse(null));
-
         entity.setValue(dto.getValue());
+
+        log.debug("Result entity: {}", entity);
 
         return entity;
     }
 
     @Override
     public MarkDto toDto(Mark entity) {
+
+        log.debug("Source entity: {}", entity);
 
         if (entity == null) { return null; }
 
@@ -59,11 +63,15 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
                         : entity.getUser().getId());
         dto.setValue(entity.getValue());
 
+        log.debug("Result DTO: {}", dto);
+
         return dto;
     }
 
     @Override
     public void patchEntity(Mark source, Mark destination) {
+
+        log.debug("Source entity: {}", source);
 
         if (source == null || destination == null || source.equals(destination)) { return; }
 
@@ -71,10 +79,14 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
         destination.setPresentation(source.getPresentation());
         destination.setUser(source.getUser());
         destination.setValue(source.getValue());
+
+        log.debug("Result entity: {}", destination);
     }
 
     @Override
     public void patchDto(MarkDto source, MarkDto destination) {
+
+        log.debug("Source DTO: {}", source);
 
         if (source == null || destination == null || source.equals(destination)) { return; }
 
@@ -82,6 +94,8 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
         destination.setPresentationId(source.getPresentationId());
         destination.setUserId(source.getUserId());
         destination.setValue(source.getValue());
+
+        log.debug("Result DTO: {}", destination);
     }
 
 }

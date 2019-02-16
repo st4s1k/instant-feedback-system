@@ -3,6 +3,8 @@ package com.inther.dto;
 import com.inther.assets.validators.RequestDataValidator;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageDto implements Serializable
 {
     @Null(groups = {RequestDataValidator.AddMessage.class})

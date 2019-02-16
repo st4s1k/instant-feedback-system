@@ -18,10 +18,11 @@ export class MarkService {
     return this.http.post<number>(SERVER_URL + MARKS_API, Mark.toDTO(mark));
   }
 
-  getUserMark(userId: string) {
+  getUserMark(userId: string, presentationId: string) {
     return this.http.get<MarkDTO>(SERVER_URL + MARKS_API, {
       params: {
-        userId: userId
+        userId: userId,
+        presentationId: presentationId
       }
     });
   }

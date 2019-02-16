@@ -14,11 +14,11 @@ import { NotifierService } from 'angular-notifier';
 })
 export class SignUpComponent implements OnInit {
 
-  signupForm: FormGroup;
+  signUpForm: FormGroup;
   submitted = false;
   private readonly notifier: NotifierService;
   loading = false;
-  message:string;
+  message: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
 
-    this.signupForm = this.formBuilder.group({
+    this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm_password: ['', Validators.required]
@@ -45,14 +45,14 @@ export class SignUpComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.signupForm.invalid) {
+    if (this.signUpForm.invalid) {
       return;
     }
 
     this.loading = true;
     this.auth.signup(<User>{
-      email: this.signupForm.get('email').value,
-      password: this.signupForm.get('password').value,
+      email: this.signUpForm.get('email').value,
+      password: this.signUpForm.get('password').value,
     }).pipe(first())
       .subscribe(
         data => {
@@ -62,7 +62,7 @@ export class SignUpComponent implements OnInit {
         },
         error => {
           this.message = 'Registration Failed : ' + error ;
-          this.notifier.notify('error',this.message);
+          this.notifier.notify('error', this.message);
           console.log(error);
           this.loading = false;
         }

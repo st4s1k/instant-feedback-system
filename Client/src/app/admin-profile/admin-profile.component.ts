@@ -70,11 +70,7 @@ export class AdminProfileComponent implements OnInit {
     });
   }
   addUser() {
-    if (this.addUserBtn === false) {
-      this.addUserBtn = true;
-    } else {
-      this.addUserBtn = false;
-    }
+    this.addUserBtn = this.addUserBtn === false;
   }
   submitAddUser() {
     this.submitted = true;

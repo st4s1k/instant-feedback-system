@@ -11,7 +11,7 @@
       <div class="col-auto text-center average-mark">
 
         <p class="mb-0">
-          {{ presentation.avgMark ? '0.00' : presentation.avgMark.toFixed(2) }}
+          {{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '0.00' }}
           <span class="mb-2" id="ratings-count">
             <i class="fas fa-user"></i> {{ voteCount }} votes
           </span>
@@ -44,7 +44,7 @@
       <p *ngIf='!userMark || !userMark.value' class="text-success">Rate this presentation!</p>
 
       <ngb-rating *ngIf='!userMark || !userMark.value' class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
-        [readonly]=!canVote>
+                  [readonly]=!canVote>
         <ng-template let-fill="fill" let-index="index">
           <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
         </ng-template>
@@ -91,7 +91,7 @@
         <div class="card-body p-2">
 
           <textarea #fbb class="form-control d-flex" cols="30" rows="4" placeholder="Your feedback." required
-            formControlName="feedbackBox"></textarea>
+                    formControlName="feedbackBox"></textarea>
 
           <div class="d-flex mt-2 align-items-center">
 

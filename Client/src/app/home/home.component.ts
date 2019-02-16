@@ -45,14 +45,9 @@ export class HomeComponent implements OnInit {
 
   searchAll() {
 
-    if (this.searchBox.invalid) {
-      this.requestAllPresentations();
-      return;
-    }
-
     this.presentations = [];
 
-    this.ps.getPresentationsByEmail(this.searchBox.value).subscribe(
+    this.ps.getPresentationsByEmailKeyword(this.searchBox.value).subscribe(
       presentationDtoList => this.presentations = this.presentations.concat(
         presentationDtoList.map(
           presentationDto => PresentationDTO.toModel(presentationDto)
@@ -68,10 +63,11 @@ export class HomeComponent implements OnInit {
       )
     );
 
+    this.presentations = Array.from(new Set(this.presentations));
   }
 
   searchByEmail() {
-    this.ps.getPresentationsByEmail(this.searchBox.value).subscribe(
+    this.ps.getPresentationsByEmailKeyword(this.searchBox.value).subscribe(
       presentationDtoList => this.presentations = presentationDtoList.map(
         presentationDto => PresentationDTO.toModel(presentationDto)
       )

@@ -6,12 +6,11 @@ import com.inther.entities.Presentation;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,16 +18,13 @@ import java.util.UUID;
 @Service
 public class MessageService
 {
-    private final AuthorityUtilityBean authorityUtilityBean;
     private final MessageRepository messageRepository;
     private final PresentationRepository presentationRepository;
 
     @Autowired
-    public MessageService(AuthorityUtilityBean authorityUtilityBean,
-                          PresentationRepository presentationRepository,
+    public MessageService(PresentationRepository presentationRepository,
                           MessageRepository messageRepository)
     {
-        this.authorityUtilityBean = authorityUtilityBean;
         this.presentationRepository = presentationRepository;
         this.messageRepository = messageRepository;
     }
@@ -42,11 +38,11 @@ public class MessageService
 
         if (!presentation.isPresent()) {
             status = 0;
-        } else if (LocalDateTime.now().isAfter(
-                LocalDateTime.parse(
-                        presentation.get().getDate().toString() + '+' + presentation.get().getEndTime().toString(),
-                        DateTimeFormatter.ISO_DATE)
-                        .atZone(ZoneId.systemDefault()).toLocalDateTime())) {
+        } else if (LocalDateTime.now().isBefore(
+                ChronoLocalDateTime.from(
+                        LocalDateTime.of(presentation.get().getDate(),
+                        presentation.get().getEndTime())
+                        .atZone(ZoneId.of("Europe/Chisinau"))))) {
             status = -1;
         } else {
             messageRepository.save(message);

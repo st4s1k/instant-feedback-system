@@ -30,10 +30,10 @@ export class PresentationService {
     });
   }
 
-  getPresentationsByUserId(userId: string) {
+  getPresentationsByEmailKeyword(keyword: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        userId: '' + userId
+        email_like: '' + keyword
       }
     });
   }

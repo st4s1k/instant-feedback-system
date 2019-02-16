@@ -3,7 +3,6 @@ import { HttpEvent,
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
-  HttpResponse,
   HttpErrorResponse} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -20,12 +19,11 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Client Side Error
           if (error.error instanceof ErrorEvent) {
             errMsg = `Error: ${error.error.message}`;
-          }
-          else {  // Server Side Error
+          } else {  // Server Side Error
             if (error.status === 401) {
               // auto logout if 401 response returned from api
               this.authenticationService.logout();
-              errMsg=`Error Code: ${error.status},  Message: Email or password are incorrect`;
+              errMsg = `Error Code: ${error.status},  Message: Email or password are incorrect`;
             } else {
               errMsg = `Error Code: ${error.status},  Message: ${error.error}`;
             }

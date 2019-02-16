@@ -29,7 +29,7 @@ public class MarkService
         return markRepository.findMarksByPresentation_Id(presentationId);
     }
 
-    public Optional<Mark> fetchUserMark(UUID userId) {
-        return markRepository.findMarkByUser_Id(userId);
+    public Optional<Mark> fetchUserMark(UUID userId, UUID presentationId) {
+        return markRepository.findMarkByPresentation_IdAndUser_Id(presentationId, userId);
     }
 }

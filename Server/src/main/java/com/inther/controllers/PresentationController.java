@@ -4,7 +4,6 @@ import com.inther.assets.validators.RequestDataValidator;
 import com.inther.services.mappers.PresentationMapper;
 import com.inther.dto.PresentationDto;
 import com.inther.entities.Presentation;
-import com.inther.repositories.UserRepository;
 import com.inther.services.entity.PresentationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -81,8 +80,23 @@ public class PresentationController
                 : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
     }
 
+    @GetMapping(params = "email_like")
+    public ResponseEntity<?> getPresentationsByEmailKeyword(
+            @RequestParam(value = "email_like") String keyword)
+    {
+        List<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsByEmailKeyword(keyword).stream()
+                .map(presentationMapper::toDto)
+                .collect(Collectors.toList());
+
+        return presentationDtoList.isEmpty()
+                ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
+    }
+
     @GetMapping(params = "email")
-    public ResponseEntity<?> getPresentationsByEmail(@RequestParam String email)
+    public ResponseEntity<?> getPresentationsByEmail(
+            @RequestParam(value = "email") String email)
     {
         List<PresentationDto> presentationDtoList = presentationService
                 .searchForPresentationsByEmail(email).stream()
@@ -110,14 +124,17 @@ public class PresentationController
 
     //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deletePresentation(@PathVariable(value = "id") String id)
+    public ResponseEntity<?> deletePresentation(
+            @PathVariable(value = "id") String id)
     {
         return presentationService
                 .deletePresentation(UUID.fromString(id))
-                .map(deleted -> new ResponseEntity<>("Presentation successfully deleted.", httpHeaders, deleted
+                .map(deleted -> new ResponseEntity<>("Presentation successfully deleted.",
+                        httpHeaders, deleted
                         ? HttpStatus.ACCEPTED
                         : HttpStatus.FORBIDDEN))
-                .orElseGet(() -> new ResponseEntity<>("Presentation not found.", httpHeaders, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>("Presentation not found.", httpHeaders,
+                        HttpStatus.NOT_FOUND));
     }
 
     @Autowired

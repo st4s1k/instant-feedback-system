@@ -13,8 +13,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class SignInComponent implements OnInit {
 
-    signinForm: FormGroup;
-    passwordFormGroup: FormGroup;
+    signInForm: FormGroup;
     submitted = false;
     loading = false;
     returnUrl: string;
@@ -31,7 +30,7 @@ export class SignInComponent implements OnInit {
          }
 
     ngOnInit() {
-        this.signinForm = this.formBuilder.group({
+        this.signInForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
@@ -49,11 +48,11 @@ export class SignInComponent implements OnInit {
         this.submitted = true;
 
         // stop here if form is invalid
-        if (this.signinForm.invalid) {
+        if (this.signInForm.invalid) {
             return;
         }
         this.loading = true;
-        this.authenticationService.signin(this.signinForm.controls.email.value, this.signinForm.controls.password.value)
+        this.authenticationService.signin(this.signInForm.controls.email.value, this.signInForm.controls.password.value)
             .pipe(first())
             .subscribe(
                 data => {

@@ -4,8 +4,10 @@ import com.inther.dto.MessageDto;
 import com.inther.entities.Message;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MessageMapper implements Mapper<Message, MessageDto> {
 
@@ -20,6 +22,8 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
 
     @Override
     public Message toEntity(MessageDto dto) {
+
+        log.debug("Source DTO: {}", dto);
 
         if (dto == null) { return null; }
 
@@ -41,11 +45,15 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
         // unlike boolean primitives which are handled with "is" method prefix.
         entity.setAnonymous(dto.getAnonymous());
 
+        log.debug("Result entity: {}", entity);
+
         return entity;
     }
 
     @Override
     public MessageDto toDto(Message entity) {
+
+        log.debug("Source entity: {}", entity);
 
         if (entity == null) { return null; }
 
@@ -59,16 +67,20 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
                         : entity.getUser().getId());
         dto.setEmail(entity.getUser() == null
                         ? null
-                        : entity.getUser().getEmail());
+                        : entity.getAnonymous() ? "anonymous" : entity.getUser().getEmail());
         dto.setText(entity.getText());
         dto.setType(entity.getType());
         dto.setAnonymous(entity.getAnonymous());
+
+        log.debug("Result DTO: {}", dto);
 
         return dto;
     }
 
     @Override
     public void patchEntity(Message source, Message destination) {
+
+        log.debug("Source entity: {}", source);
 
         if (source == null || destination == null || source.equals(destination)) { return; }
 
@@ -78,10 +90,14 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
         destination.setText(source.getText());
         destination.setType(source.getType());
         destination.setAnonymous(source.getAnonymous());
+
+        log.debug("Result entity: {}", destination);
     }
 
     @Override
     public void patchDto(MessageDto source, MessageDto destination) {
+
+        log.debug("Source DTO: {}", source);
 
         if (source == null || destination == null || source.equals(destination)) { return; }
 
@@ -92,5 +108,7 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
         destination.setText(source.getText());
         destination.setType(source.getType());
         destination.setAnonymous(source.getAnonymous());
+
+        log.debug("Result DTO: {}", destination);
     }
 }

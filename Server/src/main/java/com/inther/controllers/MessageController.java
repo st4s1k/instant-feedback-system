@@ -36,18 +36,12 @@ public class MessageController
         int status = messageService.addMessage(messageMapper.toEntity(messageDto));
         String statusMessage = "no message";
         switch (status) {
-            case 0:
-                statusMessage = "No such presentationId.";
-                break;
-            case -1:
-                statusMessage = "Presentation not started yet!";
-                break;
-            case 1:
-                statusMessage = "Message successfully added!";
-                break;
+            case  0: statusMessage = "No such presentationId."; break;
+            case -1: statusMessage = "Presentation not started yet!"; break;
+            case  1: statusMessage = "Message successfully added!"; break;
         }
 
-        return new ResponseEntity<>(statusMessage, httpHeaders, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(statusMessage, httpHeaders, HttpStatus.CREATED);
     }
 
     @GetMapping(params = "presentationId")
@@ -85,8 +79,8 @@ public class MessageController
     {
         return messageService.deleteMessage(UUID.fromString(id))
                 .map(messageDeleted -> messageDeleted
-                        ? new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN)
-                        : new ResponseEntity<>( "Message successfully deleted!", httpHeaders, HttpStatus.ACCEPTED))
+                        ? new ResponseEntity<>( "Message successfully deleted!", httpHeaders, HttpStatus.ACCEPTED)
+                        : new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN))
                 .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 

@@ -76,6 +76,10 @@ public class PresentationService
                 : new ArrayList<>();
     }
 
+    public List<Presentation> searchForPresentationsByEmailKeyword(String keyword) {
+        return presentationRepository.findPresentationsByUser_EmailIgnoreCaseContaining(keyword);
+    }
+
     public Optional<Presentation> searchForRequestedPresentation(UUID id)
     {
         return presentationRepository.findPresentationById(id);

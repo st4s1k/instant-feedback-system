@@ -39,9 +39,6 @@ final class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFi
                 .map(String::trim)
                 .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
 
-        if (token != null) {
-            throw new RuntimeException(token);
-        }
 
         final Authentication auth = new UsernamePasswordAuthenticationToken(token, token);
 

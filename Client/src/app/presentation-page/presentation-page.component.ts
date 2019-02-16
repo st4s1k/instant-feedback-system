@@ -70,7 +70,7 @@ export class PresentationPageComponent implements OnInit {
       this.presentation = data.presentation;
 
       if (this.userId) {
-        this.ms.getUserMark(this.userId)
+        this.ms.getUserMark(this.userId, this.presentation.id)
           .pipe(first()).subscribe(markDto => {
           if (markDto) {
             this.userMark = MarkDTO.toModel(markDto);
@@ -87,8 +87,6 @@ export class PresentationPageComponent implements OnInit {
         if (messagesDto) {
           this.feedback = messagesDto.map(messageDto =>
             MessageDTO.toModel(messageDto));
-        } else {
-          alert('No messages!');
         }
       });
     });
@@ -108,9 +106,11 @@ export class PresentationPageComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       presentationId: this.presentation.id,
       value: rate
-    })).pipe(first()).subscribe( avgMark => this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark,
+    })).pipe(first()).subscribe(
+    avgMark => {
+      this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark;
+    },
       error => {
-        alert('Error!');
         console.log('Error!: ' + JSON.stringify(error));
       }
     );
@@ -131,7 +131,9 @@ export class PresentationPageComponent implements OnInit {
   deleteMessage(i: number) {
     if (confirm('Are you sure, you want to delete this message?')) {
       alert(`Deleting message[${i}].id = ${this.feedback[i].id}`);
-      this.msgSrv.deleteMessage(this.feedback[i].id);
+      this.msgSrv.deleteMessage(this.feedback[i].id)
+        .subscribe(() => this.feedback
+          .filter(message => message !== this.feedback[i]));
     }
   }
 
@@ -146,7 +148,7 @@ export class PresentationPageComponent implements OnInit {
     this.sendMessage(new Message(<Message>{
       userId: localStorage.getItem('userId'),
       presentationId: this.presentation.id,
-      email: (this.anonymous.value ? 'anonymous' : localStorage.getItem('email')),
+      email: localStorage.getItem('email'),
       text: this.feedbackBox.value,
       type: this.type.value,
       anonymous: this.anonymous.value

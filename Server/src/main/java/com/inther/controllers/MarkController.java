@@ -48,8 +48,7 @@ public class MarkController
             return new ResponseEntity<>("User has already rated this presentationId!",
                     httpHeaders, HttpStatus.CONFLICT);
         } else {
-            markService.newMark(mark);
-            return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(markService.newMark(mark), httpHeaders, HttpStatus.CREATED);
         }
     }
 
@@ -67,17 +66,21 @@ public class MarkController
         }
     }
 
-    @GetMapping(params = "userId")
+    @GetMapping(params = {"userId", "presentationId"})
     public ResponseEntity<?> getUserMark(
-            @RequestParam(value = "userId") String id)
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "presentationId") String presentationId)
     {
-        if (userRepository.findUserById(UUID.fromString(id)).isPresent()) {
-            Optional<Mark> mark = markService.fetchUserMark(UUID.fromString(id));
-            return !mark.isPresent()
-                    ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(markMapper.toDto(mark.get()), httpHeaders, HttpStatus.OK);
+        if (!userRepository.findUserById(UUID.fromString(userId)).isPresent()
+                || !presentationRepository.findPresentationById(UUID.fromString(presentationId)).isPresent()) {
+            return new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>("User not found!", httpHeaders, HttpStatus.NOT_FOUND);
+            Optional<Mark> mark = markService.fetchUserMark(
+                    UUID.fromString(userId),
+                    UUID.fromString(presentationId));
+            return !mark.isPresent()
+                    ? new ResponseEntity<>("No mark found for this user!", httpHeaders, HttpStatus.NO_CONTENT)
+                    : new ResponseEntity<>(markMapper.toDto(mark.get()), httpHeaders, HttpStatus.OK);
         }
     }
 

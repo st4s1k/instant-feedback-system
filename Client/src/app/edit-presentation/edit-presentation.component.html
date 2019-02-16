@@ -151,7 +151,7 @@
 
               <div class="d-flex pb-2">
                 <input class="form-control mr-3" type="text" placeholder="example@inther.com" name="email-invitation"
-                  id="email-invitation" [formControlName]="i" [ngClass]="{ 'is-invalid': submittedFeedback && emailInvitation.errors }">
+                  id="email-invitation" [formControlName]="'' + i" [ngClass]="{ 'is-invalid': submittedFeedback && emailInvitation.errors }">
                 <button class="btn btn-danger m-0 w-auto" (click)="deleteEmailInvitation(i)">
                   <i class="fas fa-minus"></i>
                 </button>

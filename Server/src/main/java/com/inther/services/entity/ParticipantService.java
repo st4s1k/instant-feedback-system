@@ -24,14 +24,14 @@ public class ParticipantService
         this.authorityUtilityBean = authorityUtilityBean;
     }
 
-    public Optional<UUID> addParticipant(Participant participant)
+    public void addParticipant(Participant participant)
     {
         Optional<Participant> similarParticipant = participantRepository
                 .findParticipantByPresentation_IdAndEmail(participant.getPresentation().getId(), participant.getEmail());
 
-        return similarParticipant.isPresent()
-                ? Optional.empty()
-                : Optional.of(participantRepository.save(participant).getId());
+        if (!similarParticipant.isPresent()) {
+            participantRepository.save(participant);
+        }
     }
 
     public List<Participant> fetchPresentationParticipants(UUID presentationId) {

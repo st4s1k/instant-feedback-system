@@ -133,20 +133,20 @@ export class EditPresentationComponent implements OnInit {
       .subscribe(id => {
         this.notifier.notify('success', 'Presentation saved');
         console.log(JSON.stringify(id));
-        this.tempID=id;
+        this.tempID = id;
         if (this.emailInvitations.value) {
           this.arrayControl = this.emailInvitations.value;
           console.log(this.emailInvitations.value);
           this.participantService.addParticipants(
             this.emailInvitations.value.map(email => new Participant(<Participant>{
-            presentationID: this.tempID,
-            email: email
-          }))
-          ).subscribe(success=>{
-            this.notifier.notify('success', 'Invites are sent');
-          },
+              presentationID: this.tempID,
+              email: email
+            }))
+          ).subscribe(success => {
+              this.notifier.notify('success', 'Invites are sent');
+            },
             error1 => {
-              this.notifier.notify('error', 'Invite not sent'+error1);
+              this.notifier.notify('error', 'Invite not sent' + error1);
             });
         }
         this.router.navigate([`/presentation-page/${id}`]);

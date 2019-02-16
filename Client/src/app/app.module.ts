@@ -83,7 +83,7 @@ const customNotifierOptions: NotifierOptions = {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
