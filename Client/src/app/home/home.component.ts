@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: { presentations: Presentation[] }) => {
       this.presentations = data.presentations;
-      // console.log(JSON.stringify(this.presentations));
     });
   }
 

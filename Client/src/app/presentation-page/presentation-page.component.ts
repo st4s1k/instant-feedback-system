@@ -213,6 +213,7 @@ export class PresentationPageComponent implements OnInit {
   sendMessage(currentFeedback: Message) {
     if (this.editingMessage >= 0) {
       currentFeedback.id = this.feedback[this.editingMessage].id;
+      this.editingMessage = -1;
       return this.msgSrv.updateMessage(currentFeedback);
     } else {
       return this.msgSrv.addMessage(currentFeedback);
