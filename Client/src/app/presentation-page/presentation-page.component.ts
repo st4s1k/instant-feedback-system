@@ -39,7 +39,6 @@ export class PresentationPageComponent implements OnInit {
   isAuthor = false;
 
   authenticated = localStorage.getItem('sessionID');
-  editId: string;
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
   anonymous: FormControl = this.fb.control(false);
   feedbackBox: FormControl = this.fb.control('', Validators.required);
@@ -79,23 +78,23 @@ export class PresentationPageComponent implements OnInit {
       if (this.userId && !this.isAuthor) {
         this.ms.getUserMark(this.userId, this.presentation.id)
           .pipe(first()).subscribe(markDto => {
-            if (markDto) {
-              this.userMark = MarkDTO.toModel(markDto);
-            } else {
-              this.canVote = true;
-            }
-          });
+          if (markDto) {
+            this.userMark = MarkDTO.toModel(markDto);
+          } else {
+            this.canVote = true;
+          }
+        });
       } else {
         this.canVote = false;
       }
 
       this.msgSrv.getPresentationMessages(this.presentation.id)
         .pipe(first()).subscribe(messagesDto => {
-          if (messagesDto) {
-            this.feedback = messagesDto.map(messageDto =>
-              MessageDTO.toModel(messageDto));
-          }
-        });
+        if (messagesDto) {
+          this.feedback = messagesDto.map(messageDto =>
+            MessageDTO.toModel(messageDto));
+        }
+      });
     });
   }
 
@@ -107,6 +106,7 @@ export class PresentationPageComponent implements OnInit {
       presentationId: this.presentation.id,
       value: rate
     });
+
     this.currentRate = rate;
 
     this.ms.addMark(new Mark(<Mark>{
@@ -115,7 +115,7 @@ export class PresentationPageComponent implements OnInit {
       value: rate
     })).pipe(first()).subscribe(
       avgMark => {
-        this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark;
+        this.presentation.avgMark = avgMark ? avgMark : 0.0;
       },
       error => {
         console.log('Error!: ' + JSON.stringify(error));
@@ -124,7 +124,6 @@ export class PresentationPageComponent implements OnInit {
   }
 
   editMessage(i: number) {
-    alert('editing message ' + i);
 
     this.editingMessage = i;
 
@@ -137,18 +136,21 @@ export class PresentationPageComponent implements OnInit {
 
   deleteMessage(i: number) {
     if (confirm('Are you sure, you want to delete this message?')) {
-      alert(`Deleting message[${i}].id = ${this.feedback[i].id}`);
       this.msgSrv.deleteMessage(this.feedback[i].id)
         .subscribe(feedback => {
-          this.feedback
-          .filter(message => message !== this.feedback[i]);
-          this.msgSrv.getPresentationMessages(this.presentation.id).subscribe(
-            messageDtoList => this.feedback = messageDtoList.map(
-              messageDto => MessageDTO.toModel(messageDto)
-            )
-          );
-          this.notifier.notify('info', feedback);
-        },
+            this.feedback
+              .filter(message => message !== this.feedback[i]);
+            this.msgSrv.getPresentationMessages(this.presentation.id)
+              .subscribe(messageDtoList => {
+                if (messageDtoList) {
+                  this.feedback = messageDtoList
+                    .map(messageDto => MessageDTO.toModel(messageDto));
+                } else {
+                  this.feedback = [];
+                }
+              });
+            this.notifier.notify('info', feedback);
+          },
           error => {
             this.notifier.notify('error', error);
           });
@@ -173,24 +175,28 @@ export class PresentationPageComponent implements OnInit {
     });
 
     this.sendMessage(msg).pipe(first()).subscribe(response => {
-      if (this.editingMessage >= 0) {
-        this.feedback[this.editingMessage] = msg;
-      } else {
-        if (!this.feedback) {
-          this.feedback = [];
+        if (this.editingMessage >= 0) {
+          this.feedback[this.editingMessage] = msg;
+        } else {
+          if (!this.feedback) {
+            this.feedback = [];
+          }
+          this.feedback.push(msg);
         }
-        this.feedback.push(msg);
+        this.msgSrv.getPresentationMessages(this.presentation.id).subscribe(
+          messageDtoList => {
+            if (messageDtoList) {
+              this.feedback = messageDtoList
+                .map(messageDto => MessageDTO.toModel(messageDto));
+            } else {
+              this.feedback = [];
+            }
+          }
+        );
+        this.notifier.notify('success', response);
+      }, error => {
+        this.notifier.notify('error', error);
       }
-      this.msgSrv.getPresentationMessages(this.presentation.id).subscribe(
-        messageDtoList => this.feedback = messageDtoList.map(
-          messageDto => MessageDTO.toModel(messageDto)
-        )
-      );
-      this.notifier.notify('success', JSON.stringify(response));
-    }, error => {
-      this.notifier.notify('error', error);
-      alert('Error!: ' + error);
-    }
     );
 
 

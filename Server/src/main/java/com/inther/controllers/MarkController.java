@@ -1,6 +1,7 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.entities.Presentation;
 import com.inther.services.mappers.MarkMapper;
 import com.inther.dto.MarkDto;
 import com.inther.entities.Mark;
@@ -48,7 +49,12 @@ public class MarkController
             return new ResponseEntity<>("User has already rated this presentationId!",
                     httpHeaders, HttpStatus.CONFLICT);
         } else {
-            return new ResponseEntity<>(markService.newMark(mark), httpHeaders, HttpStatus.CREATED);
+            markRepository.save(mark);
+            double avgMark = markRepository
+                    .findMarksByPresentation_Id(mark.getPresentation().getId()).stream()
+                    .mapToDouble(Mark::getValue).average()
+                    .orElse(0);
+            return new ResponseEntity<>(avgMark, httpHeaders, HttpStatus.CREATED);
         }
     }
 
