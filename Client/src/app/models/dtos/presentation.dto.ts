@@ -11,6 +11,7 @@ export class PresentationDTO {
   public date: string;
   public place: string;
   public avgMark: number;
+  public voteCount: number;
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);
@@ -26,7 +27,8 @@ export class PresentationDTO {
       endTime: p.endTime,
       place: p.place,
       date: p.date,
-      avgMark: p.avgMark
+      avgMark: p.avgMark,
+      voteCount: p.voteCount
     };
   }
 

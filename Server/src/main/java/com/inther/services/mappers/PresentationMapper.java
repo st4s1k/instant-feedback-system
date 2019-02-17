@@ -84,6 +84,8 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
         dto.setAvgMark(markRepository
                 .findMarksByPresentation_Id(entity.getId()).stream()
                 .mapToDouble(Mark::getValue).average().orElse(0d));
+        dto.setVoteCount(markRepository
+                .findMarksByPresentation_Id(entity.getId()).size());
 
         log.debug("Result dto: {}", dto);
 
@@ -125,6 +127,7 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
         destination.setDate(source.getDate());
         destination.setPlace(source.getPlace());
         destination.setAvgMark(source.getAvgMark());
+        destination.setVoteCount(source.getVoteCount());
 
         log.debug("Result dto: {}", destination);
     }

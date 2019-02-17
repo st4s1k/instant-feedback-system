@@ -41,4 +41,6 @@ public class PresentationDto implements Serializable
     private String place;
 
     private Double avgMark;
+
+    private Integer voteCount;
 }

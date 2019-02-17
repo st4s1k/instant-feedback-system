@@ -33,7 +33,6 @@ export class PresentationPageComponent implements OnInit {
   canVote = false;
   userMark: Mark;
   userId: string;
-  voteCount = 0;
   editingMessage = -1;
 
   isAuthor = false;
