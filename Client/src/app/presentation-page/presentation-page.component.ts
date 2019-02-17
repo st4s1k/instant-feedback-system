@@ -149,24 +149,25 @@ export class PresentationPageComponent implements OnInit {
       return;
     }
 
-    this.sendMessage(new Message(<Message>{
+    const msg = new Message(<Message>{
       userId: localStorage.getItem('userId'),
       presentationId: this.presentation.id,
       email: localStorage.getItem('email'),
       text: this.feedbackBox.value,
       type: this.type.value,
       anonymous: this.anonymous.value
-    })).pipe(first()).subscribe(messageDto => {
-        const message = MessageDTO.toModel(messageDto);
+    });
+
+    this.sendMessage(msg).pipe(first()).subscribe(response => {
         if (this.editingMessage >= 0) {
-          this.feedback[this.editingMessage] = message;
+          this.feedback[this.editingMessage] = msg;
         } else {
           if (!this.feedback) {
             this.feedback = [];
           }
-          this.feedback.push(message);
+          this.feedback.push(msg);
         }
-        alert('Succes!:' + JSON.stringify(messageDto));
+        alert('Succes!:' + JSON.stringify(response));
       }, error => {
         alert('Error!: ' + error);
       }
