@@ -65,10 +65,6 @@ public class PresentationService
         return presentationRepository.findAll();
     }
 
-    public List<Presentation> searchForPresentationsWithTitle(String title) {
-        return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
-    }
-
     public List<Presentation> searchForPresentationsByEmail(String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
         return user.isPresent()
@@ -76,8 +72,16 @@ public class PresentationService
                 : new ArrayList<>();
     }
 
+    public List<Presentation> searchForPresentationsWithTitleKeyword(String title) {
+        return presentationRepository.findPresentationsByTitleIgnoreCaseContaining(title);
+    }
+
     public List<Presentation> searchForPresentationsByEmailKeyword(String keyword) {
         return presentationRepository.findPresentationsByUser_EmailIgnoreCaseContaining(keyword);
+    }
+
+    public List<Presentation> searchForPresentationsByTitleOrEmailKeyword(String keyword) {
+        return presentationRepository.findPresentationsByTitleOrUser_EmailIgnoreCaseContaining(keyword, keyword);
     }
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)

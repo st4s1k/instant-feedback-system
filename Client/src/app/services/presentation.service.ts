@@ -22,6 +22,14 @@ export class PresentationService {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
   }
 
+  getPresentationsByTitleOrEmailKeyword(keyword: string) {
+    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
+      params: {
+        title_or_email_like: keyword
+      }
+    });
+  }
+
   getPresentationsByTitle(title: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {

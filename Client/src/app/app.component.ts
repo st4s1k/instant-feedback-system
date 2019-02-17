@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,5 +11,6 @@ import { FormControl } from '@angular/forms';
 export class AppComponent {
   title = 'Client';
   email = new FormControl('');
-  isCollapsed = false;
+
+  constructor() { }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PresentationService } from './presentation.service';
-import { Resolve, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, EMPTY, of } from 'rxjs';
+import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { Presentation } from '../models/presentation.model';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
@@ -11,7 +11,7 @@ import { PresentationDTO } from '../models/dtos/presentation.dto';
 })
 export class UserPresentationResolverService implements Resolve<Presentation[]> {
 
-  constructor(private ps: PresentationService, private router: Router) { }
+  constructor(private ps: PresentationService) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation[]> | Observable<never> {
 
     return this.ps.getPresentationsByEmail(localStorage.getItem('email')).pipe(
@@ -25,9 +25,7 @@ export class UserPresentationResolverService implements Resolve<Presentation[]> 
             )
           );
         } else { // id not found
-          // this.router.navigate(['/home']);
-          alert('Error: Cannot load presentations.');
-          return EMPTY;
+          return of([]);
         }
       })
     );

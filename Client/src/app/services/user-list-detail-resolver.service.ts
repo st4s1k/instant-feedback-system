@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
@@ -25,9 +25,7 @@ export class UserListDetailResolverService implements Resolve<User[]> {
             )
           );
         } else { // id not found
-          // this.router.navigate(['/home']);
-          alert('Error: Cannot load Users.');
-          return EMPTY;
+          return of([]);
         }
       })
     );

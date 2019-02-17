@@ -8,15 +8,16 @@ import { EditPresentationComponent } from './edit-presentation/edit-presentation
 import { HomeComponent } from './home/home.component';
 import { PresentationPageComponent } from './presentation-page/presentation-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 // Services
 import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
 import { PresentationListDetailResolverService } from './services/presentation-list-detail-resolver.service';
+import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
+import { UserPresentationResolverService } from './services/user-presentation-resolver.service';
 // Guards
 import { AuthGuard } from './_guards/auth.guard';
-import { AdminProfileComponent } from './admin-profile/admin-profile.component';
-import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
-import {AdminGuard} from './_guards/admin.guard';
+import { AdminGuard } from './_guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -55,7 +56,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     resolve: {
       user: UserDetailResolverService,
-      // presentations : UserPresentationResolverService
+      presentations : UserPresentationResolverService
     },
     canActivate: [AuthGuard]
   },

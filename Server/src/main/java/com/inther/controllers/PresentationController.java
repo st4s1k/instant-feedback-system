@@ -71,7 +71,7 @@ public class PresentationController
             @RequestParam(value = "title_like") String title)
     {
         List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsWithTitle(title).stream()
+                .searchForPresentationsWithTitleKeyword(title).stream()
                 .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 
@@ -86,6 +86,20 @@ public class PresentationController
     {
         List<PresentationDto> presentationDtoList = presentationService
                 .searchForPresentationsByEmailKeyword(keyword).stream()
+                .map(presentationMapper::toDto)
+                .collect(Collectors.toList());
+
+        return presentationDtoList.isEmpty()
+                ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping(params = "title_or_email_like")
+    public ResponseEntity<?> getPresentationsByTitleOrEmailKeyword(
+            @RequestParam(value = "title_or_email_like") String keyword)
+    {
+        List<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsByTitleOrEmailKeyword(keyword).stream()
                 .map(presentationMapper::toDto)
                 .collect(Collectors.toList());
 

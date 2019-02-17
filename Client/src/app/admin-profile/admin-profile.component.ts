@@ -123,7 +123,7 @@ export class AdminProfileComponent implements OnInit {
 
     this.userService.updateUser(editingUser).pipe(first())
       .subscribe(
-        data => {
+        () => {
           console.log('Succes');
           this.message = editingUser.email + 'information successfuly updated';
           this.notifier.notify('success', this.message.toString());
@@ -178,13 +178,17 @@ export class AdminProfileComponent implements OnInit {
         .subscribe(
           data => {
             console.log('data: ' + JSON.stringify(data));
-            this.presentationService.getPresentations().subscribe(
-              presentationDtoList => this.presentations = presentationDtoList.map(
-                presentationDto => PresentationDTO.toModel(presentationDto)
-              )
-            );
-            this.message = 'Presentation: ' + this.presentations[i].title + 'successfully deleted!';
-            this.notifier.notify('info', this.message.toString());
+            this.presentationService.getPresentations()
+              .subscribe(presentationDtoList => {
+                this.notifier.notify('info', data);
+                if (presentationDtoList) {
+                  this.presentations = presentationDtoList
+                    .map(presentationDto =>
+                      PresentationDTO.toModel(presentationDto));
+                } else {
+                  this.presentations = [];
+                }
+              });
           },
           error => {
             this.notifier.notify('error', 'Error on delete ' + error);

@@ -20,6 +20,7 @@ public interface PresentationRepository extends JpaRepository<Presentation, UUID
     // Filtered query
     List<Presentation> findPresentationsByTitleIgnoreCaseContaining(String keyword);
     List<Presentation> findPresentationsByUser_EmailIgnoreCaseContaining(String keyword);
+    List<Presentation> findPresentationsByTitleOrUser_EmailIgnoreCaseContaining(String title, String user_email);
 
     @Transactional
     void deletePresentationById(UUID id);

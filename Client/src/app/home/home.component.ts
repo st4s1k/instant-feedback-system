@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
 
   presentations: Presentation[];
 
-  notifier: NotifierService;
   message: String;
 
   searchBox: FormControl = this.fb.control('');
@@ -25,10 +24,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    notifierService: NotifierService
-  ) {
-    this.notifier = notifierService;
-   }
+    private notifier: NotifierService
+  ) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { presentations: Presentation[] }) => {
@@ -44,34 +41,21 @@ export class HomeComponent implements OnInit {
   }
 
   searchAll() {
-
-    this.presentations = [];
-
-    this.ps.getPresentationsByEmailKeyword(this.searchBox.value).subscribe(
-      presentationDtoList => this.presentations = this.presentations.concat(
-        presentationDtoList.map(
-          presentationDto => PresentationDTO.toModel(presentationDto)
-        )
-      )
+    this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value)
+      .subscribe(presentationDtoList => {
+        if (presentationDtoList) {
+        this.presentations = presentationDtoList
+          .map(presentationDto => PresentationDTO.toModel(presentationDto));
+        }
+      }
     );
-
-    this.ps.getPresentationsByTitle(this.searchBox.value).subscribe(
-      presentationDtoList => this.presentations = this.presentations.concat(
-        presentationDtoList.map(
-          presentationDto => PresentationDTO.toModel(presentationDto)
-        )
-      )
-    );
-
-    this.presentations = Array.from(new Set(this.presentations));
   }
 
   searchByEmail() {
-    this.ps.getPresentationsByEmailKeyword(this.searchBox.value).subscribe(
-      presentationDtoList => this.presentations = presentationDtoList.map(
-        presentationDto => PresentationDTO.toModel(presentationDto)
-      )
-    );
+    this.ps.getPresentationsByEmailKeyword(this.searchBox.value)
+      .subscribe(presentationDtoList =>
+        this.presentations = presentationDtoList
+          .map(presentationDto => PresentationDTO.toModel(presentationDto)));
   }
 
   searchByTitle() {
@@ -81,15 +65,15 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.ps.getPresentationsByTitle(this.searchBox.value).subscribe(
-      presentationDtoList => this.presentations = presentationDtoList.map(
-        presentationDto => PresentationDTO.toModel(presentationDto)
-      )
-    );
+    this.ps.getPresentationsByTitle(this.searchBox.value)
+      .subscribe(presentationDtoList => this.presentations = presentationDtoList
+        .map(presentationDto => PresentationDTO.toModel(presentationDto)));
   }
 
   openPresentationPage(i: number) {
-    this.router.navigate([`/presentation-page/${this.presentations[i].id}`]);
+    this.router.navigate([`/presentation-page/${this.presentations[i].id}`])
+      .then().catch(() =>
+      this.notifier.notify('error', 'Could not load presentation!'));
   }
 
 }
