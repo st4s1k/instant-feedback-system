@@ -17,7 +17,7 @@ import java.util.UUID;
 public class MessageDto implements Serializable
 {
     @Null(groups = {RequestDataValidator.AddMessage.class})
-    @NotNull(groups = {RequestDataValidator.UpdateMessage.class})
+    @NotNull(groups = {RequestDataValidator.UpdateMessage.class, RequestDataValidator.DeleteMessage.class})
     private UUID id;
 
     @NotNull(groups = {RequestDataValidator.AddMessage.class})

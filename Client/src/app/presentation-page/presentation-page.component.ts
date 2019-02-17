@@ -91,11 +91,11 @@ export class PresentationPageComponent implements OnInit {
 
       this.msgSrv.getPresentationMessages(this.presentation.id)
         .pipe(first()).subscribe(messagesDto => {
-        if (messagesDto) {
-          this.feedback = messagesDto.map(messageDto =>
-            MessageDTO.toModel(messageDto));
-        }
-      });
+          if (messagesDto) {
+            this.feedback = messagesDto.map(messageDto =>
+              MessageDTO.toModel(messageDto));
+          }
+        });
     });
   }
 
@@ -139,8 +139,19 @@ export class PresentationPageComponent implements OnInit {
     if (confirm('Are you sure, you want to delete this message?')) {
       alert(`Deleting message[${i}].id = ${this.feedback[i].id}`);
       this.msgSrv.deleteMessage(this.feedback[i].id)
-        .subscribe(() => this.feedback
-          .filter(message => message !== this.feedback[i]));
+        .subscribe(feedback => {
+          this.feedback
+          .filter(message => message !== this.feedback[i]);
+          this.msgSrv.getPresentationMessages(this.presentation.id).subscribe(
+            messageDtoList => this.feedback = messageDtoList.map(
+              messageDto => MessageDTO.toModel(messageDto)
+            )
+          );
+          this.notifier.notify('info', feedback);
+        },
+          error => {
+            this.notifier.notify('error', error);
+          });
     }
   }
 
@@ -170,7 +181,11 @@ export class PresentationPageComponent implements OnInit {
         }
         this.feedback.push(msg);
       }
-      // alert('Succes!:' + JSON.stringify(response));
+      this.msgSrv.getPresentationMessages(this.presentation.id).subscribe(
+        messageDtoList => this.feedback = messageDtoList.map(
+          messageDto => MessageDTO.toModel(messageDto)
+        )
+      );
       this.notifier.notify('success', JSON.stringify(response));
     }, error => {
       this.notifier.notify('error', error);
@@ -191,6 +206,7 @@ export class PresentationPageComponent implements OnInit {
 
   sendMessage(currentFeedback: Message) {
     if (this.editingMessage >= 0) {
+      currentFeedback.id = this.feedback[this.editingMessage].id;
       return this.msgSrv.updateMessage(currentFeedback);
     } else {
       return this.msgSrv.addMessage(currentFeedback);

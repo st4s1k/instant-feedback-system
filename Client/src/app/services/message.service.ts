@@ -21,7 +21,9 @@ export class MessageService {
   }
 
   updateMessage(message: Message) {
-    return this.http.put<string>(SERVER_URL + MESSAGES_API, Message.toDTO(message));
+    return this.http.put(SERVER_URL + MESSAGES_API, Message.toDTO(message), {
+      responseType: 'text'
+    });
   }
 
   getPresentationMessages(presentationId: string) {

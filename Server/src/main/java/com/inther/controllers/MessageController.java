@@ -75,7 +75,9 @@ public class MessageController
 
     //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteMessage(@PathVariable String id)
+    public ResponseEntity<?> deleteMessage(
+            @Validated(value = {RequestDataValidator.DeleteMessage.class})
+            @PathVariable String id)
     {
         return messageService.deleteMessage(UUID.fromString(id))
                 .map(messageDeleted -> messageDeleted
