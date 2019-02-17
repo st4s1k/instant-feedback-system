@@ -82,7 +82,7 @@ export class UserProfileComponent implements OnInit {
         .subscribe(
           data => {
             console.log('data: ' + JSON.stringify(data));
-            this.presentationService.getPresentations().subscribe(
+            this.presentationService.getPresentationsByEmail(this.email).subscribe(
               presentationDtoList => this.presentations = presentationDtoList.map(
                 presentationDto => PresentationDTO.toModel(presentationDto)
               )
