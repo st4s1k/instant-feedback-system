@@ -51,9 +51,7 @@ export class PresentationService {
   }
 
   updatePresentation(presentation: Presentation) {
-    return this.http.put(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation), {
-      responseType: 'text'
-    });
+    return this.http.put(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
   }
 
   deletePresentation(id: string) {

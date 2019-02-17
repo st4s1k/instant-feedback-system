@@ -15,7 +15,9 @@ export class MessageService {
   constructor(private http: HttpClient) { }
 
   addMessage(message: Message) {
-    return this.http.post<string>(SERVER_URL + MESSAGES_API, Message.toDTO(message));
+    return this.http.post(SERVER_URL + MESSAGES_API, Message.toDTO(message), {
+      responseType: 'text'
+    });
   }
 
   updateMessage(message: Message) {
@@ -31,6 +33,8 @@ export class MessageService {
   }
 
   deleteMessage(id: string) {
-    return this.http.delete<string>(SERVER_URL + MESSAGES_API + `/${id}`);
+    return this.http.delete(SERVER_URL + MESSAGES_API + `/${id}`, {
+      responseType: 'text'
+    });
   }
 }

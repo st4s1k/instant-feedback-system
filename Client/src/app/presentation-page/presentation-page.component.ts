@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
@@ -12,7 +12,8 @@ import { MarkService } from '../services/mark.service';
 import { MessageService } from '../services/message.service';
 import { MessageDTO } from '../models/dtos/message.dto';
 import { environment } from 'src/environments/environment.prod';
-import {MarkDTO} from '../models/dtos/mark.dto';
+import { MarkDTO } from '../models/dtos/mark.dto';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-presentation-page',
@@ -39,7 +40,7 @@ export class PresentationPageComponent implements OnInit {
   isAuthor = false;
 
   authenticated = localStorage.getItem('sessionID');
-
+  editId: string;
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
   anonymous: FormControl = this.fb.control(false);
   feedbackBox: FormControl = this.fb.control('', Validators.required);
@@ -50,6 +51,7 @@ export class PresentationPageComponent implements OnInit {
     type: this.type,
     anonymity: this.anonymous
   });
+  notifier: NotifierService;
 
   constructor(
     private ps: PresentationService,
@@ -57,9 +59,11 @@ export class PresentationPageComponent implements OnInit {
     private fb: FormBuilder,
     private gs: GlobalServUserService,
     private ms: MarkService,
-    private msgSrv: MessageService
+    private msgSrv: MessageService,
+    notifierService: NotifierService
   ) {
     this.gs.SessionID.subscribe((sessId) => this.authenticated = sessId);
+    this.notifier = notifierService;
   }
 
   ngOnInit() {
@@ -76,12 +80,12 @@ export class PresentationPageComponent implements OnInit {
       if (this.userId && !this.isAuthor) {
         this.ms.getUserMark(this.userId, this.presentation.id)
           .pipe(first()).subscribe(markDto => {
-          if (markDto) {
-            this.userMark = MarkDTO.toModel(markDto);
-          } else {
-            this.canVote = true;
-          }
-        });
+            if (markDto) {
+              this.userMark = MarkDTO.toModel(markDto);
+            } else {
+              this.canVote = true;
+            }
+          });
       } else {
         this.canVote = false;
       }
@@ -159,18 +163,20 @@ export class PresentationPageComponent implements OnInit {
     });
 
     this.sendMessage(msg).pipe(first()).subscribe(response => {
-        if (this.editingMessage >= 0) {
-          this.feedback[this.editingMessage] = msg;
-        } else {
-          if (!this.feedback) {
-            this.feedback = [];
-          }
-          this.feedback.push(msg);
+      if (this.editingMessage >= 0) {
+        this.feedback[this.editingMessage] = msg;
+      } else {
+        if (!this.feedback) {
+          this.feedback = [];
         }
-        alert('Succes!:' + JSON.stringify(response));
-      }, error => {
-        alert('Error!: ' + error);
+        this.feedback.push(msg);
       }
+      // alert('Succes!:' + JSON.stringify(response));
+      this.notifier.notify('success', JSON.stringify(response));
+    }, error => {
+      this.notifier.notify('error', error);
+      alert('Error!: ' + error);
+    }
     );
 
 
