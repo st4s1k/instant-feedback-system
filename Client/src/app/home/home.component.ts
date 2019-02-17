@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl } from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
 
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   message: String;
 
-  searchBox: FormControl = this.fb.control('');
+  searchBox: FormControl = this.fb.control('', Validators.required);
 
   constructor(
     private ps: PresentationService,
@@ -40,33 +40,44 @@ export class HomeComponent implements OnInit {
   }
 
   searchAll() {
-    this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value)
-      .subscribe(presentationDtoList => {
-        if (presentationDtoList) {
-        this.presentations = presentationDtoList
-          .map(presentationDto => PresentationDTO.toModel(presentationDto));
-        }
-      }
-    );
-  }
-
-  searchByEmail() {
-    this.ps.getPresentationsByEmailKeyword(this.searchBox.value)
-      .subscribe(presentationDtoList =>
-        this.presentations = presentationDtoList
-          .map(presentationDto => PresentationDTO.toModel(presentationDto)));
-  }
-
-  searchByTitle() {
-
     if (this.searchBox.invalid) {
       this.requestAllPresentations();
       return;
     }
 
+    this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value)
+      .subscribe(presentationDtoList => {
+        if (presentationDtoList) {
+          this.presentations = presentationDtoList
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+        } else {
+          this.presentations = [];
+        }
+      });
+  }
+
+  searchByEmail() {
+    this.ps.getPresentationsByEmailKeyword(this.searchBox.value)
+      .subscribe(presentationDtoList => {
+        if (presentationDtoList) {
+          this.presentations = presentationDtoList
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+        } else {
+          this.presentations = [];
+        }
+      });
+  }
+
+  searchByTitle() {
     this.ps.getPresentationsByTitle(this.searchBox.value)
-      .subscribe(presentationDtoList => this.presentations = presentationDtoList
-        .map(presentationDto => PresentationDTO.toModel(presentationDto)));
+      .subscribe(presentationDtoList => {
+        if (presentationDtoList) {
+          this.presentations = presentationDtoList
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+        } else {
+          this.presentations = [];
+        }
+      });
   }
 
   openPresentationPage(i: number) {

@@ -37,20 +37,30 @@
       <p> {{ presentation.description }} <p>
     </div>
 
-    <div *ngIf='authenticated && !isAuthor' class="card-body my-mark text-right">
+    <div class="d-flex card-body">
 
-      <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value.toFixed(2) }}</h5>
+      <div class="mr-auto">
+        <div class=""><b>author:</b></div>
+        <div class="btn p-0 m-0 card-link"
+        routerLink="/" [queryParams]="{ email: presentation.email }">{{presentation.email}}</div>
+      </div>
 
-      <p *ngIf='!userMark || !userMark.value' class="text-success">Rate this presentation!</p>
+      <div *ngIf='authenticated && !isAuthor' class="my-mark">
 
-      <ngb-rating *ngIf='!userMark || !userMark.value' class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
-                  [readonly]=!canVote>
-        <ng-template let-fill="fill" let-index="index">
-          <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
-        </ng-template>
-      </ngb-rating>
+        <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value.toFixed(2) }}</h5>
 
-      <p *ngIf="submittedRate" class="text-success">Thanks for your vote!</p>
+        <p *ngIf='!userMark || !userMark.value' class="text-success">Rate this presentation!</p>
+
+        <ngb-rating *ngIf='!userMark || !userMark.value' class="mb-2" (rateChange)="submitRate($event)" [(rate)]="currentRate" max="5"
+                    [readonly]=!canVote>
+          <ng-template let-fill="fill" let-index="index">
+            <span class="star" [class.filled]="fill === 100"><i class="fas fa-star"></i></span>
+          </ng-template>
+        </ngb-rating>
+
+        <p *ngIf="submittedRate" class="text-success">Thanks for your vote!</p>
+
+      </div>
 
     </div>
 
