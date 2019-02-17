@@ -142,7 +142,7 @@ export class EditPresentationComponent implements OnInit {
 
         // console.log(JSON.stringify(id));
 
-        this.presentation.id = id;
+        this.presentation.id = '' + id;
 
         if (this.emailInvitations.value) {
 

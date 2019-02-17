@@ -15,7 +15,7 @@ export class PresentationService {
   constructor(private http: HttpClient) { }
 
   createPresentation(presentation: Presentation) {
-    return this.http.post<string>(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
+    return this.http.post(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
   }
 
   getPresentations() {
@@ -51,10 +51,14 @@ export class PresentationService {
   }
 
   updatePresentation(presentation: Presentation) {
-    return this.http.put<string>(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation));
+    return this.http.put(SERVER_URL + PRESENTATIONS_API, Presentation.toDTO(presentation), {
+      responseType: 'text'
+    });
   }
 
   deletePresentation(id: string) {
-    return this.http.delete<string>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
+    return this.http.delete(SERVER_URL + PRESENTATIONS_API + `/${id}`, {
+      responseType: 'text'
+    });
   }
 }
