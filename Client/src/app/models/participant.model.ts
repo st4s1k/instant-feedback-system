@@ -1,18 +1,18 @@
-import { PaticipantDTO } from './dtos/participant.dto';
+import { ParticipantDTO } from './dtos/participant.dto';
 
 export class Participant {
     public id: string;
-    public presentationID: string;
+    public presentationId: string;
     public email: string;
 
     constructor(obj: Object = {}) {
         Object.assign(this, obj);
     }
 
-    static toDTO(p: Participant): PaticipantDTO {
-        return <PaticipantDTO>{
+    static toDTO(p: Participant): ParticipantDTO {
+        return <ParticipantDTO>{
             id: p.id,
-            presentationID: p.presentationID,
+            presentationId: p.presentationId,
             email: p.email
         };
     }

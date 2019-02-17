@@ -36,6 +36,8 @@ export class PresentationPageComponent implements OnInit {
   voteCount = 0;
   editingMessage = -1;
 
+  isAuthor = false;
+
   authenticated = localStorage.getItem('sessionID');
 
   type: FormControl = this.fb.control(this.TYPE_FEEDBACK);
@@ -69,7 +71,9 @@ export class PresentationPageComponent implements OnInit {
     }) => {
       this.presentation = data.presentation;
 
-      if (this.userId) {
+      this.isAuthor = data.presentation.email === localStorage.getItem('email');
+
+      if (this.userId && !this.isAuthor) {
         this.ms.getUserMark(this.userId, this.presentation.id)
           .pipe(first()).subscribe(markDto => {
           if (markDto) {
@@ -107,9 +111,9 @@ export class PresentationPageComponent implements OnInit {
       presentationId: this.presentation.id,
       value: rate
     })).pipe(first()).subscribe(
-    avgMark => {
-      this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark;
-    },
+      avgMark => {
+        this.presentation.avgMark = Number.isNaN(avgMark) ? 0.0 : avgMark;
+      },
       error => {
         console.log('Error!: ' + JSON.stringify(error));
       }

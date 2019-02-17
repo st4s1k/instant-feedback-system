@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
-import {first, map} from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { ParticipantService } from '../services/participant.service';
 import { Participant } from '../models/participant.model';
+import { ParticipantDTO } from '../models/dtos/participant.dto';
 
 @Component({
   selector: 'app-edit-presentation',
@@ -25,13 +26,14 @@ export class EditPresentationComponent implements OnInit {
   location: FormControl = this.fb.control('Template text', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([this.fb.control('Template@text', Validators.email)]);
 
+  participants: Participant[];
+
   pageTitle: string;
 
   submitted = false;
   invite_touched = false;
-  notifier: NotifierService;
 
-  tempID;
+  presentation: Presentation;
   arrayControl;
 
   constructor(
@@ -40,23 +42,8 @@ export class EditPresentationComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    notifierService: NotifierService
+    private notifier: NotifierService
   ) {
-    this.notifier = notifierService;
-  }
-
-  ngOnInit() {
-
-    if (this.router.url === '/new-presentation') {
-      this.pageTitle = 'New presentation';
-    } else {
-      this.pageTitle = 'Edit presentation';
-
-      this.route.data.subscribe((data: { presentation: Presentation }) => {
-        this.modelToFormGroup(data.presentation);
-      });
-    }
-
     this.editPresentationFormGroup = this.fb.group({
       title: this.title,
       description: this.description,
@@ -68,17 +55,46 @@ export class EditPresentationComponent implements OnInit {
     });
   }
 
-  modelToFormGroup = function (presentation: Presentation) {
-    this.title.setValue(presentation.title);
-    this.description.setValue(presentation.description);
-    this.startTime.setValue(presentation.startTime);
-    this.endTime.setValue(presentation.endTime);
-    this.date.setValue(presentation.date);
-    this.location.setValue(presentation.place);
+  ngOnInit() {
+
+    if (this.router.url === '/new-presentation') {
+      this.pageTitle = 'New presentation';
+    } else {
+      this.pageTitle = 'Edit presentation';
+
+      this.route.data.subscribe((data: { presentation: Presentation }) => {
+
+        this.presentation = data.presentation;
+
+        this.participantService.getPresentationParticipants(data.presentation.id)
+          .subscribe(participantDtoList => {
+
+            this.participants = participantDtoList.map(participantDto =>
+              ParticipantDTO.toModel(participantDto));
+
+            this.modelToFormGroup();
+          });
+      });
+    }
+  }
+
+  modelToFormGroup = function () {
+    this.title.setValue(this.presentation.title);
+    this.description.setValue(this.presentation.description);
+    this.startTime.setValue(this.presentation.startTime);
+    this.endTime.setValue(this.presentation.endTime);
+    this.date.setValue(this.presentation.date);
+    this.location.setValue(this.presentation.place);
     this.emailInvitations = this.fb.array([]);
 
-
-    this.addEmailInvitation('');
+    if (this.participants) {
+      for (const participant of this.participants) {
+        if (participant && participant.email) {
+          this.addEmailInvitation(participant.email);
+          console.log(JSON.stringify(participant));
+        }
+      }
+    }
   };
 
   formGroupToModel = function () {
@@ -118,31 +134,28 @@ export class EditPresentationComponent implements OnInit {
       return;
     }
 
-    const presentation = this.formGroupToModel();
-
-    this.sendNewPresentation(<Presentation>{
-      id: this.route.snapshot.paramMap.get('id'),
-      email: presentation.email,
-      title: presentation.title,
-      description: presentation.description,
-      startTime: presentation.startTime,
-      endTime: presentation.endTime,
-      date: presentation.date,
-      place: presentation.place,
-    }).pipe(first())
+    this.sendNewPresentation(Object.assign(this.presentation, this.formGroupToModel())).pipe(first())
       .subscribe(id => {
+
         this.notifier.notify('success', 'Presentation saved');
+
         console.log(JSON.stringify(id));
-        this.tempID = id;
+
+        this.presentation.id = id;
+
         if (this.emailInvitations.value) {
+
           this.arrayControl = this.emailInvitations.value;
+
           console.log(this.emailInvitations.value);
+
           this.participantService.addParticipants(
             this.emailInvitations.value.map(email => new Participant(<Participant>{
-              presentationID: this.tempID,
+              presentationId: this.presentation.id,
               email: email
             }))
-          ).subscribe(success => {
+
+          ).subscribe(() => {
               this.notifier.notify('success', 'Invites are sent');
             },
             error1 => {

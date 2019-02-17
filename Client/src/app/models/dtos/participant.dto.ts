@@ -1,18 +1,18 @@
 import { Participant } from '../participant.model';
 
-export class PaticipantDTO {
+export class ParticipantDTO {
     public id: string;
-    public presentationID: string;
+    public presentationId: string;
     public email: string;
 
     constructor(obj: Object = {}) {
         Object.assign(this, obj);
     }
 
-    static toModel(p: PaticipantDTO): Participant {
+    static toModel(p: ParticipantDTO): Participant {
         return <Participant>{
             id: p.id,
-            presentationID: p.presentationID,
+            presentationId: p.presentationId,
             email: p.email
         };
     }
