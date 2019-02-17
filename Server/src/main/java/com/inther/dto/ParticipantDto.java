@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -19,8 +20,8 @@ public class ParticipantDto
     private UUID id;
 
     @NotNull
-    private UUID presentationId;
+    private UUID presentationID;
 
-    @NotNull
+    @NotBlank
     private String email;
 }

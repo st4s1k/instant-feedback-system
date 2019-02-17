@@ -79,11 +79,10 @@ public class UserService
         messageRepository.deleteMessagesByUser_Id(id);
         // Delete all user presentations
         presentationRepository.deletePresentationsByUser_Id(id);
-        // Delete user
-        userRepository.deleteUserById(id);
         return userRepository
                 .findUserById(id)
                 .map(p -> {
+                    // Delete user
                     userRepository.deleteUserById(id);
                     return !userRepository.existsById(id);
                 });

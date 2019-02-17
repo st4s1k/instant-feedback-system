@@ -146,7 +146,6 @@ export class AdminProfileComponent implements OnInit {
   }
   deleteUser(i: number) {
     if (confirm('Are you sure that you want to delete ' + this.users[i].email + ' ?')) {
-      // alert(`Deleting user[${i}].id = ${this.users[i].id}: DELETE ${environment.jsonServerUrl}/users/${this.users[i].id}`);
       this.userService.deleteUser(this.users[i].id)
         .pipe(first()).subscribe(
         data => {
@@ -158,10 +157,12 @@ export class AdminProfileComponent implements OnInit {
           );
           this.message = this.users[i].email + 'successfuly deleted';
           this.notifier.notify('info', this.message.toString());
+          this.loading = false;
         },
         error => {
           this.notifier.notify('error', 'Error on delete');
           console.log('error: ' + error);
+          this.loading = false;
         }
       );
     }

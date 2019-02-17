@@ -25,10 +25,10 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
 
         Participant entity = Participant.builder().build();
         entity.setId(dto.getId());
-        entity.setPresentation(dto.getPresentationId() == null
+        entity.setPresentation(dto.getPresentationID() == null
                         ? null
                         : presentationRepository
-                        .findPresentationById(dto.getPresentationId())
+                        .findPresentationById(dto.getPresentationID())
                         .orElse(null));
         entity.setEmail(dto.getEmail());
 
@@ -47,7 +47,7 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
 
         ParticipantDto dto = ParticipantDto.builder().build();
         dto.setId(entity.getId());
-        dto.setPresentationId(entity.getPresentation() == null
+        dto.setPresentationID(entity.getPresentation() == null
                         ? null
                         : entity.getPresentation().getId());
         dto.setEmail(entity.getEmail());
@@ -64,7 +64,7 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
 
         if (source == null || destination == null || source.equals(destination)) { return; }
 
-        destination.setId(source.getId());
+//        destination.setId(source.getId());
         destination.setPresentation(source.getPresentation());
         destination.setEmail(source.getEmail());
 
@@ -79,7 +79,7 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
         if (source == null || destination == null || source.equals(destination)) { return; }
 
         destination.setId(source.getId());
-        destination.setPresentationId(source.getPresentationId());
+        destination.setPresentationID(source.getPresentationID());
         destination.setEmail(source.getEmail());
 
         log.debug("Result DTO: {}", destination);
