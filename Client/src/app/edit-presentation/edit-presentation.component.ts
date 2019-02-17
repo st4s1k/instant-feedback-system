@@ -24,9 +24,9 @@ export class EditPresentationComponent implements OnInit {
   endTime: FormControl = this.fb.control('12:00:00', [Validators.required]);
   date: FormControl = this.fb.control('1996-12-12', [Validators.required]);
   location: FormControl = this.fb.control('Template text', [Validators.required]);
-  emailInvitations: FormArray = this.fb.array([this.fb.control('Template@text', Validators.email)]);
+  emailInvitations: FormArray = this.fb.array([]);
 
-  participants: Participant[];
+  participants: Participant[] = [];
 
   pageTitle: string;
 
@@ -78,26 +78,24 @@ export class EditPresentationComponent implements OnInit {
     }
   }
 
-  modelToFormGroup = function () {
+  modelToFormGroup() {
     this.title.setValue(this.presentation.title);
     this.description.setValue(this.presentation.description);
     this.startTime.setValue(this.presentation.startTime);
     this.endTime.setValue(this.presentation.endTime);
     this.date.setValue(this.presentation.date);
     this.location.setValue(this.presentation.place);
-    this.emailInvitations = this.fb.array([]);
 
     if (this.participants) {
-      for (const participant of this.participants) {
-        if (participant && participant.email) {
-          this.addEmailInvitation(participant.email);
-          console.log(JSON.stringify(participant));
-        }
-      }
+      this.participants
+        .filter(participant => participant && participant.email)
+        .forEach(participant =>
+          this.emailInvitations.push(
+            this.fb.control(participant.email, [Validators.required, Validators.email])));
     }
-  };
+  }
 
-  formGroupToModel = function () {
+  formGroupToModel() {
 
     return new Presentation(<Presentation>{
       email: localStorage.getItem('email'),
@@ -108,18 +106,13 @@ export class EditPresentationComponent implements OnInit {
       date: this.date.value,
       place: this.location.value,
     });
-  };
+  }
 
   addEmailInvitation_Btn() {
     this.invite_touched = true;
 
-    this.addEmailInvitation('');
-  }
-
-  addEmailInvitation(email: string) {
-    this.emailInvitations.push(this.fb.control(
-      email, [Validators.required, Validators.email]
-    ));
+    this.emailInvitations.push(
+      this.fb.control('', [Validators.required, Validators.email]));
   }
 
   deleteEmailInvitation(i) {
