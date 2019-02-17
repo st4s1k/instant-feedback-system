@@ -1,5 +1,3 @@
-import { Message } from './message.model';
-import { Mark } from './mark.model';
 import { PresentationDTO } from './dtos/presentation.dto';
 
 export class Presentation {
@@ -13,6 +11,7 @@ export class Presentation {
   public date: string;
   public place: string;
   public avgMark: number;
+  public voteCount: number;
 
   constructor(obj: Object = {}) {
     Object.assign(this, obj);
@@ -28,7 +27,8 @@ export class Presentation {
       endTime: p.endTime,
       place: p.place,
       date: p.date,
-      avgMark: p.avgMark
+      avgMark: p.avgMark,
+      voteCount: p.voteCount
     };
   }
 

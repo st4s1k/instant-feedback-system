@@ -1,10 +1,11 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.entities.Presentation;
+import com.inther.repositories.ParticipantRepository;
 import com.inther.services.mappers.ParticipantMapper;
 import com.inther.dto.ParticipantDto;
 import com.inther.entities.Participant;
-import com.inther.entities.Presentation;
 import com.inther.repositories.PresentationRepository;
 import com.inther.services.entity.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class ParticipantController
     private final HttpHeaders httpHeaders;
     private final ParticipantService participantService;
     private final ParticipantMapper participantMapper;
+    private final ParticipantRepository participantRepository;
     private final PresentationRepository presentationRepository;
 
     @GetMapping(params = "presentationId")
@@ -43,29 +45,47 @@ public class ParticipantController
             @Validated(value = {RequestDataValidator.AddParticipant.class})
             @RequestBody List<ParticipantDto> participantDto)
     {
+
         List<Participant> newParticipantList = participantDto
                 .stream()
                 .map(participantMapper::toEntity)
                 .collect(Collectors.toList());
 
-        for (Participant newParticipant : newParticipantList)
-        {
-            participantService.addParticipant(newParticipant);
+        if (!newParticipantList.isEmpty()) {
 
-//            Optional<Presentation> optionalPresentation = presentationRepository
-//                    .findPresentationById(newParticipant.getPresentation().getId());
+            List<Participant> oldParticipantList = participantRepository
+                    .findParticipantsByPresentation_Id(newParticipantList.get(0).getPresentation().getId());
+
+            oldParticipantList.forEach(oldParticipant -> {
+                if (!(newParticipantList.contains(oldParticipant))) {
+                    participantRepository.deleteById(oldParticipant.getId());
+                    // You have been uninvited from a presentation!
+                }
+            });
+
+            newParticipantList.forEach(newParticipant -> {
+                if (!(oldParticipantList.contains(newParticipant))) {
+                    participantRepository.save(newParticipant);
+
+                    // You have been invited to a presentation!
+
+//                    Optional<Presentation> optionalPresentation = presentationRepository
+//                            .findPresentationById(newParticipant.getPresentation().getId());
 //
-//            optionalPresentation.ifPresent(presentation ->
-//                participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
-//                         "Presentation name: " + presentation.getTitle()
-//                            + "n/Presentation description: " + presentation.getDescription()
-//                            + "n/n/Presentation start time: " + presentation.getStartTime()
-//                            + "n/n/Presentation end time: " + presentation.getStartTime()
-//                            + "n/n/Presentation place: " + presentation.getPlace())
-//            );
-        }
+//                    optionalPresentation.ifPresent(presentation ->
+//                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
+//                                    "Presentation name: " + presentation.getTitle()
+//                                            + "n/Presentation description: " + presentation.getDescription()
+//                                            + "n/n/Presentation start time: " + presentation.getStartTime()
+//                                            + "n/n/Presentation end time: " + presentation.getStartTime()
+//                                            + "n/n/Presentation place: " + presentation.getPlace())
+//                    );
+                }
+            });
 
-        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -83,11 +103,13 @@ public class ParticipantController
     public ParticipantController(HttpHeaders httpHeaders,
                                  ParticipantService participantService,
                                  ParticipantMapper participantMapper,
+                                 ParticipantRepository participantRepository,
                                  PresentationRepository presentationRepository)
     {
         this.httpHeaders = httpHeaders;
         this.participantService = participantService;
         this.participantMapper = participantMapper;
+        this.participantRepository = participantRepository;
         this.presentationRepository = presentationRepository;
     }
 }

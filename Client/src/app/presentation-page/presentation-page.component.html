@@ -13,7 +13,7 @@
         <p class="mb-0">
           {{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '0.00' }}
           <span class="mb-2" id="ratings-count">
-            <i class="fas fa-user"></i> {{ voteCount }} votes
+            <i class="fas fa-user"></i> {{ presentation.voteCount ? presentation.voteCount : 0 }} votes
           </span>
         </p>
 

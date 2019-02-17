@@ -68,8 +68,8 @@ public class MessageController
     {
         return messageService.editMessage(messageMapper.toEntity(messageDtoToPatch))
                 .map(messageEdited -> messageEdited
-                        ? new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN)
-                        : new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.ACCEPTED))
+                        ? new ResponseEntity<>( "Message successfully edited!", httpHeaders, HttpStatus.OK)
+                        : new ResponseEntity<>( "You don't have enough rights to do this!", httpHeaders, HttpStatus.FORBIDDEN))
                 .orElseGet(() -> new ResponseEntity<>("No such text!", httpHeaders, HttpStatus.NOT_FOUND));
     }
 
