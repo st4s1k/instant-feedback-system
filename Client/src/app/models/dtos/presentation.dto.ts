@@ -1,5 +1,3 @@
-import { MessageDTO } from './message.dto';
-import { MarkDTO } from './mark.dto';
 import { Presentation } from '../presentation.model';
 
 export class PresentationDTO {

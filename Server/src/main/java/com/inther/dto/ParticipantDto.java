@@ -20,7 +20,7 @@ public class ParticipantDto
     private UUID id;
 
     @NotNull
-    private UUID presentationID;
+    private UUID presentationId;
 
     @NotBlank
     private String email;
