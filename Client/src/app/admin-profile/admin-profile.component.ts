@@ -51,8 +51,8 @@ export class AdminProfileComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm_password: ['', Validators.required]
     }, {
-      validator: MustMatch('password', 'confirm_password')
-    });
+        validator: MustMatch('password', 'confirm_password')
+      });
   }
 
   editUser(i: number) {
@@ -66,8 +66,8 @@ export class AdminProfileComponent implements OnInit {
       password: this.users[i].password,
       confirm_password: this.users[i].password
     }, {
-      validator: MustMatch('password', 'confirm_password')
-    });
+        validator: MustMatch('password', 'confirm_password')
+      });
   }
   addUser() {
     this.addUserBtn = this.addUserBtn === false;
@@ -148,23 +148,21 @@ export class AdminProfileComponent implements OnInit {
     if (confirm('Are you sure that you want to delete ' + this.users[i].email + ' ?')) {
       this.userService.deleteUser(this.users[i].id)
         .pipe(first()).subscribe(
-        data => {
-          console.log('data: ' + JSON.stringify(data));
-          this.userService.getAllUsers().subscribe(
-            userDtoList => this.users = userDtoList.map(
-              userDto => UserDTO.toModel(userDto)
-            )
-          );
-          this.message = this.users[i].email + 'successfuly deleted';
-          this.notifier.notify('info', this.message.toString());
-          this.loading = false;
-        },
-        error => {
-          this.notifier.notify('error', 'Error on delete');
-          console.log('error: ' + error);
-          this.loading = false;
-        }
-      );
+          data => {
+            console.log('data: ' + JSON.stringify(data));
+            this.userService.getAllUsers().subscribe(
+              userDtoList => this.users = userDtoList.map(
+                userDto => UserDTO.toModel(userDto)
+              )
+            );
+            this.message = this.users[i].email + 'successfuly deleted';
+            this.notifier.notify('info', this.message.toString());
+          },
+          error => {
+            this.notifier.notify('error', 'Error on delete');
+            console.log('error: ' + error);
+          }
+        );
     }
   }
   openPresentationPage(i: number) {
@@ -189,7 +187,7 @@ export class AdminProfileComponent implements OnInit {
             this.notifier.notify('info', this.message.toString());
           },
           error => {
-            this.notifier.notify('error', 'Error on delete');
+            this.notifier.notify('error', 'Error on delete ' + error);
             console.log('error: ' + error);
           }
         );
