@@ -1,7 +1,6 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.entities.Presentation;
 import com.inther.repositories.ParticipantRepository;
 import com.inther.services.mappers.ParticipantMapper;
 import com.inther.dto.ParticipantDto;
@@ -70,7 +69,7 @@ public class ParticipantController
                     // You have been invited to a presentation!
 
 //                    Optional<Presentation> optionalPresentation = presentationRepository
-//                            .findPresentationById(newParticipant.getPresentation().getId());
+//                            .findById(newParticipant.getPresentation().getId());
 //
 //                    optionalPresentation.ifPresent(presentation ->
 //                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",

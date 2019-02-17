@@ -6,6 +6,7 @@ import { PresentationDTO } from '../models/dtos/presentation.dto';
 
 const SERVER_URL = environment.serverUrl;
 const PRESENTATIONS_API = environment.presentationsApiRoute;
+const PAGE_SIZE = environment.defaultPageSize;
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,15 @@ export class PresentationService {
 
   getPresentations() {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
+  }
+
+  getPresentationsByPage(page: number) {
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
+      params: {
+        page: `${page}`,
+        size: `${PAGE_SIZE}`
+      }
+    });
   }
 
   getPresentationsByTitleOrEmailKeyword(keyword: string) {
@@ -41,7 +51,7 @@ export class PresentationService {
   getPresentationsByEmailKeyword(keyword: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        email_like: '' + keyword
+        email_like: keyword
       }
     });
   }
@@ -49,7 +59,7 @@ export class PresentationService {
   getPresentationsByEmail(email: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        email: '' + email
+        email: email
       }
     });
   }

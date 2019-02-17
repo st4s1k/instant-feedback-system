@@ -14,7 +14,7 @@ export class UserListDetailResolverService implements Resolve<User[]> {
 
   constructor(private userService: UserService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> {
     return this.userService.getAllUsers().pipe(
       take(1),
       mergeMap(userDtoList => {

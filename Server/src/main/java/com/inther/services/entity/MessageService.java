@@ -1,6 +1,5 @@
 package com.inther.services.entity;
 
-import com.inther.beans.utilities.AuthorityUtilityBean;
 import com.inther.entities.Message;
 import com.inther.entities.Presentation;
 import com.inther.repositories.MessageRepository;
@@ -34,7 +33,7 @@ public class MessageService
         int status;
 
         Optional<Presentation> presentation = presentationRepository
-                .findPresentationById(message.getPresentation().getId());
+                .findById(message.getPresentation().getId());
 
         if (!presentation.isPresent()) {
             status = 0;

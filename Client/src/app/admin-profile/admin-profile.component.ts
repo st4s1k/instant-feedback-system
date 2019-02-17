@@ -41,8 +41,8 @@ export class AdminProfileComponent implements OnInit {
     this.notifier = notifierService;
   }
   ngOnInit() {
-    this.route.data.subscribe((data: { presentations: Presentation[], users: User[] }) => {
-      this.presentations = data.presentations;
+    this.route.data.subscribe((data: { pages: any, users: User[] }) => {
+      this.presentations = data.pages.content;
       this.users = data.users;
     });
     this.editUserForm = this.formBuilder.group({

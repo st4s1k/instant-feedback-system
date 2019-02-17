@@ -1,7 +1,6 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
-import com.inther.entities.Presentation;
 import com.inther.services.mappers.MarkMapper;
 import com.inther.dto.MarkDto;
 import com.inther.entities.Mark;
@@ -39,7 +38,7 @@ public class MarkController
     {
         Mark mark = markMapper.toEntity(markDto);
 
-        if (!presentationRepository.findPresentationById(mark.getPresentation().getId()).isPresent()) {
+        if (!presentationRepository.findById(mark.getPresentation().getId()).isPresent()) {
             return new ResponseEntity<>("No such presentation!", httpHeaders, HttpStatus.BAD_REQUEST);
         } else if (!userRepository.findUserById(mark.getUser().getId()).isPresent()){
             return new ResponseEntity<>("No such user!", httpHeaders, HttpStatus.BAD_REQUEST);
@@ -62,7 +61,7 @@ public class MarkController
     public ResponseEntity<?> getMarksByPresentation(
             @RequestParam(value = "presentationId") String id)
     {
-        if (presentationRepository.findPresentationById(UUID.fromString(id)).isPresent()) {
+        if (presentationRepository.findById(UUID.fromString(id)).isPresent()) {
             List<Mark> markList = markService.fetchMarksByPresentationId(UUID.fromString(id));
             return new ResponseEntity<>(markList, httpHeaders, markList.isEmpty()
                     ? HttpStatus.NO_CONTENT
@@ -78,7 +77,7 @@ public class MarkController
             @RequestParam(value = "presentationId") String presentationId)
     {
         if (!userRepository.findUserById(UUID.fromString(userId)).isPresent()
-                || !presentationRepository.findPresentationById(UUID.fromString(presentationId)).isPresent()) {
+                || !presentationRepository.findById(UUID.fromString(presentationId)).isPresent()) {
             return new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
         } else {
             Optional<Mark> mark = markService.fetchUserMark(

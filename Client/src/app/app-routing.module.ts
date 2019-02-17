@@ -24,7 +24,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     resolve: {
-      presentations: PresentationListDetailResolverService
+      pages: PresentationListDetailResolverService
     }
   },
   { path: 'sign-in',
@@ -65,7 +65,7 @@ const routes: Routes = [
     component: AdminProfileComponent,
     resolve: {
       users: UserListDetailResolverService,
-      presentations : PresentationListDetailResolverService
+      pages : PresentationListDetailResolverService
     },
     canActivate: [AdminGuard]
   }

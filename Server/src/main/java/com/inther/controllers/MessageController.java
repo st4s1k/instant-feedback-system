@@ -48,7 +48,7 @@ public class MessageController
     public ResponseEntity<?> getMessagesByPresentation(
             @RequestParam(value = "presentationId") String id)
     {
-        if (presentationRepository.findPresentationById(UUID.fromString(id)).isPresent()) {
+        if (presentationRepository.findById(UUID.fromString(id)).isPresent()) {
             List<Message> msgList = messageService.fetchMessagesByPresentationId(UUID.fromString(id));
             List<MessageDto> msgDtoList = msgList.stream().map(messageMapper::toDto).collect(Collectors.toList());
 

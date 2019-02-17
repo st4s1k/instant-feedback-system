@@ -6,6 +6,7 @@ import com.inther.dto.PresentationDto;
 import com.inther.entities.Presentation;
 import com.inther.services.entity.PresentationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -132,6 +133,20 @@ public class PresentationController
 
         return new ResponseEntity<>(presentationDtoList, httpHeaders,
                 presentationDtoList.isEmpty()
+                        ? HttpStatus.NO_CONTENT
+                        : HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<?> getPresentationListByPageAndSize(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size) {
+        Page<PresentationDto> presentationDtoPage = presentationService
+                .fetchPresentationsByPageAndSize(page, size)
+                .map(presentationMapper::toDto);
+
+        return new ResponseEntity<>(presentationDtoPage, httpHeaders,
+                presentationDtoPage.isEmpty()
                         ? HttpStatus.NO_CONTENT
                         : HttpStatus.OK);
     }

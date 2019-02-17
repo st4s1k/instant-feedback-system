@@ -9,8 +9,8 @@ import { UserDTO } from '../models/dtos/user.dto';
 
 
 const SERVER_URL = environment.serverUrl;
-const SIGNIN_API = environment.signinApiRoute;
-const SIGNUP_API = environment.signupApiRoute;
+const SIGNIN_API = environment.signInApiRoute;
+const SIGNUP_API = environment.signUpApiRoute;
 @Injectable({
   providedIn: 'root'
 })

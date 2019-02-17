@@ -28,7 +28,7 @@ public class ParticipantMapper implements Mapper<Participant, ParticipantDto> {
         entity.setPresentation(dto.getPresentationId() == null
                         ? null
                         : presentationRepository
-                        .findPresentationById(dto.getPresentationId())
+                        .findById(dto.getPresentationId())
                         .orElse(null));
         entity.setEmail(dto.getEmail());
 

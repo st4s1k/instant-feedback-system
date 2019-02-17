@@ -32,7 +32,7 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
         entity.setPresentation(dto.getPresentationId() == null
                 ? null
                 : presentationRepository
-                .findPresentationById(dto.getPresentationId())
+                .findById(dto.getPresentationId())
                 .orElse(null));
         entity.setUser(dto.getUserId() == null
                 ? null

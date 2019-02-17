@@ -5,6 +5,8 @@ import com.inther.entities.Presentation;
 import com.inther.entities.User;
 import com.inther.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -60,15 +62,19 @@ public class PresentationService
         return presentationRepository.save(presentation);
     }
 
-    public List<Presentation> fetchAllPresentations()
-    {
+    public List<Presentation> fetchAllPresentations() {
         return presentationRepository.findAll();
+    }
+
+    public Page<Presentation> fetchPresentationsByPageAndSize(int page, int size)
+    {
+        return presentationRepository.findAll(PageRequest.of(page, size));
     }
 
     public List<Presentation> searchForPresentationsByEmail(String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
         return user.isPresent()
-                ? presentationRepository.findPresentationsByUser(user.get())
+                ? presentationRepository.findAllByUser(user.get())
                 : new ArrayList<>();
     }
 
@@ -86,12 +92,12 @@ public class PresentationService
 
     public Optional<Presentation> searchForRequestedPresentation(UUID id)
     {
-        return presentationRepository.findPresentationById(id);
+        return presentationRepository.findById(id);
     }
 
     public Optional<Boolean> editPresentation(Presentation presentation)
     {
-        return presentationRepository.findPresentationById(presentation.getId())
+        return presentationRepository.findById(presentation.getId())
                 .map(p -> {
                     presentationRepository.save(presentation);
                     return true;
@@ -100,7 +106,7 @@ public class PresentationService
 
     public Optional<Boolean> deletePresentation(UUID id)
     {
-        Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(id);
+        Optional<Presentation> optionalPresentation = presentationRepository.findById(id);
         if (optionalPresentation.isPresent()) {
 //            sendNotificationMessages(optionalPresentation.get(),
 //                    "Presentation was canceled",

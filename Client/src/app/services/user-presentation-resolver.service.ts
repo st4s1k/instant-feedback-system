@@ -12,7 +12,7 @@ import { PresentationDTO } from '../models/dtos/presentation.dto';
 export class UserPresentationResolverService implements Resolve<Presentation[]> {
 
   constructor(private ps: PresentationService) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation[]> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Presentation[]> {
 
     return this.ps.getPresentationsByEmail(localStorage.getItem('email')).pipe(
       take(1),

@@ -9,12 +9,14 @@ export const environment = {
   participantsApiRoute: '/api/participants',
   marksApiRoute: '/api/marks',
   usersApiRoute: '/api/users',
-  signinApiRoute: '/api/auth',
-  signupApiRoute: '/api/auth',
+  signInApiRoute: '/api/auth',
+  signUpApiRoute: '/api/auth',
 
   userRole: 'USER',
   adminRole: 'ADMIN',
 
   msgTypeFeedback: 'TYPE_FEEDBACK',
-  msgTypeQuestion: 'TYPE_QUESTION'
+  msgTypeQuestion: 'TYPE_QUESTION',
+
+  defaultPageSize: 3
 };

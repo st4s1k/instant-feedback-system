@@ -5,6 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
+import { first } from 'rxjs/internal/operators/first';
+import { environment } from 'src/environments/environment.prod';
+
 
 @Component({
   selector: 'app-home',
@@ -17,6 +20,11 @@ export class HomeComponent implements OnInit {
 
   message: String;
 
+  pageSize = environment.defaultPageSize;
+  currentPage = 1;
+  numberOfPages = 0;
+  totalElements = 0;
+
   searchBox: FormControl = this.fb.control('', Validators.required);
 
   constructor(
@@ -28,13 +36,20 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { presentations: Presentation[] }) => {
-      this.presentations = data.presentations;
-    });
+    this.route.data.subscribe((data: { pages: any }) => {
+        console.log('paginated presentations: ' + JSON.stringify(data.pages));
+        if (data.pages && data.pages.content) {
+          this.presentations = data.pages.content
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.numberOfPages = data.pages.totalPages;
+          this.totalElements = data.pages.totalElements;
+        }
+      }
+    );
   }
 
   requestAllPresentations() {
-    this.ps.getPresentations().subscribe(presentationDtoList =>
+    this.ps.getPresentationsByPage(0).subscribe(presentationDtoList =>
       this.presentations = presentationDtoList
         .map(presentationDto => PresentationDTO.toModel(presentationDto)));
   }
@@ -47,37 +62,40 @@ export class HomeComponent implements OnInit {
 
     this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value)
       .subscribe(presentationDtoList => {
-        if (presentationDtoList) {
-          this.presentations = presentationDtoList
-            .map(presentationDto => PresentationDTO.toModel(presentationDto));
-        } else {
-          this.presentations = [];
+          if (presentationDtoList) {
+            this.presentations = presentationDtoList
+              .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          } else {
+            this.presentations = [];
+          }
         }
-      });
+      );
   }
 
   searchByEmail() {
     this.ps.getPresentationsByEmailKeyword(this.searchBox.value)
       .subscribe(presentationDtoList => {
-        if (presentationDtoList) {
-          this.presentations = presentationDtoList
-            .map(presentationDto => PresentationDTO.toModel(presentationDto));
-        } else {
-          this.presentations = [];
+          if (presentationDtoList) {
+            this.presentations = presentationDtoList
+              .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          } else {
+            this.presentations = [];
+          }
         }
-      });
+      );
   }
 
   searchByTitle() {
     this.ps.getPresentationsByTitle(this.searchBox.value)
       .subscribe(presentationDtoList => {
-        if (presentationDtoList) {
-          this.presentations = presentationDtoList
-            .map(presentationDto => PresentationDTO.toModel(presentationDto));
-        } else {
-          this.presentations = [];
+          if (presentationDtoList) {
+            this.presentations = presentationDtoList
+              .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          } else {
+            this.presentations = [];
+          }
         }
-      });
+      );
   }
 
   openPresentationPage(i: number) {
@@ -86,4 +104,17 @@ export class HomeComponent implements OnInit {
       this.notifier.notify('error', 'Could not load presentation!'));
   }
 
+  openPage() {
+    this.ps.getPresentationsByPage(this.currentPage - 1)
+      .pipe(first()).subscribe(pages => {
+        console.log('openPage: ' + JSON.stringify(pages));
+        if (pages && pages.content) {
+          this.presentations = pages.content
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.numberOfPages = pages.totalPages;
+          this.totalElements = pages.totalElements;
+        }
+      }
+    );
+  }
 }
