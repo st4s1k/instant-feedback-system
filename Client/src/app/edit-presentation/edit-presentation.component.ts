@@ -33,7 +33,7 @@ export class EditPresentationComponent implements OnInit {
   submitted = false;
   invite_touched = false;
 
-  presentation: Presentation;
+  presentation = new Presentation();
   arrayControl;
 
   constructor(
@@ -99,7 +99,7 @@ export class EditPresentationComponent implements OnInit {
 
   formGroupToModel = function () {
 
-    return <Presentation>{
+    return new Presentation(<Presentation>{
       email: localStorage.getItem('email'),
       title: this.title.value,
       description: this.description.value,
@@ -107,7 +107,7 @@ export class EditPresentationComponent implements OnInit {
       endTime: this.endTime.value,
       date: this.date.value,
       place: this.location.value,
-    };
+    });
   };
 
   addEmailInvitation_Btn() {
@@ -134,12 +134,13 @@ export class EditPresentationComponent implements OnInit {
       return;
     }
 
-    this.sendNewPresentation(Object.assign(this.presentation, this.formGroupToModel())).pipe(first())
+    this.sendNewPresentation(Object.assign(this.presentation, this.formGroupToModel()))
+      .pipe(first())
       .subscribe(id => {
 
         this.notifier.notify('success', 'Presentation saved');
 
-        console.log(JSON.stringify(id));
+        // console.log(JSON.stringify(id));
 
         this.presentation.id = id;
 
@@ -147,7 +148,7 @@ export class EditPresentationComponent implements OnInit {
 
           this.arrayControl = this.emailInvitations.value;
 
-          console.log(this.emailInvitations.value);
+          // console.log(this.emailInvitations.value);
 
           this.participantService.addParticipants(
             this.emailInvitations.value.map(email => new Participant(<Participant>{

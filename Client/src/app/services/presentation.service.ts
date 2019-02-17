@@ -55,6 +55,6 @@ export class PresentationService {
   }
 
   deletePresentation(id: string) {
-    return this.http.delete<PresentationDTO>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
+    return this.http.delete<string>(SERVER_URL + PRESENTATIONS_API + `/${id}`);
   }
 }

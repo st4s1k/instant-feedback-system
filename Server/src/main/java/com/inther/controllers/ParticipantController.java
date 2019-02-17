@@ -52,17 +52,17 @@ public class ParticipantController
         {
             participantService.addParticipant(newParticipant);
 
-            Optional<Presentation> optionalPresentation = presentationRepository
-                    .findPresentationById(newParticipant.getPresentation().getId());
-
-            optionalPresentation.ifPresent(presentation ->
-                participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
-                         "Presentation name: " + presentation.getTitle()
-                            + "n/Presentation description: " + presentation.getDescription()
-                            + "n/n/Presentation start time: " + presentation.getStartTime()
-                            + "n/n/Presentation end time: " + presentation.getStartTime()
-                            + "n/n/Presentation place: " + presentation.getPlace())
-            );
+//            Optional<Presentation> optionalPresentation = presentationRepository
+//                    .findPresentationById(newParticipant.getPresentation().getId());
+//
+//            optionalPresentation.ifPresent(presentation ->
+//                participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
+//                         "Presentation name: " + presentation.getTitle()
+//                            + "n/Presentation description: " + presentation.getDescription()
+//                            + "n/n/Presentation start time: " + presentation.getStartTime()
+//                            + "n/n/Presentation end time: " + presentation.getStartTime()
+//                            + "n/n/Presentation place: " + presentation.getPlace())
+//            );
         }
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);

@@ -129,12 +129,13 @@ public class PresentationController
     {
         return presentationService
                 .deletePresentation(UUID.fromString(id))
-                .map(deleted -> new ResponseEntity<>("Presentation successfully deleted.",
-                        httpHeaders, deleted
-                        ? HttpStatus.ACCEPTED
-                        : HttpStatus.FORBIDDEN))
-                .orElseGet(() -> new ResponseEntity<>("Presentation not found.", httpHeaders,
-                        HttpStatus.NOT_FOUND));
+                .map(deleted -> deleted
+                        ? new ResponseEntity<>("Presentation successfully deleted.",
+                        httpHeaders, HttpStatus.OK)
+                        : new ResponseEntity<>("Unable to delete this presentation.",
+                        httpHeaders, HttpStatus.FORBIDDEN))
+                .orElseGet(() -> new ResponseEntity<>("Presentation not found.",
+                        httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired

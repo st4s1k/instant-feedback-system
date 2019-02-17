@@ -98,9 +98,9 @@ public class PresentationService
     {
         Optional<Presentation> optionalPresentation = presentationRepository.findPresentationById(id);
         if (optionalPresentation.isPresent()) {
-            sendNotificationMessages(optionalPresentation.get(),
-                    "Presentation was canceled",
-                    "Presentation '" + optionalPresentation.get().getTitle() + "' was canceled");
+//            sendNotificationMessages(optionalPresentation.get(),
+//                    "Presentation was canceled",
+//                    "Presentation '" + optionalPresentation.get().getTitle() + "' was canceled");
 
             // Delete all presentation marks
             markRepository.deleteMarksByPresentation_Id(id);
