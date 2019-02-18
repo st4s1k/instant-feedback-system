@@ -44,5 +44,7 @@ public class PresentationDto implements Serializable
 
     private Integer voteCount;
 
+    private Boolean finished;
+
     private Boolean started;
 }
