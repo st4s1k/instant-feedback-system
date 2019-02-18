@@ -40,6 +40,7 @@
             <ngb-pagination [collectionSize]="totalElements"
                             [(page)]="currentPage"
                             [pageSize]="pageSize"
+                            [maxSize]="5"
                             [rotate]="true"
                             [boundaryLinks]="true"
                             (pageChange)="openPresentationAdminPage()">
@@ -305,6 +306,7 @@
               <ngb-pagination [collectionSize]="totalAdminElements"
                               [(page)]="currentAdminPage"
                               [pageSize]="pageAdminSize"
+                              [maxSize]="5"
                               [rotate]="true"
                               [boundaryLinks]="true"
                               (pageChange)="openUserAdminPage()">

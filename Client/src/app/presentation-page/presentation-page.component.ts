@@ -34,6 +34,7 @@ export class PresentationPageComponent implements OnInit {
   canVote = false;
   userMark: Mark;
   userId: string;
+  started: boolean;
   editingMessage = -1;
 
   isAuthor = false;
@@ -96,6 +97,7 @@ export class PresentationPageComponent implements OnInit {
         }
       });
     });
+    this.started = this.presentation.started;
   }
 
   submitRate(rate: number) {

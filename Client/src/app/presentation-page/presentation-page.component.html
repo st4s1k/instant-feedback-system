@@ -45,7 +45,7 @@
         routerLink="/" [queryParams]="{ email: presentation.email }">{{presentation.email}}</div>
       </div>
 
-      <div *ngIf='authenticated && !isAuthor' class="my-mark">
+      <div *ngIf='authenticated && !isAuthor && started' class="my-mark">
 
         <h5 *ngIf='userMark && userMark.value' class="text-success">Your rate is: {{ userMark.value.toFixed(2) }}</h5>
 
@@ -89,7 +89,7 @@
 
   </div>
 
-  <div class="row-stretch" *ngIf=authenticated>
+  <div class="row-stretch" *ngIf="authenticated && started" >
 
     <form id="feedback-box" class="row-stretch" [formGroup]="feedbackFormGroup" (ngSubmit)="leaveFeedback()">
       <div class="d-flex card bg-transparent border-0 flex-column form-group">

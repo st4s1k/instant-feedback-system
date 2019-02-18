@@ -45,12 +45,22 @@
       </div>
 
       <div class="row card p-0 mt-3 mb-3 btn" (click)="openPresentationPage(i)"
-           *ngFor='let presentation of presentations; let i=index;'>
+           *ngFor='let presentation of presentations; let i=index;'
+           [ngStyle]="{'border-color': presentation.started && !presentation.finished ? 'rgb(241, 93, 34)' : 'none'}">
 
         <div class="col card-header pt-2 pb-2 text-left">
           <div class="row">
             <small class="col-sm">
               <b>author:</b> {{presentation.email}}
+            </small>
+            <small *ngIf=presentation.finished class="col-sm">
+              <b>status:</b> finished
+            </small>
+            <small *ngIf="presentation.started && !presentation.finished" class="col-sm">
+              <b>status:</b> started
+            </small>
+            <small *ngIf="!presentation.started && !presentation.finished" class="col-sm">
+              <b>status:</b> upcoming
             </small>
             <small class="col-sm-auto">
               <b>date:</b> {{presentation.date}}
@@ -61,7 +71,8 @@
           </div>
         </div>
 
-        <div class="col card-body">
+        <div class="col card-body"
+        >
           <div class="row">
             <div class="col text-left">
               <p class="m-0">
@@ -75,7 +86,7 @@
             </div>
             <div class="col-auto d-flex align-items-center">
               <div>
-                <i class="fas fa-star"></i>
+                <i class="fas fa-star" ></i>
               </div>
             </div>
           </div>
