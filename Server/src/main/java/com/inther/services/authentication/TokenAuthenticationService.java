@@ -34,7 +34,7 @@ public class TokenAuthenticationService implements AuthenticationService
     @Override
     public Optional<UserDto> login(String email, String password) {
         return userRepository
-                .findUserByEmail(email)
+                .findByEmail(email)
                 .filter(user -> serviceUtilityBean.isPasswordValid(password, user))
                 .map(userMapper::toDto)
                 .map(userDto -> {
@@ -48,7 +48,7 @@ public class TokenAuthenticationService implements AuthenticationService
         return Optional
                 .of(tokens.verify(token))
                 .map(map -> map.get("email"))
-                .flatMap(userRepository::findUserByEmail);
+                .flatMap(userRepository::findByEmail);
     }
 
     @Override

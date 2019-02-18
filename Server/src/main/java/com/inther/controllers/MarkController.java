@@ -40,9 +40,9 @@ public class MarkController
 
         if (!presentationRepository.findById(mark.getPresentation().getId()).isPresent()) {
             return new ResponseEntity<>("No such presentation!", httpHeaders, HttpStatus.BAD_REQUEST);
-        } else if (!userRepository.findUserById(mark.getUser().getId()).isPresent()){
+        } else if (!userRepository.findById(mark.getUser().getId()).isPresent()){
             return new ResponseEntity<>("No such user!", httpHeaders, HttpStatus.BAD_REQUEST);
-        } else if (markRepository.findMarkByPresentation_IdAndUser_Id(
+        } else if (markRepository.findAllByPresentation_IdAndUser_Id(
                 mark.getPresentation().getId(),
                 mark.getUser().getId()).isPresent()) {
             return new ResponseEntity<>("User has already rated this presentationId!",
@@ -50,7 +50,7 @@ public class MarkController
         } else {
             markRepository.save(mark);
             double avgMark = markRepository
-                    .findMarksByPresentation_Id(mark.getPresentation().getId()).stream()
+                    .findAllByPresentation_Id(mark.getPresentation().getId()).stream()
                     .mapToDouble(Mark::getValue).average()
                     .orElse(0);
             return new ResponseEntity<>(avgMark, httpHeaders, HttpStatus.CREATED);
@@ -76,7 +76,7 @@ public class MarkController
             @RequestParam(value = "userId") String userId,
             @RequestParam(value = "presentationId") String presentationId)
     {
-        if (!userRepository.findUserById(UUID.fromString(userId)).isPresent()
+        if (!userRepository.findById(UUID.fromString(userId)).isPresent()
                 || !presentationRepository.findById(UUID.fromString(presentationId)).isPresent()) {
             return new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
         } else {

@@ -1,13 +1,14 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
-/out-tsc
+dist/
+tmp/
+out-tsc/
 target/
 
 # dependencies
 node_modules/
+node/
 
 # profiling files
 chrome-profiler-events.json
@@ -45,4 +46,3 @@ testem.log
 Thumbs.db
 
 logs/
-application.properties

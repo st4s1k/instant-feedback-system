@@ -6,24 +6,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, UUID>
 {
-    List<Message> findMessagesByUser_Id(UUID userId);
-    List<Message> findMessageByAnonymousTrue();
-    List<Message> findMessagesByPresentation_Id(UUID presentationId);
-    Optional<Message> findMessageById(UUID id);
-    Optional<Message> findMessageByIdAndUser_Id(UUID id, UUID userId);
+    List<Message> findAllByPresentation_Id(UUID presentationId);
 
     @Transactional
-    void deleteMessageById(UUID id);
+    void deleteAllByPresentation_Id(UUID presentationId);
 
     @Transactional
-    void deleteMessagesByPresentation_Id(UUID presentationId);
-
-    @Transactional
-    void deleteMessagesByUser_Id(UUID userId);
+    void deleteAllByUser_Id(UUID userId);
 }

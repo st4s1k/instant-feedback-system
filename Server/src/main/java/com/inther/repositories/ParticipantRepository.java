@@ -12,17 +12,9 @@ import java.util.UUID;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, UUID>
 {
-    Optional<Participant> findParticipantByPresentation_IdAndEmail(UUID presentationId, String participantemal);
-    Optional<Participant> findParticipantById(UUID id);
-    Optional<Participant> findParticipantByEmail(String email);
-    List<Participant> findParticipantsByPresentation_Id(UUID presentationId);
+    Optional<Participant> findByPresentation_IdAndEmail(UUID presentationId, String participantemal);
+    List<Participant> findAllByPresentation_Id(UUID presentationId);
 
     @Transactional
-    void deleteParticipantById(UUID id);
-
-    @Transactional
-    void deleteParticipantByPresentation_IdAndEmail(UUID presentationId, String userEmail);
-
-    @Transactional
-    void deleteParticipantsByPresentation_Id(UUID presentationId);
+    void deleteAllByPresentation_Id(UUID presentationId);
 }

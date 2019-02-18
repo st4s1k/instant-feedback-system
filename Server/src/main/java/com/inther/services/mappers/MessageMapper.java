@@ -37,7 +37,7 @@ public class MessageMapper implements Mapper<Message, MessageDto> {
         entity.setUser(dto.getUserId() == null
                 ? null
                 : userRepository
-                .findUserById(dto.getUserId()).orElse(null));
+                .findById(dto.getUserId()).orElse(null));
         entity.setText(dto.getText());
         entity.setType(dto.getType());
         // I would like to mention,

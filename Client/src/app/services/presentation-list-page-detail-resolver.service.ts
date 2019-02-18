@@ -13,7 +13,7 @@ import { PresentationService } from './presentation.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PresentationListDetailResolverService implements Resolve<any> {
+export class PresentationListPageDetailResolverService implements Resolve<any> {
 
   constructor(private ps: PresentationService) { }
 

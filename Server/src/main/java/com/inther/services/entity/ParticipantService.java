@@ -32,7 +32,7 @@ public class ParticipantService
     public void addParticipant(Participant participant)
     {
         Optional<Participant> similarParticipant = participantRepository
-                .findParticipantByPresentation_IdAndEmail(participant.getPresentation().getId(), participant.getEmail());
+                .findByPresentation_IdAndEmail(participant.getPresentation().getId(), participant.getEmail());
 
         if (!similarParticipant.isPresent()) {
             participantRepository.save(participant);
@@ -40,16 +40,16 @@ public class ParticipantService
     }
 
     public List<Participant> fetchPresentationParticipants(UUID presentationId) {
-        return participantRepository.findParticipantsByPresentation_Id(presentationId);
+        return participantRepository.findAllByPresentation_Id(presentationId);
     }
 
     public Optional<Boolean> deleteParticipant(UUID id)
     {
-        return participantRepository.findParticipantById(id)
+        return participantRepository.findById(id)
                 .filter(p -> authorityUtilityBean.getCurrentUserId().equals(id)
                         || authorityUtilityBean.validateAdminAuthority())
                 .map(p -> {
-                    participantRepository.deleteParticipantById(id);
+                    participantRepository.deleteById(id);
                     return !participantRepository.existsById(id);
                 });
     }

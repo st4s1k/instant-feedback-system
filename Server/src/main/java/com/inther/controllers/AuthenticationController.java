@@ -33,7 +33,7 @@ public class AuthenticationController
             @Validated(value = {RequestDataValidator.Authentication.class})
             @RequestBody UserDto authDto)
     {
-        if (!userRepository.findUserByEmail(authDto.getEmail()).isPresent()) {
+        if (!userRepository.findByEmail(authDto.getEmail()).isPresent()) {
             userRepository.save(
                     serviceUtilityBean.encodeUserPassword(
                             User.builder()

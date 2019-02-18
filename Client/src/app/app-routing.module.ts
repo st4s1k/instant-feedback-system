@@ -12,7 +12,7 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 // Services
 import { PresentationDetailResolverService } from './services/presentation-detail-resolver.service';
 import { UserDetailResolverService } from './services/user-detail-resolver.service';
-import { PresentationListDetailResolverService } from './services/presentation-list-detail-resolver.service';
+import { PresentationListPageDetailResolverService } from './services/presentation-list-page-detail-resolver.service';
 import { UserListDetailResolverService } from './services/user-list-detail-resolver.service';
 import { UserPresentationResolverService } from './services/user-presentation-resolver.service';
 // Guards
@@ -24,7 +24,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     resolve: {
-      pages: PresentationListDetailResolverService
+      page: PresentationListPageDetailResolverService
     }
   },
   { path: 'sign-in',
@@ -65,7 +65,7 @@ const routes: Routes = [
     component: AdminProfileComponent,
     resolve: {
       users: UserListDetailResolverService,
-      pages : PresentationListDetailResolverService
+      pages : PresentationListPageDetailResolverService
     },
     canActivate: [AdminGuard]
   }

@@ -52,13 +52,13 @@ public class MessageService
     }
 
     public List<Message> fetchMessagesByPresentationId(UUID presentationId) {
-        return messageRepository.findMessagesByPresentation_Id(presentationId);
+        return messageRepository.findAllByPresentation_Id(presentationId);
     }
 
     /**
      * Edits requested message entity.
      * <p>
-     *     This will query {@link MessageRepository#findMessageById(UUID)} to obtain the
+     *     This will query {@link MessageRepository#findById(Object)} to obtain the
      *     message entity.
      * </p>
      *
@@ -68,15 +68,15 @@ public class MessageService
 
     public Optional<Boolean> editMessage(Message message)
     {
-        return messageRepository.findMessageById(message.getId())
+        return messageRepository.findById(message.getId())
                 .map(msg -> messageRepository.save(message).equals(message));
     }
 
     public Optional<Boolean> deleteMessage(UUID id)
     {
-        return messageRepository.findMessageById(id)
+        return messageRepository.findById(id)
                 .map(message -> {
-                    messageRepository.deleteMessageById(id);
+                    messageRepository.deleteById(id);
                     return !presentationRepository.existsById(id);
                 });
     }

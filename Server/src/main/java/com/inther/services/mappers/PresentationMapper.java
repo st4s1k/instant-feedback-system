@@ -37,7 +37,7 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
         entity.setId(dto.getId());
         entity.setUser(dto.getEmail() == null
                 ? null
-                : userRepository.findUserByEmail(dto.getEmail()).orElse(null));
+                : userRepository.findByEmail(dto.getEmail()).orElse(null));
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setStartTime(dto.getStartTime() == null
@@ -82,10 +82,10 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
                 : entity.getDate().toString());
         dto.setPlace(entity.getPlace());
         dto.setAvgMark(markRepository
-                .findMarksByPresentation_Id(entity.getId()).stream()
+                .findAllByPresentation_Id(entity.getId()).stream()
                 .mapToDouble(Mark::getValue).average().orElse(0d));
         dto.setVoteCount(markRepository
-                .findMarksByPresentation_Id(entity.getId()).size());
+                .findAllByPresentation_Id(entity.getId()).size());
 
         log.debug("Result dto: {}", dto);
 

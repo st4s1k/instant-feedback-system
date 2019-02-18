@@ -46,7 +46,7 @@ public class UserService
     public Optional<User> createUser(User user)
     {
         return userRepository
-                .findUserByEmail(user.getEmail())
+                .findByEmail(user.getEmail())
                 .map(u -> Optional.<User>empty())
                 .orElseGet(() -> Optional.of(userRepository.save(serviceUtilityBean.encodeUserPassword(user))));
     }
@@ -58,7 +58,7 @@ public class UserService
 
     public Optional<User> fetchUserById(UUID id)
     {
-        return userRepository.findUserById(id);
+        return userRepository.findById(id);
     }
 
     public Page<User> fetchUsersByPageAndSize(int page, int size)
@@ -69,7 +69,7 @@ public class UserService
     public Optional<Boolean> updateUserData(User user)
     {
         return userRepository
-                .findUserById(user.getId())
+                .findById(user.getId())
                 .map(foundUser -> {
                     foundUser.setPassword(foundUser.getPassword().equals(user.getPassword())
                             ? foundUser.getPassword()
@@ -82,16 +82,16 @@ public class UserService
     public Optional<Boolean> deleteUser(UUID id)
     {
         // Delete all user marks
-        markRepository.deleteMarksByUser_Id(id);
+        markRepository.deleteAllByUser_Id(id);
         // Delete all user messages
-        messageRepository.deleteMessagesByUser_Id(id);
+        messageRepository.deleteAllByUser_Id(id);
         // Delete all user presentations
-        presentationRepository.deletePresentationsByUser_Id(id);
+        presentationRepository.deleteAllByUser_Id(id);
         return userRepository
-                .findUserById(id)
+                .findById(id)
                 .map(p -> {
                     // Delete user
-                    userRepository.deleteUserById(id);
+                    userRepository.deleteById(id);
                     return !userRepository.existsById(id);
                 });
     }

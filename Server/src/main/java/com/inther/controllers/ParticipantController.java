@@ -53,7 +53,7 @@ public class ParticipantController
         if (!newParticipantList.isEmpty()) {
 
             List<Participant> oldParticipantList = participantRepository
-                    .findParticipantsByPresentation_Id(newParticipantList.get(0).getPresentation().getId());
+                    .findAllByPresentation_Id(newParticipantList.get(0).getPresentation().getId());
 
             oldParticipantList.forEach(oldParticipant -> {
                 if (!(newParticipantList.contains(oldParticipant))) {

@@ -20,7 +20,7 @@ export class PresentationService {
   }
 
   getPresentations() {
-    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API);
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API);
   }
 
   getPresentationsByPage(page: number) {
@@ -31,7 +31,8 @@ export class PresentationService {
       }
     });
   }
-  getPresentationByPageAndUser(page:number,email:string){
+
+  getPresentationByPageAndUser(page: number, email: string) {
     return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
       params: {
         email: `${email}`,
@@ -41,26 +42,32 @@ export class PresentationService {
     });
   }
 
-  getPresentationsByTitleOrEmailKeyword(keyword: string) {
-    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
+  getPresentationsByTitleOrEmailKeyword(keyword: string, page: number) {
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        title_or_email_like: keyword
+        title_or_email_like: keyword,
+        page: `${page}`,
+        size: `${PAGE_SIZE}`
       }
     });
   }
 
-  getPresentationsByTitle(title: string) {
-    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
+  getPresentationsByTitleKeyword(title: string, page: number) {
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        title_like: title
+        title_like: title,
+        page: `${page}`,
+        size: `${PAGE_SIZE}`
       }
     });
   }
 
-  getPresentationsByEmailKeyword(keyword: string) {
-    return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
+  getPresentationsByEmailKeyword(keyword: string, page: number) {
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
       params: {
-        email_like: keyword
+        email_like: keyword,
+        page: `${page}`,
+        size: `${PAGE_SIZE}`
       }
     });
   }

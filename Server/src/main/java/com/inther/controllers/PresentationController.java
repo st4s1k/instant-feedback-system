@@ -66,43 +66,46 @@ public class PresentationController
                 .orElseGet(() -> new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(params = "title_like")
+    @GetMapping(params = { "title_like", "page", "size" })
     public ResponseEntity<?> getPresentationsByTitle(
             @Validated(value = {RequestDataValidator.GetPresentationList.class})
-            @RequestParam(value = "title_like") String title)
+            @RequestParam(value = "title_like") String keyword,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size)
     {
-        List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsWithTitleKeyword(title).stream()
-                .map(presentationMapper::toDto)
-                .collect(Collectors.toList());
+        Page<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsWithTitleKeyword(keyword, page, size)
+                .map(presentationMapper::toDto);
 
         return presentationDtoList.isEmpty()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
     }
 
-    @GetMapping(params = "email_like")
+    @GetMapping(params = { "email_like", "page", "size" })
     public ResponseEntity<?> getPresentationsByEmailKeyword(
-            @RequestParam(value = "email_like") String keyword)
+            @RequestParam(value = "email_like") String keyword,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size)
     {
-        List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsByEmailKeyword(keyword).stream()
-                .map(presentationMapper::toDto)
-                .collect(Collectors.toList());
+        Page<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsByEmailKeyword(keyword, page, size)
+                .map(presentationMapper::toDto);
 
         return presentationDtoList.isEmpty()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(presentationDtoList, httpHeaders, HttpStatus.OK);
     }
 
-    @GetMapping(params = "title_or_email_like")
+    @GetMapping(params = { "title_or_email_like", "page", "size" })
     public ResponseEntity<?> getPresentationsByTitleOrEmailKeyword(
-            @RequestParam(value = "title_or_email_like") String keyword)
+            @RequestParam(value = "title_or_email_like") String keyword,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size)
     {
-        List<PresentationDto> presentationDtoList = presentationService
-                .searchForPresentationsByTitleOrEmailKeyword(keyword).stream()
-                .map(presentationMapper::toDto)
-                .collect(Collectors.toList());
+        Page<PresentationDto> presentationDtoList = presentationService
+                .searchForPresentationsByTitleOrEmailKeyword(keyword, page, size)
+                .map(presentationMapper::toDto);
 
         return presentationDtoList.isEmpty()
                 ? new ResponseEntity<>(httpHeaders, HttpStatus.NO_CONTENT)
@@ -175,13 +178,13 @@ public class PresentationController
     {
         return presentationService
                 .deletePresentation(UUID.fromString(id))
-            .map(deleted -> deleted
-                    ? new ResponseEntity<>("Presentation successfully deleted.",
-                    httpHeaders, HttpStatus.OK)
-                    : new ResponseEntity<>("Unable to delete this presentation.",
-                    httpHeaders, HttpStatus.FORBIDDEN))
-            .orElseGet(() -> new ResponseEntity<>("Presentation not found.",
-                    httpHeaders, HttpStatus.NOT_FOUND));
+                .map(deleted -> deleted
+                        ? new ResponseEntity<>("Presentation successfully deleted.",
+                        httpHeaders, HttpStatus.OK)
+                        : new ResponseEntity<>("Unable to delete this presentation.",
+                        httpHeaders, HttpStatus.FORBIDDEN))
+                .orElseGet(() -> new ResponseEntity<>("Presentation not found.",
+                        httpHeaders, HttpStatus.NOT_FOUND));
     }
 
     @Autowired
