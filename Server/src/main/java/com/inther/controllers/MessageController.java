@@ -34,14 +34,24 @@ public class MessageController
             @RequestBody MessageDto messageDto)
     {
         int status = messageService.addMessage(messageMapper.toEntity(messageDto));
-        String statusMessage = "no message";
+        String statusMessage = "Something happened in message service...";
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         switch (status) {
-            case  0: statusMessage = "No such presentationId."; break;
-            case -1: statusMessage = "Presentation not started yet!"; break;
-            case  1: statusMessage = "Message successfully added!"; break;
+            case  0:
+                statusMessage = "No such presentationId.";
+                httpStatus = HttpStatus.NOT_FOUND;
+                break;
+            case -1:
+                statusMessage = "Presentation not started yet!";
+                httpStatus = HttpStatus.FORBIDDEN;
+                break;
+            case  1:
+                statusMessage = "Message successfully added!";
+                httpStatus = HttpStatus.CREATED;
+                break;
         }
 
-        return new ResponseEntity<>(statusMessage, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(statusMessage, httpHeaders, httpStatus);
     }
 
     @GetMapping(params = "presentationId")

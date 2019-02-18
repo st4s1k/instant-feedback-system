@@ -43,4 +43,6 @@ public class PresentationDto implements Serializable
     private Double avgMark;
 
     private Integer voteCount;
+
+    private Boolean started;
 }

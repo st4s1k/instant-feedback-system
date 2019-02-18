@@ -9,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
@@ -86,6 +89,11 @@ public class PresentationMapper implements Mapper<Presentation, PresentationDto>
                 .mapToDouble(Mark::getValue).average().orElse(0d));
         dto.setVoteCount(markRepository
                 .findAllByPresentation_Id(entity.getId()).size());
+        dto.setStarted(entity.getStartTime() != null
+                && LocalDateTime.now()
+                .isAfter(ChronoLocalDateTime.from(LocalDateTime.of(
+                        entity.getDate(),
+                        entity.getStartTime()).atZone(ZoneId.systemDefault()))));
 
         log.debug("Result dto: {}", dto);
 
