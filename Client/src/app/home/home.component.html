@@ -4,15 +4,19 @@
 
     <div class="col-md-10 col-lg-8 ml-5 mr-5">
 
-      <h2>Presentations</h2>
+      <h2 class="mb-3">Presentations</h2>
 
-      <div class="row d-flex justify-content-center pb-3">
+      <div class="row d-flex justify-content-center pb-4">
         <div class="col col-md-10">
           <div class="row">
             <div class="input-group">
-              <input class="form-control col" [formControl]="searchBox" (input)="searchAll()" type="text" placeholder="Search">
+              <input class="form-control col" type="text" placeholder="Search"
+                     [formControl]="searchBox" (input)="searchAll()">
               <div class="input-group-append">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                <button class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                   <span class="d-none d-md-inline">Search</span>
                   <span class="d-md-none">
@@ -35,6 +39,7 @@
                         [pageSize]="pageSize"
                         [rotate]="true"
                         [boundaryLinks]="true"
+                        [maxSize]="5"
                         (pageChange)="openPage()">
         </ngb-pagination>
       </div>

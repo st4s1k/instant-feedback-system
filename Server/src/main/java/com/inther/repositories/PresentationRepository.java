@@ -1,9 +1,7 @@
 package com.inther.repositories;
 
 import com.inther.entities.Presentation;
-import com.inther.entities.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,19 +14,15 @@ import java.util.UUID;
 public interface PresentationRepository extends JpaRepository<Presentation, UUID>
 {
     // Exact query
-    List<Presentation> findAllByUser(User user);
+    List<Presentation> findAllByUser_Email(String userEmail);
     // Filtered query
-    List<Presentation> findPresentationsByTitleIgnoreCaseContaining(String keyword);
-    List<Presentation> findPresentationsByUser_EmailIgnoreCaseContaining(String keyword);
-    List<Presentation> findPresentationsByTitleOrUser_EmailIgnoreCaseContaining(String title, String user_email);
+    Page<Presentation> findAllByTitleIgnoreCaseContaining(String keyword, Pageable pageable);
+    Page<Presentation> findAllByUser_EmailIgnoreCaseContaining(String keyword, Pageable pageable);
+    Page<Presentation> findAllByTitleOrUser_EmailIgnoreCaseContaining(String title, String userEmail, Pageable pageable);
 
     //Page
     Page<Presentation> findAllByUser_Email(String email, Pageable pageable);
 
     @Transactional
-    void deletePresentationById(UUID id);
-
-    @Transactional
-    void deletePresentationsByUser_Id(UUID userId);
-
+    void deleteAllByUser_Id(UUID userId);
 }

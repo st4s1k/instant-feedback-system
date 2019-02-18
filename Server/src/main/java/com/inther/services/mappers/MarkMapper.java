@@ -37,7 +37,7 @@ public class MarkMapper implements Mapper<Mark, MarkDto> {
         entity.setUser(dto.getUserId() == null
                 ? null
                 : userRepository
-                .findUserById(dto.getUserId())
+                .findById(dto.getUserId())
                 .orElse(null));
         entity.setValue(dto.getValue());
 

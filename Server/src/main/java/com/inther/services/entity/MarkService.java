@@ -26,10 +26,10 @@ public class MarkService
     }
 
     public List<Mark> fetchMarksByPresentationId(UUID presentationId) {
-        return markRepository.findMarksByPresentation_Id(presentationId);
+        return markRepository.findAllByPresentation_Id(presentationId);
     }
 
     public Optional<Mark> fetchUserMark(UUID userId, UUID presentationId) {
-        return markRepository.findMarkByPresentation_IdAndUser_Id(presentationId, userId);
+        return markRepository.findAllByPresentation_IdAndUser_Id(presentationId, userId);
     }
 }

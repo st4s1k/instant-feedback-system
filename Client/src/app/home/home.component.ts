@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   currentPage = 1;
   numberOfPages = 0;
   totalElements = 0;
+  searchFilterType = 0;
 
   searchBox: FormControl = this.fb.control('', Validators.required);
 
@@ -36,66 +37,56 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { pages: any }) => {
-        console.log('paginated presentations: ' + JSON.stringify(data.pages));
-        if (data.pages && data.pages.content) {
-          this.presentations = data.pages.content
-            .map(presentationDto => PresentationDTO.toModel(presentationDto));
-          this.numberOfPages = data.pages.totalPages;
-          this.totalElements = data.pages.totalElements;
-        }
-      }
-    );
+    this.route.data.subscribe((data: { page: any }) => this.processPage(data.page));
+  }
+
+  processPage(page: any) {
+    console.log('processing page:' + JSON.stringify(page));
+    if (page && page.content) {
+      this.presentations = page.content
+        .map(presentationDto => PresentationDTO.toModel(presentationDto));
+      this.numberOfPages = page.totalPages;
+      this.totalElements = page.totalElements;
+    } else  {
+      this.presentations = [];
+      this.numberOfPages = 0;
+      this.totalElements = 0;
+    }
   }
 
   requestAllPresentations() {
-    this.ps.getPresentationsByPage(0).subscribe(presentationDtoList =>
-      this.presentations = presentationDtoList
-        .map(presentationDto => PresentationDTO.toModel(presentationDto)));
-  }
-
-  searchAll() {
-    if (this.searchBox.invalid) {
-      this.requestAllPresentations();
-      return;
-    }
-
-    this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value)
-      .subscribe(presentationDtoList => {
-          if (presentationDtoList) {
-            this.presentations = presentationDtoList
-              .map(presentationDto => PresentationDTO.toModel(presentationDto));
-          } else {
-            this.presentations = [];
-          }
-        }
-      );
+    this.ps.getPresentationsByPage(0)
+      .subscribe(page => this.processPage(page));
   }
 
   searchByEmail() {
-    this.ps.getPresentationsByEmailKeyword(this.searchBox.value)
-      .subscribe(presentationDtoList => {
-          if (presentationDtoList) {
-            this.presentations = presentationDtoList
-              .map(presentationDto => PresentationDTO.toModel(presentationDto));
-          } else {
-            this.presentations = [];
-          }
-        }
-      );
+
+    this.searchFilterType = 1;
+
+    this.ps.getPresentationsByEmailKeyword(this.searchBox.value, 0)
+      .subscribe(page => this.processPage(page));
   }
 
   searchByTitle() {
-    this.ps.getPresentationsByTitle(this.searchBox.value)
-      .subscribe(presentationDtoList => {
-          if (presentationDtoList) {
-            this.presentations = presentationDtoList
-              .map(presentationDto => PresentationDTO.toModel(presentationDto));
-          } else {
-            this.presentations = [];
-          }
-        }
-      );
+
+    this.searchFilterType = 2;
+
+    this.ps.getPresentationsByTitleKeyword(this.searchBox.value, 0)
+      .subscribe(page => this.processPage(page));
+  }
+
+  searchAll() {
+
+    if (this.searchBox.invalid) {
+      this.requestAllPresentations();
+      this.searchFilterType = 0;
+      return;
+    }
+
+    this.searchFilterType = 3;
+
+    this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value, 0)
+      .subscribe(page => this.processPage(page));
   }
 
   openPresentationPage(i: number) {
@@ -104,17 +95,17 @@ export class HomeComponent implements OnInit {
       this.notifier.notify('error', 'Could not load presentation!'));
   }
 
+  searchFilter(page: number) {
+    switch (this.searchFilterType) {
+      case 0: return this.ps.getPresentationsByPage(page);
+      case 1: return this.ps.getPresentationsByEmailKeyword(this.searchBox.value, page);
+      case 2: return this.ps.getPresentationsByTitleKeyword(this.searchBox.value, page);
+      case 3: return this.ps.getPresentationsByTitleOrEmailKeyword(this.searchBox.value, page);
+    }
+  }
+
   openPage() {
-    this.ps.getPresentationsByPage(this.currentPage - 1)
-      .pipe(first()).subscribe(pages => {
-        console.log('openPage: ' + JSON.stringify(pages));
-        if (pages && pages.content) {
-          this.presentations = pages.content
-            .map(presentationDto => PresentationDTO.toModel(presentationDto));
-          this.numberOfPages = pages.totalPages;
-          this.totalElements = pages.totalElements;
-        }
-      }
-    );
+    this.searchFilter(this.currentPage - 1)
+      .pipe(first()).subscribe(page => this.processPage(page));
   }
 }
