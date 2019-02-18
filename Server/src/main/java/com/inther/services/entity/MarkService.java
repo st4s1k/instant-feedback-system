@@ -20,11 +20,6 @@ public class MarkService
         this.markRepository = markRepository;
     }
 
-    public Mark newMark(Mark mark)
-    {
-        return markRepository.save(mark);
-    }
-
     public List<Mark> fetchMarksByPresentationId(UUID presentationId) {
         return markRepository.findAllByPresentation_Id(presentationId);
     }
