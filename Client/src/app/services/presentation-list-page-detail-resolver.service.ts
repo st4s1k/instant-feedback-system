@@ -19,10 +19,21 @@ export class PresentationListPageDetailResolverService implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
+    const email = route.paramMap.get('email');
+
+    if (email) {
+      return this.ps.getPresentationsByEmail(email).pipe(
+        take(1),
+        mergeMap(page => {
+          return of(page);
+        })
+      );
+    }
+
     return this.ps.getPresentationsByPage(0).pipe(
       take(1),
       mergeMap(page => {
-          return of(page);
+        return of(page);
       })
     );
   }

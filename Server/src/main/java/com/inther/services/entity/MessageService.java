@@ -4,6 +4,7 @@ import com.inther.entities.Message;
 import com.inther.entities.Presentation;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class MessageService
 {
@@ -37,11 +39,14 @@ public class MessageService
 
         if (!presentation.isPresent()) {
             status = 0;
-        } else if (LocalDateTime.now().isBefore(
-                ChronoLocalDateTime.from(
-                        LocalDateTime.of(presentation.get().getDate(),
-                        presentation.get().getEndTime())
-                        .atZone(ZoneId.of("Europe/Chisinau"))))) {
+        } else if (LocalDateTime.now().isBefore(ChronoLocalDateTime.from(LocalDateTime.of(
+                presentation.get().getDate(),
+                presentation.get().getStartTime()).atZone(ZoneId.systemDefault())))) {
+            log.error("Presentation not started yet!");
+            log.error("LocalDateTime.now(): {}", LocalDateTime.now().toString());
+            log.error("presentation start date: {}", ChronoLocalDateTime.from(LocalDateTime.of(
+                    presentation.get().getDate(),
+                    presentation.get().getStartTime()).atZone(ZoneId.systemDefault())));
             status = -1;
         } else {
             messageRepository.save(message);

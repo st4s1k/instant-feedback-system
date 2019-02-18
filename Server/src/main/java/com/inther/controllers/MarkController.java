@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,8 +48,13 @@ public class MarkController
         } else if (markRepository.findAllByPresentation_IdAndUser_Id(
                 mark.getPresentation().getId(),
                 mark.getUser().getId()).isPresent()) {
-            return new ResponseEntity<>("User has already rated this presentationId!",
+            return new ResponseEntity<>("User has already rated this presentation!",
                     httpHeaders, HttpStatus.CONFLICT);
+        } else if (LocalDateTime.now().isBefore(ChronoLocalDateTime.from(LocalDateTime.of(
+                mark.getPresentation().getDate(),
+                mark.getPresentation().getStartTime()).atZone(ZoneId.systemDefault())))) {
+            return new ResponseEntity<>("Presentation not started yet!!",
+                    httpHeaders, HttpStatus.FORBIDDEN);
         } else {
             markRepository.save(mark);
             double avgMark = markRepository
