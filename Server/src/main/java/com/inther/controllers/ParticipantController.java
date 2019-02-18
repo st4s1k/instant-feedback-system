@@ -1,6 +1,7 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.entities.Presentation;
 import com.inther.repositories.ParticipantRepository;
 import com.inther.services.mappers.ParticipantMapper;
 import com.inther.dto.ParticipantDto;
@@ -68,17 +69,17 @@ public class ParticipantController
 
                     // You have been invited to a presentation!
 
-//                    Optional<Presentation> optionalPresentation = presentationRepository
-//                            .findById(newParticipant.getPresentation().getId());
-//
-//                    optionalPresentation.ifPresent(presentation ->
-//                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
-//                                    "Presentation name: " + presentation.getTitle()
-//                                            + "n/Presentation description: " + presentation.getDescription()
-//                                            + "n/n/Presentation start time: " + presentation.getStartTime()
-//                                            + "n/n/Presentation end time: " + presentation.getStartTime()
-//                                            + "n/n/Presentation place: " + presentation.getPlace())
-//                    );
+                    Optional<Presentation> optionalPresentation = presentationRepository
+                            .findById(newParticipant.getPresentation().getId());
+
+                    optionalPresentation.ifPresent(presentation ->
+                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
+                                    "Presentation name: " + presentation.getTitle()
+                                            + "\nPresentation description: " + presentation.getDescription()
+                                            + "\n\nPresentation start time: " + presentation.getStartTime()
+                                            + "\nPresentation end time: " + presentation.getStartTime()
+                                            + "\nPresentation place: " + presentation.getPlace())
+                    );
                 }
             });
 
