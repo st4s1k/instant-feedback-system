@@ -31,10 +31,8 @@ export class PresentationDTO {
       date: p.date,
       avgMark: p.avgMark,
       voteCount: p.voteCount,
-      // started: p.started,
-      // finished: p.finished
-      started: true,
-      finished: false
+      started: p.started,
+      finished: p.finished
     };
   }
 
