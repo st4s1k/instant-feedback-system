@@ -71,6 +71,12 @@ public class PresentationService
         return presentationRepository.findAll(PageRequest.of(page, size));
     }
 
+    public Page<Presentation> fetchPresentationsByUserAndPageAndSize(String email,int page, int size)
+    {
+        return presentationRepository.findAllByUser_Email(email,PageRequest.of(page,size));
+    }
+
+
     public List<Presentation> searchForPresentationsByEmail(String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
         return user.isPresent()

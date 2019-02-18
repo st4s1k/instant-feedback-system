@@ -18,5 +18,6 @@ export const environment = {
   msgTypeFeedback: 'TYPE_FEEDBACK',
   msgTypeQuestion: 'TYPE_QUESTION',
 
-  defaultPageSize: 3
+  defaultPageSize: 3,
+  defaultUserPageSize: 4
 };

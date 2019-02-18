@@ -8,7 +8,6 @@
       <div class="container-fluid mt-5 p-0 text-center" *ngIf="presentations && presentations.length > 0" >
         <h2 class="mb-5">All Presentations</h2>
         <div class="row justify-content-center p-0">
-
           <div class="col-md-10 col-lg-10 ml-5 mr-5">
 
             <div class="row card p-0 mt-3 mb-10 btn" *ngFor='let presentation of presentations; let i=index;'>
@@ -38,6 +37,15 @@
 
             </div>
 
+          </div>
+          <div class="row d-flex justify-content-around">
+            <ngb-pagination [collectionSize]="totalElements"
+                            [(page)]="currentPage"
+                            [pageSize]="pageSize"
+                            [rotate]="true"
+                            [boundaryLinks]="true"
+                            (pageChange)="openUserPresentationPage()">
+            </ngb-pagination>
           </div>
 
         </div>

@@ -1,11 +1,13 @@
 package com.inther.controllers;
 
 import com.inther.assets.validators.RequestDataValidator;
+import com.inther.dto.PresentationDto;
 import com.inther.services.mappers.UserMapper;
 import com.inther.dto.UserDto;
 import com.inther.entities.User;
 import com.inther.services.entity.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,22 @@ public class UserController
         return new ResponseEntity<>(userDtoList, httpHeaders,
                 userDtoList.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
+
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<?> getUserListByPageAndSize(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size) {
+        Page<UserDto> userDtoPage = userService
+                .fetchUsersByPageAndSize(page, size)
+                .map(userMapper::toDto);
+
+        return new ResponseEntity<>(userDtoPage, httpHeaders,
+                userDtoPage.isEmpty()
+                        ? HttpStatus.NO_CONTENT
+                        : HttpStatus.OK);
+    }
+
+
 
     //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping(value = "/current")

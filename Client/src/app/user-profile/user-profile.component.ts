@@ -10,6 +10,7 @@ import { PresentationService } from '../services/presentation.service';
 import { Presentation } from '../models/presentation.model';
 import { PresentationDTO } from '../models/dtos/presentation.dto';
 import { NotifierService } from 'angular-notifier';
+import {environment} from "../../environments/environment.prod";
 
 @Component({
   selector: 'app-user-profile',
@@ -29,6 +30,12 @@ export class UserProfileComponent implements OnInit {
   email = localStorage.getItem('email');
   message: String;
 
+  pageSize = environment.defaultPageSize;
+  currentPage = 1;
+  numberOfPages = 0;
+  totalElements = 0;
+
+
   constructor(
     private userService: UserService,
     private presentationService: PresentationService,
@@ -41,10 +48,21 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     // this.getUserProfile();
-    this.route.data.subscribe((data: { user: User, presentations: Presentation[] }) => {
+    this.route.data.subscribe((data: { user: User, presentations : Presentation}) => {
       this.user = data.user;
-      this.presentations = data.presentations;
+      // this.presentations = data.presentations;
     });
+    this.openUserPresentationPage();
+    this.route.data.subscribe((data: { pages: any }) => {
+        console.log('paginated presentations: ' + JSON.stringify(data.pages));
+        if (data.pages && data.pages.content) {
+          this.presentations = data.pages.content
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.numberOfPages = data.pages.totalPages;
+          this.totalElements = data.pages.totalElements;
+        }
+      }
+    );
 
     this.changePassForm = this.formBuilder.group({
       NewPass: ['', [Validators.required, Validators.minLength(6)]],
@@ -127,5 +145,18 @@ export class UserProfileComponent implements OnInit {
     this.changePassForm.reset();
   }
 
+  openUserPresentationPage() {
+    this.presentationService.getPresentationByPageAndUser(this.currentPage - 1,this.email)
+      .pipe(first()).subscribe(pages => {
+        console.log('openPage: ' + JSON.stringify(pages));
+        if (pages && pages.content) {
+          this.presentations = pages.content
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.numberOfPages = pages.totalPages;
+          this.totalElements = pages.totalElements;
+        }
+      }
+    );
+  }
 
 }

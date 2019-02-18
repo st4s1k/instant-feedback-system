@@ -30,6 +30,16 @@ export class AdminProfileComponent implements OnInit {
   roleUser = environment.userRole;
   roleAdmin = environment.adminRole;
 
+  pageSize = environment.defaultPageSize;
+  currentPage = 1;
+  numberOfPages = 0;
+  totalElements = 0;
+
+  pageAdminSize = environment.defaultUserPageSize;
+  currentAdminPage = 1;
+  numberOfAdminPages = 0;
+  totalAdminElements = 0;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -41,10 +51,12 @@ export class AdminProfileComponent implements OnInit {
     this.notifier = notifierService;
   }
   ngOnInit() {
-    this.route.data.subscribe((data: { pages: any, users: User[] }) => {
-      this.presentations = data.pages.content;
-      this.users = data.users;
-    });
+    // this.route.data.subscribe((data: { pages: any, users: User[] }) => {
+    //   // this.presentations = data.pages.content;
+    //   this.users = data.users;
+    // });
+    this.openPresentationAdminPage();
+    this.openUserAdminPage();
     this.editUserForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       userGroup: ['', Validators.required],
@@ -196,5 +208,32 @@ export class AdminProfileComponent implements OnInit {
           }
         );
     }
+  }
+  openUserAdminPage() {
+    this.userService.getUsersByPage(this.currentAdminPage -1)
+      .pipe(first()).subscribe(pages => {
+        console.log('openPage: ' + JSON.stringify(pages));
+        if (pages && pages.content) {
+          this.users = pages.content
+            .map(userDto => UserDTO.toModel(userDto));
+          this.numberOfAdminPages = pages.totalPages;
+          this.totalAdminElements = pages.totalElements;
+        }
+      }
+    );
+  }
+
+  openPresentationAdminPage() {
+    this.presentationService.getPresentationsByPage(this.currentPage -1)
+      .pipe(first()).subscribe(pages => {
+        console.log('openPage: ' + JSON.stringify(pages));
+        if (pages && pages.content) {
+          this.presentations = pages.content
+            .map(presentationDto => PresentationDTO.toModel(presentationDto));
+          this.numberOfPages = pages.totalPages;
+          this.totalElements = pages.totalElements;
+        }
+      }
+    );
   }
 }

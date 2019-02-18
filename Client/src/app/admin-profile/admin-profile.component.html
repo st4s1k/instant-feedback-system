@@ -36,7 +36,15 @@
             </div>
 
           </div>
-
+          <div class="row d-flex justify-content-around mt-2">
+            <ngb-pagination [collectionSize]="totalElements"
+                            [(page)]="currentPage"
+                            [pageSize]="pageSize"
+                            [rotate]="true"
+                            [boundaryLinks]="true"
+                            (pageChange)="openPresentationAdminPage()">
+            </ngb-pagination>
+          </div>
         </div>
 
       </div>
@@ -292,6 +300,15 @@
                   </form>
                 </div>
               </div>
+            </div>
+            <div class="row d-flex justify-content-around mt-1">
+              <ngb-pagination [collectionSize]="totalAdminElements"
+                              [(page)]="currentAdminPage"
+                              [pageSize]="pageAdminSize"
+                              [rotate]="true"
+                              [boundaryLinks]="true"
+                              (pageChange)="openUserAdminPage()">
+              </ngb-pagination>
             </div>
           </div>
         </div>

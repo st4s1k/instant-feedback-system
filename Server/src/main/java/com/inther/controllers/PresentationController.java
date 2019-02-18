@@ -151,6 +151,23 @@ public class PresentationController
                         : HttpStatus.OK);
     }
 
+    @GetMapping(params = {"email","page", "size"})
+    public ResponseEntity<?> getPresentationListByUserAndPageAndSize(
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size) {
+        Page<PresentationDto> presentationDtoPage = presentationService
+                .fetchPresentationsByUserAndPageAndSize(email,page, size)
+                .map(presentationMapper::toDto);
+
+        return new ResponseEntity<>(presentationDtoPage, httpHeaders,
+                presentationDtoPage.isEmpty()
+                        ? HttpStatus.NO_CONTENT
+                        : HttpStatus.OK);
+    }
+
+
+
     //    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deletePresentation(

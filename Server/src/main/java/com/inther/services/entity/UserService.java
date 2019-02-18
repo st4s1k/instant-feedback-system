@@ -1,6 +1,7 @@
 package com.inther.services.entity;
 
 import com.inther.beans.utilities.ServiceUtilityBean;
+import com.inther.entities.Presentation;
 import com.inther.entities.User;
 import com.inther.repositories.MarkRepository;
 import com.inther.repositories.MessageRepository;
@@ -8,6 +9,8 @@ import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
 import com.inther.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,6 +59,11 @@ public class UserService
     public Optional<User> fetchUserById(UUID id)
     {
         return userRepository.findUserById(id);
+    }
+
+    public Page<User> fetchUsersByPageAndSize(int page, int size)
+    {
+        return userRepository.findAll(PageRequest.of(page,size));
     }
 
     public Optional<Boolean> updateUserData(User user)

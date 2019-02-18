@@ -31,6 +31,15 @@ export class PresentationService {
       }
     });
   }
+  getPresentationByPageAndUser(page:number,email:string){
+    return this.http.get<any>(SERVER_URL + PRESENTATIONS_API, {
+      params: {
+        email: `${email}`,
+        page: `${page}`,
+        size: `${PAGE_SIZE}`
+      }
+    });
+  }
 
   getPresentationsByTitleOrEmailKeyword(keyword: string) {
     return this.http.get<PresentationDTO[]>(SERVER_URL + PRESENTATIONS_API, {
