@@ -65,9 +65,7 @@ public class UserService
 
     public Optional<User> fetchUserById(UUID id)
     {
-        Optional<User> admin = tokenAuthService.getAdminUsers().stream()
-                .filter(_admin -> _admin.getId().equals(id)).findAny();
-        return admin.isPresent() ? admin : userRepository.findById(id);
+        return userRepository.findById(id);
     }
 
     public Page<User> fetchUsersByPageAndSize(int page, int size)
