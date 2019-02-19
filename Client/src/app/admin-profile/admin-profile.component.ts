@@ -218,6 +218,10 @@ export class AdminProfileComponent implements OnInit {
             .map(userDto => UserDTO.toModel(userDto));
           this.numberOfAdminPages = pages.totalPages;
           this.totalAdminElements = pages.totalElements;
+        } else {
+          this.users = [];
+          this.numberOfPages = 0;
+          this.totalElements = 0;
         }
       }
     );
@@ -232,6 +236,10 @@ export class AdminProfileComponent implements OnInit {
             .map(presentationDto => PresentationDTO.toModel(presentationDto));
           this.numberOfPages = pages.totalPages;
           this.totalElements = pages.totalElements;
+        } else {
+          this.presentations = [];
+          this.numberOfPages = 0;
+          this.totalElements = 0;
         }
       }
     );
