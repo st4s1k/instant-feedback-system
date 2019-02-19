@@ -51,10 +51,6 @@ export class AdminProfileComponent implements OnInit {
     this.notifier = notifierService;
   }
   ngOnInit() {
-    // this.route.data.subscribe((data: { pages: any, users: User[] }) => {
-    //   // this.presentations = data.pages.content;
-    //   this.users = data.users;
-    // });
     this.openPresentationAdminPage();
     this.openUserAdminPage();
     this.editUserForm = this.formBuilder.group({
@@ -98,11 +94,7 @@ export class AdminProfileComponent implements OnInit {
     }).pipe(first()).subscribe(
       data => {
         console.log('data: ' + JSON.stringify(data));
-        this.userService.getAllUsers().subscribe(
-          userDtoList => this.users = userDtoList.map(
-            userDto => UserDTO.toModel(userDto)
-          )
-        );
+        this.openUserAdminPage();
         this.loading = false;
         this.addUserBtn = false;
         this.submitted = false;
@@ -162,11 +154,7 @@ export class AdminProfileComponent implements OnInit {
         .pipe(first()).subscribe(
           data => {
             console.log('data: ' + JSON.stringify(data));
-            this.userService.getAllUsers().subscribe(
-              userDtoList => this.users = userDtoList.map(
-                userDto => UserDTO.toModel(userDto)
-              )
-            );
+            this.openUserAdminPage();
             this.message = this.users[i].email + 'successfuly deleted';
             this.notifier.notify('info', this.message.toString());
           },
@@ -189,18 +177,8 @@ export class AdminProfileComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data => {
-            console.log('data: ' + JSON.stringify(data));
-            this.presentationService.getPresentations()
-              .subscribe(presentationDtoList => {
-                this.notifier.notify('info', data);
-                if (presentationDtoList) {
-                  this.presentations = presentationDtoList
-                    .map(presentationDto =>
-                      PresentationDTO.toModel(presentationDto));
-                } else {
-                  this.presentations = [];
-                }
-              });
+            this.notifier.notify('info', data);
+            this.openPresentationAdminPage();
           },
           error => {
             this.notifier.notify('error', 'Error on delete ' + error);

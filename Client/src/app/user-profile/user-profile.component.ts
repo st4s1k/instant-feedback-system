@@ -86,11 +86,7 @@ export class UserProfileComponent implements OnInit {
         .subscribe(
           data => {
             console.log('data: ' + JSON.stringify(data));
-            this.presentationService.getPresentationsByEmail(this.email).subscribe(
-              presentationDtoList => this.presentations = presentationDtoList.map(
-                presentationDto => PresentationDTO.toModel(presentationDto)
-              )
-            );
+            this.openUserPresentationPage();
             this.message = 'Presentation: ' + this.presentations[i].title + 'successfully deleted!';
             this.notifier.notify('info', this.message.toString());
           },
