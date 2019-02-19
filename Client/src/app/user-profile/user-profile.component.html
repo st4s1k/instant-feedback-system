@@ -17,15 +17,18 @@
                     <p class="m-0">{{presentation.title}}</p>
                   </div>
 
-                  <div class="col-auto d-flex align-items-center">
+                  <div class="col-auto d-flex align-items-center" *ngIf="presentation.finished">
                     <p class="m-0">{{ presentation.avgMark ? presentation.avgMark.toFixed(2) : '0.00' }}</p>
+                  </div>
+                  <div class="col-auto d-flex align-items-center" *ngIf="!presentation.started && !presentation.finished">
+                    <p class="m-0">upcoming</p>
                   </div>
 
                   <div class="col-auto d-flex align-items-center">
                     <i class="fas fa-star"></i>
                   </div>
 
-                  <div><button class="btn btn-primary mr-1" (click)="editPresentationPage(i)"><i
+                  <div *ngIf="!presentation.finished" ><button class="btn btn-primary mr-1" (click)="editPresentationPage(i)"><i
                     class="fas fa-edit"></i></button>
                   </div>
                   <div><button class="btn btn-danger mr-3" (click)="deletePresentationPage(i)"><i

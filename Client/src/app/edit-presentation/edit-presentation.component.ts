@@ -18,12 +18,12 @@ export class EditPresentationComponent implements OnInit {
 
   editPresentationFormGroup: FormGroup;
 
-  title: FormControl = this.fb.control('Template text', [Validators.required]);
-  description: FormControl = this.fb.control('Template text', [Validators.required]);
-  startTime: FormControl = this.fb.control('12:00:00', [Validators.required]);
-  endTime: FormControl = this.fb.control('12:00:00', [Validators.required]);
-  date: FormControl = this.fb.control('1996-12-12', [Validators.required]);
-  location: FormControl = this.fb.control('Template text', [Validators.required]);
+  title: FormControl = this.fb.control('', [Validators.required]);
+  description: FormControl = this.fb.control('', [Validators.required]);
+  startTime: FormControl = this.fb.control('', [Validators.required]);
+  endTime: FormControl = this.fb.control('', [Validators.required]);
+  date: FormControl = this.fb.control('', [Validators.required]);
+  location: FormControl = this.fb.control('', [Validators.required]);
   emailInvitations: FormArray = this.fb.array([]);
 
   participants: Participant[] = [];

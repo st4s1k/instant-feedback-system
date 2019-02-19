@@ -35,6 +35,7 @@ export class PresentationPageComponent implements OnInit {
   userMark: Mark;
   userId: string;
   started: boolean;
+  finished:boolean;
   editingMessage = -1;
 
   isAuthor = false;
@@ -98,6 +99,7 @@ export class PresentationPageComponent implements OnInit {
       });
     });
     this.started = this.presentation.started;
+    this.finished = this.presentation.finished;
   }
 
   submitRate(rate: number) {
