@@ -24,7 +24,7 @@ public class AuthenticationController
 {
     private final ServiceUtilityBean serviceUtilityBean;
     private final TokenAuthenticationService tokenAuthenticationService;
-    private final HttpHeaders httpHeaders;
+    protected final HttpHeaders httpHeaders;
     private final UserRepository userRepository;
     private final AuthenticationService authentication;
 
@@ -33,19 +33,14 @@ public class AuthenticationController
             @Validated(value = {RequestDataValidator.Authentication.class})
             @RequestBody UserDto authDto)
     {
-        if (!userRepository.findByEmail(authDto.getEmail()).isPresent()) {
-            userRepository.save(
-                    serviceUtilityBean.encodeUserPassword(
-                            User.builder()
-                                    .email(authDto.getEmail())
-                                    .password(authDto.getPassword())
-                                    .role("USER")
-                                    .build()));
-//            return signIn(authDto);
-            return new ResponseEntity<>( httpHeaders, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("User already exists!", httpHeaders, HttpStatus.CONFLICT);
+        switch (tokenAuthenticationService.register(authDto)) {
+            case 1:
+                return new ResponseEntity<>( httpHeaders, HttpStatus.CREATED);
+            case -1:
+                return new ResponseEntity<>("User already exists!", httpHeaders, HttpStatus.CONFLICT);
         }
+        return new ResponseEntity<>("Something happened in signUp().",
+                httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping

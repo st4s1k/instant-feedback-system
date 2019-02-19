@@ -1,12 +1,12 @@
 package com.inther.services.entity;
 
 import com.inther.beans.utilities.ServiceUtilityBean;
-import com.inther.entities.Presentation;
 import com.inther.entities.User;
 import com.inther.repositories.MarkRepository;
 import com.inther.repositories.MessageRepository;
 import com.inther.repositories.PresentationRepository;
 import com.inther.repositories.UserRepository;
+import com.inther.services.authentication.TokenAuthenticationService;
 import com.inther.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +26,7 @@ public class UserService
     private final ServiceUtilityBean serviceUtilityBean;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final TokenAuthenticationService tokenAuthService;
 
     @Autowired
     public UserService(PresentationRepository presentationRepository,
@@ -33,7 +34,8 @@ public class UserService
                        MarkRepository markRepository,
                        ServiceUtilityBean serviceUtilityBean,
                        UserRepository userRepository,
-                       UserMapper userMapper)
+                       UserMapper userMapper,
+                       TokenAuthenticationService tokenAuthService)
     {
         this.presentationRepository = presentationRepository;
         this.messageRepository = messageRepository;
@@ -41,11 +43,16 @@ public class UserService
         this.serviceUtilityBean = serviceUtilityBean;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.tokenAuthService = tokenAuthService;
     }
 
     public Optional<User> createUser(User user)
     {
-        return userRepository
+        Optional<User> admin = tokenAuthService.getAdminUsers().stream()
+                .filter(_admin -> _admin.getEmail().equals(user.getEmail())).findAny();
+        return admin.isPresent()
+                ? Optional.empty()
+                : userRepository
                 .findByEmail(user.getEmail())
                 .map(u -> Optional.<User>empty())
                 .orElseGet(() -> Optional.of(userRepository.save(serviceUtilityBean.encodeUserPassword(user))));
@@ -58,7 +65,9 @@ public class UserService
 
     public Optional<User> fetchUserById(UUID id)
     {
-        return userRepository.findById(id);
+        Optional<User> admin = tokenAuthService.getAdminUsers().stream()
+                .filter(_admin -> _admin.getId().equals(id)).findAny();
+        return admin.isPresent() ? admin : userRepository.findById(id);
     }
 
     public Page<User> fetchUsersByPageAndSize(int page, int size)
