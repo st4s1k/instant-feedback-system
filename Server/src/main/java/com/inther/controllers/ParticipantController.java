@@ -69,17 +69,17 @@ public class ParticipantController
 
                     // You have been invited to a presentation!
 
-                    Optional<Presentation> optionalPresentation = presentationRepository
-                            .findById(newParticipant.getPresentation().getId());
-
-                    optionalPresentation.ifPresent(presentation ->
-                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
-                                    "Presentation name: " + presentation.getTitle()
-                                            + "\nPresentation description: " + presentation.getDescription()
-                                            + "\n\nPresentation start time: " + presentation.getStartTime()
-                                            + "\nPresentation end time: " + presentation.getStartTime()
-                                            + "\nPresentation place: " + presentation.getPlace())
-                    );
+//                    Optional<Presentation> optionalPresentation = presentationRepository
+//                            .findById(newParticipant.getPresentation().getId());
+//
+//                    optionalPresentation.ifPresent(presentation ->
+//                            participantService.sendNotificationMessages(newParticipant.getEmail(), "You have been invited to a presentation",
+//                                    "Presentation name: " + presentation.getTitle()
+//                                            + "\nPresentation description: " + presentation.getDescription()
+//                                            + "\n\nPresentation start time: " + presentation.getStartTime()
+//                                            + "\nPresentation end time: " + presentation.getStartTime()
+//                                            + "\nPresentation place: " + presentation.getPlace())
+//                    );
                 }
             });
 

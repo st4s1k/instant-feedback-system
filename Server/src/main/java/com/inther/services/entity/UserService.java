@@ -48,11 +48,7 @@ public class UserService
 
     public Optional<User> createUser(User user)
     {
-        Optional<User> admin = tokenAuthService.getAdminUsers().stream()
-                .filter(_admin -> _admin.getEmail().equals(user.getEmail())).findAny();
-        return admin.isPresent()
-                ? Optional.empty()
-                : userRepository
+        return userRepository
                 .findByEmail(user.getEmail())
                 .map(u -> Optional.<User>empty())
                 .orElseGet(() -> Optional.of(userRepository.save(serviceUtilityBean.encodeUserPassword(user))));

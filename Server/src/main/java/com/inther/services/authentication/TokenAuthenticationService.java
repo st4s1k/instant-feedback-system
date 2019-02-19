@@ -32,22 +32,8 @@ public class TokenAuthenticationService implements AuthenticationService
         this.userMapper = userMapper;
     }
 
-    public List<User> getAdminUsers() {
-        List<User> admins = new ArrayList<>();
-
-        admins.add(serviceUtilityBean.encodeUserPassword(User.builder()
-                .email("admin@isd")
-                .password("isd228admin69")
-                .role("ADMIN")
-                .build()));
-
-        return admins;
-    }
-
     public int register(UserDto authDto) {
-        if (!userRepository.findByEmail(authDto.getEmail()).isPresent()
-                && Objects.requireNonNull(getAdminUsers()).stream()
-                .noneMatch(admin -> admin.getEmail().equals(authDto.getEmail()))) {
+        if (!userRepository.findByEmail(authDto.getEmail()).isPresent()) {
             userRepository.save(
                     serviceUtilityBean.encodeUserPassword(
                             User.builder()
@@ -64,24 +50,14 @@ public class TokenAuthenticationService implements AuthenticationService
     @Override
     public Optional<UserDto> login(String email, String password) {
 
-        return Objects.requireNonNull(getAdminUsers()).stream()
-                .filter(admin -> admin.getEmail().equals(email))
-                .findAny().<Optional<UserDto>>map(admin -> {
-                    UserDto adminDto = userMapper.toDto(admin);
-                    adminDto.setToken(tokens.generate(ImmutableMap.of("email", email)));
-                    return serviceUtilityBean
-                            .isPasswordValid(password, admin)
-                            ? Optional.of(adminDto)
-                            : Optional.empty();
-                })
-                .orElseGet(() -> userRepository
-                        .findByEmail(email)
-                        .filter(user -> serviceUtilityBean.isPasswordValid(password, user))
-                        .map(userMapper::toDto)
-                        .map(userDto -> {
-                            userDto.setToken(tokens.generate(ImmutableMap.of("email", email)));
-                            return userDto;
-                        }));
+        return userRepository
+                .findByEmail(email)
+                .filter(user -> serviceUtilityBean.isPasswordValid(password, user))
+                .map(userMapper::toDto)
+                .map(userDto -> {
+                    userDto.setToken(tokens.generate(ImmutableMap.of("email", email)));
+                    return userDto;
+                });
 
     }
 

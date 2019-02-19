@@ -26,6 +26,9 @@
     <properties>
         <frontend>Client</frontend>
         <backend>Server</backend>
+        <frontend.artifact.id>isd-presentations-client</frontend.artifact.id>
+        <backend.artifact.id>isd-presentations-server</backend.artifact.id>
+        <frontend.files.folder>${project.build.directory}/classes/static</frontend.files.folder>
     </properties>
 
 </project>
