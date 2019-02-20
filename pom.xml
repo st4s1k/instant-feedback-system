@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.inther</groupId>
-    <artifactId>isd-presentations</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<groupId>com.inther.presentations</groupId>
+	<artifactId>isd-presentations</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
-        <relativePath />
-    </parent>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.2.RELEASE</version>
+		<relativePath />
+	</parent>
 
-    <name>ISD Presentations Project</name>
-    <description>ISD Presentations Project</description>
+	<properties>
+		<client>client</client>
+		<server>server</server>
+	</properties>
 
-    <modules>
-        <module>${frontend}</module>
-        <module>${backend}</module>
-    </modules>
-
-    <properties>
-        <frontend>Client</frontend>
-        <backend>Server</backend>
-        <frontend.artifact.id>isd-presentations-client</frontend.artifact.id>
-        <backend.artifact.id>isd-presentations-server</backend.artifact.id>
-        <frontend.files.folder>${project.build.directory}/classes/static</frontend.files.folder>
-    </properties>
+	<modules>
+		<module>${client}</module>
+		<module>${server}</module>
+	</modules>
 
 </project>
