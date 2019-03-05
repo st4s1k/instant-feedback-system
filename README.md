@@ -6,7 +6,7 @@
 
     1.2. Set server port (`9000` by default).
 
-2. `mvn clean install`
+2. `mvn clean package`
 
 [!] look for `isd-presentations.war` in `server/target` directory
 
